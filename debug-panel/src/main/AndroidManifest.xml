@@ -1,0 +1,27 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.redmadrobot.debug_panel">
+
+
+    <application>
+        <activity
+
+            android:name="com.redmadrobot.debug_panel.DebugActivity"
+            android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
+            android:theme="@style/DebugPanelTheme" />
+
+        <activity-alias
+            android:name="com.redmadrobot.debug_panel.DebugLauncherActivity"
+            android:enabled="true"
+            android:label="@string/debug_panel"
+            android:targetActivity="com.redmadrobot.debug_panel.DebugActivity"
+            android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
+            android:theme="@style/DebugPanelTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+    </application>
+
+</manifest>

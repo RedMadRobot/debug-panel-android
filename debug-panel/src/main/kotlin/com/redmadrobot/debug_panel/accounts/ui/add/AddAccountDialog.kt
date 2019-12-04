@@ -1,0 +1,52 @@
+package com.redmadrobot.debug_panel.accounts.ui.add
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import com.redmadrobot.debug_panel.R
+import kotlinx.android.synthetic.main.dialog_add_account.*
+
+class AddAccountDialog : DialogFragment() {
+
+    companion object {
+        private const val TAG = "AddAccountDialog"
+
+        fun show(fragmentManager: FragmentManager) {
+            AddAccountDialog().show(fragmentManager, TAG)
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.dialog_add_account, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setView()
+        account_login.requestFocus()
+    }
+
+    private fun setView() {
+        save_account_button.setOnClickListener { saveAccount() }
+    }
+
+    private fun saveAccount() {
+        val login = account_login.text.toString()
+        val password = account_password.text.toString()
+        (activity as? SaveAccountResultListener)?.onAccountSaved(login, password)
+        dialog?.dismiss()
+    }
+
+    interface SaveAccountResultListener {
+        fun onAccountSaved(login: String, password: String)
+    }
+}
