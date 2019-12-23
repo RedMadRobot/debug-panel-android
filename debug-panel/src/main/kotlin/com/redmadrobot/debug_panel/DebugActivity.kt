@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.debug_panel.accounts.data.UserCredentialProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.PreinstalledAccountsLoadStrategy
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.add.AddAccountDialog
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
@@ -20,18 +21,14 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debug)
-
         setView()
         loadAccounts()
     }
 
     override fun onAccountSaved(login: String, password: String) {
-        val userData =
-            DebugUserCredentials(login, password)
+        val userData = DebugUserCredentials(login, password)
         accountsAdapter.add(
-            UserCredentialsItem(
-                userData
-            )
+            UserCredentialsItem(userData)
         )
     }
 
@@ -53,8 +50,8 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
 
 
     private fun loadAccounts() {
-        val credentialsProvider = UserCredentialProvider()
-        val accountItems = credentialsProvider.getCredentials()
+        val credentialsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
+        val accountItems = credentialsProvider.getAccounts()
             .map(::UserCredentialsItem)
 
         accountsAdapter.update(accountItems)
