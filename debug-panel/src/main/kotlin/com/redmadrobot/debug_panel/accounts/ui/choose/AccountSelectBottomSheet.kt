@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.accounts.data.UserCredentialProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.PreinstalledAccountsLoadStrategy
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
 import com.xwray.groupie.GroupAdapter
@@ -82,8 +83,8 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun loadMockData() {
-        val credentialsProvider = UserCredentialProvider()
-        val accountItems = credentialsProvider.getCredentials()
+        val credentialsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
+        val accountItems = credentialsProvider.getAccounts()
             .map(::UserCredentialsItem)
 
         accountsAdapter.update(accountItems)

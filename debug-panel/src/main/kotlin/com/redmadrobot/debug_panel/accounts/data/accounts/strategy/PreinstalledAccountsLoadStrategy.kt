@@ -1,11 +1,10 @@
-package com.redmadrobot.debug_panel.accounts.data
+package com.redmadrobot.debug_panel.accounts.data.accounts.strategy
 
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 
-class UserCredentialProvider {
+class PreinstalledAccountsLoadStrategy : AccountsLoadStrategy {
 
-    //FIXME Пока данные о тестовых пользователях зашиты в коде. В дальнейшем будут добавляться в рантайме.
-    fun getCredentials(): List<DebugUserCredentials> {
+    override fun loadAccounts(): List<DebugUserCredentials> {
         return listOf(
             DebugUserCredentials(
                 "7882340482",
