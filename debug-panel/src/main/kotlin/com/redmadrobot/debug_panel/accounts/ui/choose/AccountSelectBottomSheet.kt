@@ -34,6 +34,11 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
                 }
                 .show(fragmentManager, TAG)
         }
+
+        fun show(fragmentManager: FragmentManager) {
+            AccountSelectBottomSheet()
+                .show(fragmentManager, TAG)
+        }
     }
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
