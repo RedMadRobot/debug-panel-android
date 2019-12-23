@@ -26,12 +26,9 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
     }
 
     override fun onAccountSaved(login: String, password: String) {
-        val userData =
-            DebugUserCredentials(login, password)
+        val userData = DebugUserCredentials(login, password)
         accountsAdapter.add(
-            UserCredentialsItem(
-                userData
-            )
+            UserCredentialsItem(userData)
         )
     }
 
