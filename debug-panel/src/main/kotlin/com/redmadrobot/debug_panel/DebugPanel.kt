@@ -17,7 +17,7 @@ class DebugPanel(private val context: Context) {
     }
 
     //Список имен открытых activity
-    private var activityList = mutableListOf<String>()
+    private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
 
     fun start() {
@@ -29,14 +29,14 @@ class DebugPanel(private val context: Context) {
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {
                     super.onActivityResumed(activity)
-                    if (activityList.isEmpty()) showDebugNotification()
-                    activityList.add(activity.javaClass.simpleName)
+                    if (openActivityCount == 0) showDebugNotification()
+                    ++openActivityCount
                 }
 
                 override fun onActivityPaused(activity: Activity) {
                     super.onActivityPaused(activity)
-                    activityList.remove((activity.javaClass.simpleName))
-                    if (activityList.isEmpty()) {
+                    --openActivityCount
+                    if (openActivityCount == 0) {
                         notificationManager?.cancel(NOTIFICATION_ID)
                     }
                 }
