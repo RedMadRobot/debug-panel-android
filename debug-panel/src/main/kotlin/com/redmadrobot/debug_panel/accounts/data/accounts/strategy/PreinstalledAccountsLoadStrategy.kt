@@ -1,10 +1,11 @@
 package com.redmadrobot.debug_panel.accounts.data.accounts.strategy
 
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
+import io.reactivex.Single
 
 class PreinstalledAccountsLoadStrategy : AccountsLoadStrategy {
 
-    override fun loadAccounts(): List<DebugUserCredentials> {
+    override fun loadAccounts(): Single<List<DebugUserCredentials>> {
         return listOf(
             DebugUserCredentials(
                 "7882340482",
@@ -22,6 +23,6 @@ class PreinstalledAccountsLoadStrategy : AccountsLoadStrategy {
                 "1944647499",
                 "Qq!11111"
             )
-        )
+        ).let { Single.just(it) }
     }
 }

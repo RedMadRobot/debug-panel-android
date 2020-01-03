@@ -1,8 +1,13 @@
 package com.redmadrobot.debug_panel.accounts.data.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "debug_user_credentials")
 data class DebugUserCredentials(
-        val login: String,
-        val password: String
+    @PrimaryKey @ColumnInfo(name = "login") val login: String,
+    @ColumnInfo(name = "password") val password: String
 ) {
     companion object {
         fun empty() = DebugUserCredentials("", "")

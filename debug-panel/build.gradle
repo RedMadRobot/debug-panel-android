@@ -39,6 +39,18 @@ dependencies {
     implementation 'com.xwray:groupie:2.7.2'
     implementation 'com.xwray:groupie-kotlin-android-extensions:2.7.2'
 
+    //region Database
+    implementation "androidx.room:room-runtime:2.2.3"
+    implementation "androidx.room:room-rxjava2:2.2.3"
+    implementation 'com.amitshekhar.android:debug-db:1.0.6'
+    kapt "androidx.room:room-compiler:2.2.3"
+    //endregion
+
+    //region RxJava
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    //endregion
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
