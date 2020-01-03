@@ -5,14 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccountsLoadStrategyProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.AccountRepositoryProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.add.AddAccountDialog
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_debug.*
@@ -21,6 +22,8 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
     private var compositeDisposable: CompositeDisposable? = null
+    private val accountRepositoryProvider = AccountRepositoryProvider(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,10 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
         accountsAdapter.add(
             UserCredentialsItem(userData)
         )
+        accountRepositoryProvider.getAccountRepository()
+            .addCredential(userData)
+            .subscribeBy()
+            .also { compositeDisposable?.add(it) }
     }
 
     private fun setView() {
@@ -61,10 +68,10 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
     }
 
     private fun loadAccounts() {
-        val localStrategy = LocalAccountsLoadStrategyProvider(this).getLocalAccountsLoadStrategy()
-        val credentialsProvider = AccountsProvider(localStrategy)
+        val accountRepository = accountRepositoryProvider.getAccountRepository()
+        val credentialsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
         credentialsProvider.getAccounts()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(onSuccess = { accountsAdapter.update(it) })
             .also { compositeDisposable?.add(it) }

@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccountsLoadStrategyProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.AccountRepositoryProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.bottom_sheet_account_select.*
@@ -46,6 +47,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
     }
 
     private var compositeDisposable: CompositeDisposable? = null
+    private lateinit var accountRepositoryProvider: AccountRepositoryProvider
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
     override fun onCreateView(
@@ -60,6 +62,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         compositeDisposable?.dispose()
         compositeDisposable = CompositeDisposable()
+        accountRepositoryProvider = AccountRepositoryProvider(requireContext())
 
         setView()
         loadMockData()
@@ -96,10 +99,10 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun loadMockData() {
-        val localStrategy = LocalAccountsLoadStrategyProvider(requireContext()).getLocalAccountsLoadStrategy()
-        val credentialsProvider = AccountsProvider(localStrategy)
+        val accountRepository = accountRepositoryProvider.getAccountRepository()
+        val credentialsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
         credentialsProvider.getAccounts()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(onSuccess = { accountsAdapter.update(it) })
             .also { compositeDisposable?.add(it) }
