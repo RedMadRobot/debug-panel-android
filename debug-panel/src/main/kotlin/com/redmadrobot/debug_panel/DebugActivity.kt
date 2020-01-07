@@ -21,14 +21,12 @@ import kotlinx.android.synthetic.main.activity_debug.*
 class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultListener {
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
-    private var compositeDisposable: CompositeDisposable? = null
+    private val compositeDisposable by lazy { CompositeDisposable() }
     private val accountRepositoryProvider = AccountRepositoryProvider(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        compositeDisposable?.dispose()
-        compositeDisposable = CompositeDisposable()
 
         setContentView(R.layout.activity_debug)
         setView()
@@ -36,7 +34,7 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
     }
 
     override fun onDestroy() {
-        compositeDisposable?.dispose()
+        compositeDisposable.dispose()
         super.onDestroy()
     }
 
@@ -48,7 +46,7 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
         accountRepositoryProvider.getAccountRepository()
             .addCredential(userData)
             .subscribeBy()
-            .also { compositeDisposable?.add(it) }
+            .also { compositeDisposable.add(it) }
     }
 
     private fun setView() {

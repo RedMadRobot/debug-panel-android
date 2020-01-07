@@ -46,7 +46,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private var compositeDisposable: CompositeDisposable? = null
+    private val compositeDisposable by lazy { CompositeDisposable() }
     private lateinit var accountRepositoryProvider: AccountRepositoryProvider
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
@@ -60,8 +60,6 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        compositeDisposable?.dispose()
-        compositeDisposable = CompositeDisposable()
         accountRepositoryProvider = AccountRepositoryProvider(requireContext())
 
         setView()
@@ -69,7 +67,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
-        compositeDisposable?.dispose()
+        compositeDisposable.dispose()
         super.onDestroyView()
     }
 
@@ -105,7 +103,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(onSuccess = { accountsAdapter.update(it) })
-            .also { compositeDisposable?.add(it) }
+            .also { compositeDisposable.add(it) }
     }
 
     interface AccountDataResultListener {
