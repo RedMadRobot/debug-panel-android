@@ -10,6 +10,7 @@ import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccounts
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.add.AddAccountDialog
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.extension.autoDispose
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
@@ -46,7 +47,9 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
         accountRepositoryProvider.getAccountRepository()
             .addCredential(userData)
             .subscribeBy()
-            .also { compositeDisposable.add(it) }
+            .also {
+                compositeDisposable.add(it)
+            }
     }
 
     private fun setView() {
@@ -72,6 +75,6 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(onSuccess = { accountsAdapter.update(it) })
-            .also { compositeDisposable?.add(it) }
+            .autoDispose(compositeDisposable)
     }
 }

@@ -15,6 +15,7 @@ import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.AccountReposi
 import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.extension.autoDispose
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -103,7 +104,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(onSuccess = { accountsAdapter.update(it) })
-            .also { compositeDisposable.add(it) }
+            .autoDispose(compositeDisposable)
     }
 
     interface AccountDataResultListener {
