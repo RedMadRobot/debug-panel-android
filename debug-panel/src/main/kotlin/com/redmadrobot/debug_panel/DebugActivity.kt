@@ -23,7 +23,7 @@ class DebugActivity : AppCompatActivity(), AddAccountDialog.SaveAccountResultLis
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
     private val compositeDisposable by lazy { CompositeDisposable() }
-    private val accountRepositoryProvider = AccountRepositoryProvider(this)
+    private val accountRepositoryProvider by lazy { AccountRepositoryProvider(this) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
