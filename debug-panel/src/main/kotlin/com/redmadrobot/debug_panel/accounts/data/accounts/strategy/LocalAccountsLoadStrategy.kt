@@ -1,14 +1,13 @@
 package com.redmadrobot.debug_panel.accounts.data.accounts.strategy
 
-import android.content.Context
 import com.redmadrobot.debug_panel.accounts.data.accounts.LocalAccountRepository
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
+import io.reactivex.Single
 
-class LocalAccountsLoadStrategy(context: Context) : AccountsLoadStrategy {
-    val accountRepository: LocalAccountRepository = LocalAccountRepository(context)
+class LocalAccountsLoadStrategy(private val accountRepository: LocalAccountRepository) :
+    AccountsLoadStrategy {
 
-    override fun loadAccounts(): List<DebugUserCredentials> {
-        //TODO Реализовать загрузку аккаунтов из локального хранилища через LocalAccountRepository
-        throw NotImplementedError()
+    override fun loadAccounts(): Single<List<DebugUserCredentials>> {
+        return accountRepository.getCredentials()
     }
 }

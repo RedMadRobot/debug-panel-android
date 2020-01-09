@@ -11,11 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.PreinstalledAccountsLoadStrategy
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.AccountRepositoryProvider
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.extension.autoDispose
+import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.bottom_sheet_account_select.*
 
 class AccountSelectBottomSheet : BottomSheetDialogFragment() {
@@ -42,6 +47,9 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    private val compositeDisposable by lazy { CompositeDisposable() }
+    private lateinit var accountRepositoryProvider: AccountRepositoryProvider
+
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,8 +61,15 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        accountRepositoryProvider = AccountRepositoryProvider(requireContext())
+
         setView()
         loadMockData()
+    }
+
+    override fun onDestroyView() {
+        compositeDisposable.dispose()
+        super.onDestroyView()
     }
 
     private fun setView() {
@@ -83,11 +98,13 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun loadMockData() {
-        val credentialsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
-        val accountItems = credentialsProvider.getAccounts()
-            .map(::UserCredentialsItem)
-
-        accountsAdapter.update(accountItems)
+        val accountRepository = accountRepositoryProvider.getAccountRepository()
+        val credentialsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
+        credentialsProvider.getAccounts()
+            .observeOnMain()
+            .map { it.map(::UserCredentialsItem) }
+            .subscribeBy(onSuccess = { accountsAdapter.update(it) })
+            .autoDispose(compositeDisposable)
     }
 
     interface AccountDataResultListener {
