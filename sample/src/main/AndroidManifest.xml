@@ -4,6 +4,7 @@
     package="com.redmadrobot.debugpanel">
 
     <application
+        android:name="com.redmadrobot.debug_sample.App"
         android:allowBackup="false"
         android:icon="@drawable/ic_app_logo"
         android:label="@string/sample_app_name"
