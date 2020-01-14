@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.redmadrobot.debug_panel.DebugPanel
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.AccountRepositoryProvider
@@ -94,6 +95,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
             userCredentials.login,
             userCredentials.password
         )
+        DebugPanel.depContainer?.authenticator?.authenticate(userCredentials)
         dismiss()
     }
 

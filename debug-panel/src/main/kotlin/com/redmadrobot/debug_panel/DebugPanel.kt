@@ -7,21 +7,31 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
+import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.util.ActivityLifecycleCallbacksAdapter
+import com.redmadrobot.debug_panel.util.DepContainer
+import com.redmadrobot.debug_panel.util.DepContainerProvider
 
-class DebugPanel(private val context: Context) {
+//TODO Стоит обдумать использование builder для инициирования объекта
+class DebugPanel(private val context: Context, var authenticator: Authenticator? = null) {
+
 
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
         private const val NOTIFICATION_ID = 1
+
+        val depContainer: DepContainer?
+            get() = DepContainerProvider.depContainer
+
     }
 
-    //Список имен открытых activity
+    //Счетчик открытых activity
     private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
 
     fun start() {
         registerActivityLifecycleCallback()
+        initDepContainer()
     }
 
     private fun registerActivityLifecycleCallback() {
@@ -67,5 +77,9 @@ class DebugPanel(private val context: Context) {
             .build()
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
+    }
+
+    private fun initDepContainer() {
+        DepContainerProvider.initContainer(authenticator)
     }
 }
