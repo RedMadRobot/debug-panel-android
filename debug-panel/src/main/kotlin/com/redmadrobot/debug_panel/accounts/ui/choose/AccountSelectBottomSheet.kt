@@ -95,7 +95,7 @@ class AccountSelectBottomSheet : BottomSheetDialogFragment() {
             userCredentials.login,
             userCredentials.password
         )
-        DebugPanel.depContainer?.authenticator?.authenticate(userCredentials)
+        DebugPanel.authenticator?.authenticate(userCredentials)
         dismiss()
     }
 

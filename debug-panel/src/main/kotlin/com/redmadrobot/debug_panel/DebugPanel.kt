@@ -9,37 +9,34 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.util.ActivityLifecycleCallbacksAdapter
-import com.redmadrobot.debug_panel.util.DepContainer
-import com.redmadrobot.debug_panel.util.DepContainerProvider
 
-//TODO Стоит обдумать использование builder для инициирования объекта
-class DebugPanel(private val context: Context, var authenticator: Authenticator? = null) {
+object DebugPanel {
 
+    private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
+    private const val NOTIFICATION_ID = 1
 
-    companion object {
-        private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
-        private const val NOTIFICATION_ID = 1
-
-        val depContainer: DepContainer?
-            get() = DepContainerProvider.depContainer
-
-    }
+    internal var authenticator: Authenticator? = null
 
     //Счетчик открытых activity
     private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
 
-    fun start() {
-        registerActivityLifecycleCallback()
-        initDepContainer()
+    fun start(context: Context): DebugPanel {
+        registerActivityLifecycleCallback(context)
+        return this
     }
 
-    private fun registerActivityLifecycleCallback() {
+    fun setAuthenticator(authenticator: Authenticator): DebugPanel {
+        this.authenticator = authenticator
+        return this
+    }
+
+    private fun registerActivityLifecycleCallback(context: Context) {
         (context as? Application)?.registerActivityLifecycleCallbacks(
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {
                     super.onActivityResumed(activity)
-                    if (openActivityCount == 0) showDebugNotification()
+                    if (openActivityCount == 0) showDebugNotification(context)
                     ++openActivityCount
                 }
 
@@ -54,7 +51,7 @@ class DebugPanel(private val context: Context, var authenticator: Authenticator?
         )
     }
 
-    private fun showDebugNotification() {
+    private fun showDebugNotification(context: Context) {
         notificationManager = NotificationManagerCompat.from(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.debug_panel)
@@ -79,7 +76,4 @@ class DebugPanel(private val context: Context, var authenticator: Authenticator?
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }
 
-    private fun initDepContainer() {
-        DepContainerProvider.initContainer(authenticator)
-    }
 }
