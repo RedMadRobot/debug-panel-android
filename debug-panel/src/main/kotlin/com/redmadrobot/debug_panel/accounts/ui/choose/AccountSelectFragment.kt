@@ -9,6 +9,7 @@ import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.AccountRepositoryProvider
 import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.LocalAccountsLoadStrategy
+import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.PreinstalledAccountsLoadStrategy
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
 import com.redmadrobot.debug_panel.extension.autoDispose
@@ -65,8 +66,12 @@ class AccountSelectFragment : Fragment(R.layout.fragment_account_select) {
 
     private fun loadMockData() {
         val accountRepository = accountRepositoryProvider.getAccountRepository()
-        val credentialsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
-        credentialsProvider.getAccounts()
+        val accountsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
+        val preInstalledAccountsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
+
+        accountsProvider.getAccounts()
+            .mergeWith(preInstalledAccountsProvider.getAccounts())
+            .single(emptyList())
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(onSuccess = { accountsAdapter.update(it) })
