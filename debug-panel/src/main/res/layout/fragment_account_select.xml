@@ -8,6 +8,8 @@
         android:id="@+id/account_select_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         android:fadingEdge="vertical"
+        android:paddingTop="16dp"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
