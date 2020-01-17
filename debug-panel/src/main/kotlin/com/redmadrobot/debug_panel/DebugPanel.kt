@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
+import com.redmadrobot.debug_panel.shake.ShakeController
 import com.redmadrobot.debug_panel.util.ActivityLifecycleCallbacksAdapter
 
 class DebugPanel(private val context: Context) {
@@ -19,6 +20,7 @@ class DebugPanel(private val context: Context) {
     //Список имен открытых activity
     private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
+    private val shakeController = ShakeController(context, DebugPanelController::openDebugPanel)
 
     fun start() {
         registerActivityLifecycleCallback()
@@ -31,6 +33,9 @@ class DebugPanel(private val context: Context) {
                     super.onActivityResumed(activity)
                     if (openActivityCount == 0) showDebugNotification()
                     ++openActivityCount
+
+                    DebugPanelController.setActivity(activity)
+                    shakeController.register()
                 }
 
                 override fun onActivityPaused(activity: Activity) {
@@ -39,6 +44,8 @@ class DebugPanel(private val context: Context) {
                     if (openActivityCount == 0) {
                         notificationManager?.cancel(NOTIFICATION_ID)
                     }
+                    shakeController.unregister()
+                    DebugPanelController.setActivity(null)
                 }
             }
         )
