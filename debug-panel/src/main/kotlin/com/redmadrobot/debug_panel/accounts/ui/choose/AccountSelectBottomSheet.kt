@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.redmadrobot.debug_panel.DebugPanel
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.accounts.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.accounts.data.accounts.strategy.AccountRepositoryProvider
@@ -18,6 +17,7 @@ import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
 import com.redmadrobot.debug_panel.extension.autoDispose
 import com.redmadrobot.debug_panel.extension.observeOnMain
+import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import io.reactivex.disposables.CompositeDisposable

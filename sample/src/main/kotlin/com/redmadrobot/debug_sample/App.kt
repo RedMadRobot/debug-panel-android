@@ -1,17 +1,23 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
-import com.redmadrobot.debug_panel.DebugPanel
 import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.internal.DebugPanelConfig
 
 class App : Application(), Authenticator {
 
     override fun onCreate() {
         super.onCreate()
-        DebugPanel.start(this)
+
+        val debugPanelConfig = DebugPanelConfig(
+            context = this,
             //TODO Временная реализация. Здесь это не должно делаться.
-            .setAuthenticator(this)
+            authenticator = this
+        )
+
+        DebugPanel.initialize(debugPanelConfig)
     }
 
     override fun authenticate(userCredentials: DebugUserCredentials) {
