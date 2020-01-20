@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/account_select_toolbar"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/debug_sheet_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/accounts" />
+        app:tabMode="auto" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/account_select_recycler"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/debug_sheet_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fadingEdge="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/account_select_toolbar" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/debug_sheet_tab_layout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
