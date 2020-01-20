@@ -51,14 +51,28 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        val itemTouchHelperCallback = ItemTouchHelperCallback(accountsAdapter)
+        val itemTouchHelperCallback = ItemTouchHelperCallback { viewHolder, _ ->
+            val position = viewHolder.adapterPosition
+            removeItem(position)
+        }
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(account_list)
         }
 
         add_account.setOnClickListener {
-            AddAccountDialog.show(childFragmentManager, this)
+            AddAccountDialog.show(requireActivity().supportFragmentManager, this)
         }
+    }
+
+    private fun removeItem(position: Int) {
+        val item = accountsAdapter.getItem(position) as UserCredentialsItem
+        val data = item.userCredentials
+        accountRepositoryProvider.getAccountRepository()
+            .removeCredential(data)
+            .subscribeBy(onComplete = {
+                accountsAdapter.removeGroupAtAdapterPosition(position)
+            })
+            .autoDispose()
     }
 
     private fun loadAccounts() {

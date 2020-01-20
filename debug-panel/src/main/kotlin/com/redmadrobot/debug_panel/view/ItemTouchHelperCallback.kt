@@ -2,11 +2,10 @@ package com.redmadrobot.debug_panel.view
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 
-class ItemTouchHelperCallback(private val adapter: GroupAdapter<GroupieViewHolder>) :
-    ItemTouchHelper.Callback() {
+class ItemTouchHelperCallback(
+    private val onSwiped: (viewHolder: RecyclerView.ViewHolder, direction: Int) -> Unit
+) : ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(
         recyclerView: RecyclerView,
@@ -26,6 +25,6 @@ class ItemTouchHelperCallback(private val adapter: GroupAdapter<GroupieViewHolde
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        adapter.removeGroupAtAdapterPosition(viewHolder.adapterPosition)
+        onSwiped.invoke(viewHolder, direction)
     }
 }
