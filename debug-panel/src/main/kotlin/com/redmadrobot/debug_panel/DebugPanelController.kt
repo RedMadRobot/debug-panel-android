@@ -3,7 +3,7 @@ package com.redmadrobot.debug_panel
 import android.app.Activity
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.redmadrobot.debug_panel.accounts.ui.choose.AccountSelectBottomSheet
+import com.redmadrobot.debug_panel.inapp.DebugBottomSheet
 
 object DebugPanelController {
     private var fragmentManager: FragmentManager? = null
@@ -13,6 +13,6 @@ object DebugPanelController {
     }
 
     fun openDebugPanel() {
-        fragmentManager?.let { AccountSelectBottomSheet.show(it) }
+        fragmentManager?.let { DebugBottomSheet.show(it) }
     }
 }

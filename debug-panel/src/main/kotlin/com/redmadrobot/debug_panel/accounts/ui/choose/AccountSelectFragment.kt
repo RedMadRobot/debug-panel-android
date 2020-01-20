@@ -71,7 +71,7 @@ class AccountSelectFragment : Fragment(R.layout.fragment_account_select) {
 
         accountsProvider.getAccounts()
             .mergeWith(preInstalledAccountsProvider.getAccounts())
-            .single(emptyList())
+            .firstOrError()
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(onSuccess = { accountsAdapter.update(it) })
