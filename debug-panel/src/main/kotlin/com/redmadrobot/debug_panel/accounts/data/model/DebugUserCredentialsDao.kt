@@ -1,6 +1,7 @@
 package com.redmadrobot.debug_panel.accounts.data.model
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import io.reactivex.Completable
@@ -13,4 +14,7 @@ interface DebugUserCredentialsDao {
 
     @Insert
     fun insert(user: DebugUserCredentials): Completable
+
+    @Delete
+    fun remove(user: DebugUserCredentials): Completable
 }
