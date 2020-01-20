@@ -15,20 +15,7 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         private const val TAG = "AccountSelectBottomSheet"
-        const val REQUEST_CODE_ACCOUNT = 123123
 
-        //        fun <T> show(
-//            fragmentManager: FragmentManager,
-//            resultListener: T
-//        ) where T : Fragment, T : AccountDataResultListener {
-//
-//            AccountSelectBottomSheet()
-//                .apply {
-//                    setTargetFragment(resultListener, REQUEST_CODE_ACCOUNT)
-//                }
-//                .show(fragmentManager, TAG)
-//        }
-//
         fun show(fragmentManager: FragmentManager) {
             DebugBottomSheet()
                 .show(fragmentManager, TAG)
