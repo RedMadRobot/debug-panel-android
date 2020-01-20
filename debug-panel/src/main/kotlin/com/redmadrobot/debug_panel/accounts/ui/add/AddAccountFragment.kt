@@ -67,8 +67,10 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
     private fun removeItem(position: Int) {
         val item = accountsAdapter.getItem(position) as UserCredentialsItem
         val data = item.userCredentials
+
         accountRepositoryProvider.getAccountRepository()
             .removeCredential(data)
+            .observeOnMain()
             .subscribeBy(onComplete = {
                 accountsAdapter.removeGroupAtAdapterPosition(position)
             })

@@ -1,6 +1,7 @@
 package com.redmadrobot.debug_panel.base
 
 import androidx.fragment.app.Fragment
+import com.redmadrobot.debug_panel.extension.autoDispose
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -13,7 +14,7 @@ open class BaseFragment(layoutId: Int) : Fragment(layoutId) {
     }
 
     fun Disposable.autoDispose(): Disposable {
-        compositeDisposable.add(this)
+        this.autoDispose(compositeDisposable)
         return this
     }
 }

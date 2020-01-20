@@ -15,6 +15,7 @@ import com.redmadrobot.debug_panel.base.BaseFragment
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
@@ -63,11 +64,18 @@ class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
         val preInstalledAccountsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
 
         accountsProvider.getAccounts()
-            .mergeWith(preInstalledAccountsProvider.getAccounts())
-            .single(emptyList())
+            .zipWith(
+                preInstalledAccountsProvider.getAccounts(),
+                BiFunction<List<DebugUserCredentials>,
+                        List<DebugUserCredentials>,
+                        List<DebugUserCredentials>> { accountsFromStorage, preInstalledAccounts ->
+                    accountsFromStorage.plus(preInstalledAccounts)
+                })
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
-            .subscribeBy(onSuccess = { accountsAdapter.update(it) })
+            .subscribeBy(
+                onSuccess = { accountsAdapter.update(it) }
+            )
             .autoDispose()
     }
 
