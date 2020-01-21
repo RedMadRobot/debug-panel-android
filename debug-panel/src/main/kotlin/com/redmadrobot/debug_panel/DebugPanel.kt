@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
-import com.redmadrobot.debug_panel.shake.ShakeController
+import com.redmadrobot.debug_panel.inapp.shake.ShakeController
+import com.redmadrobot.debug_panel.ui.DebugActivity
 import com.redmadrobot.debug_panel.util.ActivityLifecycleCallbacksAdapter
 
 class DebugPanel(private val context: Context) {
