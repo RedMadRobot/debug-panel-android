@@ -67,9 +67,7 @@ class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
             .zipList(preInstalledAccountsProvider.getAccounts())
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
-            .subscribeBy(
-                onSuccess = { accountsAdapter.update(it) }
-            )
+            .subscribeBy(onSuccess = { accountsAdapter.update(it) })
             .autoDispose()
     }
 
