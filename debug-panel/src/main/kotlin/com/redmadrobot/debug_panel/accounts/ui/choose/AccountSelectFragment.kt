@@ -13,9 +13,9 @@ import com.redmadrobot.debug_panel.accounts.data.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.accounts.ui.item.UserCredentialsItem
 import com.redmadrobot.debug_panel.base.BaseFragment
 import com.redmadrobot.debug_panel.extension.observeOnMain
+import com.redmadrobot.debug_panel.extension.zipList
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
@@ -64,13 +64,7 @@ class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
         val preInstalledAccountsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
 
         accountsProvider.getAccounts()
-            .zipWith(
-                preInstalledAccountsProvider.getAccounts(),
-                BiFunction<List<DebugUserCredentials>,
-                        List<DebugUserCredentials>,
-                        List<DebugUserCredentials>> { accountsFromStorage, preInstalledAccounts ->
-                    accountsFromStorage.plus(preInstalledAccounts)
-                })
+            .zipList(preInstalledAccountsProvider.getAccounts())
             .observeOnMain()
             .map { it.map(::UserCredentialsItem) }
             .subscribeBy(
