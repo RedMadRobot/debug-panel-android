@@ -3,8 +3,8 @@ package com.redmadrobot.debug_panel.inapp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.redmadrobot.debug_panel.StubFragment
-import com.redmadrobot.debug_panel.accounts.ui.choose.AccountSelectFragment
+import com.redmadrobot.debug_panel.ui.StubFragment
+import com.redmadrobot.debug_panel.ui.accounts.choose.AccountSelectFragment
 
 internal class DebugSheetViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {

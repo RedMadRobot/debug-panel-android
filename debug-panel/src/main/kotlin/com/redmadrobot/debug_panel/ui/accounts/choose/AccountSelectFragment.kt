@@ -1,0 +1,77 @@
+package com.redmadrobot.debug_panel.ui.accounts.choose
+
+import android.os.Bundle
+import android.view.View
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
+import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvider
+import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
+import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
+import com.redmadrobot.debug_panel.extension.observeOnMain
+import com.redmadrobot.debug_panel.extension.zipList
+import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.ui.base.BaseFragment
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.android.synthetic.main.fragment_account_select.*
+
+class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
+
+    private lateinit var accountRepositoryProvider: AccountRepositoryProvider
+
+    private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        accountRepositoryProvider = AccountRepositoryProvider(requireContext())
+
+        setView()
+        loadMockData()
+    }
+
+
+    private fun setView() {
+        account_select_recycler.apply {
+            adapter = accountsAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+        }
+        accountsAdapter.setOnItemClickListener { item, _ ->
+            val userCredential = (item as? UserCredentialsItem)?.userCredentials
+            userCredential?.let(::sendUserCredentials)
+        }
+    }
+
+    private fun sendUserCredentials(userCredentials: DebugUserCredentials) {
+        (targetFragment as? AccountDataResultListener)?.onAccountSelected(
+            userCredentials.login,
+            userCredentials.password
+        )
+    }
+
+    private fun loadMockData() {
+        val accountRepository = accountRepositoryProvider.getAccountRepository()
+        val accountsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
+        val preInstalledAccountsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
+
+        accountsProvider.getAccounts()
+            .zipList(preInstalledAccountsProvider.getAccounts())
+            .observeOnMain()
+            .map { it.map(::UserCredentialsItem) }
+            .subscribeBy(onSuccess = { accountsAdapter.update(it) })
+            .autoDispose()
+    }
+
+    interface AccountDataResultListener {
+        fun onAccountSelected(login: String, password: String)
+    }
+}
