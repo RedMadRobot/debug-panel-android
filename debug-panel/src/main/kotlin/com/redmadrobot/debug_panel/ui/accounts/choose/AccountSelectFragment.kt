@@ -4,33 +4,37 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.redmadrobot.debug_panel.DebugPanel
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
-import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvider
-import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
-import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
-import com.redmadrobot.debug_panel.extension.observeOnMain
-import com.redmadrobot.debug_panel.extension.zipList
+import com.redmadrobot.debug_panel.extension.observe
+import com.redmadrobot.debug_panel.extension.obtainViewModel
 import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import io.reactivex.rxkotlin.subscribeBy
+import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
 class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
 
-    private lateinit var accountRepositoryProvider: AccountRepositoryProvider
+    private val accountsViewModel by lazy {
+        obtainViewModel {
+            DebugPanel.getContainer().createAccountsViewModel()
+        }
+    }
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        observe(accountsViewModel.accounts, ::setAccountList)
+        accountsViewModel.loadAccounts()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        accountRepositoryProvider = AccountRepositoryProvider(requireContext())
-
         setView()
-        loadMockData()
     }
 
 
@@ -58,17 +62,8 @@ class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
         )
     }
 
-    private fun loadMockData() {
-        val accountRepository = accountRepositoryProvider.getAccountRepository()
-        val accountsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
-        val preInstalledAccountsProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
-
-        accountsProvider.getAccounts()
-            .zipList(preInstalledAccountsProvider.getAccounts())
-            .observeOnMain()
-            .map { it.map(::UserCredentialsItem) }
-            .subscribeBy(onSuccess = { accountsAdapter.update(it) })
-            .autoDispose()
+    private fun setAccountList(accounts: List<Item>) {
+        accountsAdapter.update(accounts)
     }
 
     interface AccountDataResultListener {

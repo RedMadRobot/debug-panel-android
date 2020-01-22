@@ -6,16 +6,25 @@ import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvider
 import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
+import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
 
 class DebugPanelContainer(context: Context) {
 
-    internal lateinit var accountRepository: AccountRepository
-    internal lateinit var localAccountProvider: AccountsProvider
-    internal lateinit var preInstalledAccountProvider: AccountsProvider
+    internal var accountRepository: AccountRepository
+    internal var localAccountProvider: AccountsProvider
+    internal var preInstalledAccountProvider: AccountsProvider
 
     init {
         this.accountRepository = AccountRepositoryProvider(context).getAccountRepository()
         this.localAccountProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
         this.preInstalledAccountProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
+    }
+
+    fun createAccountsViewModel(): AccountsViewModel {
+        return AccountsViewModel(
+            accountRepository,
+            localAccountProvider,
+            preInstalledAccountProvider
+        )
     }
 }

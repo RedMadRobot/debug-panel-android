@@ -1,6 +1,7 @@
 package com.redmadrobot.debug_panel.ui.accounts
 
 import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.debug_panel.data.accounts.AccountRepository
 import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.extension.zipList
@@ -10,6 +11,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
 
 class AccountsViewModel(
+    private val accountsRepository: AccountRepository,
     private val localAccountProvider: AccountsProvider,
     private val preInstalledAccountProvider: AccountsProvider
 ) : BaseViewModel() {
