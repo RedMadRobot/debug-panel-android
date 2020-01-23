@@ -31,6 +31,7 @@ class AccountsViewModel(
     fun addAccount(account: DebugUserCredentials) {
         accountsRepository
             .addCredential(account)
+            .observeOnMain()
             .subscribeBy(
                 onComplete = {
                     val newAccountList = (accounts.value as MutableList<Item>).apply {
