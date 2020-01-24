@@ -9,6 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import com.redmadrobot.debug_panel.inapp.shake.ShakeController
+import com.redmadrobot.debug_panel.internal.DebugPanelContainer
 import com.redmadrobot.debug_panel.ui.DebugActivity
 import com.redmadrobot.debug_panel.util.ActivityLifecycleCallbacksAdapter
 
@@ -17,15 +18,31 @@ class DebugPanel(private val context: Context) {
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
         private const val NOTIFICATION_ID = 1
+
+        //TODO Перенести в класс DebugPanelInstance после того как PR с ним будет принят
+        private var debugPanelContainer: DebugPanelContainer? = null
+
+        internal fun initContainer(context: Context) {
+            debugPanelContainer = DebugPanelContainer(context)
+        }
+
+        internal fun getContainer(): DebugPanelContainer {
+            return debugPanelContainer
+                ?: throw IllegalStateException("Container must be initialised")
+        }
     }
 
     //Список имен открытых activity
     private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
+
     private val shakeController = ShakeController(context)
 
     fun start() {
         registerActivityLifecycleCallback()
+
+        //TODO Перенести в класс DebugPanelInstance после того как PR с ним будет принят
+        DebugPanel.initContainer(context)
     }
 
     private fun registerActivityLifecycleCallback() {
