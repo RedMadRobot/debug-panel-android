@@ -10,7 +10,7 @@ import androidx.core.app.TaskStackBuilder
 import com.redmadrobot.debug_panel.DebugActivity
 import com.redmadrobot.debug_panel.R
 
-class ActivityLifecycleHandler(private val context: Context) {
+class ActivityLifecycleHandler(private val application: Application) {
 
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
@@ -22,7 +22,7 @@ class ActivityLifecycleHandler(private val context: Context) {
     private var notificationManager: NotificationManagerCompat? = null
 
     fun register() {
-        (context as? Application)?.registerActivityLifecycleCallbacks(
+        application.registerActivityLifecycleCallbacks(
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {
                     super.onActivityResumed(activity)
@@ -44,7 +44,7 @@ class ActivityLifecycleHandler(private val context: Context) {
     }
 
     private fun onResumed() {
-        showDebugNotification(context)
+        showDebugNotification(application.applicationContext)
     }
 
 

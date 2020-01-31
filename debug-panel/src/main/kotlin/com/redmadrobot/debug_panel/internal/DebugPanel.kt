@@ -11,16 +11,8 @@ object DebugPanel {
 
     fun initialize(debugPanelConfig: DebugPanelConfig) {
         this.debugPanelInstance = DebugPanelInstance(
-            context = debugPanelConfig.context,
+            application = debugPanelConfig.application,
             authenticator = debugPanelConfig.authenticator
         )
     }
-
-    fun setAuthenticator(authenticator: Authenticator) {
-        debugPanelInstance?.let {
-            it.authenticator = authenticator
-        }
-            ?: throw IllegalStateException("The Debug panel must be initialized before calling this method.")
-    }
-
 }

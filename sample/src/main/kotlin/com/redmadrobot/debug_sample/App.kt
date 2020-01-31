@@ -12,7 +12,7 @@ class App : Application(), Authenticator {
         super.onCreate()
 
         val debugPanelConfig = DebugPanelConfig(
-            context = this,
+            application = this,
             //TODO Временная реализация. Здесь это не должно делаться.
             authenticator = this
         )

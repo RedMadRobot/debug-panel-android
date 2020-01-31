@@ -1,10 +1,10 @@
 package com.redmadrobot.debug_panel.internal
 
-import android.content.Context
+import android.app.Application
 import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.accounts.DefaultAuthenticator
 
 data class DebugPanelConfig(
-    val context: Context,
+    val application: Application,
     val authenticator: Authenticator = DefaultAuthenticator()
 )
