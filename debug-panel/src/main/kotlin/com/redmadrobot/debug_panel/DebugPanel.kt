@@ -9,6 +9,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import com.redmadrobot.debug_panel.inapp.shake.ShakeController
+import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
+import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
+import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleWrapper
 import com.redmadrobot.debug_panel.internal.DebugPanelContainer
 import com.redmadrobot.debug_panel.ui.DebugActivity
 import com.redmadrobot.debug_panel.util.ActivityLifecycleCallbacksAdapter
@@ -43,6 +46,13 @@ class DebugPanel(private val context: Context) {
 
         //TODO Перенести в класс DebugPanelInstance после того как PR с ним будет принят
         DebugPanel.initContainer(context)
+    }
+
+    fun initFeatureToggles(
+        featureTogglesConfig: FeatureTogglesConfig,
+        featureToggleWrapper: FeatureToggleWrapper
+    ): FeatureToggleWrapper {
+        return FeatureToggleHolder.init(featureTogglesConfig, featureToggleWrapper)
     }
 
     private fun registerActivityLifecycleCallback() {

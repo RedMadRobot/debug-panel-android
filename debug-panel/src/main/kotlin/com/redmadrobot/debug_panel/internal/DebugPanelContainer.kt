@@ -7,6 +7,7 @@ import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvi
 import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
+import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesViewModel
 
 class DebugPanelContainer(context: Context) {
 
@@ -26,5 +27,9 @@ class DebugPanelContainer(context: Context) {
             localAccountProvider,
             preInstalledAccountProvider
         )
+    }
+
+    fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
+        return FeatureTogglesViewModel()
     }
 }
