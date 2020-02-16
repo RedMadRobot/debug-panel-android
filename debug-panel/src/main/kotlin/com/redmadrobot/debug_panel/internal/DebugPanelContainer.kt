@@ -8,7 +8,7 @@ import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrat
 import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.DebugServersProvider
-import com.redmadrobot.debug_panel.data.servers.LocalDebuServerRepository
+import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.strategy.LocalServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.servers.strategy.PreinstalledServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
@@ -41,7 +41,7 @@ class DebugPanelContainer(context: Context) {
         //
 
         //Servers
-        this.serversRepository = LocalDebuServerRepository(dataBaseInstance.getDebugServersDao())
+        this.serversRepository = LocalDebugServerRepository(dataBaseInstance.getDebugServersDao())
         this.localServersProvider = DebugServersProvider(
             LocalServersLoadingStrategy(serversRepository)
         )
