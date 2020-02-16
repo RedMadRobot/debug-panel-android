@@ -22,9 +22,14 @@ class ActivityLifecycleHandler(private val application: Application) {
     //Счетчик открытых activity
     private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
+
     private val shakeController = ShakeController(application.applicationContext)
 
-    fun register() {
+    fun start() {
+        registerActivityLifecycleCallback()
+    }
+
+    private fun registerActivityLifecycleCallback() {
         application.registerActivityLifecycleCallbacks(
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {

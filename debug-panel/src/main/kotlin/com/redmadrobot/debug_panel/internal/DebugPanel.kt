@@ -15,4 +15,9 @@ object DebugPanel {
             authenticator = debugPanelConfig.authenticator
         )
     }
+
+    internal fun getContainer(): DebugPanelContainer {
+        return debugPanelInstance?.getContainer()
+            ?: throw IllegalStateException("Debug panel must be initialised")
+    }
 }

@@ -5,17 +5,15 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
-import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvider
-import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
-import com.redmadrobot.debug_panel.extension.observeOnMain
-import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.extension.observe
+import com.redmadrobot.debug_panel.extension.obtainViewModel
+import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.redmadrobot.debug_panel.ui.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import io.reactivex.rxkotlin.subscribeBy
+import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_add_account.*
 
 class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
@@ -25,24 +23,28 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
         fun getInstance() = AddAccountFragment()
     }
 
-    private val accountRepositoryProvider by lazy { AccountRepositoryProvider(requireContext()) }
+    private val accountsViewModel by lazy {
+        obtainViewModel {
+            DebugPanel.getContainer().createAccountsViewModel()
+        }
+    }
+
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        observe(accountsViewModel.accounts, ::setAccountList)
+        accountsViewModel.loadAccounts()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
-        loadAccounts()
     }
 
     override fun onAccountSaved(login: String, password: String) {
         val userData = DebugUserCredentials(login, password)
-        accountsAdapter.add(
-            UserCredentialsItem(userData)
-        )
-        accountRepositoryProvider.getAccountRepository()
-            .addCredential(userData)
-            .subscribeBy()
-            .autoDispose()
+        accountsViewModel.addAccount(userData)
     }
 
     private fun setView() {
@@ -53,7 +55,7 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
 
         val itemTouchHelperCallback = ItemTouchHelperCallback { viewHolder, _ ->
             val position = viewHolder.adapterPosition
-            removeItem(position)
+            accountsViewModel.removeAccount(position)
         }
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(account_list)
@@ -64,27 +66,7 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
         }
     }
 
-    private fun removeItem(position: Int) {
-        val item = accountsAdapter.getItem(position) as UserCredentialsItem
-        val data = item.userCredentials
-
-        accountRepositoryProvider.getAccountRepository()
-            .removeCredential(data)
-            .observeOnMain()
-            .subscribeBy(onComplete = {
-                accountsAdapter.removeGroupAtAdapterPosition(position)
-            })
-            .autoDispose()
+    private fun setAccountList(accounts: List<Item>) {
+        accountsAdapter.update(accounts)
     }
-
-    private fun loadAccounts() {
-        val accountRepository = accountRepositoryProvider.getAccountRepository()
-        val credentialsProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
-        credentialsProvider.getAccounts()
-            .observeOnMain()
-            .map { it.map(::UserCredentialsItem) }
-            .subscribeBy(onSuccess = { accountsAdapter.update(it) })
-            .autoDispose()
-    }
-
 }
