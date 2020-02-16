@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.debug_panel.DebugPanel
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
+import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
@@ -60,6 +60,7 @@ class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
             userCredentials.login,
             userCredentials.password
         )
+        DebugPanel.authenticator?.authenticate(userCredentials)
     }
 
     private fun setAccountList(accounts: List<Item>) {
