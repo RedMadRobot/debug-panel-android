@@ -13,6 +13,7 @@ import com.redmadrobot.debug_panel.data.servers.strategy.LocalServersLoadingStra
 import com.redmadrobot.debug_panel.data.servers.strategy.PreinstalledServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
+import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
 
 class DebugPanelContainer(context: Context) {
 
@@ -55,6 +56,14 @@ class DebugPanelContainer(context: Context) {
             accountRepository,
             localAccountProvider,
             preInstalledAccountProvider
+        )
+    }
+
+    fun createServersViewModel(): ServersViewModel {
+        return ServersViewModel(
+            serversRepository,
+            localServersProvider,
+            preInstalledServersProvider
         )
     }
 }
