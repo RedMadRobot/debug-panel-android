@@ -4,11 +4,13 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
-import com.redmadrobot.debug_panel.DebugActivity
 import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.inapp.shake.ShakeController
+import com.redmadrobot.debug_panel.ui.DebugActivity
 
 class ActivityLifecycleHandler(private val application: Application) {
 
@@ -20,6 +22,7 @@ class ActivityLifecycleHandler(private val application: Application) {
     //Счетчик открытых activity
     private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
+    private val shakeController = ShakeController(application.applicationContext)
 
     fun register() {
         application.registerActivityLifecycleCallbacks(
@@ -28,6 +31,8 @@ class ActivityLifecycleHandler(private val application: Application) {
                     super.onActivityResumed(activity)
                     if (openActivityCount == 0) onResumed()
                     ++openActivityCount
+
+                    (activity as? AppCompatActivity)?.let(shakeController::register)
                 }
 
                 override fun onActivityPaused(activity: Activity) {
@@ -45,8 +50,8 @@ class ActivityLifecycleHandler(private val application: Application) {
 
     private fun onResumed() {
         showDebugNotification(application.applicationContext)
+        shakeController.unregister()
     }
-
 
     private fun showDebugNotification(context: Context) {
         notificationManager = NotificationManagerCompat.from(context)
