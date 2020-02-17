@@ -10,7 +10,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.inapp.shake.ShakeController
-import com.redmadrobot.debug_panel.ui.DebugActivity
+import com.redmadrobot.debug_panel.ui.debugpanel.DebugActivity
 
 class ActivityLifecycleHandler(private val application: Application) {
 
