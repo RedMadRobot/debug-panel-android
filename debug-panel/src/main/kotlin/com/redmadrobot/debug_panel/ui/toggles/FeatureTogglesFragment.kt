@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.debug_panel.DebugPanel
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
+import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_feature_toggles.*
 
-class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_toggles) {
+internal class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_toggles) {
     private val featureTogglesViewModel by lazy {
         obtainViewModel {
             DebugPanel.getContainer().createFeatureTogglesViewModel()

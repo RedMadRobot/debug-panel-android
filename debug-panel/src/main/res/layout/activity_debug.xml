@@ -4,7 +4,12 @@
     android:id="@+id/debug_activity_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.redmadrobot.debug_panel.ui.DebugActivity">
+    tools:context="com.redmadrobot.debug_panel.ui.debugpanel.DebugActivity">
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/debug_feature_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

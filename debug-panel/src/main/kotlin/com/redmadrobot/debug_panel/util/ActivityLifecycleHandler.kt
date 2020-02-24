@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel
+package com.redmadrobot.debug_panel.util
 
 import android.app.*
 import android.content.Context
@@ -8,59 +8,33 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
+import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.inapp.shake.ShakeController
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleWrapper
-import com.redmadrobot.debug_panel.internal.DebugPanelContainer
-import com.redmadrobot.debug_panel.ui.DebugActivity
-import com.redmadrobot.debug_panel.util.ActivityLifecycleCallbacksAdapter
+import com.redmadrobot.debug_panel.ui.debugpanel.DebugActivity
 
-class DebugPanel(private val context: Context) {
+class ActivityLifecycleHandler(private val application: Application) {
 
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
         private const val NOTIFICATION_ID = 1
-
-        //TODO Перенести в класс DebugPanelInstance после того как PR с ним будет принят
-        private var debugPanelContainer: DebugPanelContainer? = null
-
-        internal fun initContainer(context: Context) {
-            debugPanelContainer = DebugPanelContainer(context)
-        }
-
-        internal fun getContainer(): DebugPanelContainer {
-            return debugPanelContainer
-                ?: throw IllegalStateException("Container must be initialised")
-        }
     }
 
-    //Список имен открытых activity
+    //Счетчик открытых activity
     private var openActivityCount = 0
     private var notificationManager: NotificationManagerCompat? = null
 
-    private val shakeController = ShakeController(context)
+    private val shakeController = ShakeController(application.applicationContext)
 
     fun start() {
         registerActivityLifecycleCallback()
-
-        //TODO Перенести в класс DebugPanelInstance после того как PR с ним будет принят
-        DebugPanel.initContainer(context)
-    }
-
-    fun initFeatureToggles(
-        featureTogglesConfig: FeatureTogglesConfig,
-        featureToggleWrapper: FeatureToggleWrapper
-    ): FeatureToggleWrapper {
-        return FeatureToggleHolder.init(featureTogglesConfig, featureToggleWrapper)
     }
 
     private fun registerActivityLifecycleCallback() {
-        (context as? Application)?.registerActivityLifecycleCallbacks(
+        application.registerActivityLifecycleCallbacks(
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {
                     super.onActivityResumed(activity)
-                    if (openActivityCount == 0) showDebugNotification()
+                    if (openActivityCount == 0) onResumed()
                     ++openActivityCount
 
                     (activity as? AppCompatActivity)?.let(shakeController::register)
@@ -69,16 +43,22 @@ class DebugPanel(private val context: Context) {
                 override fun onActivityPaused(activity: Activity) {
                     super.onActivityPaused(activity)
                     --openActivityCount
-                    if (openActivityCount == 0) {
-                        notificationManager?.cancel(NOTIFICATION_ID)
-                    }
-                    shakeController.unregister()
+                    if (openActivityCount == 0) onPaused()
                 }
             }
         )
     }
 
-    private fun showDebugNotification() {
+    private fun onPaused() {
+        notificationManager?.cancel(NOTIFICATION_ID)
+    }
+
+    private fun onResumed() {
+        showDebugNotification(application.applicationContext)
+        shakeController.unregister()
+    }
+
+    private fun showDebugNotification(context: Context) {
         notificationManager = NotificationManagerCompat.from(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.debug_panel)
@@ -102,4 +82,5 @@ class DebugPanel(private val context: Context) {
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }
+
 }

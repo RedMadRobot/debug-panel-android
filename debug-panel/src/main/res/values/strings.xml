@@ -4,10 +4,12 @@
     <string name="servers">Servers</string>
     <string name="settings">Settings</string>
     <string name="in_the_piepline">В разработке</string>
+
+    <!--Accounts-->
     <string name="login_hint">Login</string>
     <string name="password_hint">Password</string>
     <string name="save_account_text">save</string>
-
+    <!---->
     <!--Notification-->
     <string name="notification_title">Открыть DebugPanel</string>
 </resources>
