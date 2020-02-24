@@ -14,11 +14,12 @@ import kotlinx.android.synthetic.main.bottom_sheet_debug_panel.*
 class DebugBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
-        private const val TAG = "AccountSelectBottomSheet"
+        private const val TAG = "DebugBottomSheet"
 
         fun show(fragmentManager: FragmentManager) {
-            DebugBottomSheet()
-                .show(fragmentManager, TAG)
+            if (fragmentManager.findFragmentByTag(TAG) == null) {
+                DebugBottomSheet().show(fragmentManager, TAG)
+            }
         }
     }
 
