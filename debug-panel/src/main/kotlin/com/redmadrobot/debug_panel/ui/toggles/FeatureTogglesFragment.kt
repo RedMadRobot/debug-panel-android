@@ -48,7 +48,6 @@ internal class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_t
     }
 
     private fun setFeatureToggles(accounts: List<Item>) {
-        featureTogglesAdapter.clear()
-        featureTogglesAdapter.addAll(accounts)
+        featureTogglesAdapter.update(accounts)
     }
 }

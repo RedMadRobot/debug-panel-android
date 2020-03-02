@@ -1,9 +1,6 @@
 package com.redmadrobot.debug_panel.internal
 
 import com.redmadrobot.debug_panel.accounts.Authenticator
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleWrapper
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 
 object DebugPanel {
 
@@ -13,17 +10,15 @@ object DebugPanel {
     private var debugPanelInstance: DebugPanelInstance? = null
 
     fun initialize(debugPanelConfig: DebugPanelConfig) {
-        this.debugPanelInstance = DebugPanelInstance(
+        debugPanelInstance = DebugPanelInstance(
             application = debugPanelConfig.application,
             authenticator = debugPanelConfig.authenticator
         )
-    }
-
-    fun initFeatureToggles(
-        featureTogglesConfig: FeatureTogglesConfig,
-        featureToggleWrapper: FeatureToggleWrapper
-    ): FeatureToggleWrapper {
-        return FeatureToggleHolder.init(featureTogglesConfig, featureToggleWrapper)
+        debugPanelConfig.featureTogglesConfig?.let { config ->
+            debugPanelInstance?.getContainer()
+                ?.featureToggleHolder
+                ?.initConfig(config)
+        }
     }
 
     internal fun getContainer(): DebugPanelContainer {

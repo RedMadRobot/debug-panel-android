@@ -7,22 +7,18 @@ import com.redmadrobot.debug_panel.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.ui.toggles.item.FeatureToggleItem
 import com.xwray.groupie.kotlinandroidextensions.Item
 
-class FeatureTogglesViewModel : BaseViewModel() {
+class FeatureTogglesViewModel(
+    private val featureToggleHolder: FeatureToggleHolder
+) : BaseViewModel() {
 
     val featureToggleItems = MutableLiveData<List<Item>>()
 
     fun loadFeatureToggles() {
-        featureToggleItems.value = FeatureToggleHolder.mockToggleWrapper.featureToggles
+        featureToggleItems.value = featureToggleHolder.getFeatureToggles()
             .map { FeatureToggleItem(it, ::updateFeatureToggleValue) }
     }
 
     private fun updateFeatureToggleValue(featureToggle: FeatureToggle, newValue: Boolean) {
-        val newFeatureToggles = FeatureToggleHolder.mockToggleWrapper.featureToggles.map {
-            it.takeIf { featureToggle.name == it.name }
-                ?.copy(value = newValue)
-                ?: it
-        }
-        FeatureToggleHolder.mockToggleWrapper.featureToggles = newFeatureToggles
-        loadFeatureToggles()
+        featureToggleHolder.updateFeatureToggle(featureToggle.name, newValue)
     }
 }
