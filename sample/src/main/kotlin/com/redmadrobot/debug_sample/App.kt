@@ -4,7 +4,6 @@ import android.app.Application
 import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleWrapper
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.internal.DebugPanelConfig
@@ -18,8 +17,8 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
             //TODO Временная реализация. Здесь это не должно делаться.
             authenticator = this,
             featureTogglesConfig = FeatureTogglesConfig(
-                listOf("f1", "f2"),
-                FeatureToggleWrapper { true },
+                FeatureToggleWrapperImpl.toggleNames,
+                FeatureToggleWrapperImpl(),
                 this
             )
         )
