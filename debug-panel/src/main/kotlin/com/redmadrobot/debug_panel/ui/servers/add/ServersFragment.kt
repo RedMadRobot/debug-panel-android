@@ -2,12 +2,14 @@ package com.redmadrobot.debug_panel.ui.servers.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
+import com.redmadrobot.debug_panel.ui.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -41,6 +43,15 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
     private fun setViews() {
         server_list.layoutManager = LinearLayoutManager(requireContext())
         server_list.adapter = serversAdapter
+
+        val itemTouchHelperCallback = ItemTouchHelperCallback { viewHolder, _ ->
+            val position = viewHolder.adapterPosition
+            serversViewModel.removeServer(position)
+        }
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(server_list)
+        }
+
         add_server.setOnClickListener {
             ServerHostDialog.show(childFragmentManager)
         }

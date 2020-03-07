@@ -38,9 +38,27 @@ class ServersViewModel(
             .autoDispose()
     }
 
+    fun removeServer(position: Int) {
+        val server = servers.value?.get(position) as? DebugServerItem
+        server?.let {
+            serversRepository.removeServer(it.debugServer)
+                .observeOnMain()
+                .subscribeBy(onComplete = {
+                    removeServerByPosition(position)
+                })
+        }
+    }
+
+    private fun removeServerByPosition(position: Int) {
+        val serverList = servers.value?.toMutableList()
+        serverList?.removeAt(position)
+        servers.value = serverList
+    }
+
     private fun addServerToEndOfList(server: DebugServer) {
         val serverList = servers.value?.toMutableList()
         serverList?.add(DebugServerItem(server))
         servers.value = serverList
     }
+
 }
