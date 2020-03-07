@@ -11,13 +11,29 @@ import androidx.lifecycle.ViewModelProvider
 inline fun <reified VM : ViewModel> Fragment.obtainViewModel(
     crossinline viewModelProducer: () -> VM
 ): VM {
-    val factory = object : ViewModelProvider.Factory {
+    val factory = getViewModelFactory(viewModelProducer)
+    val viewModelProvider = ViewModelProvider(this, factory)
+    return viewModelProvider[VM::class.java]
+}
+
+@MainThread
+inline fun <reified VM : ViewModel> Fragment.obtainShareViewModel(
+    crossinline viewModelProducer: () -> VM
+): VM {
+    val factory = getViewModelFactory(viewModelProducer)
+    val viewModelProvider = ViewModelProvider(this.requireActivity(), factory)
+    return viewModelProvider[VM::class.java]
+}
+
+inline fun <reified VM : ViewModel> getViewModelFactory(
+    crossinline viewModelProducer: () -> VM
+): ViewModelProvider.Factory {
+
+    return object : ViewModelProvider.Factory {
 
         @Suppress("UNCHECKED_CAST")
         override fun <VM : ViewModel> create(modelClass: Class<VM>) = viewModelProducer() as VM
     }
-    val viewModelProvider = ViewModelProvider(this, factory)
-    return viewModelProvider[VM::class.java]
 }
 
 inline fun <reified T : Any, reified L : LiveData<T>> Fragment.observe(

@@ -10,6 +10,10 @@
     <string name="password_hint">Password</string>
     <string name="save_account_text">save</string>
     <!---->
+
+    <!--Server-->
+    <string name="server_host_hint">https://google.com</string>
+    <!---->
     <!--Notification-->
     <string name="notification_title">Открыть DebugPanel</string>
 </resources>

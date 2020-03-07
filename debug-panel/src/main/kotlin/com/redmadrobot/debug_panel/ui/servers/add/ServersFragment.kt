@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.extension.observe
-import com.redmadrobot.debug_panel.extension.obtainViewModel
+import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
@@ -22,7 +22,7 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()
 
     private val serversViewModel by lazy {
-        obtainViewModel {
+        obtainShareViewModel {
             DebugPanel.getContainer().createServersViewModel()
         }
     }
@@ -41,6 +41,9 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
     private fun setViews() {
         server_list.layoutManager = LinearLayoutManager(requireContext())
         server_list.adapter = serversAdapter
+        add_server.setOnClickListener {
+            ServerHostDialog.show(childFragmentManager)
+        }
     }
 
     private fun setServerList(servers: List<Item>) {
