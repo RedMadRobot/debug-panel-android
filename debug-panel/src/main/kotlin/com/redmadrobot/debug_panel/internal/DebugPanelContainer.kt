@@ -12,8 +12,10 @@ import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.strategy.LocalServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.servers.strategy.PreinstalledServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
+import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
 import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
+import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesViewModel
 
 class DebugPanelContainer(context: Context) {
 
@@ -23,6 +25,7 @@ class DebugPanelContainer(context: Context) {
     internal var accountRepository: AccountRepository
     internal var localAccountProvider: AccountsProvider
     internal var preInstalledAccountProvider: AccountsProvider
+    internal var featureToggleHolder: FeatureToggleHolder
     /*endregion*/
 
     /*Servers region*/
@@ -49,6 +52,7 @@ class DebugPanelContainer(context: Context) {
             PreinstalledServersLoadingStrategy()
         )
         //
+        this.featureToggleHolder = FeatureToggleHolder()
     }
 
     fun createAccountsViewModel(): AccountsViewModel {
@@ -65,5 +69,9 @@ class DebugPanelContainer(context: Context) {
             localServersProvider,
             preInstalledServersProvider
         )
+    }
+
+    fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
+        return FeatureTogglesViewModel(featureToggleHolder)
     }
 }

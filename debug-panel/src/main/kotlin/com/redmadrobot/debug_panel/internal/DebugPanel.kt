@@ -10,10 +10,15 @@ object DebugPanel {
     private var debugPanelInstance: DebugPanelInstance? = null
 
     fun initialize(debugPanelConfig: DebugPanelConfig) {
-        this.debugPanelInstance = DebugPanelInstance(
+        debugPanelInstance = DebugPanelInstance(
             application = debugPanelConfig.application,
             authenticator = debugPanelConfig.authenticator
         )
+        debugPanelConfig.featureTogglesConfig?.let { config ->
+            debugPanelInstance?.getContainer()
+                ?.featureToggleHolder
+                ?.initConfig(config)
+        }
     }
 
     internal fun getContainer(): DebugPanelContainer {

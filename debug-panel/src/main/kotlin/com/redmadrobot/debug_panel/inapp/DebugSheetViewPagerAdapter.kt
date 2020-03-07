@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.redmadrobot.debug_panel.ui.StubFragment
 import com.redmadrobot.debug_panel.ui.accounts.choose.AccountSelectFragment
+import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesFragment
 
 internal class DebugSheetViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
@@ -19,7 +20,7 @@ internal class DebugSheetViewPagerAdapter(fragmentActivity: FragmentActivity) :
         return when (position) {
             0 -> AccountSelectFragment()
             1 -> StubFragment()
-            2 -> StubFragment()
+            2 -> FeatureTogglesFragment()
             else -> throw IllegalArgumentException("Nonexistent page number")
         }
     }
