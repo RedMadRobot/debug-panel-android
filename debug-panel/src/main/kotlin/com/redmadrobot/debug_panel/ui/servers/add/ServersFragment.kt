@@ -13,10 +13,10 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
-class AddServerFragment : BaseFragment(R.layout.fragment_add_server) {
+class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
 
     companion object {
-        fun getInstance() = AddServerFragment()
+        fun getInstance() = ServersFragment()
     }
 
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()

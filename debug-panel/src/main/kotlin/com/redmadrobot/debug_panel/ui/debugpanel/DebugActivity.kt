@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.ui.StubFragment
 import com.redmadrobot.debug_panel.ui.accounts.add.AddAccountFragment
-import com.redmadrobot.debug_panel.ui.servers.add.AddServerFragment
+import com.redmadrobot.debug_panel.ui.servers.add.ServersFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -39,7 +39,7 @@ class DebugActivity : AppCompatActivity() {
     private fun openDebugFeature(featureNameId: Int) {
         val fragmentForNavigation = when (featureNameId) {
             R.string.accounts -> AddAccountFragment.getInstance()
-            R.string.servers -> AddServerFragment.getInstance()
+            R.string.servers -> ServersFragment.getInstance()
             R.string.settings -> StubFragment()
             else -> throw IllegalArgumentException("Unsupported feature name id")
         }

@@ -12,7 +12,8 @@ import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
 @Database(
     entities = [
         DebugUserCredentials::class,
-        DebugServer::class],
+        DebugServer::class
+    ],
     version = 1
 )
 internal abstract class AppDatabase : RoomDatabase() {
