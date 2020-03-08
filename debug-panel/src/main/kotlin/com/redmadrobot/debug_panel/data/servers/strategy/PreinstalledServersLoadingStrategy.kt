@@ -8,7 +8,7 @@ class PreinstalledServersLoadingStrategy : DebugDataLoadingStrategy<DebugServer>
 
     override fun loadData(): Single<List<DebugServer>> {
         val preInstalledServers = listOf(
-            DebugServer("https://testserver1.com")
+            DebugServer(url = "https://testserver1.com")
         )
 
         return Single.just(preInstalledServers)

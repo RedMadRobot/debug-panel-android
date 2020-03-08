@@ -6,11 +6,16 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_debug_server.view.*
 
-class DebugServerItem(val debugServer: DebugServer) : Item() {
+class DebugServerItem(var debugServer: DebugServer) : Item() {
 
     override fun getLayout() = R.layout.item_debug_server
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) = with(viewHolder) {
         containerView.item_server_url.text = debugServer.url
+    }
+
+    fun update(debugServer: DebugServer) {
+        this.debugServer = debugServer
+        notifyChanged()
     }
 }

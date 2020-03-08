@@ -27,5 +27,6 @@ class LocalDebugServerRepository(
 
     override fun updateServer(server: DebugServer): Completable {
         return debugServersDao.update(server)
+            .subscribeOnIo()
     }
 }

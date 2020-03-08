@@ -9,6 +9,7 @@ import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
+import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
 import com.redmadrobot.debug_panel.ui.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -55,6 +56,18 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
         add_server.setOnClickListener {
             ServerHostDialog.show(childFragmentManager)
         }
+
+        serversAdapter.setOnItemClickListener { item, _ ->
+            handleItemClick(item as DebugServerItem)
+        }
+    }
+
+    private fun handleItemClick(item: DebugServerItem) {
+        val host = item.debugServer.url
+        val bundle = Bundle().apply {
+            putString(ServerHostDialog.HOST, host)
+        }
+        ServerHostDialog.show(childFragmentManager, bundle)
     }
 
     private fun setServerList(servers: List<Item>) {

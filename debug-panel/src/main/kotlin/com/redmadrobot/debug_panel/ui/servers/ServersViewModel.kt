@@ -29,7 +29,7 @@ class ServersViewModel(
     }
 
     fun addServer(host: String) {
-        val server = DebugServer(host)
+        val server = DebugServer(url = host)
         serversRepository.addServer(server)
             .observeOnMain()
             .subscribeBy(onComplete = {
@@ -46,6 +46,25 @@ class ServersViewModel(
                 .subscribeBy(onComplete = {
                     removeServerByPosition(position)
                 })
+                .autoDispose()
+        }
+    }
+
+    fun updateServerHost(oldValue: String, newValue: String) {
+        val itemForUpdate = servers.value
+            ?.map { it as DebugServerItem }
+            ?.find { it.debugServer.url == oldValue }
+
+        itemForUpdate?.let { item ->
+            val serverForUpdate = item.debugServer
+            val updatedServer = serverForUpdate.copy(url = newValue)
+
+            serversRepository.updateServer(updatedServer)
+                .observeOnMain()
+                .subscribeBy(onComplete = {
+                    itemForUpdate.update(updatedServer)
+                })
+                .autoDispose()
         }
     }
 

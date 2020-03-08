@@ -20,11 +20,15 @@ class ServerHostDialog() : DialogFragment() {
         }
     }
 
+    private var isEditMode = false
+
     companion object {
+        const val HOST = "HOST"
         private const val TAG = "AddServerDialog"
 
-        fun show(fragmentManager: FragmentManager) {
+        fun show(fragmentManager: FragmentManager, params: Bundle? = null) {
             ServerHostDialog().apply {
+                arguments = params
             }.show(fragmentManager, TAG)
         }
     }
@@ -48,14 +52,38 @@ class ServerHostDialog() : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
+        obtainArguments()
+    }
+
+    private fun obtainArguments() {
+        val host = arguments?.getString(HOST)
+        host?.let {
+            server_host.setText(it)
+            isEditMode = true
+        }
     }
 
     private fun setView() {
-        save_server_button.setOnClickListener { saveHost() }
+        save_server_button.setOnClickListener {
+            if (isEditMode) {
+                update()
+            } else {
+                save()
+            }
+        }
         server_host.requestFocus()
     }
 
-    private fun saveHost() {
+    private fun update() {
+        val oldValue = arguments?.getString(HOST)
+        val newValue = server_host.text.toString()
+        oldValue?.let {
+            shareViewModel.updateServerHost(oldValue, newValue)
+        }
+        dialog?.dismiss()
+    }
+
+    private fun save() {
         val host = server_host.text.toString()
         shareViewModel.addServer(host)
         dialog?.dismiss()
