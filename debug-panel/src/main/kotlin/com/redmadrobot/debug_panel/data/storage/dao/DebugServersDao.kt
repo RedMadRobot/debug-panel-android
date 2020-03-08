@@ -1,9 +1,6 @@
 package com.redmadrobot.debug_panel.data.storage.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -19,4 +16,8 @@ interface DebugServersDao {
 
     @Delete
     fun remove(server: DebugServer): Completable
+
+    @Update
+    fun update(server: DebugServer): Completable
+
 }

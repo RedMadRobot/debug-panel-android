@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "debug_server")
 data class DebugServer(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val url: String
 )

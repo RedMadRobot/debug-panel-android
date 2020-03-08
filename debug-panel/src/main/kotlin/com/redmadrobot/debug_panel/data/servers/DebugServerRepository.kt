@@ -8,4 +8,5 @@ interface DebugServerRepository {
     fun addServer(server: DebugServer): Completable
     fun getAllServers(): Single<List<DebugServer>>
     fun removeServer(server: DebugServer): Completable
+    fun updateServer(server: DebugServer): Completable
 }
