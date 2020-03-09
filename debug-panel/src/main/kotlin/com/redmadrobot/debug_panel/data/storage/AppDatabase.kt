@@ -6,13 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentialsDao
+import com.redmadrobot.debug_panel.data.storage.dao.DebugServersDao
+import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
 
 @Database(
-    entities = [DebugUserCredentials::class],
+    entities = [
+        DebugUserCredentials::class,
+        DebugServer::class
+    ],
     version = 1
 )
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun getDebugUserCredentialsDao(): DebugUserCredentialsDao
+
+    abstract fun getDebugServersDao(): DebugServersDao
 
     companion object {
         private const val DATABASE_NAME = "local_storage"
