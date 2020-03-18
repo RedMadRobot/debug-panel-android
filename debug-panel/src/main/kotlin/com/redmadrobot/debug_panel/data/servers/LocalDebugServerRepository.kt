@@ -24,4 +24,9 @@ class LocalDebugServerRepository(
         return debugServersDao.remove(server)
             .subscribeOnIo()
     }
+
+    override fun updateServer(server: DebugServer): Completable {
+        return debugServersDao.update(server)
+            .subscribeOnIo()
+    }
 }

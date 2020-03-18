@@ -2,12 +2,15 @@ package com.redmadrobot.debug_panel.ui.servers.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.extension.observe
-import com.redmadrobot.debug_panel.extension.obtainViewModel
+import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
+import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
+import com.redmadrobot.debug_panel.ui.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -22,7 +25,7 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()
 
     private val serversViewModel by lazy {
-        obtainViewModel {
+        obtainShareViewModel {
             DebugPanel.getContainer().createServersViewModel()
         }
     }
@@ -41,6 +44,30 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
     private fun setViews() {
         server_list.layoutManager = LinearLayoutManager(requireContext())
         server_list.adapter = serversAdapter
+
+        val itemTouchHelperCallback = ItemTouchHelperCallback { viewHolder, _ ->
+            val position = viewHolder.adapterPosition
+            serversViewModel.removeServer(position)
+        }
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(server_list)
+        }
+
+        add_server.setOnClickListener {
+            ServerHostDialog.show(childFragmentManager)
+        }
+
+        serversAdapter.setOnItemClickListener { item, _ ->
+            handleItemClick(item as DebugServerItem)
+        }
+    }
+
+    private fun handleItemClick(item: DebugServerItem) {
+        val host = item.debugServer.url
+        val bundle = Bundle().apply {
+            putString(ServerHostDialog.HOST, host)
+        }
+        ServerHostDialog.show(childFragmentManager, bundle)
     }
 
     private fun setServerList(servers: List<Item>) {
