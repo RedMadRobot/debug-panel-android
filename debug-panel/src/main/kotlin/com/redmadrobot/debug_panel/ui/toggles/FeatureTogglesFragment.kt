@@ -45,6 +45,7 @@ internal class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_t
                 )
             )
         }
+        feature_toggles_reset_all.setOnClickListener { featureTogglesViewModel.resetAll() }
     }
 
     private fun setFeatureToggles(accounts: List<Item>) {

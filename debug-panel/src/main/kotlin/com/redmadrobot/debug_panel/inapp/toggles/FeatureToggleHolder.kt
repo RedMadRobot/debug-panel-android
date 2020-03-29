@@ -12,6 +12,18 @@ class FeatureToggleHolder {
         }
     }
 
+    fun resetAll() {
+        featureTogglesConfig?.let { config ->
+            config.toggleNames.forEach { toggleName ->
+                val newValue = featureToggles.firstOrNull { it.name == toggleName }?.value
+                val defaultValue = config.featureToggleWrapper.toggleValue(toggleName)
+                if (newValue != defaultValue) {
+                    updateFeatureToggle(toggleName, defaultValue)
+                }
+            }
+        }
+    }
+
     fun getFeatureToggles(): List<FeatureToggle> {
         return featureTogglesConfig?.let { featureToggles }
             ?: throw IllegalStateException("Must be set featureTogglesConfig in DebugPanelConfig")

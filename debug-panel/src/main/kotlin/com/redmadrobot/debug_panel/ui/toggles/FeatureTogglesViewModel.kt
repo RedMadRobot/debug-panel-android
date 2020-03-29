@@ -18,6 +18,11 @@ class FeatureTogglesViewModel(
             .map { FeatureToggleItem(it, ::updateFeatureToggleValue) }
     }
 
+    fun resetAll() {
+        featureToggleHolder.resetAll()
+        loadFeatureToggles()
+    }
+
     private fun updateFeatureToggleValue(featureToggle: FeatureToggle, newValue: Boolean) {
         featureToggleHolder.updateFeatureToggle(featureToggle.name, newValue)
     }
