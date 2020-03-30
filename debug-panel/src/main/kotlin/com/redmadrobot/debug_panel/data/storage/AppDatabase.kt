@@ -8,11 +8,14 @@ import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentialsDao
 import com.redmadrobot.debug_panel.data.storage.dao.DebugServersDao
 import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
+import com.redmadrobot.debug_panel.data.toggles.model.FeatureToggle
+import com.redmadrobot.debug_panel.data.toggles.model.FeatureTogglesDao
 
 @Database(
     entities = [
         DebugUserCredentials::class,
-        DebugServer::class
+        DebugServer::class,
+        FeatureToggle::class
     ],
     version = 1
 )
@@ -20,6 +23,8 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun getDebugUserCredentialsDao(): DebugUserCredentialsDao
 
     abstract fun getDebugServersDao(): DebugServersDao
+
+    abstract fun getFeatureTogglesDao(): FeatureTogglesDao
 
     companion object {
         private const val DATABASE_NAME = "local_storage"

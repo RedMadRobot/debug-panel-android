@@ -1,6 +1,7 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
+import android.util.Log
 import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
@@ -32,6 +33,6 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
 
     override fun onFeatureToggleChange(name: String, newValue: Boolean) {
         // Feature toggle was changed. You need
-        println("New value for key \"$name\" = $newValue")
+        Log.d("132", "New value for key \"$name\" = $newValue")
     }
 }

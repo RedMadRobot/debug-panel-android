@@ -12,6 +12,8 @@ import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.strategy.LocalServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.servers.strategy.PreinstalledServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
+import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
+import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
 import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
@@ -34,6 +36,10 @@ class DebugPanelContainer(context: Context) {
     internal var preInstalledServersProvider: DebugServersProvider
     /*endregion*/
 
+    /*Feature toggle region*/
+    internal var localFeatureToggleRepository: LocalFeatureToggleRepository
+    /*endregion*/
+
     init {
         this.dataBaseInstance = AppDatabase.getInstance(context)
 
@@ -52,7 +58,14 @@ class DebugPanelContainer(context: Context) {
             PreinstalledServersLoadingStrategy()
         )
         //
-        this.featureToggleHolder = FeatureToggleHolder()
+
+        //Feature toggle
+        this.localFeatureToggleRepository = LocalFeatureToggleRepository(
+            dataBaseInstance.getFeatureTogglesDao(),
+            PreferenceRepository(context)
+        )
+        this.featureToggleHolder = FeatureToggleHolder(this.localFeatureToggleRepository)
+        //
     }
 
     fun createAccountsViewModel(): AccountsViewModel {
@@ -72,6 +85,6 @@ class DebugPanelContainer(context: Context) {
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
-        return FeatureTogglesViewModel(featureToggleHolder)
+        return FeatureTogglesViewModel(localFeatureToggleRepository)
     }
 }
