@@ -24,20 +24,21 @@ class DebugPanelContainer(context: Context) {
     internal val dataBaseInstance: AppDatabase
 
     /*Accounts region*/
-    internal var accountRepository: AccountRepository
-    internal var localAccountProvider: AccountsProvider
-    internal var preInstalledAccountProvider: AccountsProvider
-    internal var featureToggleHolder: FeatureToggleHolder
+    internal val accountRepository: AccountRepository
+    internal val localAccountProvider: AccountsProvider
+    internal val preInstalledAccountProvider: AccountsProvider
+    internal val featureToggleHolder: FeatureToggleHolder
     /*endregion*/
 
     /*Servers region*/
-    internal var serversRepository: DebugServerRepository
-    internal var localServersProvider: DebugServersProvider
-    internal var preInstalledServersProvider: DebugServersProvider
+    internal val serversRepository: DebugServerRepository
+    internal val localServersProvider: DebugServersProvider
+    internal val preInstalledServersProvider: DebugServersProvider
     /*endregion*/
 
     /*Feature toggle region*/
-    internal var localFeatureToggleRepository: LocalFeatureToggleRepository
+    internal val preferenceRepository: PreferenceRepository
+    internal val localFeatureToggleRepository: LocalFeatureToggleRepository
     /*endregion*/
 
     init {
@@ -60,6 +61,7 @@ class DebugPanelContainer(context: Context) {
         //
 
         //Feature toggle
+        this.preferenceRepository = PreferenceRepository(context)
         this.localFeatureToggleRepository = LocalFeatureToggleRepository(
             dataBaseInstance.getFeatureTogglesDao(),
             PreferenceRepository(context)
@@ -85,6 +87,6 @@ class DebugPanelContainer(context: Context) {
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
-        return FeatureTogglesViewModel(localFeatureToggleRepository)
+        return FeatureTogglesViewModel(localFeatureToggleRepository, preferenceRepository)
     }
 }

@@ -25,13 +25,18 @@ internal class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_t
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(featureTogglesViewModel.featureToggleItems, ::setFeatureToggles)
+        observe(featureTogglesViewModel.screenState, ::render)
         featureTogglesViewModel.loadFeatureToggles()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
+    }
+
+    private fun render(screenState: FeatureTogglesState) {
+        feature_toggles_override_enable.isChecked = screenState.overrideEnable
+        featureTogglesAdapter.update(screenState.featureToggleItems)
     }
 
     private fun setView() {
@@ -46,9 +51,8 @@ internal class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_t
             )
         }
         feature_toggles_reset_all.setOnClickListener { featureTogglesViewModel.resetAll() }
-    }
-
-    private fun setFeatureToggles(accounts: List<Item>) {
-        featureTogglesAdapter.update(accounts)
+        feature_toggles_override_enable.setOnCheckedChangeListener { _, isChecked ->
+            featureTogglesViewModel.updateOverrideEnable(isChecked)
+        }
     }
 }

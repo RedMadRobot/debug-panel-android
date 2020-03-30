@@ -15,20 +15,13 @@ class LocalFeatureToggleRepository(
 
     private lateinit var featureTogglesConfig: FeatureTogglesConfig
 
-    fun initConfig(featureTogglesConfig: FeatureTogglesConfig): Completable {
+    override fun initConfig(featureTogglesConfig: FeatureTogglesConfig): Completable {
         this.featureTogglesConfig = featureTogglesConfig
-        val initialFeatureToggles = getInitialFeatureToggles()
-        return getAllFeatureToggles()
-            .map { actualFeatureToggles ->
-                actualFeatureToggles.filterNot { it in initialFeatureToggles }
-                    .forEach { toggle ->
-                        featureTogglesConfig.changeListener.onFeatureToggleChange(
-                            toggle.name,
-                            toggle.value
-                        )
-                    }
-            }.ignoreElement()
-            .subscribeOnIo()
+        return if (preferenceRepository.overrideFeatureToggleEnable) {
+            updateInitialToggles(true)
+        } else {
+            Completable.complete()
+        }
     }
 
     override fun updateFeatureToggle(featureToggle: FeatureToggle): Completable {
@@ -44,19 +37,15 @@ class LocalFeatureToggleRepository(
 
     override fun getAllFeatureToggles(): Single<List<FeatureToggle>> {
         val initialToggles = getInitialFeatureToggles()
-        return if (preferenceRepository.overrideFeatureToggleEnable) {
-            featureTogglesDao.getAll()
-                .map { localToggles ->
-                    initialToggles.map { initialToggle ->
-                        val newValue = localToggles.firstOrNull { it.name == initialToggle.name }
-                            ?.value
-                            ?: initialToggle.value
-                        initialToggle.copy(value = newValue)
-                    }
+        return featureTogglesDao.getAll()
+            .map { localToggles ->
+                initialToggles.map { initialToggle ->
+                    val newValue = localToggles.firstOrNull { it.name == initialToggle.name }
+                        ?.value
+                        ?: initialToggle.value
+                    initialToggle.copy(value = newValue)
                 }
-        } else {
-            Single.just(initialToggles)
-        }
+            }
             .subscribeOnIo()
     }
 
@@ -71,6 +60,34 @@ class LocalFeatureToggleRepository(
             }
             .ignoreElement()
             .andThen(featureTogglesDao.insertAll(initialFeatureToggles))
+            .subscribeOnIo()
+    }
+
+
+    override fun updateOverrideEnable(newOverrideEnable: Boolean): Completable {
+        return if (preferenceRepository.overrideFeatureToggleEnable != newOverrideEnable) {
+            preferenceRepository.overrideFeatureToggleEnable = newOverrideEnable
+            updateInitialToggles(newOverrideEnable)
+        } else {
+            Completable.complete()
+        }
+    }
+
+
+    private fun updateInitialToggles(overrideEnable: Boolean): Completable {
+        val initialToggles = getInitialFeatureToggles()
+        return featureTogglesDao.getAll()
+            .map { localToggles ->
+                if (overrideEnable) {
+                    localToggles.filterNot { it in initialToggles }
+                } else {
+                    initialToggles.filterNot { it in localToggles }
+                }
+                    .forEach { (name, value) ->
+                        featureTogglesConfig.changeListener.onFeatureToggleChange(name, value)
+                    }
+            }
+            .ignoreElement()
             .subscribeOnIo()
     }
 
