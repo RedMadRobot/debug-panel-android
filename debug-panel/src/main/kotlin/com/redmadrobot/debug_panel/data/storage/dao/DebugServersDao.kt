@@ -8,7 +8,7 @@ import io.reactivex.Single
 @Dao
 abstract class DebugServersDao {
 
-    @Query("SELECT * FROM debug_server")
+    @Query("SELECT * FROM ${DebugServer.TABLE_NAME}")
     abstract fun getAll(): Single<List<DebugServer>>
 
     @Insert
@@ -19,4 +19,10 @@ abstract class DebugServersDao {
 
     @Update
     abstract fun update(server: DebugServer): Completable
+
+    @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE isSelected = 1")
+    abstract fun getSelectedServer(): Single<DebugServer>
+
+    @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE id = id")
+    abstract fun getServer(id: Int): Single<DebugServer>
 }
