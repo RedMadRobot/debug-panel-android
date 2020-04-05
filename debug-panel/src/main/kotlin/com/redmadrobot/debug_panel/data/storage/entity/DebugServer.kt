@@ -12,5 +12,7 @@ data class DebugServer(
 ) {
     companion object {
         const val TABLE_NAME = "debug_server"
+
+        fun getEmpty() = DebugServer(url = "")
     }
 }

@@ -23,6 +23,6 @@ abstract class DebugServersDao {
     @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE isSelected = 1")
     abstract fun getSelectedServer(): Single<DebugServer>
 
-    @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE id = id")
-    abstract fun getServer(id: Int): Single<DebugServer>
+    @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE id = :serverId")
+    abstract fun getServer(serverId: Int): Single<DebugServer>
 }
