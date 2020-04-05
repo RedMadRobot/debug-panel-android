@@ -6,7 +6,8 @@ class PreferenceRepository(context: Context) {
 
     companion object {
         private const val DEBUG_PANEL_POSTFIX = ":debug_panel"
-        private const val OVERRIDE_FEATURE_TOGGLE_ENABLE = "override_feature_toggle_enable"
+        private const val OVERRIDE_FEATURE_TOGGLE_ENABLE = "OVERRIDE_FEATURE_TOGGLE_ENABLE"
+        private const val SELECTED_SERVER_HOST = "SELECTED_SERVER_HOST"
     }
 
     private val sharedPreferences by lazy {
@@ -19,6 +20,15 @@ class PreferenceRepository(context: Context) {
         set(value) {
             sharedPreferences.edit().putBoolean(OVERRIDE_FEATURE_TOGGLE_ENABLE, value).apply()
         }
+
+
+    fun saveSelectedServerHost(selectedServerHost: String) {
+        sharedPreferences.edit().putString(SELECTED_SERVER_HOST, selectedServerHost).apply()
+    }
+
+    fun getSelectedServerHost(): String? {
+        return sharedPreferences.getString(SELECTED_SERVER_HOST, null)
+    }
 
     fun add(key: String, value: String) {
         sharedPreferences.edit()

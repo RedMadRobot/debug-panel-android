@@ -2,6 +2,7 @@ package com.redmadrobot.debug_panel.ui.servers
 
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
+import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
 import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.extension.zipList
@@ -11,7 +12,8 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
 
 class ServersViewModel(
-    private val serversRepository: DebugServerRepository
+    private val serversRepository: DebugServerRepository,
+    private val preferenceRepository: PreferenceRepository
 ) : BaseViewModel() {
 
     val servers = MutableLiveData<List<Item>>()
@@ -19,10 +21,18 @@ class ServersViewModel(
     fun loadServers() {
         serversRepository.getPreInstalledServers()
             .zipList(serversRepository.getServers())
-            .map { it.map(::DebugServerItem) }
+            .map { mapToItems(it) }
             .observeOnMain()
             .subscribeBy(onSuccess = { servers.value = it })
             .autoDispose()
+    }
+
+    private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
+        val selectedHost = preferenceRepository.getSelectedServerHost()
+        return servers.map { debugServer ->
+            val isSelected = selectedHost != null && selectedHost == debugServer.url
+            DebugServerItem(debugServer, isSelected)
+        }
     }
 
     fun addServer(host: String) {
@@ -66,7 +76,8 @@ class ServersViewModel(
     }
 
     fun selectServerAsCurrent(serverData: DebugServer) {
-        //TODO сохранить выбранный сервер
+        preferenceRepository.saveSelectedServerHost(serverData.url)
+        loadServers()
     }
 
     private fun removeServerByPosition(position: Int) {
@@ -77,7 +88,7 @@ class ServersViewModel(
 
     private fun addServerToEndOfList(server: DebugServer) {
         val serverList = servers.value?.toMutableList()
-        serverList?.add(DebugServerItem(server))
+        serverList?.add(DebugServerItem(server, false))
         servers.value = serverList
     }
 }

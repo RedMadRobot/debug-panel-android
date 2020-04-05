@@ -74,7 +74,7 @@ class DebugPanelContainer(
     }
 
     fun createServersViewModel(): ServersViewModel {
-        return ServersViewModel(serversRepository)
+        return ServersViewModel(serversRepository, preferenceRepository)
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {

@@ -7,13 +7,13 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_debug_server.view.*
 
-class DebugServerItem(var debugServer: DebugServer) : Item() {
+class DebugServerItem(var debugServer: DebugServer, private val isSelected: Boolean) : Item() {
 
     override fun getLayout() = R.layout.item_debug_server
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) = with(viewHolder) {
         containerView.item_server_url.text = debugServer.url
-        containerView.is_selected_icon.isVisible = debugServer.isSelected
+        containerView.is_selected_icon.isVisible = isSelected
     }
 
     fun update(debugServer: DebugServer) {
