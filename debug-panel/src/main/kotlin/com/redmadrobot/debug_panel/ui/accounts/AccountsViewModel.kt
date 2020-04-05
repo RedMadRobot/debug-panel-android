@@ -3,7 +3,7 @@ package com.redmadrobot.debug_panel.ui.accounts
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.debug_panel.data.accounts.AccountRepository
 import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.extension.zipList
 import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem

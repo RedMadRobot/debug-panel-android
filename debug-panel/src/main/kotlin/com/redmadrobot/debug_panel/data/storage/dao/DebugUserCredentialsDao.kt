@@ -1,9 +1,10 @@
-package com.redmadrobot.debug_panel.data.accounts.model
+package com.redmadrobot.debug_panel.data.storage.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import io.reactivex.Completable
 import io.reactivex.Single
 

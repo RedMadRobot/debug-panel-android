@@ -1,7 +1,7 @@
 package com.redmadrobot.debug_panel.data.accounts
 
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentialsDao
+import com.redmadrobot.debug_panel.data.storage.dao.DebugUserCredentialsDao
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single

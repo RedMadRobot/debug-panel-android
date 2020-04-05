@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.data.accounts.model
+package com.redmadrobot.debug_panel.data.storage.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -14,6 +14,10 @@ data class DebugUserCredentials(
     val password: String
 ) {
     companion object {
-        fun empty() = DebugUserCredentials("", "")
+        fun empty() =
+            DebugUserCredentials(
+                "",
+                ""
+            )
     }
 }

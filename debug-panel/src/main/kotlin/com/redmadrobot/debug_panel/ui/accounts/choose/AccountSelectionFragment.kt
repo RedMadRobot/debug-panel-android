@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel

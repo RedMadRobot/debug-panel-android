@@ -2,7 +2,7 @@ package com.redmadrobot.debug_sample
 
 import android.app.Application
 import com.redmadrobot.debug_panel.accounts.Authenticator
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel

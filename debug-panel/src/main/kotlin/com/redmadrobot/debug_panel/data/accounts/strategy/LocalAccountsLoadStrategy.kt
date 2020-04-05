@@ -2,7 +2,7 @@ package com.redmadrobot.debug_panel.data.accounts.strategy
 
 import com.redmadrobot.debug_panel.data.DebugDataLoadingStrategy
 import com.redmadrobot.debug_panel.data.accounts.AccountRepository
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import io.reactivex.Single
 
 class LocalAccountsLoadStrategy(

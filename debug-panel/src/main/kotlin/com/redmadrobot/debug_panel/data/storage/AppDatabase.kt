@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentialsDao
 import com.redmadrobot.debug_panel.data.storage.dao.DebugServersDao
+import com.redmadrobot.debug_panel.data.storage.dao.DebugUserCredentialsDao
 import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.data.toggles.model.FeatureToggle
 import com.redmadrobot.debug_panel.data.toggles.model.FeatureTogglesDao
 
