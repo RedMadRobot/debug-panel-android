@@ -68,6 +68,10 @@ class ServersViewModel(
         }
     }
 
+    fun selectServerAsCurrent(serverData: DebugServer) {
+        //TODO сохранить выбранный сервер
+    }
+
     private fun removeServerByPosition(position: Int) {
         val serverList = servers.value?.toMutableList()
         serverList?.removeAt(position)
@@ -79,5 +83,4 @@ class ServersViewModel(
         serverList?.add(DebugServerItem(server))
         servers.value = serverList
     }
-
 }
