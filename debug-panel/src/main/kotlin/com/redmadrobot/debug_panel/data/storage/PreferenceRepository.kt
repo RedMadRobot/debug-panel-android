@@ -2,16 +2,23 @@ package com.redmadrobot.debug_panel.data.storage
 
 import android.content.Context
 
-class LocalStorage(context: Context) {
+class PreferenceRepository(context: Context) {
 
     companion object {
         private const val DEBUG_PANEL_POSTFIX = ":debug_panel"
+        private const val OVERRIDE_FEATURE_TOGGLE_ENABLE = "override_feature_toggle_enable"
     }
 
     private val sharedPreferences by lazy {
         val prefFileName = "${context.packageName}${DEBUG_PANEL_POSTFIX}"
         context.getSharedPreferences(prefFileName, 0)
     }
+
+    var overrideFeatureToggleEnable: Boolean
+        get() = sharedPreferences.getBoolean(OVERRIDE_FEATURE_TOGGLE_ENABLE, true)
+        set(value) {
+            sharedPreferences.edit().putBoolean(OVERRIDE_FEATURE_TOGGLE_ENABLE, value).apply()
+        }
 
     fun add(key: String, value: String) {
         sharedPreferences.edit()

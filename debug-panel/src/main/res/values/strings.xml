@@ -11,6 +11,11 @@
     <string name="save_account_text">save</string>
     <!---->
 
+    <!--Feature toggle-->
+    <string name="override_enable">Override enable</string>
+    <string name="reset_all">Reset all</string>
+    <!---->
+
     <!--Server-->
     <string name="server_host_hint">https://google.com</string>
     <!---->

@@ -12,6 +12,8 @@ import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.strategy.LocalServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.servers.strategy.PreinstalledServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
+import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
+import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
 import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
@@ -22,16 +24,21 @@ class DebugPanelContainer(context: Context) {
     internal val dataBaseInstance: AppDatabase
 
     /*Accounts region*/
-    internal var accountRepository: AccountRepository
-    internal var localAccountProvider: AccountsProvider
-    internal var preInstalledAccountProvider: AccountsProvider
-    internal var featureToggleHolder: FeatureToggleHolder
+    internal val accountRepository: AccountRepository
+    internal val localAccountProvider: AccountsProvider
+    internal val preInstalledAccountProvider: AccountsProvider
+    internal val featureToggleHolder: FeatureToggleHolder
     /*endregion*/
 
     /*Servers region*/
-    internal var serversRepository: DebugServerRepository
-    internal var localServersProvider: DebugServersProvider
-    internal var preInstalledServersProvider: DebugServersProvider
+    internal val serversRepository: DebugServerRepository
+    internal val localServersProvider: DebugServersProvider
+    internal val preInstalledServersProvider: DebugServersProvider
+    /*endregion*/
+
+    /*Feature toggle region*/
+    internal val preferenceRepository: PreferenceRepository
+    internal val localFeatureToggleRepository: LocalFeatureToggleRepository
     /*endregion*/
 
     init {
@@ -52,7 +59,15 @@ class DebugPanelContainer(context: Context) {
             PreinstalledServersLoadingStrategy()
         )
         //
-        this.featureToggleHolder = FeatureToggleHolder()
+
+        //Feature toggle
+        this.preferenceRepository = PreferenceRepository(context)
+        this.localFeatureToggleRepository = LocalFeatureToggleRepository(
+            dataBaseInstance.getFeatureTogglesDao(),
+            PreferenceRepository(context)
+        )
+        this.featureToggleHolder = FeatureToggleHolder(this.localFeatureToggleRepository)
+        //
     }
 
     fun createAccountsViewModel(): AccountsViewModel {
@@ -72,6 +87,6 @@ class DebugPanelContainer(context: Context) {
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
-        return FeatureTogglesViewModel(featureToggleHolder)
+        return FeatureTogglesViewModel(localFeatureToggleRepository, preferenceRepository)
     }
 }
