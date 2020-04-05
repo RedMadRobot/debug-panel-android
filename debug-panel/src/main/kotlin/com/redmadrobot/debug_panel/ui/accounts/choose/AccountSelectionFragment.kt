@@ -16,7 +16,7 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
-class AccountSelectFragment : BaseFragment(R.layout.fragment_account_select) {
+class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) {
 
     private val accountsViewModel by lazy {
         obtainViewModel {
