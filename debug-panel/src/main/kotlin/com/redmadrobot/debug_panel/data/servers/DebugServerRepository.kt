@@ -6,7 +6,10 @@ import io.reactivex.Single
 
 interface DebugServerRepository {
     fun addServer(server: DebugServer): Completable
-    fun getAllServers(): Single<List<DebugServer>>
+    fun getPreInstalledServers(): Single<List<DebugServer>>
+    fun getServers(): Single<List<DebugServer>>
     fun removeServer(server: DebugServer): Completable
     fun updateServer(server: DebugServer): Completable
+    fun setSelected(id: Int): Completable
+    fun clearSelection(): Completable
 }
