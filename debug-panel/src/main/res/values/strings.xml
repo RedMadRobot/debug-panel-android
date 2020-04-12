@@ -21,4 +21,6 @@
     <!---->
     <!--Notification-->
     <string name="notification_title">Открыть DebugPanel</string>
+
+    <string name="unsupported_value">Unsupported value</string>
 </resources>
