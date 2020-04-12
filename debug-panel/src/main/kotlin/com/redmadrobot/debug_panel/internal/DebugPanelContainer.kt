@@ -8,6 +8,8 @@ import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrat
 import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
+import com.redmadrobot.debug_panel.data.settings.AppSettingsRepository
+import com.redmadrobot.debug_panel.data.settings.AppSettingsRepositoryImpl
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
 import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
 import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
@@ -39,6 +41,10 @@ class DebugPanelContainer(
     internal val localFeatureToggleRepository: LocalFeatureToggleRepository
     /*endregion*/
 
+    /*App settings*/
+    internal val appSettingsRepository: AppSettingsRepository
+    /*endregion*/
+
     init {
         this.dataBaseInstance = AppDatabase.getInstance(context)
 
@@ -63,6 +69,10 @@ class DebugPanelContainer(
         )
         this.featureToggleHolder = FeatureToggleHolder(this.localFeatureToggleRepository)
         //
+
+        //Settings
+        appSettingsRepository = AppSettingsRepositoryImpl(debugPanelConfig.sharedPreferences)
+        //
     }
 
     fun createAccountsViewModel(): AccountsViewModel {
@@ -78,6 +88,10 @@ class DebugPanelContainer(
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
-        return FeatureTogglesViewModel(localFeatureToggleRepository, preferenceRepository)
+        return FeatureTogglesViewModel(
+            localFeatureToggleRepository,
+            preferenceRepository,
+            appSettingsRepository
+        )
     }
 }
