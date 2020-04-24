@@ -2,7 +2,9 @@ package com.redmadrobot.debug_sample
 
 import android.app.Application
 import com.redmadrobot.debug_panel.accounts.Authenticator
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.PreInstalledData
+import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel
@@ -13,9 +15,9 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
         super.onCreate()
 
         val debugPanelConfig = DebugPanelConfig(
-            application = this,
             //TODO Временная реализация. Здесь это не должно делаться.
             authenticator = this,
+            preInstalledServers = PreInstalledData(getPreinstalledServers()),
             featureTogglesConfig = FeatureTogglesConfig(
                 FeatureToggleWrapperImpl.toggleNames,
                 FeatureToggleWrapperImpl(),
@@ -23,7 +25,7 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
             )
         )
 
-        DebugPanel.initialize(debugPanelConfig)
+        DebugPanel.initialize(this, debugPanelConfig)
     }
 
     override fun authenticate(userCredentials: DebugUserCredentials) {
@@ -33,5 +35,11 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
     override fun onFeatureToggleChange(name: String, newValue: Boolean) {
         // Feature toggle was changed. You need
         println("New value for key \"$name\" = $newValue")
+    }
+
+    private fun getPreinstalledServers(): List<DebugServer> {
+        return listOf(
+            DebugServer(url = "https://testserver1.com")
+        )
     }
 }

@@ -2,19 +2,18 @@ package com.redmadrobot.debug_panel.internal
 
 import android.app.Application
 import android.content.Context
-import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.util.ActivityLifecycleHandler
 
 internal class DebugPanelInstance(
     application: Application,
-    internal val authenticator: Authenticator
+    internal val debugPanelConfig: DebugPanelConfig
 ) {
 
     private var debugPanelContainer: DebugPanelContainer? = null
 
     init {
         ActivityLifecycleHandler(application).start()
-        initContainer(application.applicationContext)
+        initContainer(application.applicationContext, debugPanelConfig)
     }
 
     internal fun getContainer(): DebugPanelContainer {
@@ -22,7 +21,7 @@ internal class DebugPanelInstance(
             ?: throw IllegalStateException("Container not initialised")
     }
 
-    private fun initContainer(context: Context) {
-        debugPanelContainer = DebugPanelContainer(context)
+    private fun initContainer(context: Context, debugPanelConfig: DebugPanelConfig) {
+        debugPanelContainer = DebugPanelContainer(context, debugPanelConfig)
     }
 }

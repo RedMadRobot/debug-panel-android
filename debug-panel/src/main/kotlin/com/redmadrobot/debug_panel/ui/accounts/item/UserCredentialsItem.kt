@@ -1,7 +1,7 @@
 package com.redmadrobot.debug_panel.ui.accounts.item
 
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_user_credentials.view.*

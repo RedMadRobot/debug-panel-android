@@ -1,6 +1,6 @@
 package com.redmadrobot.debug_panel.data.accounts
 
-import com.redmadrobot.debug_panel.data.accounts.model.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import io.reactivex.Completable
 import io.reactivex.Single
 

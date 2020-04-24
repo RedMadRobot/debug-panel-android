@@ -7,10 +7,7 @@ import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvi
 import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
-import com.redmadrobot.debug_panel.data.servers.DebugServersProvider
 import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
-import com.redmadrobot.debug_panel.data.servers.strategy.LocalServersLoadingStrategy
-import com.redmadrobot.debug_panel.data.servers.strategy.PreinstalledServersLoadingStrategy
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
 import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
 import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
@@ -19,7 +16,10 @@ import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
 import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
 import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesViewModel
 
-class DebugPanelContainer(context: Context) {
+class DebugPanelContainer(
+    context: Context,
+    debugPanelConfig: DebugPanelConfig
+) {
 
     internal val dataBaseInstance: AppDatabase
 
@@ -32,8 +32,6 @@ class DebugPanelContainer(context: Context) {
 
     /*Servers region*/
     internal val serversRepository: DebugServerRepository
-    internal val localServersProvider: DebugServersProvider
-    internal val preInstalledServersProvider: DebugServersProvider
     /*endregion*/
 
     /*Feature toggle region*/
@@ -51,12 +49,9 @@ class DebugPanelContainer(context: Context) {
         //
 
         //Servers
-        this.serversRepository = LocalDebugServerRepository(dataBaseInstance.getDebugServersDao())
-        this.localServersProvider = DebugServersProvider(
-            LocalServersLoadingStrategy(serversRepository)
-        )
-        this.preInstalledServersProvider = DebugServersProvider(
-            PreinstalledServersLoadingStrategy()
+        this.serversRepository = LocalDebugServerRepository(
+            dataBaseInstance.getDebugServersDao(),
+            debugPanelConfig.preInstalledServers
         )
         //
 
@@ -79,11 +74,7 @@ class DebugPanelContainer(context: Context) {
     }
 
     fun createServersViewModel(): ServersViewModel {
-        return ServersViewModel(
-            serversRepository,
-            localServersProvider,
-            preInstalledServersProvider
-        )
+        return ServersViewModel(serversRepository)
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
