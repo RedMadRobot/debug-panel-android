@@ -11,7 +11,7 @@ abstract class DebugServersDao {
     @Query("SELECT * FROM ${DebugServer.TABLE_NAME}")
     abstract fun getAll(): Single<List<DebugServer>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(server: DebugServer): Completable
 
     @Delete
