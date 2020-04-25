@@ -16,9 +16,8 @@ class DebugServerInterceptor : Interceptor {
         var request: Request = chain.request()
         val debugServer = panelSettingsRepository.getSelectedServerHost()
 
-        debugServer?.let { debugServerHost ->
-            val newUrl = request.getNewUrl(debugServerHost)
-
+        if (debugServer != null && debugServer.isNotEmpty()) {
+            val newUrl = request.getNewUrl(debugServer)
             request = request.newBuilder()
                 .url(newUrl)
                 .build()

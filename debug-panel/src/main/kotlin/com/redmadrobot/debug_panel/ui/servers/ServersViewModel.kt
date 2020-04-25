@@ -22,18 +22,24 @@ class ServersViewModel(
     fun loadServers() {
         serversRepository.getPreInstalledServers()
             .zipList(serversRepository.getServers())
+            .map { addDefaultServer(it) }
             .map { mapToItems(it) }
             .observeOnMain()
             .subscribeBy(onSuccess = { servers.value = it })
             .autoDispose()
     }
 
+    private fun addDefaultServer(servers: List<DebugServer>): List<DebugServer> {
+        val defaultServer = DebugServer.getEmpty()
+        return listOf(defaultServer).plus(servers)
+    }
+
     private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
         val selectedHost = panelSettingsRepository.getSelectedServerHost()
         return servers.map { debugServer ->
             val isSelected = selectedHost != null && selectedHost == debugServer.url
-            DebugServerItem(debugServer, isSelected).also {
-                if (isSelected) this.selectedServerItem = it
+            DebugServerItem(debugServer, isSelected).also { item ->
+                if (isSelected) this.selectedServerItem = item
             }
         }
     }

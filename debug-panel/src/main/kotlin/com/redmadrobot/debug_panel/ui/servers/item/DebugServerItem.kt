@@ -12,9 +12,15 @@ class DebugServerItem(var debugServer: DebugServer, var isSelected: Boolean) : I
     override fun getLayout() = R.layout.item_debug_server
     override fun getId() = R.layout.item_debug_server.toLong()
 
-    override fun bind(viewHolder: GroupieViewHolder, position: Int) = with(viewHolder) {
-        containerView.item_server_url.text = debugServer.url
-        containerView.is_selected_icon.isVisible = isSelected
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+        with(viewHolder.containerView) {
+            val url = debugServer.url.takeIf { url ->
+                url.isNotEmpty()
+            } ?: context.getString(R.string.server_default)
+
+            item_server_url.text = url
+            is_selected_icon.isVisible = this@DebugServerItem.isSelected
+        }
     }
 
     fun update(debugServer: DebugServer) {
