@@ -9,7 +9,7 @@ import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLo
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
-import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
+import com.redmadrobot.debug_panel.data.storage.PanelSettingsRepository
 import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
@@ -35,7 +35,7 @@ class DebugPanelContainer(
     /*endregion*/
 
     /*Feature toggle region*/
-    internal val preferenceRepository: PreferenceRepository
+    internal val panelSettingsRepository: PanelSettingsRepository
     internal val localFeatureToggleRepository: LocalFeatureToggleRepository
     /*endregion*/
 
@@ -56,10 +56,10 @@ class DebugPanelContainer(
         //
 
         //Feature toggle
-        this.preferenceRepository = PreferenceRepository(context)
+        this.panelSettingsRepository = PanelSettingsRepository(context)
         this.localFeatureToggleRepository = LocalFeatureToggleRepository(
             dataBaseInstance.getFeatureTogglesDao(),
-            PreferenceRepository(context)
+            PanelSettingsRepository(context)
         )
         this.featureToggleHolder = FeatureToggleHolder(this.localFeatureToggleRepository)
         //
@@ -74,10 +74,10 @@ class DebugPanelContainer(
     }
 
     fun createServersViewModel(): ServersViewModel {
-        return ServersViewModel(serversRepository, preferenceRepository)
+        return ServersViewModel(serversRepository, panelSettingsRepository)
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
-        return FeatureTogglesViewModel(localFeatureToggleRepository, preferenceRepository)
+        return FeatureTogglesViewModel(localFeatureToggleRepository, panelSettingsRepository)
     }
 }

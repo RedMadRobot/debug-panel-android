@@ -2,7 +2,7 @@ package com.redmadrobot.debug_panel.ui.servers
 
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
-import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
+import com.redmadrobot.debug_panel.data.storage.PanelSettingsRepository
 import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.extension.zipList
@@ -13,7 +13,7 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class ServersViewModel(
     private val serversRepository: DebugServerRepository,
-    private val preferenceRepository: PreferenceRepository
+    private val panelSettingsRepository: PanelSettingsRepository
 ) : BaseViewModel() {
 
     val servers = MutableLiveData<List<Item>>()
@@ -28,7 +28,7 @@ class ServersViewModel(
     }
 
     private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
-        val selectedHost = preferenceRepository.getSelectedServerHost()
+        val selectedHost = panelSettingsRepository.getSelectedServerHost()
         return servers.map { debugServer ->
             val isSelected = selectedHost != null && selectedHost == debugServer.url
             DebugServerItem(debugServer, isSelected)
@@ -76,7 +76,7 @@ class ServersViewModel(
     }
 
     fun selectServerAsCurrent(serverData: DebugServer) {
-        preferenceRepository.saveSelectedServerHost(serverData.url)
+        panelSettingsRepository.saveSelectedServerHost(serverData.url)
         loadServers()
     }
 

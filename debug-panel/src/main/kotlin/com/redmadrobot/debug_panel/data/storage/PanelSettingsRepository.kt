@@ -2,7 +2,7 @@ package com.redmadrobot.debug_panel.data.storage
 
 import android.content.Context
 
-class PreferenceRepository(context: Context) {
+class PanelSettingsRepository(context: Context) {
 
     companion object {
         private const val DEBUG_PANEL_POSTFIX = ":debug_panel"

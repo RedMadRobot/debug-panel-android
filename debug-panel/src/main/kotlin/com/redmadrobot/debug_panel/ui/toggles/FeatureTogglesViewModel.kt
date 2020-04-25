@@ -1,7 +1,7 @@
 package com.redmadrobot.debug_panel.ui.toggles
 
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
+import com.redmadrobot.debug_panel.data.storage.PanelSettingsRepository
 import com.redmadrobot.debug_panel.data.toggles.FeatureToggleRepository
 import com.redmadrobot.debug_panel.data.toggles.model.FeatureToggle
 import com.redmadrobot.debug_panel.extension.observeOnMain
@@ -11,13 +11,13 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class FeatureTogglesViewModel(
     private val featureToggleRepository: FeatureToggleRepository,
-    private val preferenceRepository: PreferenceRepository
+    private val panelSettingsRepository: PanelSettingsRepository
 ) : BaseViewModel() {
 
     val screenState = MutableLiveData<FeatureTogglesState>()
 
     fun loadFeatureToggles() {
-        val overrideEnable = preferenceRepository.overrideFeatureToggleEnable
+        val overrideEnable = panelSettingsRepository.overrideFeatureToggleEnable
         featureToggleRepository.getAllFeatureToggles()
             .observeOnMain()
             .map { items ->
