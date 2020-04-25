@@ -18,6 +18,7 @@
 
     <!--Server-->
     <string name="server_host_hint">https://google.com</string>
+    <string name="error_wrong_host">Wrong host format.</string>
     <!---->
     <!--Notification-->
     <string name="notification_title">Открыть DebugPanel</string>
