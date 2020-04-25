@@ -40,8 +40,7 @@ class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection)
         server_list.adapter = serversAdapter
 
         serversAdapter.setOnItemClickListener { item, _ ->
-            val serverData = (item as DebugServerItem).debugServer
-            serversViewModel.selectServerAsCurrent(serverData)
+            serversViewModel.selectServerAsCurrent(item as DebugServerItem)
         }
     }
 

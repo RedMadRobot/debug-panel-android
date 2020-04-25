@@ -17,6 +17,7 @@ class ServersViewModel(
 ) : BaseViewModel() {
 
     val servers = MutableLiveData<List<Item>>()
+    private var selectedServerItem: DebugServerItem? = null
 
     fun loadServers() {
         serversRepository.getPreInstalledServers()
@@ -31,7 +32,9 @@ class ServersViewModel(
         val selectedHost = panelSettingsRepository.getSelectedServerHost()
         return servers.map { debugServer ->
             val isSelected = selectedHost != null && selectedHost == debugServer.url
-            DebugServerItem(debugServer, isSelected)
+            DebugServerItem(debugServer, isSelected).also {
+                if (isSelected) this.selectedServerItem = it
+            }
         }
     }
 
@@ -68,16 +71,19 @@ class ServersViewModel(
 
             serversRepository.updateServer(updatedServer)
                 .observeOnMain()
-                .subscribeBy(onComplete = {
-                    itemForUpdate.update(updatedServer)
-                })
+                .subscribeBy(
+                    onComplete = {
+                        item.update(updatedServer)
+                    }
+                )
                 .autoDispose()
         }
     }
 
-    fun selectServerAsCurrent(serverData: DebugServer) {
+    fun selectServerAsCurrent(debugServerItem: DebugServerItem) {
+        updateSelectedItem(debugServerItem)
+        val serverData = debugServerItem.debugServer
         panelSettingsRepository.saveSelectedServerHost(serverData.url)
-        loadServers()
     }
 
     private fun removeServerByPosition(position: Int) {
@@ -90,5 +96,15 @@ class ServersViewModel(
         val serverList = servers.value?.toMutableList()
         serverList?.add(DebugServerItem(server, false))
         servers.value = serverList
+    }
+
+    private fun updateSelectedItem(debugServerItem: DebugServerItem) {
+        this.selectedServerItem?.isSelected = false
+        this.selectedServerItem?.notifyChanged()
+
+        debugServerItem.isSelected = true
+        debugServerItem.notifyChanged()
+
+        this.selectedServerItem = debugServerItem
     }
 }

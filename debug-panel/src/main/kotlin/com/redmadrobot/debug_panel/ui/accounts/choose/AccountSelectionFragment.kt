@@ -2,7 +2,6 @@ package com.redmadrobot.debug_panel.ui.accounts.choose
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
@@ -42,12 +41,6 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
         account_select_recycler.apply {
             adapter = accountsAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    DividerItemDecoration.VERTICAL
-                )
-            )
         }
         accountsAdapter.setOnItemClickListener { item, _ ->
             val userCredential = (item as? UserCredentialsItem)?.userCredentials

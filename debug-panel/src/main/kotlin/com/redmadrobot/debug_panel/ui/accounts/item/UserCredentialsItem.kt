@@ -9,6 +9,8 @@ import kotlinx.android.synthetic.main.item_user_credentials.view.*
 class UserCredentialsItem(val userCredentials: DebugUserCredentials) : Item() {
 
     override fun getLayout() = R.layout.item_user_credentials
+    override fun getId() = R.layout.item_user_credentials.toLong()
+
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.item_credential_login.text = userCredentials.login
