@@ -45,10 +45,18 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
         server_list.layoutManager = LinearLayoutManager(requireContext())
         server_list.adapter = serversAdapter
 
-        val itemTouchHelperCallback = ItemTouchHelperCallback { viewHolder, _ ->
-            val position = viewHolder.adapterPosition
-            serversViewModel.removeServer(position)
-        }
+        val itemTouchHelperCallback = ItemTouchHelperCallback(
+            onSwiped = { position ->
+                /*remove server from DB*/
+                val item = serversAdapter.getItem(position) as DebugServerItem
+                serversViewModel.removeServer(item)
+            },
+            canBeSwiped = { position ->
+                serversAdapter.getGroupAtAdapterPosition(position) == addedServersSection &&
+                        serversAdapter.getItem(position) is DebugServerItem
+            }
+        )
+
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(server_list)
         }

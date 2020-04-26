@@ -57,10 +57,10 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        val itemTouchHelperCallback = ItemTouchHelperCallback { viewHolder, _ ->
-            val position = viewHolder.adapterPosition
+        val itemTouchHelperCallback = ItemTouchHelperCallback({ position ->
             accountsViewModel.removeAccount(position)
-        }
+        })
+
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(account_list)
         }

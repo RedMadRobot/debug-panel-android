@@ -10,6 +10,7 @@ import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_add_server.*
@@ -17,6 +18,8 @@ import kotlinx.android.synthetic.main.fragment_add_server.*
 class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection) {
 
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()
+    private val preInstalledServersSection = Section()
+    private val addedServersSection = Section()
 
     private val serversViewModel by lazy {
         obtainShareViewModel {
@@ -40,8 +43,11 @@ class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection)
         server_list.adapter = serversAdapter
 
         serversAdapter.setOnItemClickListener { item, _ ->
-            serversViewModel.selectServerAsCurrent(item as DebugServerItem)
+            (item as? DebugServerItem)?.let { serversViewModel.selectServerAsCurrent(it) }
         }
+
+        serversAdapter.add(preInstalledServersSection)
+        serversAdapter.add(addedServersSection)
     }
 
     private fun setServerList(servers: List<Item>) {
