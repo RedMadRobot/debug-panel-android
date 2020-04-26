@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_debug_server.view.*
 class DebugServerItem(var debugServer: DebugServer, var isSelected: Boolean) : Item() {
 
     override fun getLayout() = R.layout.item_debug_server
-    override fun getId() = R.layout.item_debug_server.toLong()
+    override fun getId() = debugServer.url.hashCode().toLong()
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         with(viewHolder.containerView) {

@@ -17,7 +17,7 @@ import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
 import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesViewModel
 
 class DebugPanelContainer(
-    context: Context,
+    private val context: Context,
     debugPanelConfig: DebugPanelConfig
 ) {
 
@@ -74,7 +74,7 @@ class DebugPanelContainer(
     }
 
     fun createServersViewModel(): ServersViewModel {
-        return ServersViewModel(serversRepository, panelSettingsRepository)
+        return ServersViewModel(context, serversRepository, panelSettingsRepository)
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
