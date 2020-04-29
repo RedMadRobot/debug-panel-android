@@ -87,7 +87,7 @@ class ServerHostDialog() : DialogFragment() {
     private fun update(newHost: String) {
         val oldValue = arguments?.getString(HOST)
         oldValue?.let {
-            shareViewModel.updateServerHost(oldValue, newHost)
+            shareViewModel.updateServerData(oldValue, newHost)
         }
         dialog?.dismiss()
     }

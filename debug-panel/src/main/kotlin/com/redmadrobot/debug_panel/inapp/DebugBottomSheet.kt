@@ -14,7 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.redmadrobot.debug_panel.R
 import kotlinx.android.synthetic.main.bottom_sheet_debug_panel.view.*
 
-open class DebugBottomSheet : BottomSheetDialogFragment() {
+class DebugBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         private const val TAG = "DebugBottomSheet"

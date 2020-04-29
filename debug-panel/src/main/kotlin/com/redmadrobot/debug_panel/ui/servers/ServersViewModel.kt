@@ -97,22 +97,23 @@ class ServersViewModel(
             .autoDispose()
     }
 
-    fun updateServerHost(oldValue: String, newValue: String) {
+    fun updateServerData(oldValue: String, newValue: String) {
         val itemForUpdate = state.value?.addedItems
-            ?.find { it is DebugServerItem && it.debugServer.url == oldValue } as DebugServerItem
+            ?.find { it is DebugServerItem && it.debugServer.url == oldValue } as? DebugServerItem
 
+        val serverForUpdate = itemForUpdate?.debugServer
+        val updatedServer = serverForUpdate?.copy(url = newValue)
 
-        val serverForUpdate = itemForUpdate.debugServer
-        val updatedServer = serverForUpdate.copy(url = newValue)
-
-        serversRepository.updateServer(updatedServer)
-            .observeOnMain()
-            .subscribeBy(
-                onComplete = {
-                    itemForUpdate.update(updatedServer)
-                }
-            )
-            .autoDispose()
+        updatedServer?.let { server ->
+            serversRepository.updateServer(server)
+                .observeOnMain()
+                .subscribeBy(
+                    onComplete = {
+                        itemForUpdate.update(server)
+                    }
+                )
+                .autoDispose()
+        }
     }
 
     fun selectServerAsCurrent(debugServerItem: DebugServerItem) {
