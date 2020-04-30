@@ -22,6 +22,11 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
 }
 
 dependencies {
@@ -30,11 +35,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'com.xwray:groupie:2.7.2'
-    implementation 'com.xwray:groupie-kotlin-android-extensions:2.7.2'
+    implementation 'com.xwray:groupie:2.8.0'
+    implementation 'com.xwray:groupie-kotlin-android-extensions:2.8.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
 }

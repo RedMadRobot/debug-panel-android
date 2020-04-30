@@ -9,11 +9,12 @@ import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
+import com.redmadrobot.debug_panel.ui.servers.ServersViewState
 import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
 import com.redmadrobot.debug_panel.ui.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
 class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
@@ -23,6 +24,8 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
     }
 
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()
+    private val preInstalledServersSection = Section()
+    private val addedServersSection = Section()
 
     private val serversViewModel by lazy {
         obtainShareViewModel {
@@ -32,7 +35,7 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(serversViewModel.servers, ::setServerList)
+        observe(serversViewModel.state, ::render)
         serversViewModel.loadServers()
     }
 
@@ -45,10 +48,18 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
         server_list.layoutManager = LinearLayoutManager(requireContext())
         server_list.adapter = serversAdapter
 
-        val itemTouchHelperCallback = ItemTouchHelperCallback { viewHolder, _ ->
-            val position = viewHolder.adapterPosition
-            serversViewModel.removeServer(position)
-        }
+        val itemTouchHelperCallback = ItemTouchHelperCallback(
+            onSwiped = { position ->
+                /*remove server from DB*/
+                val item = serversAdapter.getItem(position) as DebugServerItem
+                serversViewModel.removeServer(item)
+            },
+            canBeSwiped = { position ->
+                serversAdapter.getGroupAtAdapterPosition(position) == addedServersSection &&
+                        serversAdapter.getItem(position) is DebugServerItem
+            }
+        )
+
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(server_list)
         }
@@ -58,19 +69,25 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
         }
 
         serversAdapter.setOnItemClickListener { item, _ ->
-            handleItemClick(item as DebugServerItem)
+            (item as? DebugServerItem)?.let { handleItemClick(it) }
         }
+
+        serversAdapter.add(preInstalledServersSection)
+        serversAdapter.add(addedServersSection)
     }
 
     private fun handleItemClick(item: DebugServerItem) {
-        val host = item.debugServer.url
-        val bundle = Bundle().apply {
-            putString(ServerHostDialog.HOST, host)
+        if (addedServersSection.getPosition(item) >= 0) {
+            val host = item.debugServer.url
+            val bundle = Bundle().apply {
+                putString(ServerHostDialog.HOST, host)
+            }
+            ServerHostDialog.show(childFragmentManager, bundle)
         }
-        ServerHostDialog.show(childFragmentManager, bundle)
     }
 
-    private fun setServerList(servers: List<Item>) {
-        serversAdapter.update(servers)
+    private fun render(state: ServersViewState) {
+        preInstalledServersSection.update(state.preInstalledItems)
+        addedServersSection.update(state.addedItems)
     }
 }

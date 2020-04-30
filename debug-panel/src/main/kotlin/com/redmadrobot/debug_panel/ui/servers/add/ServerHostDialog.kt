@@ -1,6 +1,7 @@
 package com.redmadrobot.debug_panel.ui.servers.add
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,27 +66,43 @@ class ServerHostDialog() : DialogFragment() {
 
     private fun setView() {
         save_server_button.setOnClickListener {
-            if (isEditMode) {
-                update()
+            val host = server_host.text.toString()
+            if (isHostValid(host)) {
+                save(host)
             } else {
-                save()
+                showWrongHostError()
             }
         }
         server_host.requestFocus()
     }
 
-    private fun update() {
+    private fun save(host: String) {
+        if (isEditMode) {
+            update(host)
+        } else {
+            saveNew(host)
+        }
+    }
+
+    private fun update(newHost: String) {
         val oldValue = arguments?.getString(HOST)
-        val newValue = server_host.text.toString()
         oldValue?.let {
-            shareViewModel.updateServerHost(oldValue, newValue)
+            shareViewModel.updateServerData(oldValue, newHost)
         }
         dialog?.dismiss()
     }
 
-    private fun save() {
-        val host = server_host.text.toString()
+    private fun saveNew(host: String) {
         shareViewModel.addServer(host)
         dialog?.dismiss()
     }
+
+    private fun isHostValid(host: String): Boolean {
+        return Patterns.WEB_URL.matcher(host).matches()
+    }
+
+    private fun showWrongHostError() {
+        server_host_input_layout.error = getString(R.string.error_wrong_host)
+    }
+
 }
