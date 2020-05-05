@@ -1,9 +1,6 @@
 package com.redmadrobot.debug_panel.data.storage.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -13,9 +10,13 @@ interface DebugAccountDao {
     @Query("SELECT * FROM ${DebugAccount.TABLE_NAME}")
     fun getAll(): Single<List<DebugAccount>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: DebugAccount): Completable
 
     @Delete
     fun remove(user: DebugAccount): Completable
+
+    @Update
+    fun update(user: DebugAccount): Completable
+
 }

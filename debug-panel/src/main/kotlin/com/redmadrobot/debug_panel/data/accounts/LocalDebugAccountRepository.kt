@@ -12,8 +12,13 @@ class LocalDebugAccountRepository(
     private val preInstalledAccounts: PreInstalledData<DebugAccount>
 ) : DebugAccountRepository {
 
-    override fun addAccount(credential: DebugAccount): Completable {
-        return debugAccountDao.insert(credential)
+    override fun addAccount(account: DebugAccount): Completable {
+        return debugAccountDao.insert(account)
+            .subscribeOnIo()
+    }
+
+    override fun updateAccount(account: DebugAccount): Completable {
+        return debugAccountDao.update(account)
             .subscribeOnIo()
     }
 
@@ -25,7 +30,7 @@ class LocalDebugAccountRepository(
     override fun getPreInstalledAccounts(): Single<List<DebugAccount>> {
         return Single.fromCallable {
             preInstalledAccounts.data
-        }
+        }.subscribeOnIo()
     }
 
     override fun removeAccount(user: DebugAccount): Completable {
