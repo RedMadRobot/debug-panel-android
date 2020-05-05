@@ -1,7 +1,6 @@
 package com.redmadrobot.debug_panel.ui.accounts
 
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
 import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
 import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observeOnMain
@@ -12,16 +11,14 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
 
 class AccountsViewModel(
-    private val accountsRepositoryDebug: DebugAccountRepository,
-    private val localAccountProvider: AccountsProvider,
-    private val preInstalledAccountProvider: AccountsProvider
+    private val debugAccountsRepository: DebugAccountRepository
 ) : BaseViewModel() {
 
     val accounts = MutableLiveData<List<Item>>()
 
     fun loadAccounts() {
-        localAccountProvider.getAccounts()
-            .zipList(preInstalledAccountProvider.getAccounts())
+        debugAccountsRepository.getPreInstalledAccounts()
+            .zipList(debugAccountsRepository.getAccounts())
             .observeOnMain()
             .map { it.map(::AccountItem) }
             .subscribeBy(onSuccess = { accounts.value = it })
@@ -29,8 +26,8 @@ class AccountsViewModel(
     }
 
     fun addAccount(account: DebugAccount) {
-        accountsRepositoryDebug
-            .addCredential(account)
+        debugAccountsRepository
+            .addAccount(account)
             .observeOnMain()
             .subscribeBy(
                 onComplete = {
@@ -48,8 +45,8 @@ class AccountsViewModel(
         val item = accountItems[position] as AccountItem
         val data = item.account
 
-        accountsRepositoryDebug
-            .removeCredential(data)
+        debugAccountsRepository
+            .removeAccount(data)
             .observeOnMain()
             .subscribeBy(
                 onComplete = {

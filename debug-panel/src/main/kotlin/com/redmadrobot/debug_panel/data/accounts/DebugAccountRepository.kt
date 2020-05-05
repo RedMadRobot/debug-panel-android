@@ -5,7 +5,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface DebugAccountRepository {
-    fun addCredential(credential: DebugAccount): Completable
-    fun getCredentials(): Single<List<DebugAccount>>
-    fun removeCredential(user: DebugAccount): Completable
+    fun addAccount(credential: DebugAccount): Completable
+    fun getAccounts(): Single<List<DebugAccount>>
+    fun getPreInstalledAccounts(): Single<List<DebugAccount>>
+    fun removeAccount(user: DebugAccount): Completable
 }

@@ -18,6 +18,7 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
             //TODO Временная реализация. Здесь это не должно делаться.
             authenticator = this,
             preInstalledServers = PreInstalledData(getPreinstalledServers()),
+            preInstalledAccounts = PreInstalledData(getPreInstalledAccounts()),
             featureTogglesConfig = FeatureTogglesConfig(
                 FeatureToggleWrapperImpl.toggleNames,
                 FeatureToggleWrapperImpl(),
@@ -40,6 +41,27 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
     private fun getPreinstalledServers(): List<DebugServer> {
         return listOf(
             DebugServer(url = "https://testserver1.com")
+        )
+    }
+
+    private fun getPreInstalledAccounts(): List<DebugAccount> {
+        return listOf(
+            DebugAccount(
+                "7882340482",
+                "Qq!11111"
+            ),
+            DebugAccount(
+                "2777248041",
+                "Qq!11111"
+            ),
+            DebugAccount(
+                "4183730054",
+                "Ww!11111"
+            ),
+            DebugAccount(
+                "1944647499",
+                "Qq!11111"
+            )
         )
     }
 }
