@@ -6,7 +6,7 @@ import com.redmadrobot.debug_panel.data.accounts.LocalAccountRepository
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
 
 internal class AccountRepositoryProvider(context: Context) {
-    private val userDao = AppDatabase.getInstance(context).getDebugUserCredentialsDao()
+    private val userDao = AppDatabase.getInstance(context).getDebugAccountsDao()
 
     fun getAccountRepository(): AccountRepository {
         return LocalAccountRepository(userDao)

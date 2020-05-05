@@ -3,10 +3,10 @@ package com.redmadrobot.debug_panel.ui.accounts
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.debug_panel.data.accounts.AccountRepository
 import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.extension.zipList
-import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
@@ -23,19 +23,19 @@ class AccountsViewModel(
         localAccountProvider.getAccounts()
             .zipList(preInstalledAccountProvider.getAccounts())
             .observeOnMain()
-            .map { it.map(::UserCredentialsItem) }
+            .map { it.map(::AccountItem) }
             .subscribeBy(onSuccess = { accounts.value = it })
             .autoDispose()
     }
 
-    fun addAccount(account: DebugUserCredentials) {
+    fun addAccount(account: DebugAccount) {
         accountsRepository
             .addCredential(account)
             .observeOnMain()
             .subscribeBy(
                 onComplete = {
                     val newAccountList = (accounts.value as MutableList<Item>).apply {
-                        add(UserCredentialsItem(account))
+                        add(AccountItem(account))
                     }
                     accounts.value = newAccountList
                 }
@@ -45,8 +45,8 @@ class AccountsViewModel(
 
     fun removeAccount(position: Int) {
         val accountItems = accounts.value as List<Item>
-        val item = accountItems[position] as UserCredentialsItem
-        val data = item.userCredentials
+        val item = accountItems[position] as AccountItem
+        val data = item.account
 
         accountsRepository
             .removeCredential(data)

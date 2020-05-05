@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
@@ -44,7 +44,7 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
 
     override fun onAccountSaved(login: String, password: String) {
         val userData =
-            DebugUserCredentials(
+            DebugAccount(
                 login,
                 password
             )

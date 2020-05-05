@@ -3,8 +3,8 @@ package com.redmadrobot.debug_sample
 import android.app.Application
 import com.redmadrobot.debug_panel.accounts.Authenticator
 import com.redmadrobot.debug_panel.data.PreInstalledData
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel
@@ -28,8 +28,8 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
         DebugPanel.initialize(this, debugPanelConfig)
     }
 
-    override fun authenticate(userCredentials: DebugUserCredentials) {
-        println("Login - ${userCredentials.login}, Password - ${userCredentials.password}")
+    override fun authenticate(account: DebugAccount) {
+        println("Login - ${account.login}, Password - ${account.password}")
     }
 
     override fun onFeatureToggleChange(name: String, newValue: Boolean) {

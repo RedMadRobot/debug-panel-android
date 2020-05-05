@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
-interface DebugUserCredentialsDao {
+interface DebugAccountDao {
     @Query("SELECT * FROM debug_user_credentials")
-    fun getAll(): Single<List<DebugUserCredentials>>
+    fun getAll(): Single<List<DebugAccount>>
 
     @Insert
-    fun insert(user: DebugUserCredentials): Completable
+    fun insert(user: DebugAccount): Completable
 
     @Delete
-    fun remove(user: DebugUserCredentials): Completable
+    fun remove(user: DebugAccount): Completable
 }

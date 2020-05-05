@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
-import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -43,17 +43,17 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
             layoutManager = LinearLayoutManager(requireContext())
         }
         accountsAdapter.setOnItemClickListener { item, _ ->
-            val userCredential = (item as? UserCredentialsItem)?.userCredentials
-            userCredential?.let(::sendUserCredentials)
+            val account = (item as? AccountItem)?.account
+            account?.let(::selectAccount)
         }
     }
 
-    private fun sendUserCredentials(userCredentials: DebugUserCredentials) {
+    private fun selectAccount(account: DebugAccount) {
         (targetFragment as? AccountDataResultListener)?.onAccountSelected(
-            userCredentials.login,
-            userCredentials.password
+            account.login,
+            account.password
         )
-        DebugPanel.authenticator?.authenticate(userCredentials)
+        DebugPanel.authenticator?.authenticate(account)
     }
 
     private fun setAccountList(accounts: List<Item>) {

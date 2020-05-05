@@ -1,26 +1,26 @@
 package com.redmadrobot.debug_panel.data.accounts.strategy
 
 import com.redmadrobot.debug_panel.data.DebugDataLoadingStrategy
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import io.reactivex.Single
 
-class PreinstalledAccountsLoadStrategy : DebugDataLoadingStrategy<DebugUserCredentials> {
+class PreinstalledAccountsLoadStrategy : DebugDataLoadingStrategy<DebugAccount> {
 
-    override fun loadData(): Single<List<DebugUserCredentials>> {
+    override fun loadData(): Single<List<DebugAccount>> {
         return listOf(
-            DebugUserCredentials(
+            DebugAccount(
                 "7882340482",
                 "Qq!11111"
             ),
-            DebugUserCredentials(
+            DebugAccount(
                 "2777248041",
                 "Qq!11111"
             ),
-            DebugUserCredentials(
+            DebugAccount(
                 "4183730054",
                 "Ww!11111"
             ),
-            DebugUserCredentials(
+            DebugAccount(
                 "1944647499",
                 "Qq!11111"
             )
