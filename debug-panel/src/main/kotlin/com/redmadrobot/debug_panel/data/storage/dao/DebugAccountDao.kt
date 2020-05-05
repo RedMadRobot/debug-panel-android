@@ -10,7 +10,7 @@ import io.reactivex.Single
 
 @Dao
 interface DebugAccountDao {
-    @Query("SELECT * FROM debug_user_credentials")
+    @Query("SELECT * FROM ${DebugAccount.TABLE_NAME}")
     fun getAll(): Single<List<DebugAccount>>
 
     @Insert

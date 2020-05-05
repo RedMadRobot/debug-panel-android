@@ -47,20 +47,20 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
     private fun getPreInstalledAccounts(): List<DebugAccount> {
         return listOf(
             DebugAccount(
-                "7882340482",
-                "Qq!11111"
+                login = "7882340482",
+                password = "Qq!11111"
             ),
             DebugAccount(
-                "2777248041",
-                "Qq!11111"
+                login = "2777248041",
+                password = "Qq!11111"
             ),
             DebugAccount(
-                "4183730054",
-                "Ww!11111"
+                login = "4183730054",
+                password = "Ww!11111"
             ),
             DebugAccount(
-                "1944647499",
-                "Qq!11111"
+                login = "1944647499",
+                password = "Qq!11111"
             )
         )
     }

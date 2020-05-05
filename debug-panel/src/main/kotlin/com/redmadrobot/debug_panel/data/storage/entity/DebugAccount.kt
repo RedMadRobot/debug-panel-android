@@ -4,9 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "debug_user_credentials")
+@Entity(tableName = DebugAccount.TABLE_NAME)
 data class DebugAccount(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+
     @ColumnInfo(name = "login")
     val login: String,
 
@@ -14,10 +16,6 @@ data class DebugAccount(
     val password: String
 ) {
     companion object {
-        fun empty() =
-            DebugAccount(
-                "",
-                ""
-            )
+        const val TABLE_NAME = "debug_account"
     }
 }
