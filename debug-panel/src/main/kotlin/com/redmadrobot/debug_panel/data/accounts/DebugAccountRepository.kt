@@ -4,7 +4,7 @@ import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import io.reactivex.Completable
 import io.reactivex.Single
 
-interface AccountRepository {
+interface DebugAccountRepository {
     fun addCredential(credential: DebugAccount): Completable
     fun getCredentials(): Single<List<DebugAccount>>
     fun removeCredential(user: DebugAccount): Completable

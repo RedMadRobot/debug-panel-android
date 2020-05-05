@@ -6,8 +6,8 @@ import com.redmadrobot.debug_panel.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class LocalAccountRepository(private val debugAccountDao: DebugAccountDao) :
-    AccountRepository {
+class LocalDebugAccountRepository(private val debugAccountDao: DebugAccountDao) :
+    DebugAccountRepository {
 
     override fun addCredential(credential: DebugAccount): Completable {
         return debugAccountDao.insert(credential)

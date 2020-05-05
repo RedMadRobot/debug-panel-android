@@ -1,8 +1,8 @@
 package com.redmadrobot.debug_panel.internal
 
 import android.content.Context
-import com.redmadrobot.debug_panel.data.accounts.AccountRepository
 import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
+import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
 import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvider
 import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
 import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
@@ -24,7 +24,7 @@ class DebugPanelContainer(
     internal val dataBaseInstance: AppDatabase
 
     /*Accounts region*/
-    internal val accountRepository: AccountRepository
+    internal val debugAccountRepository: DebugAccountRepository
     internal val localAccountProvider: AccountsProvider
     internal val preInstalledAccountProvider: AccountsProvider
     internal val featureToggleHolder: FeatureToggleHolder
@@ -43,8 +43,8 @@ class DebugPanelContainer(
         this.dataBaseInstance = AppDatabase.getInstance(context)
 
         //Accounts
-        this.accountRepository = AccountRepositoryProvider(context).getAccountRepository()
-        this.localAccountProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
+        this.debugAccountRepository = AccountRepositoryProvider(context).getAccountRepository()
+        this.localAccountProvider = AccountsProvider(LocalAccountsLoadStrategy(debugAccountRepository))
         this.preInstalledAccountProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
         //
 
@@ -67,7 +67,7 @@ class DebugPanelContainer(
 
     fun createAccountsViewModel(): AccountsViewModel {
         return AccountsViewModel(
-            accountRepository,
+            debugAccountRepository,
             localAccountProvider,
             preInstalledAccountProvider
         )

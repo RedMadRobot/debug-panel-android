@@ -1,8 +1,8 @@
 package com.redmadrobot.debug_panel.ui.accounts
 
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel.data.accounts.AccountRepository
 import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
+import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
 import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.extension.zipList
@@ -12,7 +12,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
 
 class AccountsViewModel(
-    private val accountsRepository: AccountRepository,
+    private val accountsRepositoryDebug: DebugAccountRepository,
     private val localAccountProvider: AccountsProvider,
     private val preInstalledAccountProvider: AccountsProvider
 ) : BaseViewModel() {
@@ -29,7 +29,7 @@ class AccountsViewModel(
     }
 
     fun addAccount(account: DebugAccount) {
-        accountsRepository
+        accountsRepositoryDebug
             .addCredential(account)
             .observeOnMain()
             .subscribeBy(
@@ -48,7 +48,7 @@ class AccountsViewModel(
         val item = accountItems[position] as AccountItem
         val data = item.account
 
-        accountsRepository
+        accountsRepositoryDebug
             .removeCredential(data)
             .observeOnMain()
             .subscribeBy(
