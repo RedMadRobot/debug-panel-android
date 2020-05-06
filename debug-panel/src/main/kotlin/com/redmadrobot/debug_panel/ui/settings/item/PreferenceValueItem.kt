@@ -1,21 +1,22 @@
-package com.redmadrobot.debug_panel.ui.toggles.item
+package com.redmadrobot.debug_panel.ui.settings.item
 
 import com.redmadrobot.debug_panel.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.item_preference_boolean.view.*
+import kotlinx.android.synthetic.main.item_preference_value.view.*
 
-class PreferenceBooleanItem(
+class PreferenceValueItem(
     private val key: String,
-    private val value: Boolean
+    private val value: Any?
 ) : Item() {
 
-    override fun getLayout() = R.layout.item_preference_boolean
+    override fun getLayout() = R.layout.item_preference_value
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         with(viewHolder.containerView) {
             setting_label.text = key
-            setting_switch.isChecked = value
+            setting_value.setText(value.toString())
+            setting_value.clearFocus()
         }
     }
 }
