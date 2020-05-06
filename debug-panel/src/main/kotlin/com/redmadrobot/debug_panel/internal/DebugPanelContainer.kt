@@ -1,17 +1,15 @@
 package com.redmadrobot.debug_panel.internal
 
 import android.content.Context
-import com.redmadrobot.debug_panel.data.accounts.AccountRepository
-import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvider
-import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
-import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
+import androidx.room.RoomDatabase
+import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
+import com.redmadrobot.debug_panel.data.accounts.LocalDebugAccountRepository
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
 import com.redmadrobot.debug_panel.data.settings.AppSettingsRepository
 import com.redmadrobot.debug_panel.data.settings.AppSettingsRepositoryImpl
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
-import com.redmadrobot.debug_panel.data.storage.PreferenceRepository
+import com.redmadrobot.debug_panel.data.storage.PanelSettingsRepository
 import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
@@ -19,26 +17,24 @@ import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
 import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesViewModel
 
 class DebugPanelContainer(
-    context: Context,
+    private val context: Context,
     debugPanelConfig: DebugPanelConfig
 ) {
 
-    internal val dataBaseInstance: AppDatabase
+    private val dataBaseInstance: RoomDatabase
 
     /*Accounts region*/
-    internal val accountRepository: AccountRepository
-    internal val localAccountProvider: AccountsProvider
-    internal val preInstalledAccountProvider: AccountsProvider
-    internal val featureToggleHolder: FeatureToggleHolder
+    private val debugAccountRepository: DebugAccountRepository
     /*endregion*/
 
     /*Servers region*/
-    internal val serversRepository: DebugServerRepository
+    private val serversRepository: DebugServerRepository
     /*endregion*/
 
     /*Feature toggle region*/
-    internal val preferenceRepository: PreferenceRepository
-    internal val localFeatureToggleRepository: LocalFeatureToggleRepository
+    internal val panelSettingsRepository: PanelSettingsRepository
+    private val localFeatureToggleRepository: LocalFeatureToggleRepository
+    internal val featureToggleHolder: FeatureToggleHolder
     /*endregion*/
 
     /*App settings*/
@@ -49,9 +45,10 @@ class DebugPanelContainer(
         this.dataBaseInstance = AppDatabase.getInstance(context)
 
         //Accounts
-        this.accountRepository = AccountRepositoryProvider(context).getAccountRepository()
-        this.localAccountProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
-        this.preInstalledAccountProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
+        this.debugAccountRepository = LocalDebugAccountRepository(
+            dataBaseInstance.getDebugAccountsDao(),
+            debugPanelConfig.preInstalledAccounts
+        )
         //
 
         //Servers
@@ -62,10 +59,10 @@ class DebugPanelContainer(
         //
 
         //Feature toggle
-        this.preferenceRepository = PreferenceRepository(context)
+        this.panelSettingsRepository = PanelSettingsRepository(context)
         this.localFeatureToggleRepository = LocalFeatureToggleRepository(
             dataBaseInstance.getFeatureTogglesDao(),
-            PreferenceRepository(context)
+            PanelSettingsRepository(context)
         )
         this.featureToggleHolder = FeatureToggleHolder(this.localFeatureToggleRepository)
         //
@@ -76,22 +73,14 @@ class DebugPanelContainer(
     }
 
     fun createAccountsViewModel(): AccountsViewModel {
-        return AccountsViewModel(
-            accountRepository,
-            localAccountProvider,
-            preInstalledAccountProvider
-        )
+        return AccountsViewModel(context, debugAccountRepository)
     }
 
     fun createServersViewModel(): ServersViewModel {
-        return ServersViewModel(serversRepository, preferenceRepository)
+        return ServersViewModel(context, serversRepository, panelSettingsRepository)
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
-        return FeatureTogglesViewModel(
-            localFeatureToggleRepository,
-            preferenceRepository,
-            appSettingsRepository
-        )
+        return FeatureTogglesViewModel(localFeatureToggleRepository, panelSettingsRepository)
     }
 }

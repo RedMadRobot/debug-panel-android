@@ -53,7 +53,7 @@ class LocalDebugServerRepository(
             .flatMapCompletable { server ->
                 if (server.url.isNotEmpty()) {
                     val updatedServerData = server.copy(isSelected = false)
-                    updateServer(server)
+                    updateServer(updatedServerData)
                 } else {
                     Completable.complete()
                 }

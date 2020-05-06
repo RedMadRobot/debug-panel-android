@@ -1,64 +1,111 @@
 package com.redmadrobot.debug_panel.ui.accounts
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel.data.accounts.AccountRepository
-import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
+import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observeOnMain
-import com.redmadrobot.debug_panel.extension.zipList
-import com.redmadrobot.debug_panel.ui.accounts.item.UserCredentialsItem
+import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseViewModel
+import com.redmadrobot.debug_panel.ui.view.SectionHeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
 
 class AccountsViewModel(
-    private val accountsRepository: AccountRepository,
-    private val localAccountProvider: AccountsProvider,
-    private val preInstalledAccountProvider: AccountsProvider
+    private val context: Context,
+    private val debugAccountsRepository: DebugAccountRepository
 ) : BaseViewModel() {
 
-    val accounts = MutableLiveData<List<Item>>()
+    val state = MutableLiveData<AccountsViewState>().apply {
+        /*Default state*/
+        value = AccountsViewState(
+            preInstalledItems = emptyList(),
+            addedItems = emptyList()
+        )
+    }
 
     fun loadAccounts() {
-        localAccountProvider.getAccounts()
-            .zipList(preInstalledAccountProvider.getAccounts())
-            .observeOnMain()
-            .map { it.map(::UserCredentialsItem) }
-            .subscribeBy(onSuccess = { accounts.value = it })
-            .autoDispose()
+        loadPreInstalledAccounts()
+        loadAddedAccounts()
     }
 
-    fun addAccount(account: DebugUserCredentials) {
-        accountsRepository
-            .addCredential(account)
+    fun saveAccount(login: String, password: String) {
+        val account = DebugAccount(
+            login = login,
+            password = password
+        )
+        debugAccountsRepository
+            .addAccount(account)
             .observeOnMain()
             .subscribeBy(
-                onComplete = {
-                    val newAccountList = (accounts.value as MutableList<Item>).apply {
-                        add(UserCredentialsItem(account))
-                    }
-                    accounts.value = newAccountList
-                }
+                onComplete = { loadAddedAccounts() }
             )
             .autoDispose()
     }
 
-    fun removeAccount(position: Int) {
-        val accountItems = accounts.value as List<Item>
-        val item = accountItems[position] as UserCredentialsItem
-        val data = item.userCredentials
-
-        accountsRepository
-            .removeCredential(data)
+    fun updateAccount(id: Int, newLogin: String, newPassword: String) {
+        val account = DebugAccount(
+            id = id,
+            login = newLogin,
+            password = newPassword
+        )
+        debugAccountsRepository
+            .updateAccount(account)
             .observeOnMain()
             .subscribeBy(
-                onComplete = {
-                    val newAccountList = accountItems.toMutableList().apply {
-                        removeAt(position)
-                    }
-                    accounts.value = newAccountList
-                }
+                onComplete = { getItemById(id)?.update(account) }
             )
             .autoDispose()
+    }
+
+
+    fun removeAccount(account: DebugAccount) {
+            debugAccountsRepository
+                .removeAccount(account)
+                .observeOnMain()
+                .subscribeBy(
+                    onComplete = { loadAddedAccounts() }
+                )
+                .autoDispose()
+    }
+
+    private fun loadPreInstalledAccounts() {
+        debugAccountsRepository.getPreInstalledAccounts()
+            .map { accounts ->
+                /*"Pre-installed" header*/
+                listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
+                    .plus(mapToAccountItems(accounts))
+            }
+            .observeOnMain()
+            .subscribeBy(onSuccess = { items ->
+                state.value = state.value?.copy(preInstalledItems = items)
+            })
+            .autoDispose()
+    }
+
+    private fun loadAddedAccounts() {
+        debugAccountsRepository.getAccounts()
+            .map { accounts ->
+                /*"Added" header*/
+                listOf(SectionHeaderItem(context.getString(R.string.added)))
+                    .plus(mapToAccountItems(accounts))
+            }
+            .observeOnMain()
+            .subscribeBy(onSuccess = { items ->
+                state.value = state.value?.copy(addedItems = items)
+            })
+            .autoDispose()
+    }
+
+    private fun mapToAccountItems(accounts: List<DebugAccount>): List<Item> {
+        return accounts.map { AccountItem(it) }
+    }
+
+    private fun getItemById(id: Int): AccountItem? {
+        return state.value?.addedItems
+            ?.find { item ->
+                item is AccountItem && item.account.id == id
+            } as? AccountItem
     }
 }

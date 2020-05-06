@@ -6,12 +6,12 @@
     android:layout_height="@dimen/material_list_item_height"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginBottom="4dp"
-    android:background="?selectableItemBackgroundBorderless">
+    android:layout_marginBottom="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?selectableItemBackgroundBorderless">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_server_icon"
@@ -38,10 +38,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/is_selected_icon"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

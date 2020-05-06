@@ -6,23 +6,23 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
-abstract class DebugServersDao {
+interface DebugServersDao {
 
     @Query("SELECT * FROM ${DebugServer.TABLE_NAME}")
-    abstract fun getAll(): Single<List<DebugServer>>
+    fun getAll(): Single<List<DebugServer>>
 
-    @Insert
-    abstract fun insert(server: DebugServer): Completable
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(server: DebugServer): Completable
 
     @Delete
-    abstract fun remove(server: DebugServer): Completable
+    fun remove(server: DebugServer): Completable
 
     @Update
-    abstract fun update(server: DebugServer): Completable
+    fun update(server: DebugServer): Completable
 
     @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE isSelected = 1")
-    abstract fun getSelectedServer(): Single<DebugServer>
+    fun getSelectedServer(): Single<DebugServer>
 
     @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE id = :serverId")
-    abstract fun getServer(serverId: Int): Single<DebugServer>
+    fun getServer(serverId: Int): Single<DebugServer>
 }

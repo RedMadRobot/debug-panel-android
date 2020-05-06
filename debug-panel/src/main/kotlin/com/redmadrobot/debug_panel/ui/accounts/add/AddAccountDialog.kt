@@ -6,21 +6,38 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.extension.obtainShareViewModel
+import com.redmadrobot.debug_panel.internal.DebugPanel
 import kotlinx.android.synthetic.main.dialog_add_account.*
 
 class AddAccountDialog : DialogFragment() {
 
     companion object {
-        private const val TAG = "AddAccountDialog"
-        private const val REQUEST_CODE = 112233
+        const val KEY_ID = "ID"
+        const val KEY_LOGIN = "LOGIN"
+        const val KEY_PASSWORD = "PASSWORD"
 
-        fun show(fragmentManager: FragmentManager, targetFragment: Fragment) {
+        private const val TAG = "AddAccountDialog"
+
+        fun show(fragmentManager: FragmentManager, arguments: Bundle? = null) {
             AddAccountDialog().apply {
-                setTargetFragment(targetFragment, REQUEST_CODE)
+                this.arguments = arguments
             }.show(fragmentManager, TAG)
+        }
+    }
+
+    private val login by lazy { arguments?.getString(KEY_LOGIN) }
+    private val password by lazy { arguments?.getString(KEY_PASSWORD) }
+    private val id by lazy { arguments?.getInt(KEY_ID) }
+
+    private val isEditMode: Boolean
+        get() = login != null && password != null
+
+    private val sharedViewModel by lazy {
+        obtainShareViewModel {
+            DebugPanel.getContainer().createAccountsViewModel()
         }
     }
 
@@ -43,21 +60,46 @@ class AddAccountDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
+        setData()
         account_login.requestFocus()
     }
 
-    private fun setView() {
-        save_account_button.setOnClickListener { saveAccount() }
+    private fun setData() {
+        if (!login.isNullOrEmpty() && password != null) {
+            account_login.setText(login)
+            account_password.setText(password)
+        }
     }
 
-    private fun saveAccount() {
+    private fun setView() {
+        save_account_button.setOnClickListener {
+            if (dataIsValid()) save()
+        }
+    }
+
+    private fun save() {
         val login = account_login.text.toString()
         val password = account_password.text.toString()
-        (targetFragment as? SaveAccountResultListener)?.onAccountSaved(login, password)
+        if (isEditMode) {
+            update(login, password)
+        } else {
+            saveNew(login, password)
+        }
         dialog?.dismiss()
     }
 
-    interface SaveAccountResultListener {
-        fun onAccountSaved(login: String, password: String)
+    private fun update(login: String, password: String) {
+        id?.let { id ->
+            sharedViewModel.updateAccount(id, login, password)
+        }
+    }
+
+    private fun saveNew(login: String, password: String) {
+        sharedViewModel.saveAccount(login, password)
+    }
+
+    private fun dataIsValid(): Boolean {
+        //TODO Добавить валидацию данных
+        return true
     }
 }

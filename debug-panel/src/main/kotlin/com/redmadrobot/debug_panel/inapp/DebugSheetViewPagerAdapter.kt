@@ -3,7 +3,7 @@ package com.redmadrobot.debug_panel.inapp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.redmadrobot.debug_panel.ui.accounts.choose.AccountSelectionFragment
+import com.redmadrobot.debug_panel.ui.accounts.select.AccountSelectionFragment
 import com.redmadrobot.debug_panel.ui.servers.choose.ServerSelectionFragment
 import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesFragment
 
