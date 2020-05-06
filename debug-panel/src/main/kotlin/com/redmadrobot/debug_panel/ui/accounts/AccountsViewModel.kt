@@ -1,47 +1,68 @@
 package com.redmadrobot.debug_panel.ui.accounts
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
 import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observeOnMain
-import com.redmadrobot.debug_panel.extension.zipList
 import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseViewModel
+import com.redmadrobot.debug_panel.ui.view.SectionHeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
 
 class AccountsViewModel(
+    private val context: Context,
     private val debugAccountsRepository: DebugAccountRepository
 ) : BaseViewModel() {
 
-    val accounts = MutableLiveData<List<Item>>()
-
-    fun loadAccounts() {
-        debugAccountsRepository.getPreInstalledAccounts()
-            .zipList(debugAccountsRepository.getAccounts())
-            .observeOnMain()
-            .map { it.map(::AccountItem) }
-            .subscribeBy(onSuccess = { accounts.value = it })
-            .autoDispose()
+    val state = MutableLiveData<AccountsViewState>().apply {
+        value = AccountsViewState(
+            preInstalledItems = emptyList(),
+            addedItems = emptyList()
+        )
     }
 
-    fun addAccount(account: DebugAccount) {
+    fun loadAccounts() {
+        loadPreInstalledAccounts()
+        loadAddedAccounts()
+    }
+
+    fun addAccount(login: String, password: String) {
+        val account = DebugAccount(
+            login = login,
+            password = password
+        )
         debugAccountsRepository
             .addAccount(account)
             .observeOnMain()
             .subscribeBy(
                 onComplete = {
-                    val newAccountList = (accounts.value as MutableList<Item>).apply {
-                        add(AccountItem(account))
-                    }
-                    accounts.value = newAccountList
+                    loadAddedAccounts()
                 }
             )
             .autoDispose()
     }
 
+    fun updateAccount(id: Int, newLogin: String, newPassword: String) {
+        val account = DebugAccount(
+            id = id,
+            login = newLogin,
+            password = newPassword
+        )
+        debugAccountsRepository
+            .updateAccount(account)
+            .observeOnMain()
+            .subscribeBy(
+                onComplete = { getItemById(id)?.update(account) }
+            )
+            .autoDispose()
+    }
+
+
     fun removeAccount(position: Int) {
-        val accountItems = accounts.value as List<Item>
+        val accountItems = state.value as List<*>
         val item = accountItems[position] as AccountItem
         val data = item.account
 
@@ -49,13 +70,45 @@ class AccountsViewModel(
             .removeAccount(data)
             .observeOnMain()
             .subscribeBy(
-                onComplete = {
-                    val newAccountList = accountItems.toMutableList().apply {
-                        removeAt(position)
-                    }
-                    accounts.value = newAccountList
-                }
+                onComplete = { loadAddedAccounts() }
             )
             .autoDispose()
+    }
+
+    private fun loadPreInstalledAccounts() {
+        debugAccountsRepository.getPreInstalledAccounts()
+            .map { accounts ->
+                listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
+                    .plus(mapToAccountItems(accounts))
+            }
+            .observeOnMain()
+            .subscribeBy(onSuccess = { items ->
+                state.value = state.value?.copy(preInstalledItems = items)
+            })
+            .autoDispose()
+    }
+
+    private fun loadAddedAccounts() {
+        debugAccountsRepository.getPreInstalledAccounts()
+            .map { accounts ->
+                listOf(SectionHeaderItem(context.getString(R.string.added)))
+                    .plus(mapToAccountItems(accounts))
+            }
+            .observeOnMain()
+            .subscribeBy(onSuccess = { items ->
+                state.value = state.value?.copy(preInstalledItems = items)
+            })
+            .autoDispose()
+    }
+
+    private fun mapToAccountItems(accounts: List<DebugAccount>): List<Item> {
+        return accounts.map { AccountItem(it) }
+    }
+
+    private fun getItemById(id: Int): AccountItem? {
+        return state.value?.addedItems
+            ?.find { item ->
+                item is AccountItem && item.account.id == id
+            } as? AccountItem
     }
 }
