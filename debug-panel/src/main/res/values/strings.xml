@@ -3,6 +3,7 @@
     <string name="accounts">Accounts</string>
     <string name="servers">Servers</string>
     <string name="settings">Settings</string>
+    <string name="toggles">Toggles</string>
     <string name="in_the_piepline">В разработке</string>
 
     <!--Common-->
