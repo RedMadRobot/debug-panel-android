@@ -31,48 +31,6 @@ class ServersViewModel(
         loadAddedServers()
     }
 
-    private fun loadPreInstalledServers() {
-        serversRepository.getPreInstalledServers()
-            .map { addDefaultServer(it) }
-            .map { servers ->
-                listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
-                    .plus(mapToItems(servers))
-            }
-            .observeOnMain()
-            .subscribeBy(onSuccess = { items ->
-                state.value = state.value?.copy(preInstalledItems = items)
-            })
-            .autoDispose()
-    }
-
-    private fun loadAddedServers() {
-        serversRepository.getServers()
-            .map { servers ->
-                listOf(SectionHeaderItem(context.getString(R.string.added)))
-                    .plus(mapToItems(servers))
-            }
-            .observeOnMain()
-            .subscribeBy(onSuccess = { items ->
-                state.value = state.value?.copy(addedItems = items)
-            })
-            .autoDispose()
-    }
-
-    private fun addDefaultServer(servers: List<DebugServer>): List<DebugServer> {
-        val defaultServer = DebugServer.getEmpty()
-        return listOf(defaultServer).plus(servers)
-    }
-
-    private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
-        val selectedHost = panelSettingsRepository.getSelectedServerHost()
-        return servers.map { debugServer ->
-            val isSelected = selectedHost != null && selectedHost == debugServer.url
-            DebugServerItem(debugServer, isSelected).also { item ->
-                if (isSelected) this.selectedServerItem = item
-            }
-        }
-    }
-
     fun addServer(host: String) {
         val server = DebugServer(url = host)
         serversRepository.addServer(server)
@@ -120,6 +78,49 @@ class ServersViewModel(
         updateSelectedItem(debugServerItem)
         val serverData = debugServerItem.debugServer
         panelSettingsRepository.saveSelectedServerHost(serverData.url)
+    }
+
+
+    private fun loadPreInstalledServers() {
+        serversRepository.getPreInstalledServers()
+            .map { addDefaultServer(it) }
+            .map { servers ->
+                listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
+                    .plus(mapToItems(servers))
+            }
+            .observeOnMain()
+            .subscribeBy(onSuccess = { items ->
+                state.value = state.value?.copy(preInstalledItems = items)
+            })
+            .autoDispose()
+    }
+
+    private fun loadAddedServers() {
+        serversRepository.getServers()
+            .map { servers ->
+                listOf(SectionHeaderItem(context.getString(R.string.added)))
+                    .plus(mapToItems(servers))
+            }
+            .observeOnMain()
+            .subscribeBy(onSuccess = { items ->
+                state.value = state.value?.copy(addedItems = items)
+            })
+            .autoDispose()
+    }
+
+    private fun addDefaultServer(servers: List<DebugServer>): List<DebugServer> {
+        val defaultServer = DebugServer.getEmpty()
+        return listOf(defaultServer).plus(servers)
+    }
+
+    private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
+        val selectedHost = panelSettingsRepository.getSelectedServerHost()
+        return servers.map { debugServer ->
+            val isSelected = selectedHost != null && selectedHost == debugServer.url
+            DebugServerItem(debugServer, isSelected).also { item ->
+                if (isSelected) this.selectedServerItem = item
+            }
+        }
     }
 
     private fun updateSelectedItem(debugServerItem: DebugServerItem) {
