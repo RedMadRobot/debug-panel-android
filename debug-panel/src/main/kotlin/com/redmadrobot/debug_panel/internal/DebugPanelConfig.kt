@@ -14,5 +14,5 @@ data class DebugPanelConfig(
     val preInstalledServers: PreInstalledData<DebugServer> = PreInstalledData(emptyList()),
     val preInstalledAccounts: PreInstalledData<DebugAccount> = PreInstalledData(emptyList()),
     val featureTogglesConfig: FeatureTogglesConfig? = null,
-    val sharedPreferences: SharedPreferences = DefaultSharedPreferences()
+    val sharedPreferences: List<SharedPreferences> = listOf(DefaultSharedPreferences())
 )
