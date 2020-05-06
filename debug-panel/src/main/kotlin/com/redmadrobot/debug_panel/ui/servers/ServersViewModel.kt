@@ -19,6 +19,7 @@ class ServersViewModel(
 ) : BaseViewModel() {
 
     val state = MutableLiveData<ServersViewState>().apply {
+        /*Default state*/
         value = ServersViewState(
             preInstalledItems = emptyList(),
             addedItems = emptyList()

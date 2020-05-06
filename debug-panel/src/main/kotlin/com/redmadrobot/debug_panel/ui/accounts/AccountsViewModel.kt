@@ -18,6 +18,7 @@ class AccountsViewModel(
 ) : BaseViewModel() {
 
     val state = MutableLiveData<AccountsViewState>().apply {
+        /*Default state*/
         value = AccountsViewState(
             preInstalledItems = emptyList(),
             addedItems = emptyList()
@@ -72,6 +73,7 @@ class AccountsViewModel(
     private fun loadPreInstalledAccounts() {
         debugAccountsRepository.getPreInstalledAccounts()
             .map { accounts ->
+                /*"Pre-installed" header*/
                 listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
                     .plus(mapToAccountItems(accounts))
             }
@@ -85,6 +87,7 @@ class AccountsViewModel(
     private fun loadAddedAccounts() {
         debugAccountsRepository.getAccounts()
             .map { accounts ->
+                /*"Added" header*/
                 listOf(SectionHeaderItem(context.getString(R.string.added)))
                     .plus(mapToAccountItems(accounts))
             }

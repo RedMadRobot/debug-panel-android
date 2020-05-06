@@ -68,7 +68,7 @@ class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
     private fun setItemTouchHelper() {
         val itemTouchHelperCallback = ItemTouchHelperCallback(
             onSwiped = { position ->
-                /*remove server from DB*/
+                /*remove account from DB*/
                 val item = accountsAdapter.getItem(position) as? AccountItem
                 item?.let { accountsViewModel.removeAccount(it.account) }
             },
