@@ -59,18 +59,14 @@ class AccountsViewModel(
     }
 
 
-    fun removeAccount(position: Int) {
-        val accountItems = state.value as List<*>
-        val item = accountItems[position] as AccountItem
-        val data = item.account
-
-        debugAccountsRepository
-            .removeAccount(data)
-            .observeOnMain()
-            .subscribeBy(
-                onComplete = { loadAddedAccounts() }
-            )
-            .autoDispose()
+    fun removeAccount(account: DebugAccount) {
+            debugAccountsRepository
+                .removeAccount(account)
+                .observeOnMain()
+                .subscribeBy(
+                    onComplete = { loadAddedAccounts() }
+                )
+                .autoDispose()
     }
 
     private fun loadPreInstalledAccounts() {
