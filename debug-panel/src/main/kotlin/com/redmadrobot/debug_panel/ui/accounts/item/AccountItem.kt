@@ -6,7 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_user_credentials.view.*
 
-class AccountItem(val account: DebugAccount) : Item() {
+class AccountItem(var account: DebugAccount) : Item() {
 
     override fun getLayout() = R.layout.item_user_credentials
     override fun getId() = R.layout.item_user_credentials.toLong()
@@ -14,5 +14,10 @@ class AccountItem(val account: DebugAccount) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.item_credential_login.text = account.login
+    }
+
+    fun update(account: DebugAccount) {
+        this.account = account
+        notifyChanged()
     }
 }
