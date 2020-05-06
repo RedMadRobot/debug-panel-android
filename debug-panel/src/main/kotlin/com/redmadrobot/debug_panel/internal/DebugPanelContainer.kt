@@ -14,6 +14,7 @@ import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
 import com.redmadrobot.debug_panel.ui.servers.ServersViewModel
+import com.redmadrobot.debug_panel.ui.settings.ApplicationSettingsViewModel
 import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesViewModel
 
 class DebugPanelContainer(
@@ -78,6 +79,10 @@ class DebugPanelContainer(
 
     fun createServersViewModel(): ServersViewModel {
         return ServersViewModel(context, serversRepository, panelSettingsRepository)
+    }
+
+    fun createApplicationSettingsViewModel(): ApplicationSettingsViewModel {
+        return ApplicationSettingsViewModel(appSettingsRepository)
     }
 
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
