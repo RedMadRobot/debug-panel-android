@@ -63,9 +63,7 @@ class DebugPanelContainer(
     }
 
     fun createAccountsViewModel(): AccountsViewModel {
-        return AccountsViewModel(
-            debugAccountRepository
-        )
+        return AccountsViewModel(context, debugAccountRepository)
     }
 
     fun createServersViewModel(): ServersViewModel {

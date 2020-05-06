@@ -29,7 +29,7 @@ class AccountsViewModel(
         loadAddedAccounts()
     }
 
-    fun addAccount(login: String, password: String) {
+    fun saveAccount(login: String, password: String) {
         val account = DebugAccount(
             login = login,
             password = password
@@ -89,7 +89,7 @@ class AccountsViewModel(
     }
 
     private fun loadAddedAccounts() {
-        debugAccountsRepository.getPreInstalledAccounts()
+        debugAccountsRepository.getAccounts()
             .map { accounts ->
                 listOf(SectionHeaderItem(context.getString(R.string.added)))
                     .plus(mapToAccountItems(accounts))
