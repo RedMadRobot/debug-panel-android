@@ -5,33 +5,38 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observe
-import com.redmadrobot.debug_panel.extension.obtainViewModel
+import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.ui.accounts.AccountsViewState
+import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.redmadrobot.debug_panel.ui.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_add_account.*
 
-class AccountsFragment : BaseFragment(R.layout.fragment_add_account){
+class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
 
     companion object {
         fun getInstance() = AccountsFragment()
     }
 
     private val accountsViewModel by lazy {
-        obtainViewModel {
+        obtainShareViewModel {
             DebugPanel.getContainer().createAccountsViewModel()
         }
     }
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
+    private val preInstalledAccountsSection = Section()
+    private val addedAccountsSection = Section()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(accountsViewModel.state, ::setAccountList)
+        observe(accountsViewModel.state, ::render)
         accountsViewModel.loadAccounts()
     }
 
@@ -46,12 +51,13 @@ class AccountsFragment : BaseFragment(R.layout.fragment_add_account){
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        val itemTouchHelperCallback = ItemTouchHelperCallback({ position ->
-            accountsViewModel.removeAccount(position)
-        })
-
-        ItemTouchHelper(itemTouchHelperCallback).apply {
-            attachToRecyclerView(account_list)
+        setItemTouchHelper()
+        with(accountsAdapter) {
+            setOnItemClickListener { item, _ ->
+                (item as? AccountItem)?.let { handleItemClick(it) }
+            }
+            add(preInstalledAccountsSection)
+            add(addedAccountsSection)
         }
 
         add_account.setOnClickListener {
@@ -59,7 +65,41 @@ class AccountsFragment : BaseFragment(R.layout.fragment_add_account){
         }
     }
 
-    private fun setAccountList(accounts: List<Item>) {
-        accountsAdapter.update(accounts)
+    private fun setItemTouchHelper() {
+        val itemTouchHelperCallback = ItemTouchHelperCallback(
+            onSwiped = { position ->
+                /*remove server from DB*/
+                val item = accountsAdapter.getItem(position) as? AccountItem
+                item?.let { accountsViewModel.removeAccount(it.account) }
+            },
+            canBeSwiped = { position ->
+                accountsAdapter.getGroupAtAdapterPosition(position) == addedAccountsSection &&
+                        accountsAdapter.getItem(position) is AccountItem
+            }
+        )
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(account_list)
+        }
+    }
+
+    private fun handleItemClick(item: AccountItem) {
+        if (addedAccountsSection.getPosition(item) > 0) {
+            val account = item.account
+            openAddAccountDialog(account)
+        }
+    }
+
+    private fun openAddAccountDialog(account: DebugAccount) {
+        val args = Bundle().apply {
+            putInt(AddAccountDialog.KEY_ID, account.id)
+            putString(AddAccountDialog.KEY_LOGIN, account.login)
+            putString(AddAccountDialog.KEY_PASSWORD, account.password)
+        }
+        AddAccountDialog.show(requireActivity().supportFragmentManager, args)
+    }
+
+    private fun render(state: AccountsViewState) {
+        preInstalledAccountsSection.update(state.preInstalledItems)
+        addedAccountsSection.update(state.addedItems)
     }
 }

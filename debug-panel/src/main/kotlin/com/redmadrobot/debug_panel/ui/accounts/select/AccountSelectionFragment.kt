@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.accounts.choose
+package com.redmadrobot.debug_panel.ui.accounts.select
 
 import android.os.Bundle
 import android.view.View
@@ -8,11 +8,12 @@ import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.ui.accounts.AccountsViewState
 import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
 class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) {
@@ -24,10 +25,12 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
     }
 
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
+    private val preInstalledAccountsSection = Section()
+    private val addedAccountsSection = Section()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(accountsViewModel.accounts, ::setAccountList)
+        observe(accountsViewModel.state, ::render)
         accountsViewModel.loadAccounts()
     }
 
@@ -46,21 +49,17 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
             val account = (item as? AccountItem)?.account
             account?.let(::selectAccount)
         }
+        accountsAdapter.add(preInstalledAccountsSection)
+        accountsAdapter.add(addedAccountsSection)
     }
 
     private fun selectAccount(account: DebugAccount) {
-        (targetFragment as? AccountDataResultListener)?.onAccountSelected(
-            account.login,
-            account.password
-        )
         DebugPanel.authenticator?.authenticate(account)
     }
 
-    private fun setAccountList(accounts: List<Item>) {
-        accountsAdapter.update(accounts)
+    private fun render(state: AccountsViewState) {
+        preInstalledAccountsSection.update(state.preInstalledItems)
+        addedAccountsSection.update(state.addedItems)
     }
 
-    interface AccountDataResultListener {
-        fun onAccountSelected(login: String, password: String)
-    }
 }
