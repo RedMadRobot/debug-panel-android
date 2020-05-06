@@ -5,7 +5,6 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
@@ -16,11 +15,10 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_add_account.*
 
-class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
-    AddAccountDialog.SaveAccountResultListener {
+class AccountsFragment : BaseFragment(R.layout.fragment_add_account){
 
     companion object {
-        fun getInstance() = AddAccountFragment()
+        fun getInstance() = AccountsFragment()
     }
 
     private val accountsViewModel by lazy {
@@ -33,22 +31,13 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(accountsViewModel.accounts, ::setAccountList)
+        observe(accountsViewModel.state, ::setAccountList)
         accountsViewModel.loadAccounts()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
-    }
-
-    override fun onAccountSaved(login: String, password: String) {
-        val userData =
-            DebugAccount(
-                login,
-                password
-            )
-        accountsViewModel.addAccount(userData)
     }
 
     private fun setView() {
@@ -66,7 +55,7 @@ class AddAccountFragment : BaseFragment(R.layout.fragment_add_account),
         }
 
         add_account.setOnClickListener {
-            AddAccountDialog.show(requireActivity().supportFragmentManager, this)
+            AddAccountDialog.show(requireActivity().supportFragmentManager)
         }
     }
 
