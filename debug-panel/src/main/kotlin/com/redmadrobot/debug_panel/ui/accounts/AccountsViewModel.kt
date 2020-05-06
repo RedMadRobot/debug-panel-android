@@ -38,9 +38,7 @@ class AccountsViewModel(
             .addAccount(account)
             .observeOnMain()
             .subscribeBy(
-                onComplete = {
-                    loadAddedAccounts()
-                }
+                onComplete = { loadAddedAccounts() }
             )
             .autoDispose()
     }
@@ -96,7 +94,7 @@ class AccountsViewModel(
             }
             .observeOnMain()
             .subscribeBy(onSuccess = { items ->
-                state.value = state.value?.copy(preInstalledItems = items)
+                state.value = state.value?.copy(addedItems = items)
             })
             .autoDispose()
     }
