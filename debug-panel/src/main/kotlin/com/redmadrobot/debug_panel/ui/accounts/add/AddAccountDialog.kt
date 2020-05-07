@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.debug_panel.R
@@ -21,9 +22,18 @@ class AddAccountDialog : DialogFragment() {
 
         private const val TAG = "AddAccountDialog"
 
-        fun show(fragmentManager: FragmentManager, arguments: Bundle? = null) {
+        fun show(
+            fragmentManager: FragmentManager,
+            id: Int? = null,
+            login: String? = null,
+            password: String? = null
+        ) {
             AddAccountDialog().apply {
-                this.arguments = arguments
+                this.arguments = bundleOf(
+                    KEY_ID to id,
+                    KEY_LOGIN to login,
+                    KEY_PASSWORD to password
+                )
             }.show(fragmentManager, TAG)
         }
     }

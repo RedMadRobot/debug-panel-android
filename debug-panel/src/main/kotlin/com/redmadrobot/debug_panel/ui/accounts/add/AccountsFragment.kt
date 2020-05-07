@@ -83,19 +83,19 @@ class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
     }
 
     private fun handleItemClick(item: AccountItem) {
-        if (addedAccountsSection.getPosition(item) > 0) {
+        if (addedAccountsSection.getPosition(item) >= 0) {
             val account = item.account
             openAddAccountDialog(account)
         }
     }
 
     private fun openAddAccountDialog(account: DebugAccount) {
-        val args = Bundle().apply {
-            putInt(AddAccountDialog.KEY_ID, account.id)
-            putString(AddAccountDialog.KEY_LOGIN, account.login)
-            putString(AddAccountDialog.KEY_PASSWORD, account.password)
-        }
-        AddAccountDialog.show(requireActivity().supportFragmentManager, args)
+        AddAccountDialog.show(
+            fragmentManager = requireActivity().supportFragmentManager,
+            id = account.id,
+            login = account.login,
+            password = account.password
+        )
     }
 
     private fun render(state: AccountsViewState) {
