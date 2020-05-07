@@ -85,6 +85,7 @@ class ServersViewModel(
     private fun loadPreInstalledServers() {
         serversRepository.getPreInstalledServers()
             .map { addDefaultServer(it) }
+            .filter { it.isNotEmpty() }
             .map { servers ->
                 listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
                     .plus(mapToItems(servers))
@@ -98,6 +99,7 @@ class ServersViewModel(
 
     private fun loadAddedServers() {
         serversRepository.getServers()
+            .filter { it.isNotEmpty() }
             .map { servers ->
                 listOf(SectionHeaderItem(context.getString(R.string.added)))
                     .plus(mapToItems(servers))
