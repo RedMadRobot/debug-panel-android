@@ -9,6 +9,7 @@ import com.redmadrobot.debug_panel.ui.settings.item.PreferenceBooleanItem
 import com.redmadrobot.debug_panel.ui.settings.item.PreferenceValueItem
 import com.redmadrobot.debug_panel.ui.view.HeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
+import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
 class ApplicationSettingsViewModel(
@@ -39,13 +40,25 @@ class ApplicationSettingsViewModel(
             /*Map SharedPreferences to Items*/
             sharedPreferences.all.forEach { (key, value) ->
                 val item = if (value is Boolean) {
-                    PreferenceBooleanItem(key, value)
+                    PreferenceBooleanItem(key, value) { settingKey, newValue ->
+                        updateSetting(settingKey, newValue)
+                    }
                 } else {
-                    PreferenceValueItem(key, value)
+
+                    PreferenceValueItem(key, value) { settingKey, newValue ->
+                        updateSetting(settingKey, newValue)
+                    }
                 }
                 items.add(item)
             }
         }
         return items
+    }
+
+    private fun updateSetting(settingKey: String, newValue: Any) {
+        appSettingsRepository.updateSetting(settingKey, newValue)
+            .observeOnMain()
+            .subscribeBy(onError = { Timber.e(it) })
+            .autoDispose()
     }
 }

@@ -13,6 +13,8 @@
         android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <TextView
@@ -22,11 +24,19 @@
             android:layout_gravity="center_vertical"
             tools:text="[Label]" />
 
+        <TextView
+            android:id="@+id/setting_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            tools:text="[String]" />
+
         <Switch
             android:id="@+id/setting_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
