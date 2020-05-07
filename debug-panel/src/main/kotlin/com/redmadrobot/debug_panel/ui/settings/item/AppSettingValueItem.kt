@@ -8,7 +8,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_preference_value.view.*
 import timber.log.Timber
 
-class PreferenceValueItem(
+class AppSettingValueItem(
     private val key: String,
     private var value: Any?,
     private val onChanged: (key: String, newValue: Any) -> Unit
@@ -24,7 +24,6 @@ class PreferenceValueItem(
 
             setSettingValue()
             save_value.setOnClickListener { saveNewValue() }
-
         }
     }
 
@@ -35,7 +34,7 @@ class PreferenceValueItem(
             onChanged.invoke(key, settingValue)
             setting_value.clearFocus()
 
-            this@PreferenceValueItem.value = settingValue
+            this@AppSettingValueItem.value = settingValue
             setting_value_container.error = null
             notifyChanged()
         } catch (e: Exception) {

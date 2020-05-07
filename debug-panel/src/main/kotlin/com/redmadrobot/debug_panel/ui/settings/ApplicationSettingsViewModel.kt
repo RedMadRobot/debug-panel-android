@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.debug_panel.data.settings.AppSettingsRepository
 import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.ui.base.BaseViewModel
-import com.redmadrobot.debug_panel.ui.settings.item.PreferenceBooleanItem
-import com.redmadrobot.debug_panel.ui.settings.item.PreferenceValueItem
+import com.redmadrobot.debug_panel.ui.settings.item.AppSettingBooleanItem
+import com.redmadrobot.debug_panel.ui.settings.item.AppSettingValueItem
 import com.redmadrobot.debug_panel.ui.view.HeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
@@ -40,12 +40,11 @@ class ApplicationSettingsViewModel(
             /*Map SharedPreferences to Items*/
             sharedPreferences.all.forEach { (key, value) ->
                 val item = if (value is Boolean) {
-                    PreferenceBooleanItem(key, value) { settingKey, newValue ->
+                    AppSettingBooleanItem(key, value) { settingKey, newValue ->
                         updateSetting(settingKey, newValue)
                     }
                 } else {
-
-                    PreferenceValueItem(key, value) { settingKey, newValue ->
+                    AppSettingValueItem(key, value) { settingKey, newValue ->
                         updateSetting(settingKey, newValue)
                     }
                 }
