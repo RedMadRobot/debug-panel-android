@@ -13,15 +13,7 @@ import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import kotlinx.android.synthetic.main.dialog_server.*
 
-class ServerHostDialog() : DialogFragment() {
-
-    private val shareViewModel by lazy {
-        obtainShareViewModel {
-            DebugPanel.getContainer().createServersViewModel()
-        }
-    }
-
-    private var isEditMode = false
+class ServerHostDialog : DialogFragment() {
 
     companion object {
         const val HOST = "HOST"
@@ -33,6 +25,14 @@ class ServerHostDialog() : DialogFragment() {
             }.show(fragmentManager, TAG)
         }
     }
+
+    private val shareViewModel by lazy {
+        obtainShareViewModel {
+            DebugPanel.getContainer().createServersViewModel()
+        }
+    }
+
+    private var isEditMode = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,5 +104,4 @@ class ServerHostDialog() : DialogFragment() {
     private fun showWrongHostError() {
         server_host_input_layout.error = getString(R.string.error_wrong_host)
     }
-
 }

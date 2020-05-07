@@ -1,11 +1,9 @@
 package com.redmadrobot.debug_panel.internal
 
 import android.content.Context
-import com.redmadrobot.debug_panel.data.accounts.AccountRepository
-import com.redmadrobot.debug_panel.data.accounts.AccountsProvider
-import com.redmadrobot.debug_panel.data.accounts.strategy.AccountRepositoryProvider
-import com.redmadrobot.debug_panel.data.accounts.strategy.LocalAccountsLoadStrategy
-import com.redmadrobot.debug_panel.data.accounts.strategy.PreinstalledAccountsLoadStrategy
+import androidx.room.RoomDatabase
+import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
+import com.redmadrobot.debug_panel.data.accounts.LocalDebugAccountRepository
 import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
 import com.redmadrobot.debug_panel.data.servers.LocalDebugServerRepository
 import com.redmadrobot.debug_panel.data.storage.AppDatabase
@@ -21,31 +19,30 @@ class DebugPanelContainer(
     debugPanelConfig: DebugPanelConfig
 ) {
 
-    internal val dataBaseInstance: AppDatabase
+    private val dataBaseInstance: RoomDatabase
 
     /*Accounts region*/
-    internal val accountRepository: AccountRepository
-    internal val localAccountProvider: AccountsProvider
-    internal val preInstalledAccountProvider: AccountsProvider
-    internal val featureToggleHolder: FeatureToggleHolder
+    private val debugAccountRepository: DebugAccountRepository
     /*endregion*/
 
     /*Servers region*/
-    internal val serversRepository: DebugServerRepository
+    private val serversRepository: DebugServerRepository
     /*endregion*/
 
     /*Feature toggle region*/
     internal val panelSettingsRepository: PanelSettingsRepository
-    internal val localFeatureToggleRepository: LocalFeatureToggleRepository
+    private val localFeatureToggleRepository: LocalFeatureToggleRepository
+    internal val featureToggleHolder: FeatureToggleHolder
     /*endregion*/
 
     init {
         this.dataBaseInstance = AppDatabase.getInstance(context)
 
         //Accounts
-        this.accountRepository = AccountRepositoryProvider(context).getAccountRepository()
-        this.localAccountProvider = AccountsProvider(LocalAccountsLoadStrategy(accountRepository))
-        this.preInstalledAccountProvider = AccountsProvider(PreinstalledAccountsLoadStrategy())
+        this.debugAccountRepository = LocalDebugAccountRepository(
+            dataBaseInstance.getDebugAccountsDao(),
+            debugPanelConfig.preInstalledAccounts
+        )
         //
 
         //Servers
@@ -66,11 +63,7 @@ class DebugPanelContainer(
     }
 
     fun createAccountsViewModel(): AccountsViewModel {
-        return AccountsViewModel(
-            accountRepository,
-            localAccountProvider,
-            preInstalledAccountProvider
-        )
+        return AccountsViewModel(context, debugAccountRepository)
     }
 
     fun createServersViewModel(): ServersViewModel {

@@ -4,23 +4,23 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.redmadrobot.debug_panel.data.storage.dao.DebugAccountDao
 import com.redmadrobot.debug_panel.data.storage.dao.DebugServersDao
-import com.redmadrobot.debug_panel.data.storage.dao.DebugUserCredentialsDao
+import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
-import com.redmadrobot.debug_panel.data.storage.entity.DebugUserCredentials
 import com.redmadrobot.debug_panel.data.toggles.model.FeatureToggle
 import com.redmadrobot.debug_panel.data.toggles.model.FeatureTogglesDao
 
 @Database(
     entities = [
-        DebugUserCredentials::class,
+        DebugAccount::class,
         DebugServer::class,
         FeatureToggle::class
     ],
     version = 1
 )
 internal abstract class AppDatabase : RoomDatabase() {
-    abstract fun getDebugUserCredentialsDao(): DebugUserCredentialsDao
+    abstract fun getDebugAccountsDao(): DebugAccountDao
 
     abstract fun getDebugServersDao(): DebugServersDao
 
