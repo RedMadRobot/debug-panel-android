@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.dialog_add_account.*
 class AddAccountDialog : DialogFragment() {
 
     companion object {
-        const val KEY_ID = "ID"
-        const val KEY_LOGIN = "LOGIN"
-        const val KEY_PASSWORD = "PASSWORD"
+        private const val KEY_ID = "ID"
+        private const val KEY_LOGIN = "LOGIN"
+        private const val KEY_PASSWORD = "PASSWORD"
 
         private const val TAG = "AddAccountDialog"
 
