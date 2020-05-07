@@ -26,6 +26,8 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
                 this
             ),
             sharedPreferences = listOf(
+                AppTestSettings(this.applicationContext).testSharedPreferences,
+                AppTestSettings(this.applicationContext).testSharedPreferences,
                 AppTestSettings(this.applicationContext).testSharedPreferences
             )
         )
