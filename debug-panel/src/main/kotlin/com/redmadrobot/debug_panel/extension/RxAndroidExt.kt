@@ -1,6 +1,7 @@
 package com.redmadrobot.debug_panel.extension
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,6 +22,10 @@ internal fun <T> Single<List<T>>.zipList(anotherSource: Single<List<T>>): Single
         }
     )
 }
+//endregion
+
+//region Maybe
+internal fun <T> Maybe<T>.observeOnMain(): Maybe<T> = observeOn(AndroidSchedulers.mainThread())
 //endregion
 
 //region Completable

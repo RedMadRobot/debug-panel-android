@@ -9,6 +9,7 @@ import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.internal.DebugPanelConfig
+import com.redmadrobot.debug_sample.storage.AppTestSettings
 
 class App : Application(), Authenticator, FeatureToggleChangeListener {
     override fun onCreate() {
@@ -23,8 +24,14 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
                 FeatureToggleWrapperImpl.toggleNames,
                 FeatureToggleWrapperImpl(),
                 this
+            ),
+            sharedPreferences = listOf(
+                AppTestSettings(this.applicationContext).testSharedPreferences,
+                AppTestSettings(this.applicationContext).testSharedPreferences,
+                AppTestSettings(this.applicationContext).testSharedPreferences
             )
         )
+
 
         DebugPanel.initialize(this, debugPanelConfig)
     }

@@ -27,7 +27,8 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
     }
 
     private var dialogView: View? = null
-    private val tabLabelIds = arrayOf(R.string.accounts, R.string.servers, R.string.settings)
+    private val tabLabelIds =
+        arrayOf(R.string.accounts, R.string.servers, R.string.toggles, R.string.settings)
 
     @NonNull
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

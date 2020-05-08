@@ -61,17 +61,18 @@ class AccountsViewModel(
 
 
     fun removeAccount(account: DebugAccount) {
-            debugAccountsRepository
-                .removeAccount(account)
-                .observeOnMain()
-                .subscribeBy(
-                    onComplete = { loadAddedAccounts() }
-                )
-                .autoDispose()
+        debugAccountsRepository
+            .removeAccount(account)
+            .observeOnMain()
+            .subscribeBy(
+                onComplete = { loadAddedAccounts() }
+            )
+            .autoDispose()
     }
 
     private fun loadPreInstalledAccounts() {
         debugAccountsRepository.getPreInstalledAccounts()
+            .filter { it.isNotEmpty() }
             .map { accounts ->
                 /*"Pre-installed" header*/
                 listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
@@ -86,6 +87,7 @@ class AccountsViewModel(
 
     private fun loadAddedAccounts() {
         debugAccountsRepository.getAccounts()
+            .filter { it.isNotEmpty() }
             .map { accounts ->
                 /*"Added" header*/
                 listOf(SectionHeaderItem(context.getString(R.string.added)))
