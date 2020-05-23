@@ -9,8 +9,10 @@ import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.extension.getPlugin
 import com.redmadrobot.debug_panel.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
+import com.redmadrobot.debug_panel.internal.plugin.server.ServersPluginContainer
 import kotlinx.android.synthetic.main.dialog_server.*
 
 class ServerHostDialog : DialogFragment() {
@@ -28,7 +30,9 @@ class ServerHostDialog : DialogFragment() {
 
     private val shareViewModel by lazy {
         obtainShareViewModel {
-            DebugPanel.getContainer().createServersViewModel()
+            getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .createServersViewModel()
         }
     }
 

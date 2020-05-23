@@ -13,7 +13,7 @@ open class BaseFragment(layoutId: Int) : Fragment(layoutId) {
         super.onDestroyView()
     }
 
-    fun Disposable.autoDispose(): Disposable {
+    protected fun Disposable.autoDispose(): Disposable {
         this.autoDispose(compositeDisposable)
         return this
     }

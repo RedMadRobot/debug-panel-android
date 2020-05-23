@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.extension.getPlugin
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.internal.plugin.app_settings.AppSettingsPlugin
+import com.redmadrobot.debug_panel.internal.plugin.app_settings.AppSettingsPluginContainer
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -17,7 +19,9 @@ class ApplicationSettingsFragment : BaseFragment(R.layout.fragment_app_settings)
 
     private val settingsViewModel by lazy {
         obtainViewModel {
-            DebugPanel.getContainer().createApplicationSettingsViewModel()
+            getPlugin<AppSettingsPlugin>()
+                .getContainer<AppSettingsPluginContainer>()
+                .createApplicationSettingsViewModel()
         }
     }
 

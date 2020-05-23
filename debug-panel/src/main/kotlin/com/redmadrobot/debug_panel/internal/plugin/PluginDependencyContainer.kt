@@ -1,0 +1,3 @@
+package com.redmadrobot.debug_panel.internal.plugin
+
+interface PluginDependencyContainer

@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
+import com.redmadrobot.debug_panel.extension.getPlugin
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.internal.plugin.account.AccountsPlugin
+import com.redmadrobot.debug_panel.internal.plugin.account.AccountsPluginContainer
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewState
 import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
@@ -26,7 +28,9 @@ class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
 
     private val accountsViewModel by lazy {
         obtainShareViewModel {
-            DebugPanel.getContainer().createAccountsViewModel()
+            getPlugin<AccountsPlugin>()
+                .getContainer<AccountsPluginContainer>()
+                .createAccountsViewModel()
         }
     }
 

@@ -10,11 +10,13 @@ import java.net.URI
 
 class DebugServerInterceptor : Interceptor {
 
-    private val panelSettingsRepository = DebugPanel.getContainer().panelSettingsRepository
+    private val panelSettingsRepository by lazy {
+        DebugPanel.instance?.getContainer()?.panelSettingsRepository
+    }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request: Request = chain.request()
-        val debugServer = panelSettingsRepository.getSelectedServerHost()
+        val debugServer = panelSettingsRepository?.getSelectedServerHost()
 
         if (debugServer != null && debugServer.isNotEmpty()) {
             val newUrl = request.getNewUrl(debugServer)

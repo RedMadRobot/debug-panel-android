@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.extension.getPlugin
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
+import com.redmadrobot.debug_panel.internal.plugin.server.ServersPluginContainer
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.redmadrobot.debug_panel.ui.servers.ServersViewState
 import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
@@ -23,7 +25,9 @@ class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection)
 
     private val serversViewModel by lazy {
         obtainShareViewModel {
-            DebugPanel.getContainer().createServersViewModel()
+            getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .createServersViewModel()
         }
     }
 

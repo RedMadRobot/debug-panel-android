@@ -5,9 +5,11 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
+import com.redmadrobot.debug_panel.extension.getPlugin
 import com.redmadrobot.debug_panel.extension.observe
 import com.redmadrobot.debug_panel.extension.obtainViewModel
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.internal.plugin.account.AccountsPlugin
+import com.redmadrobot.debug_panel.internal.plugin.account.AccountsPluginContainer
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewState
 import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
 import com.redmadrobot.debug_panel.ui.base.BaseFragment
@@ -20,7 +22,9 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
 
     private val accountsViewModel by lazy {
         obtainViewModel {
-            DebugPanel.getContainer().createAccountsViewModel()
+            getPlugin<AccountsPlugin>()
+                .getContainer<AccountsPluginContainer>()
+                .createAccountsViewModel()
         }
     }
 
@@ -54,7 +58,7 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
     }
 
     private fun selectAccount(account: DebugAccount) {
-        DebugPanel.authenticator?.authenticate(account)
+        getPlugin<AccountsPlugin>().authenticator.authenticate(account)
     }
 
     private fun render(state: AccountsViewState) {

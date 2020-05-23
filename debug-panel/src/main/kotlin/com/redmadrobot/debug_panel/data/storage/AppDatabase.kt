@@ -19,7 +19,7 @@ import com.redmadrobot.debug_panel.data.toggles.model.FeatureTogglesDao
     ],
     version = 1
 )
-internal abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun getDebugAccountsDao(): DebugAccountDao
 
     abstract fun getDebugServersDao(): DebugServersDao

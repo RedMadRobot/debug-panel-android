@@ -1,39 +1,27 @@
 package com.redmadrobot.debug_panel.internal
 
 import android.app.Application
-import com.redmadrobot.debug_panel.accounts.Authenticator
+import com.redmadrobot.debug_panel.internal.plugin.Plugin
 import timber.log.Timber
 
 object DebugPanel {
 
-    internal val authenticator: Authenticator?
-        get() = debugPanelInstance?.debugPanelConfig?.authenticator
+    internal var instance: DebugPanelInstance? = null
+        get() = field ?: throw IllegalStateException("Debug panel must be initialised")
 
-    private var debugPanelInstance: DebugPanelInstance? = null
-
-    fun initialize(application: Application, debugPanelConfig: DebugPanelConfig) {
-        createDebugPanelInstance(application, debugPanelConfig)
+    fun initialize(application: Application, plugins: List<Plugin>) {
+        createDebugPanelInstance(application, plugins)
         initTimber()
-        debugPanelConfig.featureTogglesConfig?.let { config ->
-            debugPanelInstance?.getContainer()
-                ?.featureToggleHolder
-                ?.initConfig(config)
-        }
-    }
-
-    internal fun getContainer(): DebugPanelContainer {
-        return debugPanelInstance?.getContainer()
-            ?: throw IllegalStateException("Debug panel must be initialised")
-    }
-
-    private fun initTimber() {
-        Timber.plant(Timber.DebugTree())
     }
 
     private fun createDebugPanelInstance(
         application: Application,
-        debugPanelConfig: DebugPanelConfig
+        plugins: List<Plugin>
     ) {
-        debugPanelInstance = DebugPanelInstance(application, debugPanelConfig)
+        instance = DebugPanelInstance(application, plugins)
+    }
+
+    private fun initTimber() {
+        Timber.plant(Timber.DebugTree())
     }
 }

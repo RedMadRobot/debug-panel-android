@@ -9,8 +9,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.debug_panel.R
+import com.redmadrobot.debug_panel.extension.getPlugin
 import com.redmadrobot.debug_panel.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.debug_panel.internal.plugin.account.AccountsPlugin
+import com.redmadrobot.debug_panel.internal.plugin.account.AccountsPluginContainer
 import kotlinx.android.synthetic.main.dialog_add_account.*
 
 class AddAccountDialog : DialogFragment() {
@@ -47,7 +49,9 @@ class AddAccountDialog : DialogFragment() {
 
     private val sharedViewModel by lazy {
         obtainShareViewModel {
-            DebugPanel.getContainer().createAccountsViewModel()
+            getPlugin<AccountsPlugin>()
+                .getContainer<AccountsPluginContainer>()
+                .createAccountsViewModel()
         }
     }
 
