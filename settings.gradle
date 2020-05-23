@@ -1,1 +1,3 @@
 include ':sample', ':debug-panel'
+include ':accounts-plugin'
+include ':panel-core'
