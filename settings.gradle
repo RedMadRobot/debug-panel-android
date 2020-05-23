@@ -1,3 +1,7 @@
-include ':sample', ':debug-panel'
-include ':accounts-plugin'
-include ':panel-core'
+include ':sample',
+        ':debug-panel',
+        'panel-core',
+        'plugins:accounts-plugin',
+        'plugins:servers-plugin',
+        'plugins:feature-toggles-plugin',
+        'plugins:app-settings-plugin'
