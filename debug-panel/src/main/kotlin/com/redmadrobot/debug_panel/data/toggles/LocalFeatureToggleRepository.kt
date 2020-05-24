@@ -1,9 +1,9 @@
 package com.redmadrobot.debug_panel.data.toggles
 
-import com.redmadrobot.debug_panel.data.storage.PanelSettingsRepository
-import com.redmadrobot.debug_panel.data.toggles.model.FeatureToggle
-import com.redmadrobot.debug_panel.data.toggles.model.FeatureTogglesDao
-import com.redmadrobot.debug_panel.extension.subscribeOnIo
+import com.redmadrobot.core.data.storage.PanelSettingsRepository
+import com.redmadrobot.core.data.storage.dao.FeatureTogglesDao
+import com.redmadrobot.core.data.storage.entity.FeatureToggle
+import com.redmadrobot.core.extension.subscribeOnIo
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -94,7 +94,10 @@ class LocalFeatureToggleRepository(
     private fun getInitialFeatureToggles(): List<FeatureToggle> {
         return featureTogglesConfig.toggleNames
             .map { name ->
-                FeatureToggle(name, featureTogglesConfig.featureToggleWrapper.toggleValue(name))
+                FeatureToggle(
+                    name,
+                    featureTogglesConfig.featureToggleWrapper.toggleValue(name)
+                )
             }
     }
 }

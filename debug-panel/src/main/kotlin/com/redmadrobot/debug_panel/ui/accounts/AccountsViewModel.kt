@@ -2,12 +2,12 @@ package com.redmadrobot.debug_panel.ui.accounts
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.core.data.accounts.DebugAccountRepository
+import com.redmadrobot.core.data.storage.entity.DebugAccount
+import com.redmadrobot.core.extension.observeOnMain
+import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.accounts.DebugAccountRepository
-import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
-import com.redmadrobot.debug_panel.extension.observeOnMain
 import com.redmadrobot.debug_panel.ui.accounts.item.AccountItem
-import com.redmadrobot.debug_panel.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.ui.view.SectionHeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy

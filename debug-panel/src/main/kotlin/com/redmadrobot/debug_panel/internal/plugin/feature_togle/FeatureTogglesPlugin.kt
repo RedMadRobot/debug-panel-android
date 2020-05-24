@@ -1,10 +1,10 @@
 package com.redmadrobot.debug_panel.internal.plugin.feature_togle
 
 import androidx.fragment.app.Fragment
+import com.redmadrobot.core.CommonContainer
+import com.redmadrobot.core.Plugin
+import com.redmadrobot.core.PluginDependencyContainer
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
-import com.redmadrobot.debug_panel.internal.CommonContainer
-import com.redmadrobot.debug_panel.internal.plugin.Plugin
-import com.redmadrobot.debug_panel.internal.plugin.PluginDependencyContainer
 import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesFragment
 
 class FeatureTogglesPlugin(

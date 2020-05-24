@@ -1,9 +1,9 @@
 package com.redmadrobot.debug_panel.internal.plugin.app_settings
 
 import android.content.SharedPreferences
-import com.redmadrobot.debug_panel.data.settings.AppSettingsRepositoryImpl
-import com.redmadrobot.debug_panel.internal.CommonContainer
-import com.redmadrobot.debug_panel.internal.plugin.PluginDependencyContainer
+import com.redmadrobot.core.CommonContainer
+import com.redmadrobot.core.PluginDependencyContainer
+import com.redmadrobot.core.data.settings.AppSettingsRepositoryImpl
 import com.redmadrobot.debug_panel.ui.settings.ApplicationSettingsViewModel
 
 internal class AppSettingsPluginContainer(
@@ -12,7 +12,9 @@ internal class AppSettingsPluginContainer(
 ) : PluginDependencyContainer {
 
     private val appSettingsRepository by lazy {
-        AppSettingsRepositoryImpl(preferencesList)
+        AppSettingsRepositoryImpl(
+            preferencesList
+        )
     }
 
     fun createApplicationSettingsViewModel(): ApplicationSettingsViewModel {

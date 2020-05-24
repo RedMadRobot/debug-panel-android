@@ -2,9 +2,9 @@ package com.redmadrobot.debug_panel.ui.settings
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel.data.settings.AppSettingsRepository
-import com.redmadrobot.debug_panel.extension.observeOnMain
-import com.redmadrobot.debug_panel.ui.base.BaseViewModel
+import com.redmadrobot.core.data.settings.AppSettingsRepository
+import com.redmadrobot.core.extension.observeOnMain
+import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.ui.settings.item.AppSettingBooleanItem
 import com.redmadrobot.debug_panel.ui.settings.item.AppSettingValueItem
 import com.redmadrobot.debug_panel.ui.view.HeaderItem

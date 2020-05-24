@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.redmadrobot.core.extension.getPlugin
+import com.redmadrobot.core.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.extension.getPlugin
-import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
 import com.redmadrobot.debug_panel.internal.plugin.server.ServersPluginContainer
 import kotlinx.android.synthetic.main.dialog_server.*

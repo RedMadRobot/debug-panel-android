@@ -1,10 +1,10 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
+import com.redmadrobot.core.data.PreInstalledData
+import com.redmadrobot.core.data.storage.entity.DebugAccount
+import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.debug_panel.accounts.Authenticator
-import com.redmadrobot.debug_panel.data.PreInstalledData
-import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
-import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel
@@ -21,12 +21,16 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
         DebugPanel.initialize(
             this, listOf(
                 AccountsPlugin(
-                    preInstalledAccounts = PreInstalledData(getPreInstalledAccounts()),
+                    preInstalledAccounts = PreInstalledData(
+                        getPreInstalledAccounts()
+                    ),
                     //TODO Временная реализация. Здесь это не должно делаться.
                     authenticator = this
                 ),
                 ServersPlugin(
-                    preInstalledServers = PreInstalledData(getPreInstalledServers())
+                    preInstalledServers = PreInstalledData(
+                        getPreInstalledServers()
+                    )
                 ),
                 FeatureTogglesPlugin(
                     featureTogglesConfig = FeatureTogglesConfig(

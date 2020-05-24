@@ -1,6 +1,6 @@
 package com.redmadrobot.debug_panel.util.server
 
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.core.DebugPanelInstance
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -11,7 +11,7 @@ import java.net.URI
 class DebugServerInterceptor : Interceptor {
 
     private val panelSettingsRepository by lazy {
-        DebugPanel.instance?.getContainer()?.panelSettingsRepository
+        DebugPanelInstance.instance?.getContainer()?.panelSettingsRepository
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {

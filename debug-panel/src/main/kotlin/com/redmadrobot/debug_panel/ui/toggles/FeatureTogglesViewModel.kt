@@ -1,11 +1,11 @@
 package com.redmadrobot.debug_panel.ui.toggles
 
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel.data.storage.PanelSettingsRepository
+import com.redmadrobot.core.data.storage.PanelSettingsRepository
+import com.redmadrobot.core.data.storage.entity.FeatureToggle
+import com.redmadrobot.core.extension.observeOnMain
+import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.data.toggles.FeatureToggleRepository
-import com.redmadrobot.debug_panel.data.toggles.model.FeatureToggle
-import com.redmadrobot.debug_panel.extension.observeOnMain
-import com.redmadrobot.debug_panel.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.ui.toggles.item.FeatureToggleItem
 import io.reactivex.rxkotlin.subscribeBy
 

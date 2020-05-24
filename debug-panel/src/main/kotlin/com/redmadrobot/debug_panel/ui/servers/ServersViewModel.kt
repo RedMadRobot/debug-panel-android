@@ -2,12 +2,12 @@ package com.redmadrobot.debug_panel.ui.servers
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.core.data.servers.DebugServerRepository
+import com.redmadrobot.core.data.storage.PanelSettingsRepository
+import com.redmadrobot.core.data.storage.entity.DebugServer
+import com.redmadrobot.core.extension.observeOnMain
+import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.data.servers.DebugServerRepository
-import com.redmadrobot.debug_panel.data.storage.PanelSettingsRepository
-import com.redmadrobot.debug_panel.data.storage.entity.DebugServer
-import com.redmadrobot.debug_panel.extension.observeOnMain
-import com.redmadrobot.debug_panel.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
 import com.redmadrobot.debug_panel.ui.view.SectionHeaderItem
 import io.reactivex.rxkotlin.subscribeBy
@@ -33,7 +33,8 @@ class ServersViewModel(
     }
 
     fun addServer(host: String) {
-        val server = DebugServer(url = host)
+        val server =
+            DebugServer(url = host)
         serversRepository.addServer(server)
             .observeOnMain()
             .subscribeBy(onComplete = {

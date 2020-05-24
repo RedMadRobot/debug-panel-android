@@ -3,13 +3,13 @@ package com.redmadrobot.debug_panel.ui.servers.choose
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.redmadrobot.core.extension.getPlugin
+import com.redmadrobot.core.extension.observe
+import com.redmadrobot.core.extension.obtainShareViewModel
+import com.redmadrobot.core.ui.base.BaseFragment
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.extension.getPlugin
-import com.redmadrobot.debug_panel.extension.observe
-import com.redmadrobot.debug_panel.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
 import com.redmadrobot.debug_panel.internal.plugin.server.ServersPluginContainer
-import com.redmadrobot.debug_panel.ui.base.BaseFragment
 import com.redmadrobot.debug_panel.ui.servers.ServersViewState
 import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
 import com.xwray.groupie.GroupAdapter

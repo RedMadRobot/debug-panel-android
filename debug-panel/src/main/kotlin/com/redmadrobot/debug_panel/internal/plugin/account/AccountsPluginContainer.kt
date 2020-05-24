@@ -1,10 +1,10 @@
 package com.redmadrobot.debug_panel.internal.plugin.account
 
-import com.redmadrobot.debug_panel.data.PreInstalledData
-import com.redmadrobot.debug_panel.data.accounts.LocalDebugAccountRepository
-import com.redmadrobot.debug_panel.data.storage.entity.DebugAccount
-import com.redmadrobot.debug_panel.internal.CommonContainer
-import com.redmadrobot.debug_panel.internal.plugin.PluginDependencyContainer
+import com.redmadrobot.core.CommonContainer
+import com.redmadrobot.core.PluginDependencyContainer
+import com.redmadrobot.core.data.PreInstalledData
+import com.redmadrobot.core.data.accounts.LocalDebugAccountRepository
+import com.redmadrobot.core.data.storage.entity.DebugAccount
 import com.redmadrobot.debug_panel.ui.accounts.AccountsViewModel
 
 internal class AccountsPluginContainer(
