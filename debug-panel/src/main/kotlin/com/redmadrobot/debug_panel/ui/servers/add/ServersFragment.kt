@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.core.extension.getPlugin
 import com.redmadrobot.core.extension.observe
 import com.redmadrobot.core.extension.obtainShareViewModel
+import com.redmadrobot.core.ui.ItemTouchHelperCallback
 import com.redmadrobot.core.ui.base.BaseFragment
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
 import com.redmadrobot.debug_panel.internal.plugin.server.ServersPluginContainer
 import com.redmadrobot.debug_panel.ui.servers.ServersViewState
 import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
-import com.redmadrobot.debug_panel.ui.view.ItemTouchHelperCallback
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -53,17 +53,18 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
         server_list.layoutManager = LinearLayoutManager(requireContext())
         server_list.adapter = serversAdapter
 
-        val itemTouchHelperCallback = ItemTouchHelperCallback(
-            onSwiped = { position ->
-                /*remove server from DB*/
-                val item = serversAdapter.getItem(position) as DebugServerItem
-                serversViewModel.removeServer(item)
-            },
-            canBeSwiped = { position ->
-                serversAdapter.getGroupAtAdapterPosition(position) == addedServersSection &&
-                        serversAdapter.getItem(position) is DebugServerItem
-            }
-        )
+        val itemTouchHelperCallback =
+            ItemTouchHelperCallback(
+                onSwiped = { position ->
+                    /*remove server from DB*/
+                    val item = serversAdapter.getItem(position) as DebugServerItem
+                    serversViewModel.removeServer(item)
+                },
+                canBeSwiped = { position ->
+                    serversAdapter.getGroupAtAdapterPosition(position) == addedServersSection &&
+                            serversAdapter.getItem(position) is DebugServerItem
+                }
+            )
 
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(server_list)

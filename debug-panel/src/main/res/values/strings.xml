@@ -11,11 +11,6 @@
     <string name="added">Added</string>
     <!---->
 
-    <!--Accounts-->
-    <string name="login_hint">Login</string>
-    <string name="password_hint">Password</string>
-    <string name="save_account_text">save</string>
-    <!---->
 
     <!--Feature toggle-->
     <string name="override_enable">Override enable</string>

@@ -2,14 +2,14 @@ package com.redmadrobot.debug_panel.ui.servers
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.core.data.servers.DebugServerRepository
 import com.redmadrobot.core.data.storage.PanelSettingsRepository
 import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.core.extension.observeOnMain
+import com.redmadrobot.core.ui.SectionHeaderItem
 import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
-import com.redmadrobot.debug_panel.ui.view.SectionHeaderItem
+import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import io.reactivex.rxkotlin.subscribeBy
 
 class ServersViewModel(
@@ -88,7 +88,13 @@ class ServersViewModel(
             .map { addDefaultServer(it) }
             .filter { it.isNotEmpty() }
             .map { servers ->
-                listOf(SectionHeaderItem(context.getString(R.string.pre_installed)))
+                listOf(
+                    SectionHeaderItem(
+                        context.getString(
+                            R.string.pre_installed
+                        )
+                    )
+                )
                     .plus(mapToItems(servers))
             }
             .observeOnMain()
@@ -102,7 +108,13 @@ class ServersViewModel(
         serversRepository.getServers()
             .filter { it.isNotEmpty() }
             .map { servers ->
-                listOf(SectionHeaderItem(context.getString(R.string.added)))
+                listOf(
+                    SectionHeaderItem(
+                        context.getString(
+                            R.string.added
+                        )
+                    )
+                )
                     .plus(mapToItems(servers))
             }
             .observeOnMain()

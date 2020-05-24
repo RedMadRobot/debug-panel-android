@@ -3,9 +3,9 @@ package com.redmadrobot.debug_panel.ui.debugpanel
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.redmadrobot.account_plugin.ui.add.AccountsFragment
 import com.redmadrobot.debug_panel.R
 import com.redmadrobot.debug_panel.ui.StubFragment
-import com.redmadrobot.debug_panel.ui.accounts.add.AccountsFragment
 import com.redmadrobot.debug_panel.ui.servers.add.ServersFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder

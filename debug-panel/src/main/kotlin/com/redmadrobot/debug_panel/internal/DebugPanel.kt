@@ -2,7 +2,7 @@ package com.redmadrobot.debug_panel.internal
 
 import android.app.Application
 import com.redmadrobot.core.DebugPanelInstance
-import com.redmadrobot.core.Plugin
+import com.redmadrobot.core.plugin.Plugin
 import timber.log.Timber
 
 object DebugPanel {

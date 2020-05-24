@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="save_account_text">save</string>
+    <string name="added_accounts">Added</string>
+    <string name="pre_installed_accounts">Pre-installed</string>
+
+</resources>

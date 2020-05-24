@@ -2,6 +2,8 @@ package com.redmadrobot.core
 
 import android.app.Application
 import android.content.Context
+import com.redmadrobot.core.plugin.Plugin
+import com.redmadrobot.core.plugin.PluginManager
 
 class DebugPanelInstance constructor(
     application: Application,
