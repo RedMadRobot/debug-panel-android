@@ -1,13 +1,13 @@
-package com.redmadrobot.debug_panel.ui.settings
+package com.redmadrobot.app_settings_plugin.ui
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.app_settings_plugin.data.AppSettingsRepository
+import com.redmadrobot.app_settings_plugin.ui.item.AppSettingBooleanItem
+import com.redmadrobot.app_settings_plugin.ui.item.AppSettingValueItem
+import com.redmadrobot.app_settings_plugin.ui.item.HeaderItem
 import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.base.BaseViewModel
-import com.redmadrobot.debug_panel.ui.settings.item.AppSettingBooleanItem
-import com.redmadrobot.debug_panel.ui.settings.item.AppSettingValueItem
-import com.redmadrobot.debug_panel.ui.view.HeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
@@ -35,7 +35,11 @@ class ApplicationSettingsViewModel(
         val items = mutableListOf<Item>()
         settings.forEach { sharedPreferences ->
             /*Settings header*/
-            items.add(HeaderItem(sharedPreferences.toString()))
+            items.add(
+                HeaderItem(
+                    sharedPreferences.toString()
+                )
+            )
 
             /*Map SharedPreferences to Items*/
             sharedPreferences.all.forEach { (key, value) ->

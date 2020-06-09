@@ -1,6 +1,6 @@
-package com.redmadrobot.debug_panel.ui.settings.item
+package com.redmadrobot.app_settings_plugin.ui.item
 
-import com.redmadrobot.debug_panel.R
+import com.redmadrobot.app_settings_plugin.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_preference_boolean.view.*

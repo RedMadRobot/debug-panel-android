@@ -2,6 +2,7 @@ package com.redmadrobot.debug_sample
 
 import android.app.Application
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
+import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.core.authenticator.Authenticator
 import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.core.data.storage.entity.DebugAccount
@@ -9,7 +10,6 @@ import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleChangeListener
 import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel
-import com.redmadrobot.debug_panel.internal.plugin.app_settings.AppSettingsPlugin
 import com.redmadrobot.debug_panel.internal.plugin.feature_togle.FeatureTogglesPlugin
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
