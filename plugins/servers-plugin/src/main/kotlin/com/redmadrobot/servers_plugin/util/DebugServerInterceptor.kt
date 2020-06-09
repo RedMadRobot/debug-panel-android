@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.util.server
+package com.redmadrobot.servers_plugin.util
 
 import com.redmadrobot.core.DebugPanelInstance
 import okhttp3.HttpUrl
@@ -6,7 +6,6 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.net.URI
-
 
 class DebugServerInterceptor : Interceptor {
 
