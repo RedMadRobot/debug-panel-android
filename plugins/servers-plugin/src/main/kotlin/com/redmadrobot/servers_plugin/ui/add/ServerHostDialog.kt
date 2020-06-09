@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.servers.add
+package com.redmadrobot.servers_plugin.ui.add
 
 import android.os.Bundle
 import android.util.Patterns
@@ -10,9 +10,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.core.extension.getPlugin
 import com.redmadrobot.core.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
-import com.redmadrobot.debug_panel.internal.plugin.server.ServersPluginContainer
+import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.servers_plugin.plugin.ServersPlugin
+import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import kotlinx.android.synthetic.main.dialog_server.*
 
 class ServerHostDialog : DialogFragment() {

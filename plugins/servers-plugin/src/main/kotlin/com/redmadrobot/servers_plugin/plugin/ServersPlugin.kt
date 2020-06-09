@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.internal.plugin.server
+package com.redmadrobot.servers_plugin.plugin
 
 import androidx.fragment.app.Fragment
 import com.redmadrobot.core.CommonContainer
@@ -6,8 +6,8 @@ import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.core.plugin.Plugin
 import com.redmadrobot.core.plugin.PluginDependencyContainer
-import com.redmadrobot.debug_panel.ui.servers.add.ServersFragment
-import com.redmadrobot.debug_panel.ui.servers.choose.ServerSelectionFragment
+import com.redmadrobot.servers_plugin.ui.add.ServersFragment
+import com.redmadrobot.servers_plugin.ui.choose.ServerSelectionFragment
 
 class ServersPlugin(
     private val preInstalledServers: PreInstalledData<DebugServer> = PreInstalledData(

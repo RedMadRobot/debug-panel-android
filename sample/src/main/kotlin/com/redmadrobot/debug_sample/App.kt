@@ -11,8 +11,8 @@ import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_panel.internal.plugin.app_settings.AppSettingsPlugin
 import com.redmadrobot.debug_panel.internal.plugin.feature_togle.FeatureTogglesPlugin
-import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
 import com.redmadrobot.debug_sample.storage.AppTestSettings
+import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 
 class App : Application(), Authenticator, FeatureToggleChangeListener {
     override fun onCreate() {

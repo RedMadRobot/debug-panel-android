@@ -57,6 +57,11 @@ dependencies {
             deps.debugging.timber
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     kapt(deps.room.compiler)
+    api project(path: ':panel-core')
+    api project(path: ':plugins:servers-plugin')
+    api project(path: ':plugins:feature-toggles-plugin')
+    api project(path: ':plugins:accounts-plugin')
+    api project(path: ':plugins:app-settings-plugin')
 }

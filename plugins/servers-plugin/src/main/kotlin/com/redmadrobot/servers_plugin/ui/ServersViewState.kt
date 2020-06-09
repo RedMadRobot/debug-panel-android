@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.servers
+package com.redmadrobot.servers_plugin.ui
 
 import com.xwray.groupie.kotlinandroidextensions.Item
 

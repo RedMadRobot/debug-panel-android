@@ -1,8 +1,8 @@
-package com.redmadrobot.debug_panel.ui.servers.item
+package com.redmadrobot.servers_plugin.ui.item
 
 import androidx.core.view.isVisible
 import com.redmadrobot.core.data.storage.entity.DebugServer
-import com.redmadrobot.debug_panel.R
+import com.redmadrobot.servers_plugin.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_debug_server.view.*
@@ -16,7 +16,7 @@ class DebugServerItem(var debugServer: DebugServer, var isSelected: Boolean) : I
         with(viewHolder.containerView) {
             val url = debugServer.url.takeIf { url ->
                 url.isNotEmpty()
-            } ?: context.getString(R.string.server_default)
+            } ?: context.getString(R.string.default_server)
 
             item_server_url.text = url
             is_selected_icon.isVisible = this@DebugServerItem.isSelected

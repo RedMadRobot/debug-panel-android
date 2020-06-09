@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.servers.choose
+package com.redmadrobot.servers_plugin.ui.choose
 
 import android.os.Bundle
 import android.view.View
@@ -7,11 +7,11 @@ import com.redmadrobot.core.extension.getPlugin
 import com.redmadrobot.core.extension.observe
 import com.redmadrobot.core.extension.obtainShareViewModel
 import com.redmadrobot.core.ui.base.BaseFragment
-import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.internal.plugin.server.ServersPlugin
-import com.redmadrobot.debug_panel.internal.plugin.server.ServersPluginContainer
-import com.redmadrobot.debug_panel.ui.servers.ServersViewState
-import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
+import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.servers_plugin.plugin.ServersPlugin
+import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
+import com.redmadrobot.servers_plugin.ui.ServersViewState
+import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder

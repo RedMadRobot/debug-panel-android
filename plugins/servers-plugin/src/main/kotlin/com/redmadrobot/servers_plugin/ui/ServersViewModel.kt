@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.servers
+package com.redmadrobot.servers_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -7,10 +7,11 @@ import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.SectionHeaderItem
 import com.redmadrobot.core.ui.base.BaseViewModel
-import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.ui.servers.item.DebugServerItem
+import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
+import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
 import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 
 class ServersViewModel(
     private val context: Context,
@@ -33,8 +34,7 @@ class ServersViewModel(
     }
 
     fun addServer(host: String) {
-        val server =
-            DebugServer(url = host)
+        val server = DebugServer(url = host)
         serversRepository.addServer(server)
             .observeOnMain()
             .subscribeBy(onComplete = {
@@ -47,12 +47,8 @@ class ServersViewModel(
         serversRepository.removeServer(serverItem.debugServer)
             .observeOnMain()
             .subscribeBy(
-                onComplete = {
-                    loadAddedServers()
-                },
-                onError = {
-                    //TODO логирование ошибки
-                }
+                onComplete = { loadAddedServers() },
+                onError = { Timber.e(it) }
             )
             .autoDispose()
     }
@@ -91,7 +87,7 @@ class ServersViewModel(
                 listOf(
                     SectionHeaderItem(
                         context.getString(
-                            R.string.pre_installed
+                            R.string.pre_installed_servers
                         )
                     )
                 )
@@ -108,13 +104,8 @@ class ServersViewModel(
         serversRepository.getServers()
             .filter { it.isNotEmpty() }
             .map { servers ->
-                listOf(
-                    SectionHeaderItem(
-                        context.getString(
-                            R.string.added
-                        )
-                    )
-                )
+                val headerText = context.getString(R.string.added_servers)
+                listOf(SectionHeaderItem(headerText))
                     .plus(mapToItems(servers))
             }
             .observeOnMain()
