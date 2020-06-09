@@ -1,6 +1,6 @@
-package com.redmadrobot.debug_panel.inapp.toggles
+package com.redmadrobot.feature_togles_plugin.toggles
 
-import com.redmadrobot.debug_panel.data.toggles.FeatureToggleRepository
+import com.redmadrobot.feature_togles_plugin.data.FeatureToggleRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 

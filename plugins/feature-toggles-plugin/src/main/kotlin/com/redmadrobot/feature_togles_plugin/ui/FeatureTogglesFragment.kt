@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.toggles
+package com.redmadrobot.feature_togles_plugin.ui
 
 import android.os.Bundle
 import android.view.View
@@ -8,14 +8,14 @@ import com.redmadrobot.core.extension.getPlugin
 import com.redmadrobot.core.extension.observe
 import com.redmadrobot.core.extension.obtainViewModel
 import com.redmadrobot.core.ui.base.BaseFragment
-import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.internal.plugin.feature_togle.FeatureTogglesPlugin
-import com.redmadrobot.debug_panel.internal.plugin.feature_togle.FeatureTogglesPluginContainer
+import com.redmadrobot.feature_toggles_plugin.R
+import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
+import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPluginContainer
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_feature_toggles.*
 
-internal class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_toggles) {
+class FeatureTogglesFragment : BaseFragment(R.layout.fragment_feature_toggles) {
 
     private val featureTogglesViewModel by lazy {
         obtainViewModel {

@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.toggles
+package com.redmadrobot.feature_togles_plugin.ui
 
 import com.xwray.groupie.kotlinandroidextensions.Item
 

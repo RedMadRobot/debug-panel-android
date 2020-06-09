@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.inapp.toggles
+package com.redmadrobot.feature_togles_plugin.toggles
 
 data class FeatureTogglesConfig(
     val toggleNames: List<String>,

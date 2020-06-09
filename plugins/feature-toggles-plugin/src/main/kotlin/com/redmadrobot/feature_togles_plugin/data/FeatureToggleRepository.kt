@@ -1,7 +1,7 @@
-package com.redmadrobot.debug_panel.data.toggles
+package com.redmadrobot.feature_togles_plugin.data
 
 import com.redmadrobot.core.data.storage.entity.FeatureToggle
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureTogglesConfig
+import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 
 import io.reactivex.Completable
 import io.reactivex.Single

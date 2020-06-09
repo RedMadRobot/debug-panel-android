@@ -1,7 +1,7 @@
-package com.redmadrobot.debug_panel.ui.toggles.item
+package com.redmadrobot.feature_togles_plugin.ui.item
 
 import com.redmadrobot.core.data.storage.entity.FeatureToggle
-import com.redmadrobot.debug_panel.R
+import com.redmadrobot.feature_toggles_plugin.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_feature_toggle.view.*

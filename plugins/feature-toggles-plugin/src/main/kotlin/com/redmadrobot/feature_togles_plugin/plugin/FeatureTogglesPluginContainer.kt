@@ -1,10 +1,10 @@
-package com.redmadrobot.debug_panel.internal.plugin.feature_togle
+package com.redmadrobot.feature_togles_plugin.plugin
 
 import com.redmadrobot.core.CommonContainer
 import com.redmadrobot.core.plugin.PluginDependencyContainer
-import com.redmadrobot.debug_panel.data.toggles.LocalFeatureToggleRepository
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleHolder
-import com.redmadrobot.debug_panel.ui.toggles.FeatureTogglesViewModel
+import com.redmadrobot.feature_togles_plugin.data.LocalFeatureToggleRepository
+import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleHolder
+import com.redmadrobot.feature_togles_plugin.ui.FeatureTogglesViewModel
 
 internal class FeatureTogglesPluginContainer(
     private val container: CommonContainer

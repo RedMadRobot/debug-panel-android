@@ -11,12 +11,6 @@
     <string name="added">Added</string>
     <!---->
 
-
-    <!--Feature toggle-->
-    <string name="override_enable">Override enable</string>
-    <string name="reset_all">Reset all</string>
-    <!---->
-
     <!--Notification-->
     <string name="notification_title">Открыть DebugPanel</string>
 
