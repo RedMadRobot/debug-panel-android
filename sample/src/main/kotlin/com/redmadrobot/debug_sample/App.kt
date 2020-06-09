@@ -1,9 +1,9 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
+import com.redmadrobot.account_plugin.authenticator.Authenticator
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
-import com.redmadrobot.core.authenticator.Authenticator
 import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.core.data.storage.entity.DebugAccount
 import com.redmadrobot.core.data.storage.entity.DebugServer

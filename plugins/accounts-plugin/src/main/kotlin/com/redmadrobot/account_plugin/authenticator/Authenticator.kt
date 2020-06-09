@@ -1,4 +1,4 @@
-package com.redmadrobot.core.authenticator
+package com.redmadrobot.account_plugin.authenticator
 
 import com.redmadrobot.core.data.storage.entity.DebugAccount
 
