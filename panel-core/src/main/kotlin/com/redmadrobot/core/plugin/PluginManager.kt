@@ -3,7 +3,7 @@ package com.redmadrobot.core.plugin
 import com.redmadrobot.core.CommonContainer
 
 
-internal class PluginManager(private val plugins: List<Plugin>) {
+internal class PluginManager(val plugins: List<Plugin>) {
 
     private val containers = mutableMapOf<String, Plugin>()
 

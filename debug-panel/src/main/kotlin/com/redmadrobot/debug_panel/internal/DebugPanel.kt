@@ -12,11 +12,8 @@ object DebugPanel {
         initTimber()
     }
 
-    private fun createDebugPanelInstance(
-        application: Application,
-        plugins: List<Plugin>
-    ) {
-       DebugPanelInstance(application, plugins)
+    private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {
+        DebugPanelInstance(application, plugins)
     }
 
     private fun initTimber() {

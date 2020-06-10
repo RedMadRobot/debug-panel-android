@@ -9,6 +9,10 @@ fun getPlugin(pluginName: String): Plugin {
     return requireNotNull(plugin)
 }
 
+fun getAllPlugins(): List<Plugin> {
+    return DebugPanelInstance.instance?.getPluginManger()?.plugins ?: emptyList()
+}
+
 inline fun <reified T : Plugin> getPlugin(): T {
     val plugin = getPlugin(T::class.java.name)
     return plugin as T

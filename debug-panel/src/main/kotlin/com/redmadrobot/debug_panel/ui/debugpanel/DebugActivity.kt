@@ -2,11 +2,10 @@ package com.redmadrobot.debug_panel.ui.debugpanel
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.account_plugin.ui.add.AccountsFragment
+import com.redmadrobot.core.extension.getAllPlugins
 import com.redmadrobot.debug_panel.R
-import com.redmadrobot.debug_panel.ui.StubFragment
-import com.redmadrobot.servers_plugin.ui.add.ServersFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -15,14 +14,6 @@ import kotlinx.android.synthetic.main.activity_debug.*
 class DebugActivity : AppCompatActivity() {
 
     private val debugFeatureListAdapter = GroupAdapter<GroupieViewHolder>()
-
-    private val debugFeatureList by lazy {
-        listOf<Item>(
-            DebugFeatureItem(R.string.accounts, ::openDebugFeature),
-            DebugFeatureItem(R.string.servers, ::openDebugFeature),
-            DebugFeatureItem(R.string.settings, ::openDebugFeature)
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,21 +24,25 @@ class DebugActivity : AppCompatActivity() {
     private fun setViews() {
         debug_feature_list.layoutManager = LinearLayoutManager(this)
         debug_feature_list.adapter = debugFeatureListAdapter
-        debugFeatureListAdapter.update(debugFeatureList)
+        debugFeatureListAdapter.update(getSettingItems())
     }
 
-    private fun openDebugFeature(featureNameId: Int) {
-        val fragmentForNavigation = when (featureNameId) {
-            R.string.accounts -> AccountsFragment.getInstance()
-            R.string.servers -> ServersFragment.getInstance()
-            R.string.settings -> StubFragment()
-            else -> throw IllegalArgumentException("Unsupported feature name id")
-        }
-
-        //TODO Временное решение. Переделать на Navigation Component
+    private fun openSetting(settingFragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.debug_activity_root, fragmentForNavigation)
-            .addToBackStack(fragmentForNavigation.javaClass.simpleName)
+            .replace(R.id.debug_activity_root, settingFragment)
+            .addToBackStack(settingFragment.javaClass.simpleName)
             .commit()
+    }
+
+    private fun getSettingItems(): List<Item> {
+        val plugins = getAllPlugins()
+            /*Only Plugins with SettingFragment*/
+            .filter { it.getSettingFragment() != null }
+
+        return plugins.map { plugin ->
+            PluginSettingItem(plugin.getName()) {
+                openSetting(requireNotNull(plugin.getSettingFragment()))
+            }
+        }
     }
 }
