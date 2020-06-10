@@ -20,7 +20,6 @@ class DebugPanelInstance constructor(
 
 
     init {
-//        ActivityLifecycleHandler(application).start()
         initContainer(application.applicationContext)
         initPluginManager(plugins, requireNotNull(commonContainer))
         instance = this

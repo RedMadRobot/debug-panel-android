@@ -33,7 +33,6 @@ class ActivityLifecycleHandler(private val application: Application) {
         application.registerActivityLifecycleCallbacks(
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {
-                    super.onActivityResumed(activity)
                     if (openActivityCount == 0) onResumed()
                     ++openActivityCount
 
@@ -41,7 +40,6 @@ class ActivityLifecycleHandler(private val application: Application) {
                 }
 
                 override fun onActivityPaused(activity: Activity) {
-                    super.onActivityPaused(activity)
                     --openActivityCount
                     if (openActivityCount == 0) onPaused()
                 }

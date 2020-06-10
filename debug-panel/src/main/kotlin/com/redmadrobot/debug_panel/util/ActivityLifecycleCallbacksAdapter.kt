@@ -5,17 +5,17 @@ import android.app.Application
 import android.os.Bundle
 
 open class ActivityLifecycleCallbacksAdapter: Application.ActivityLifecycleCallbacks {
-    override fun onActivityPaused(p0: Activity) {}
+    override fun onActivityPaused(activity: Activity) {}
 
-    override fun onActivityStarted(p0: Activity) {}
+    override fun onActivityStarted(activity: Activity) {}
 
-    override fun onActivityDestroyed(p0: Activity) {}
+    override fun onActivityDestroyed(activity: Activity) {}
 
-    override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {}
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
 
-    override fun onActivityStopped(p0: Activity) {}
+    override fun onActivityStopped(activity: Activity) {}
 
-    override fun onActivityCreated(p0: Activity, p1: Bundle?) {}
+    override fun onActivityCreated(activity: Activity, p1: Bundle?) {}
 
-    override fun onActivityResumed(p0: Activity) {}
+    override fun onActivityResumed(activity: Activity) {}
 }
