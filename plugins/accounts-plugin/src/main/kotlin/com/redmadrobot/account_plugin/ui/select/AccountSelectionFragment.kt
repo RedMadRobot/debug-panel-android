@@ -2,6 +2,7 @@ package com.redmadrobot.account_plugin.ui.select
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
@@ -47,7 +48,7 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
 
     override fun onPinAdded(pin: String) {
         selectedAccount?.let { account ->
-            getPlugin<AccountsPlugin>().authenticator.authenticate(account, pin)
+            onAccountSelected(account, pin)
         }
     }
 
@@ -75,7 +76,15 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
 
     private fun onAccountSelected(account: DebugAccount, pin: String? = null) {
         getPlugin<AccountsPlugin>().authenticator.authenticate(account, pin)
-        requireActivity().onBackPressed()
+        showSelectionInfo(account)
+    }
+
+    private fun showSelectionInfo(account: DebugAccount) {
+        Toast.makeText(
+            requireActivity(),
+            "Account ${account.login} selected",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun render(state: AccountsViewState) {
