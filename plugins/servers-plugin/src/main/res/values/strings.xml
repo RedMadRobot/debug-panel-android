@@ -3,6 +3,7 @@
     <string name="pre_installed_servers">Pre-installed servers</string>
     <string name="server_host_hint">https://google.com</string>
     <string name="error_wrong_host">Wrong host format.</string>
+    <string name="save_server">save</string>
     <string name="default_server">Default server</string>
     <string name="added_servers">Added</string>
 </resources>
