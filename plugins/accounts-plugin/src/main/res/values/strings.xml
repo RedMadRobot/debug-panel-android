@@ -5,5 +5,6 @@
     <string name="save_account_text">save</string>
     <string name="added_accounts">Added</string>
     <string name="pre_installed_accounts">Pre-installed</string>
-
+    <string name="pin">Pin</string>
+    <string name="done">Done</string>
 </resources>

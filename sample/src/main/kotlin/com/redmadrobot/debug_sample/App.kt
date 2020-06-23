@@ -50,8 +50,8 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
         )
     }
 
-    override fun authenticate(account: DebugAccount) {
-        println("Login - ${account.login}, Password - ${account.password}")
+    override fun authenticate(account: DebugAccount, pin: String?) {
+        println("Login - ${account.login}, Password - ${account.password} Pin - $pin")
     }
 
     override fun onFeatureToggleChange(name: String, newValue: Boolean) {
@@ -69,19 +69,23 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
         return listOf(
             DebugAccount(
                 login = "7882340482",
-                password = "Qq!11111"
+                password = "Qq!11111",
+                pinNeeded = true
             ),
             DebugAccount(
                 login = "2777248041",
-                password = "Qq!11111"
+                password = "Qq!11111",
+                pinNeeded = true
             ),
             DebugAccount(
                 login = "4183730054",
-                password = "Ww!11111"
+                password = "Ww!11111",
+                pinNeeded = true
             ),
             DebugAccount(
                 login = "1944647499",
-                password = "Qq!11111"
+                password = "Qq!11111",
+                pinNeeded = true
             )
         )
     }

@@ -36,9 +36,7 @@ class AddAccountDialog : DialogFragment() {
                     KEY_LOGIN to login,
                     KEY_PASSWORD to password
                 )
-            }.show(fragmentManager,
-                TAG
-            )
+            }.show(fragmentManager, TAG)
         }
     }
 
@@ -96,23 +94,17 @@ class AddAccountDialog : DialogFragment() {
     private fun save() {
         val login = account_login.text.toString()
         val password = account_password.text.toString()
+        val pinNeeded = pin_check.isChecked
         if (isEditMode) {
-            update(login, password)
+            id?.let { id ->
+                sharedViewModel.updateAccount(id, login, password, pinNeeded)
+            }
         } else {
-            saveNew(login, password)
+            sharedViewModel.saveAccount(login, password, pinNeeded)
         }
         dialog?.dismiss()
     }
 
-    private fun update(login: String, password: String) {
-        id?.let { id ->
-            sharedViewModel.updateAccount(id, login, password)
-        }
-    }
-
-    private fun saveNew(login: String, password: String) {
-        sharedViewModel.saveAccount(login, password)
-    }
 
     private fun dataIsValid(): Boolean {
         //TODO Добавить валидацию данных

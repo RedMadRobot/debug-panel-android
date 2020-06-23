@@ -30,10 +30,11 @@ class AccountsViewModel(
         loadAddedAccounts()
     }
 
-    fun saveAccount(login: String, password: String) {
+    fun saveAccount(login: String, password: String, pinNeeded: Boolean) {
         val account = DebugAccount(
             login = login,
-            password = password
+            password = password,
+            pinNeeded = pinNeeded
         )
         debugAccountsRepository
             .addAccount(account)
@@ -44,11 +45,17 @@ class AccountsViewModel(
             .autoDispose()
     }
 
-    fun updateAccount(id: Int, newLogin: String, newPassword: String) {
+    fun updateAccount(
+        id: Int,
+        newLogin: String,
+        newPassword: String,
+        pinNeeded: Boolean
+    ) {
         val account = DebugAccount(
             id = id,
             login = newLogin,
-            password = newPassword
+            password = newPassword,
+            pinNeeded = pinNeeded
         )
         debugAccountsRepository
             .updateAccount(account)

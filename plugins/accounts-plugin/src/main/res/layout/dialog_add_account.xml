@@ -28,6 +28,13 @@
             android:hint="@string/password_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <CheckBox
+        android:id="@+id/pin_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/pin" />
+
     <Button
         android:id="@+id/save_account_button"
         android:layout_width="wrap_content"
