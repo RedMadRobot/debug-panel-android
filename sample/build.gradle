@@ -36,6 +36,7 @@ dependencies {
             project(":debug-panel"),
 
             deps.kotlin.stdlib,
+            deps.rx.rxandroid,
 
             deps.retrofit.runtime,
             deps.androidx.app_compat,

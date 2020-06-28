@@ -30,6 +30,7 @@ dependencies {
             deps.kotlin.stdlib,
 
             deps.retrofit.runtime,
+            deps.rx.rxandroid,
 
             deps.okhttp,
 
@@ -53,7 +54,5 @@ dependencies {
             deps.debugging.timber
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    api( deps.rx.rxandroid)
     kapt(deps.room.compiler)
 }
