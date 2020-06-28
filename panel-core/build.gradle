@@ -31,9 +31,6 @@ dependencies {
 
             deps.retrofit.runtime,
 
-            deps.rx.rxKotlin,
-            deps.rx.rxandroid,
-
             deps.okhttp,
 
             deps.androidx.app_compat,
@@ -57,5 +54,6 @@ dependencies {
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api( deps.rx.rxandroid)
     kapt(deps.room.compiler)
 }

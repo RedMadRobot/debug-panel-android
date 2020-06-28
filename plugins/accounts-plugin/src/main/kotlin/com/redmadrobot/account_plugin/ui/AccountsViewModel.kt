@@ -10,7 +10,7 @@ import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.SectionHeaderItem
 import com.redmadrobot.core.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
-import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 
 class AccountsViewModel(
     private val context: Context,
@@ -39,9 +39,7 @@ class AccountsViewModel(
         debugAccountsRepository
             .addAccount(account)
             .observeOnMain()
-            .subscribeBy(
-                onComplete = { loadAddedAccounts() }
-            )
+            .subscribe { loadAddedAccounts() }
             .autoDispose()
     }
 
@@ -60,8 +58,9 @@ class AccountsViewModel(
         debugAccountsRepository
             .updateAccount(account)
             .observeOnMain()
-            .subscribeBy(
-                onComplete = { getItemById(id)?.update(account) }
+            .subscribe(
+                { getItemById(id)?.update(account) },
+                { Timber.e(it) }
             )
             .autoDispose()
     }
@@ -71,8 +70,9 @@ class AccountsViewModel(
         debugAccountsRepository
             .removeAccount(account)
             .observeOnMain()
-            .subscribeBy(
-                onComplete = { loadAddedAccounts() }
+            .subscribe(
+                { loadAddedAccounts() },
+                { Timber.e(it) }
             )
             .autoDispose()
     }
@@ -86,9 +86,12 @@ class AccountsViewModel(
                     .plus(mapToAccountItems(accounts))
             }
             .observeOnMain()
-            .subscribeBy(onSuccess = { items ->
-                state.value = state.value?.copy(preInstalledItems = items)
-            })
+            .subscribe(
+                { items ->
+                    state.value = state.value?.copy(preInstalledItems = items)
+                },
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 
@@ -101,17 +104,18 @@ class AccountsViewModel(
                     .plus(mapToAccountItems(accounts))
             }
             .observeOnMain()
-            .subscribeBy(onSuccess = { items ->
-                state.value = state.value?.copy(addedItems = items)
-            })
+            .subscribe(
+                { items ->
+                    state.value = state.value?.copy(addedItems = items)
+                },
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 
     private fun mapToAccountItems(accounts: List<DebugAccount>): List<Item> {
-        return accounts.map {
-            AccountItem(
-                it
-            )
+        return accounts.map { account ->
+            AccountItem(account)
         }
     }
 

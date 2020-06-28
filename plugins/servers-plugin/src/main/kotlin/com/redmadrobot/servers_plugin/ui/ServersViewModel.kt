@@ -10,7 +10,6 @@ import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
-import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
 class ServersViewModel(
@@ -37,18 +36,19 @@ class ServersViewModel(
         val server = DebugServer(url = host)
         serversRepository.addServer(server)
             .observeOnMain()
-            .subscribeBy(onComplete = {
-                loadAddedServers()
-            })
+            .subscribe(
+                { loadAddedServers() },
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 
     fun removeServer(serverItem: DebugServerItem) {
         serversRepository.removeServer(serverItem.debugServer)
             .observeOnMain()
-            .subscribeBy(
-                onComplete = { loadAddedServers() },
-                onError = { Timber.e(it) }
+            .subscribe(
+                { loadAddedServers() },
+                { Timber.e(it) }
             )
             .autoDispose()
     }
@@ -63,10 +63,9 @@ class ServersViewModel(
         updatedServer?.let { server ->
             serversRepository.updateServer(server)
                 .observeOnMain()
-                .subscribeBy(
-                    onComplete = {
-                        itemForUpdate.update(server)
-                    }
+                .subscribe(
+                    { itemForUpdate.update(server) },
+                    { Timber.e(it) }
                 )
                 .autoDispose()
         }
@@ -94,9 +93,12 @@ class ServersViewModel(
                     .plus(mapToItems(servers))
             }
             .observeOnMain()
-            .subscribeBy(onSuccess = { items ->
-                state.value = state.value?.copy(preInstalledItems = items)
-            })
+            .subscribe(
+                { items ->
+                    state.value = state.value?.copy(preInstalledItems = items)
+                },
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 
@@ -109,9 +111,12 @@ class ServersViewModel(
                     .plus(mapToItems(servers))
             }
             .observeOnMain()
-            .subscribeBy(onSuccess = { items ->
-                state.value = state.value?.copy(addedItems = items)
-            })
+            .subscribe(
+                { items ->
+                    state.value = state.value?.copy(addedItems = items)
+                },
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 

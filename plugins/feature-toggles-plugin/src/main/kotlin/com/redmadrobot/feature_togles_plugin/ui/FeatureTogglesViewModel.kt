@@ -7,7 +7,7 @@ import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.feature_togles_plugin.data.FeatureToggleRepository
 import com.redmadrobot.feature_togles_plugin.ui.item.FeatureToggleItem
-import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 
 class FeatureTogglesViewModel(
     private val featureToggleRepository: FeatureToggleRepository,
@@ -23,27 +23,36 @@ class FeatureTogglesViewModel(
             .map { items ->
                 items.map { FeatureToggleItem(it, ::updateFeatureToggleValue, overrideEnable) }
             }
-            .subscribeBy(
-                onSuccess = { screenState.value = FeatureTogglesState(overrideEnable, it) }
+            .subscribe(
+                { screenState.value = FeatureTogglesState(overrideEnable, it) },
+                { Timber.e(it) }
             )
             .autoDispose()
     }
 
     fun resetAll() {
         featureToggleRepository.resetAll()
-            .subscribeBy(onComplete = { loadFeatureToggles() })
+            .subscribe(
+                { loadFeatureToggles() },
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 
     fun updateOverrideEnable(newOverrideEnable: Boolean) {
         featureToggleRepository.updateOverrideEnable(newOverrideEnable)
-            .subscribeBy(onComplete = { loadFeatureToggles() })
+            .subscribe(
+                { loadFeatureToggles() },
+                { Timber.e(it) })
             .autoDispose()
     }
 
     private fun updateFeatureToggleValue(featureToggle: FeatureToggle, newValue: Boolean) {
         featureToggleRepository.updateFeatureToggle(featureToggle.copy(value = newValue))
-            .subscribeBy()
+            .subscribe(
+                {/*do nothing*/},
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 }

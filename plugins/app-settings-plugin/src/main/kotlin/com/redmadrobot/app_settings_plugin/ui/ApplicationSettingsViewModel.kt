@@ -9,7 +9,6 @@ import com.redmadrobot.app_settings_plugin.ui.item.HeaderItem
 import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
-import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
 class ApplicationSettingsViewModel(
@@ -61,7 +60,10 @@ class ApplicationSettingsViewModel(
     private fun updateSetting(settingKey: String, newValue: Any) {
         appSettingsRepository.updateSetting(settingKey, newValue)
             .observeOnMain()
-            .subscribeBy(onError = { Timber.e(it) })
+            .subscribe(
+                {/*do nothing*/ },
+                { Timber.e(it) }
+            )
             .autoDispose()
     }
 }
