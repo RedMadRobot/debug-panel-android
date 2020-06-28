@@ -22,8 +22,7 @@ class AccountsPlugin(
         const val NAME = "ACCOUNTS"
     }
 
-    override fun getName() =
-        NAME
+    override fun getName() = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return AccountsPluginContainer(

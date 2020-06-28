@@ -2,6 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.kezong.fat-aar'
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 android {
     compileSdkVersion build_versions.compile_sdk
@@ -60,9 +67,15 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     kapt(deps.room.compiler)
 
+//    embed project(path: ':panel-core', configuration: 'default')
+//    embed project(path: ':servers-plugin', configuration: 'default')
+//    embed project(path: ':feature-toggles-plugin', configuration: 'default')
+//    embed project(path: ':accounts-plugin', configuration: 'default')
+//    embed project(path: ':app-settings-plugin', configuration: 'default')
+
     api project(path: ':panel-core')
-    api project(path: ':plugins:servers-plugin')
-    api project(path: ':plugins:feature-toggles-plugin')
-    api project(path: ':plugins:accounts-plugin')
-    api project(path: ':plugins:app-settings-plugin')
+    api project(path: ':servers-plugin')
+    api project(path: ':feature-toggles-plugin')
+    api project(path: ':accounts-plugin')
+    api project(path: ':app-settings-plugin')
 }
