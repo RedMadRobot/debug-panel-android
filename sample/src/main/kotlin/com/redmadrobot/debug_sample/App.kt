@@ -1,7 +1,7 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
-import com.redmadrobot.account_plugin.authenticator.Authenticator
+import com.redmadrobot.account_plugin.authenticator.DebugAuthenticator
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.core.data.PreInstalledData
@@ -13,8 +13,9 @@ import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
+import io.reactivex.Completable
 
-class App : Application(), Authenticator, FeatureToggleChangeListener {
+class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
     override fun onCreate() {
         super.onCreate()
 
@@ -25,7 +26,7 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
                         getPreInstalledAccounts()
                     ),
                     //TODO Временная реализация. Здесь это не должно делаться.
-                    authenticator = this
+                    debugAuthenticator = this
                 ),
                 ServersPlugin(
                     preInstalledServers = PreInstalledData(
@@ -50,8 +51,16 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
         )
     }
 
-    override fun authenticate(account: DebugAccount, pin: String?) {
-        println("Login - ${account.login}, Password - ${account.password} Pin - $pin")
+    override fun onAccountSelected(account: DebugAccount): Completable {
+        return Completable.fromCallable {
+            println("Login - ${account.login}, Password - ${account.password}")
+        }
+    }
+
+    override fun onPinAdded(pin: String): Completable {
+        return Completable.fromCallable {
+            println(" Pin - $pin")
+        }
     }
 
     override fun onFeatureToggleChange(name: String, newValue: Boolean) {
@@ -69,8 +78,7 @@ class App : Application(), Authenticator, FeatureToggleChangeListener {
         return listOf(
             DebugAccount(
                 login = "7882340482",
-                password = "Qq!11111",
-                pinNeeded = true
+                password = "Qq!11111"
             ),
             DebugAccount(
                 login = "2777248041",

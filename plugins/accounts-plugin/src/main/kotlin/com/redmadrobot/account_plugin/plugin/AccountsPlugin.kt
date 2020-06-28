@@ -1,7 +1,7 @@
 package com.redmadrobot.account_plugin.plugin
 
 import androidx.fragment.app.Fragment
-import com.redmadrobot.account_plugin.authenticator.Authenticator
+import com.redmadrobot.account_plugin.authenticator.DebugAuthenticator
 import com.redmadrobot.account_plugin.authenticator.DefaultAuthenticator
 import com.redmadrobot.account_plugin.ui.add.AccountsFragment
 import com.redmadrobot.account_plugin.ui.select.AccountSelectionFragment
@@ -15,7 +15,7 @@ class AccountsPlugin(
     private val preInstalledAccounts: PreInstalledData<DebugAccount> = PreInstalledData(
         emptyList()
     ),
-    val authenticator: Authenticator = DefaultAuthenticator()
+    val debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
 ) : Plugin() {
 
     companion object {

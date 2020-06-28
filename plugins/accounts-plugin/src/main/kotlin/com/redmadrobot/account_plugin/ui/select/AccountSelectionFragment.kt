@@ -13,12 +13,14 @@ import com.redmadrobot.account_plugin.ui.pin.AddPinDialog
 import com.redmadrobot.core.data.storage.entity.DebugAccount
 import com.redmadrobot.core.extension.getPlugin
 import com.redmadrobot.core.extension.observe
+import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.extension.obtainViewModel
 import com.redmadrobot.core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_account_select.*
+import timber.log.Timber
 
 class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
     AddPinDialog.PinDialogListener {
@@ -48,7 +50,12 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
 
     override fun onPinAdded(pin: String) {
         selectedAccount?.let { account ->
-            onAccountSelected(account, pin)
+            getPlugin<AccountsPlugin>().debugAuthenticator.onPinAdded(pin)
+                .observeOnMain()
+                .subscribe(
+                    { showSelectionInfo(account) },
+                    { Timber.e(it) }
+                ).autoDispose()
         }
     }
 
@@ -59,11 +66,7 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
         }
         accountsAdapter.setOnItemClickListener { item, _ ->
             val account = (item as? AccountItem)?.account
-            if (account?.pinNeeded == false) {
-                onAccountSelected(account)
-            } else {
-                showAddPinDialog(account)
-            }
+            account?.let { onAccountSelected(it) }
         }
         accountsAdapter.add(preInstalledAccountsSection)
         accountsAdapter.add(addedAccountsSection)
@@ -74,9 +77,19 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
         AddPinDialog.show(this)
     }
 
-    private fun onAccountSelected(account: DebugAccount, pin: String? = null) {
-        getPlugin<AccountsPlugin>().authenticator.authenticate(account, pin)
-        showSelectionInfo(account)
+    private fun onAccountSelected(account: DebugAccount) {
+        getPlugin<AccountsPlugin>().debugAuthenticator.onAccountSelected(account)
+            .observeOnMain()
+            .subscribe(
+                {
+                    if (account.pinNeeded) {
+                        showAddPinDialog(account)
+                    } else {
+                        showSelectionInfo(account)
+                    }
+                },
+                { Timber.e(it) }
+            ).autoDispose()
     }
 
     private fun showSelectionInfo(account: DebugAccount) {
