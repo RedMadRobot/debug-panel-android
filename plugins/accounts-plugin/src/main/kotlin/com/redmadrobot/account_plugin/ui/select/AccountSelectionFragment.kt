@@ -11,10 +11,7 @@ import com.redmadrobot.account_plugin.ui.AccountsViewState
 import com.redmadrobot.account_plugin.ui.item.AccountItem
 import com.redmadrobot.account_plugin.ui.pin.AddPinDialog
 import com.redmadrobot.core.data.storage.entity.DebugAccount
-import com.redmadrobot.core.extension.getPlugin
-import com.redmadrobot.core.extension.observe
-import com.redmadrobot.core.extension.observeOnMain
-import com.redmadrobot.core.extension.obtainViewModel
+import com.redmadrobot.core.extension.*
 import com.redmadrobot.core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
@@ -51,10 +48,14 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
     override fun onPinAdded(pin: String) {
         selectedAccount?.let { account ->
             getPlugin<AccountsPlugin>().debugAuthenticator.onPinAdded(pin)
+                .subscribeOnIo()
                 .observeOnMain()
                 .subscribe(
                     { showSelectionInfo(account) },
-                    { Timber.e(it) }
+                    { throwable ->
+                        Timber.e(throwable)
+                        showError(throwable.localizedMessage)
+                    }
                 ).autoDispose()
         }
     }
@@ -79,6 +80,7 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
 
     private fun onAccountSelected(account: DebugAccount) {
         getPlugin<AccountsPlugin>().debugAuthenticator.onAccountSelected(account)
+            .subscribeOnIo()
             .observeOnMain()
             .subscribe(
                 {
@@ -88,8 +90,19 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
                         showSelectionInfo(account)
                     }
                 },
-                { Timber.e(it) }
+                { throwable ->
+                    Timber.e(throwable)
+                    showError(throwable.localizedMessage)
+                }
             ).autoDispose()
+    }
+
+    private fun showError(localizedMessage: String?) {
+        Toast.makeText(
+            requireActivity(),
+            localizedMessage,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun showSelectionInfo(account: DebugAccount) {

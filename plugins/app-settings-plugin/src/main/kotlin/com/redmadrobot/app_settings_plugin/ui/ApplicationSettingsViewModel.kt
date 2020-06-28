@@ -35,9 +35,7 @@ class ApplicationSettingsViewModel(
         settings.forEach { sharedPreferences ->
             /*Settings header*/
             items.add(
-                HeaderItem(
-                    sharedPreferences.toString()
-                )
+                HeaderItem(sharedPreferences.toString())
             )
 
             /*Map SharedPreferences to Items*/
