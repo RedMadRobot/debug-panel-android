@@ -3,6 +3,7 @@ package com.redmadrobot.debug_panel.util
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -33,7 +34,6 @@ class ActivityLifecycleHandler(private val application: Application) {
         application.registerActivityLifecycleCallbacks(
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {
-                    super.onActivityResumed(activity)
                     if (openActivityCount == 0) onResumed()
                     ++openActivityCount
 
@@ -41,7 +41,6 @@ class ActivityLifecycleHandler(private val application: Application) {
                 }
 
                 override fun onActivityPaused(activity: Activity) {
-                    super.onActivityPaused(activity)
                     --openActivityCount
                     if (openActivityCount == 0) onPaused()
                 }
@@ -62,7 +61,7 @@ class ActivityLifecycleHandler(private val application: Application) {
         notificationManager = NotificationManagerCompat.from(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.debug_panel)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
             notificationManager?.createNotificationChannel(channel)
         }
@@ -76,6 +75,7 @@ class ActivityLifecycleHandler(private val application: Application) {
             .setSmallIcon(R.drawable.ic_debug_notification)
             .setContentTitle(context.getString(R.string.notification_title))
             .setOngoing(true)
+            .setSound(Uri.EMPTY)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(debugActivityPendingIntent)
             .build()

@@ -1,6 +1,6 @@
 package com.redmadrobot.debug_sample
 
-import com.redmadrobot.debug_panel.inapp.toggles.FeatureToggleWrapper
+import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleWrapper
 
 class FeatureToggleWrapperImpl : FeatureToggleWrapper {
     companion object {

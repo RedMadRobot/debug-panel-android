@@ -4,7 +4,6 @@
 
     <application>
         <activity
-
             android:name="com.redmadrobot.debug_panel.ui.debugpanel.DebugActivity"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
             android:theme="@style/DebugPanelTheme" />

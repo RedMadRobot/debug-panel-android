@@ -3,13 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion build_versions.compile_sdk
+
     defaultConfig {
         applicationId "com.redmadrobot.debugpanel"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
+        versionCode getVersionCodeFromProperties()
+        versionName getVersionNameFromProperties()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,18 +32,17 @@ android {
 }
 
 dependencies {
-    implementation project(":debug-panel")
+    implementation(
+            project(":debug-panel"),
+
+            deps.kotlin.stdlib,
+            deps.rx.rxandroid,
+
+            deps.retrofit.runtime,
+            deps.androidx.app_compat,
+
+            deps.debugging.timber
+    )
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
-    implementation 'com.xwray:groupie:2.8.0'
-    implementation 'com.xwray:groupie-kotlin-android-extensions:2.8.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
 }

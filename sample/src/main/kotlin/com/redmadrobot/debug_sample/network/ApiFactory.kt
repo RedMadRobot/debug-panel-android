@@ -1,6 +1,6 @@
 package com.redmadrobot.debug_sample.network
 
-import com.redmadrobot.debug_panel.util.server.DebugServerInterceptor
+import com.redmadrobot.servers_plugin.util.DebugServerInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response

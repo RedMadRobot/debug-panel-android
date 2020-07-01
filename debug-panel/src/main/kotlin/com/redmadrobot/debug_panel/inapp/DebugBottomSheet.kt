@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
+import com.redmadrobot.core.extension.getAllPlugins
 import com.redmadrobot.debug_panel.R
 import kotlinx.android.synthetic.main.bottom_sheet_debug_panel.view.*
 
@@ -27,8 +28,6 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
     }
 
     private var dialogView: View? = null
-    private val tabLabelIds =
-        arrayOf(R.string.accounts, R.string.servers, R.string.toggles, R.string.settings)
 
     @NonNull
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -56,9 +55,17 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setViews(dialogView: View) {
-        dialogView.debug_sheet_viewpager.adapter = DebugSheetViewPagerAdapter(requireActivity())
+        val plugins = getAllPlugins()
+                /*Only Plugins with Fragment*/
+            .filter { it.getFragment() != null }
+
+        dialogView.debug_sheet_viewpager.adapter = DebugSheetViewPagerAdapter(
+            requireActivity(),
+            plugins
+        )
+
         val tabConfigurationStrategy = TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-            tab.setText(tabLabelIds[position])
+            tab.text = plugins[position].getName()
         }
 
         TabLayoutMediator(

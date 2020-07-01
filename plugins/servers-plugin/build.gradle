@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion build_versions.compile_sdk
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
+        versionCode getVersionCodeFromProperties()
+        versionName getVersionNameFromProperties()
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    implementation(
+            project(path: ':panel-core'),
+
+            deps.kotlin.stdlib,
+
+            deps.retrofit.runtime,
+            deps.rx.rxandroid,
+
+            deps.okhttp,
+
+            deps.androidx.app_compat,
+            deps.androidx.design,
+            deps.androidx.constraint_layout,
+
+            deps.lifecycle.runtime,
+            deps.lifecycle.extensions,
+            deps.lifecycle.lifecycle_livedata,
+            deps.lifecycle.lifecycle_livedata_core,
+
+            deps.room.runtime,
+            deps.room.rxjava2,
+
+            deps.tools.android_ktx,
+
+            deps.ui.groupie,
+            deps.ui.groupie_kotlin_extensions,
+
+            deps.debugging.timber
+    )
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    kapt(deps.room.compiler)
+}
