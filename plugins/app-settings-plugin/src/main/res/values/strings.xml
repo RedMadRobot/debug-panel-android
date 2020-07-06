@@ -3,4 +3,5 @@
     <string name="unsupported_value">Unsupported value</string>
     <string name="save">save</string>
     <string name="wrong_type">Wrong type</string>
+    <string name="value">value</string>
 </resources>

@@ -62,9 +62,9 @@ dependencies {
             deps.debugging.timber
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    implementation "biz.laenger.android:vpbs:0.0.6"
     kapt(deps.room.compiler)
-//
+
 //    embed project(path: ':panel-core', configuration: 'default')
 //    embed project(path: ':servers-plugin', configuration: 'default')
 //    embed project(path: ':feature-toggles-plugin', configuration: 'default')

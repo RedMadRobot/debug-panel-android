@@ -47,19 +47,6 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
         return dialog
     }
 
-    private fun setBottomSheetSize() {
-        val dialogContainer = dialogView?.parent as? FrameLayout
-        dialogContainer?.apply {
-            layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
-            requestLayout()
-        }
-
-        with(getBehavior()) {
-            peekHeight = resources.displayMetrics.heightPixels / 2
-            state = BottomSheetBehavior.STATE_HALF_EXPANDED
-        }
-    }
-
     private fun setViews(dialogView: View) {
         val plugins = getAllPlugins()
             /*Only Plugins with Fragment*/
@@ -79,6 +66,19 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
             dialogView.debug_sheet_viewpager,
             tabConfigurationStrategy
         ).attach()
+    }
+
+    private fun setBottomSheetSize() {
+        val dialogContainer = dialogView?.parent as? FrameLayout
+        dialogContainer?.apply {
+            layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
+            requestLayout()
+        }
+
+        with(getBehavior()) {
+            peekHeight = resources.displayMetrics.heightPixels / 2
+            state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        }
     }
 
     private fun getBehavior(): BottomSheetBehavior<FrameLayout> {
