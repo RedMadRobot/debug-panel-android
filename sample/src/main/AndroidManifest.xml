@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.redmadrobot.debugpanel">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="com.redmadrobot.debug_sample.App"
         android:allowBackup="false"
