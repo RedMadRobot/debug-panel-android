@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="DebugPanelTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+    <style name="DebugPanelTheme" parent="Theme.MaterialComponents.Light.NoActionBar" />
 </resources>
