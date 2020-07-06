@@ -12,9 +12,7 @@ import com.redmadrobot.core.plugin.Plugin
 import com.redmadrobot.core.plugin.PluginDependencyContainer
 
 class AccountsPlugin(
-    private val preInstalledAccounts: PreInstalledData<DebugAccount> = PreInstalledData(
-        emptyList()
-    ),
+    private val preInstalledAccounts: PreInstalledData<DebugAccount> = PreInstalledData(emptyList()),
     val debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
 ) : Plugin() {
 
@@ -25,10 +23,7 @@ class AccountsPlugin(
     override fun getName() = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return AccountsPluginContainer(
-            preInstalledAccounts,
-            commonContainer
-        )
+        return AccountsPluginContainer(preInstalledAccounts, commonContainer)
     }
 
     override fun getFragment(): Fragment? {

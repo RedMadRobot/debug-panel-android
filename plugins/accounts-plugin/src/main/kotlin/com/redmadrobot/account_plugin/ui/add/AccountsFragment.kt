@@ -22,11 +22,6 @@ import kotlinx.android.synthetic.main.fragment_add_account.*
 
 class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
 
-    companion object {
-        fun getInstance() =
-            AccountsFragment()
-    }
-
     private val accountsViewModel by lazy {
         obtainShareViewModel {
             getPlugin<AccountsPlugin>()

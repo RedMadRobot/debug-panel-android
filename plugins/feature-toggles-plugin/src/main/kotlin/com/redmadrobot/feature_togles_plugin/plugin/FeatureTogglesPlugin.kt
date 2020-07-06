@@ -12,7 +12,7 @@ class FeatureTogglesPlugin(
 ) : Plugin() {
 
     companion object {
-        const val NAME = "FEATURE_TOGGLE"
+        const val NAME = "FEATURE TOGGLE"
     }
 
     override fun getName() = NAME

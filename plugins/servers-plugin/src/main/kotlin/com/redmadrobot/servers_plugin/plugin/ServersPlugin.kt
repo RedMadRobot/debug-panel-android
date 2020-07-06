@@ -10,9 +10,7 @@ import com.redmadrobot.servers_plugin.ui.add.ServersFragment
 import com.redmadrobot.servers_plugin.ui.choose.ServerSelectionFragment
 
 class ServersPlugin(
-    private val preInstalledServers: PreInstalledData<DebugServer> = PreInstalledData(
-        emptyList()
-    )
+    private val preInstalledServers: PreInstalledData<DebugServer> = PreInstalledData(emptyList())
 ) : Plugin() {
 
     companion object {

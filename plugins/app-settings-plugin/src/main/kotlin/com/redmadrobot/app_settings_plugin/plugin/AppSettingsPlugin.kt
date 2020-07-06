@@ -19,7 +19,7 @@ class AppSettingsPlugin(
     override fun getName() = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return AppSettingsPluginContainer(sharedPreferences, commonContainer)
+        return AppSettingsPluginContainer(sharedPreferences)
     }
 
     override fun getFragment(): Fragment? {
