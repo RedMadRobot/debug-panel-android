@@ -11,6 +11,7 @@
         android:clipToPadding="false"
         android:fadingEdge="vertical"
         android:paddingTop="16dp"
+        android:paddingBottom="48dp"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

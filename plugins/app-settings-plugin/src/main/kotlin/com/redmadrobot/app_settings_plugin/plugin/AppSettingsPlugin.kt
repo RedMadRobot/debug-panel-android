@@ -13,13 +13,13 @@ class AppSettingsPlugin(
 ) : Plugin() {
 
     companion object {
-        const val NAME = "APP_SETTINGS"
+        const val NAME = "APP SETTINGS"
     }
 
     override fun getName() = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return AppSettingsPluginContainer(sharedPreferences, commonContainer)
+        return AppSettingsPluginContainer(sharedPreferences)
     }
 
     override fun getFragment(): Fragment? {

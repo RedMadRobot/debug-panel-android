@@ -12,7 +12,7 @@ internal class ServersPluginContainer(
     private val container: CommonContainer
 ) : PluginDependencyContainer {
 
-    val serversRepository by lazy {
+    private val serversRepository by lazy {
         LocalDebugServerRepository(
             container.dataBaseInstance.getDebugServersDao(),
             preInstalledServers

@@ -12,6 +12,7 @@ import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
+import com.redmadrobot.servers_plugin.listener.OnServerChangedListener
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import io.reactivex.Completable
 
@@ -31,6 +32,18 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
                 ServersPlugin(
                     preInstalledServers = PreInstalledData(
                         getPreInstalledServers()
+                    ),
+                    onServerChangedListener = object : OnServerChangedListener {
+                        override fun onChanged(server: DebugServer?) {
+                            onServerChanged(server)
+                        }
+                    }
+                ),
+                AppSettingsPlugin(
+                    sharedPreferences = listOf(
+                        AppTestSettings(this.applicationContext).testSharedPreferences,
+                        AppTestSettings(this.applicationContext).testSharedPreferences,
+                        AppTestSettings(this.applicationContext).testSharedPreferences
                     )
                 ),
                 FeatureTogglesPlugin(
@@ -39,16 +52,14 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
                         FeatureToggleWrapperImpl(),
                         this
                     )
-                ),
-                AppSettingsPlugin(
-                    sharedPreferences = listOf(
-                        AppTestSettings(this.applicationContext).testSharedPreferences,
-                        AppTestSettings(this.applicationContext).testSharedPreferences,
-                        AppTestSettings(this.applicationContext).testSharedPreferences
-                    )
                 )
             )
         )
+    }
+
+    private fun onServerChanged(server: DebugServer?) {
+        val url = server?.url
+        println("Server changed to - $url")
     }
 
     override fun onAccountSelected(account: DebugAccount): Completable {

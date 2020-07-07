@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.NonNull
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -14,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.redmadrobot.core.extension.getAllPlugins
 import com.redmadrobot.debug_panel.R
 import kotlinx.android.synthetic.main.bottom_sheet_debug_panel.view.*
+
 
 class DebugBottomSheet : BottomSheetDialogFragment() {
 
@@ -31,8 +33,12 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
 
     @NonNull
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        /*set DebugPanelTheme*/
         val dialog = super.onCreateDialog(savedInstanceState)
-        dialogView = dialog.layoutInflater.inflate(R.layout.bottom_sheet_debug_panel, null)
+        val contextThemeWrapper = ContextThemeWrapper(activity, R.style.DebugPanelTheme)
+        val localInflater = dialog.layoutInflater.cloneInContext(contextThemeWrapper)
+
+        dialogView = localInflater.inflate(R.layout.bottom_sheet_debug_panel, null)
         dialog.setOnShowListener {
             setBottomSheetSize()
         }
@@ -41,22 +47,9 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
         return dialog
     }
 
-    private fun setBottomSheetSize() {
-        val dialogContainer = dialogView?.parent as? FrameLayout
-        dialogContainer?.apply {
-            layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
-            requestLayout()
-        }
-
-        with(getBehavior()) {
-            peekHeight = resources.displayMetrics.heightPixels / 2
-            state = BottomSheetBehavior.STATE_HALF_EXPANDED
-        }
-    }
-
     private fun setViews(dialogView: View) {
         val plugins = getAllPlugins()
-                /*Only Plugins with Fragment*/
+            /*Only Plugins with Fragment*/
             .filter { it.getFragment() != null }
 
         dialogView.debug_sheet_viewpager.adapter = DebugSheetViewPagerAdapter(
@@ -73,6 +66,19 @@ class DebugBottomSheet : BottomSheetDialogFragment() {
             dialogView.debug_sheet_viewpager,
             tabConfigurationStrategy
         ).attach()
+    }
+
+    private fun setBottomSheetSize() {
+        val dialogContainer = dialogView?.parent as? FrameLayout
+        dialogContainer?.apply {
+            layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
+            requestLayout()
+        }
+
+        with(getBehavior()) {
+            peekHeight = resources.displayMetrics.heightPixels / 2
+            state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        }
     }
 
     private fun getBehavior(): BottomSheetBehavior<FrameLayout> {

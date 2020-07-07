@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.kezong.fat-aar'
 
+apply from: rootProject.file("gradle/publish.gradle")
+
 repositories {
     flatDir {
         dirs 'libs'
@@ -62,18 +64,19 @@ dependencies {
             deps.debugging.timber
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     kapt(deps.room.compiler)
-//
-//    embed project(path: ':panel-core', configuration: 'default')
-//    embed project(path: ':servers-plugin', configuration: 'default')
-//    embed project(path: ':feature-toggles-plugin', configuration: 'default')
-//    embed project(path: ':accounts-plugin', configuration: 'default')
-//    embed project(path: ':app-settings-plugin', configuration: 'default')
 
     api project(path: ':panel-core')
     api project(path: ':servers-plugin')
     api project(path: ':feature-toggles-plugin')
     api project(path: ':accounts-plugin')
     api project(path: ':app-settings-plugin')
+
+/*Не удалять!. Необходимо на этапе итоговой сборки библеотеки для проброса
+* зависимостей в библиотеке*/
+//    embed project(path: ':panel-core', configuration: 'default')
+//    embed project(path: ':servers-plugin', configuration: 'default')
+//    embed project(path: ':feature-toggles-plugin', configuration: 'default')
+//    embed project(path: ':accounts-plugin', configuration: 'default')
+//    embed project(path: ':app-settings-plugin', configuration: 'default')
 }

@@ -7,7 +7,7 @@ import com.redmadrobot.core.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class LocalDebugAccountRepository(
+internal class LocalDebugAccountRepository(
     private val debugAccountDao: DebugAccountDao,
     private val preInstalledAccounts: PreInstalledData<DebugAccount>
 ) : DebugAccountRepository {

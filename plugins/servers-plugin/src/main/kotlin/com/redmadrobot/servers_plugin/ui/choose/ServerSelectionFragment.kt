@@ -47,7 +47,7 @@ class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection)
         server_list.adapter = serversAdapter
 
         serversAdapter.setOnItemClickListener { item, _ ->
-            (item as? DebugServerItem)?.let { serversViewModel.selectServerAsCurrent(it) }
+            (item as? DebugServerItem)?.let { onServerSelected(it) }
         }
 
         serversAdapter.add(preInstalledServersSection)
@@ -57,5 +57,10 @@ class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection)
     private fun render(state: ServersViewState) {
         preInstalledServersSection.update(state.preInstalledItems)
         addedServersSection.update(state.addedItems)
+    }
+
+    private fun onServerSelected(debugServerItem: DebugServerItem) {
+        serversViewModel.selectServerAsCurrent(debugServerItem)
+        getPlugin<ServersPlugin>().onServerChangedListener.onChanged(debugServerItem.debugServer)
     }
 }

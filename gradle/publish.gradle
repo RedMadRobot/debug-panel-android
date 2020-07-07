@@ -1,0 +1,39 @@
+apply plugin: "maven-publish"
+
+def publishPropertiesFile = rootProject.file("gradle/publish.properties")
+def publishProperties = new Properties()
+
+if (publishPropertiesFile.canRead()) {
+    publishProperties.load(new FileInputStream(publishPropertiesFile))
+}
+
+def libraryPropertiesFile = file("library.properties")
+def libraryProperties = new Properties()
+
+if (libraryPropertiesFile.canRead()) {
+    libraryProperties.load(new FileInputStream(libraryPropertiesFile))
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = 'nexus'
+                url libraryProperties["repository"]
+                credentials {
+                    username publishProperties["user"]
+                    password publishProperties["key"]
+                }
+            }
+        }
+        publications {
+            release(MavenPublication) {
+                artifact "$buildDir/outputs/aar/debug-panel-release.aar"
+
+                groupId = libraryProperties["group_id"]
+                artifactId = libraryProperties["lib_name"]
+                version = getVersionNameFromProperties()
+            }
+        }
+    }
+}
