@@ -1,7 +1,7 @@
 package com.redmadrobot.debug_panel.ui
 
 import androidx.fragment.app.Fragment
-import com.redmadrobot.debug_panel.R
+import com.redmadrobot.panel_core.R
 
 /**
  * Заглушка для фрагментов находящихся в разработке

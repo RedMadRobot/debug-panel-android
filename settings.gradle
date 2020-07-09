@@ -1,6 +1,5 @@
 include ':sample',
-        ':debug-panel',
-        'panel-core',
+        ':debug-panel-core',
         ':accounts-plugin',
         ':servers-plugin',
         ':feature-toggles-plugin',

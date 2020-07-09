@@ -27,7 +27,7 @@ android {
 
 dependencies {
     implementation(
-            project(path: ':panel-core'),
+            project(path: ':debug-panel-core'),
 
             deps.kotlin.stdlib,
 

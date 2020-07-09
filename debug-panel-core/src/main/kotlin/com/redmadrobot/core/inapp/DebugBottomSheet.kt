@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.redmadrobot.core.extension.getAllPlugins
-import com.redmadrobot.debug_panel.R
+import com.redmadrobot.panel_core.R
 import kotlinx.android.synthetic.main.bottom_sheet_debug_panel.view.*
 
 

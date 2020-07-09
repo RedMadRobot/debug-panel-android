@@ -33,7 +33,7 @@ android {
 
 dependencies {
     implementation(
-            project(":debug-panel"),
+            project(path: ':debug-panel-core'),
 
             deps.kotlin.stdlib,
             deps.rx.rxandroid,
@@ -43,6 +43,11 @@ dependencies {
 
             deps.debugging.timber
     )
+
+    implementation project(path: ':servers-plugin')
+    implementation project(path: ':feature-toggles-plugin')
+    implementation project(path: ':accounts-plugin')
+    implementation project(path: ':app-settings-plugin')
 
     implementation 'com.google.android.material:material:1.3.0-alpha01'
     implementation fileTree(dir: 'libs', include: ['*.jar'])

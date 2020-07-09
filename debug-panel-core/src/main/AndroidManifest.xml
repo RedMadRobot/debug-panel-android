@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.redmadrobot.debug_panel">
-
+    package="com.redmadrobot.panel_core">
 
     <application>
         <activity
