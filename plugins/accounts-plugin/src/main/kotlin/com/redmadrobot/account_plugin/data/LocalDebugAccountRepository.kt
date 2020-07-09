@@ -2,14 +2,13 @@ package com.redmadrobot.account_plugin.data
 
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.data.storage.DebugAccountDao
-import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.core.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single
 
 internal class LocalDebugAccountRepository(
     private val debugAccountDao: DebugAccountDao,
-    private val preInstalledAccounts: PreInstalledData<DebugAccount>
+    private val preInstalledAccounts: List<DebugAccount>
 ) : DebugAccountRepository {
 
     override fun addAccount(account: DebugAccount): Completable {
@@ -28,9 +27,7 @@ internal class LocalDebugAccountRepository(
     }
 
     override fun getPreInstalledAccounts(): Single<List<DebugAccount>> {
-        return Single.fromCallable {
-            preInstalledAccounts.data
-        }.subscribeOnIo()
+        return Single.just(preInstalledAccounts).subscribeOnIo()
     }
 
     override fun removeAccount(user: DebugAccount): Completable {

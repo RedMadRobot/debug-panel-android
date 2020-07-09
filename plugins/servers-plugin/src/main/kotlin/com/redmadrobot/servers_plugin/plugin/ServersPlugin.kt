@@ -2,7 +2,6 @@ package com.redmadrobot.servers_plugin.plugin
 
 import androidx.fragment.app.Fragment
 import com.redmadrobot.core.CommonContainer
-import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.core.plugin.Plugin
 import com.redmadrobot.core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
@@ -12,7 +11,7 @@ import com.redmadrobot.servers_plugin.ui.add.ServersFragment
 import com.redmadrobot.servers_plugin.ui.choose.ServerSelectionFragment
 
 class ServersPlugin(
-    private val preInstalledServers: PreInstalledData<DebugServer> = PreInstalledData(emptyList()),
+    private val preInstalledServers: List<DebugServer> = emptyList(),
     val onServerChangedListener: OnServerChangedListener = DefaultOnServerChangedListener()
 ) : Plugin() {
 

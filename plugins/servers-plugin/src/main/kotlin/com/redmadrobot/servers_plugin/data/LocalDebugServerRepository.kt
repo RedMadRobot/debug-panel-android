@@ -1,6 +1,5 @@
 package com.redmadrobot.servers_plugin.data
 
-import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.core.extension.subscribeOnIo
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.data.storage.DebugServersDao
@@ -9,7 +8,7 @@ import io.reactivex.Single
 
 class LocalDebugServerRepository(
     private val debugServersDao: DebugServersDao,
-    private val preInstalledServers: PreInstalledData<DebugServer>
+    private val preInstalledServers: List<DebugServer>
 ) : DebugServerRepository {
 
     override fun addServer(server: DebugServer): Completable {
@@ -18,9 +17,8 @@ class LocalDebugServerRepository(
     }
 
     override fun getPreInstalledServers(): Single<List<DebugServer>> {
-        return Single.fromCallable {
-            preInstalledServers.data
-        }
+        return Single.just(preInstalledServers)
+            .subscribeOnIo()
     }
 
     override fun getServers(): Single<List<DebugServer>> {

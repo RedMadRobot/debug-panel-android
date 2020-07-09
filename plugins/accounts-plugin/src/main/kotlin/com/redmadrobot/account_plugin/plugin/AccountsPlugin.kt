@@ -7,12 +7,11 @@ import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.ui.add.AccountsFragment
 import com.redmadrobot.account_plugin.ui.select.AccountSelectionFragment
 import com.redmadrobot.core.CommonContainer
-import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.core.plugin.Plugin
 import com.redmadrobot.core.plugin.PluginDependencyContainer
 
 class AccountsPlugin(
-    private val preInstalledAccounts: PreInstalledData<DebugAccount> = PreInstalledData(emptyList()),
+    private val preInstalledAccounts: List<DebugAccount> = emptyList(),
     val debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
 ) : Plugin() {
 

@@ -5,7 +5,6 @@ import com.redmadrobot.account_plugin.authenticator.DebugAuthenticator
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
-import com.redmadrobot.core.data.PreInstalledData
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
@@ -23,16 +22,12 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
         DebugPanel.initialize(
             this, listOf(
                 AccountsPlugin(
-                    preInstalledAccounts = PreInstalledData(
-                        getPreInstalledAccounts()
-                    ),
+                    preInstalledAccounts = getPreInstalledAccounts(),
                     //TODO Временная реализация. Здесь это не должно делаться.
                     debugAuthenticator = this
                 ),
                 ServersPlugin(
-                    preInstalledServers = PreInstalledData(
-                        getPreInstalledServers()
-                    ),
+                    preInstalledServers = getPreInstalledServers(),
                     onServerChangedListener = object : OnServerChangedListener {
                         override fun onChanged(server: DebugServer?) {
                             onServerChanged(server)
