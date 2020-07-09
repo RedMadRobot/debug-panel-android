@@ -1,23 +1,23 @@
 package com.redmadrobot.feature_togles_plugin.data
 
-import com.redmadrobot.core.data.storage.PanelSettingsRepository
-import com.redmadrobot.core.data.storage.dao.FeatureTogglesDao
-import com.redmadrobot.core.data.storage.entity.FeatureToggle
 import com.redmadrobot.core.extension.subscribeOnIo
+import com.redmadrobot.feature_togles_plugin.data.model.FeatureToggle
+import com.redmadrobot.feature_togles_plugin.data.repository.PluginSettingsRepository
+import com.redmadrobot.feature_togles_plugin.data.storage.FeatureTogglesDao
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 import io.reactivex.Completable
 import io.reactivex.Single
 
 class LocalFeatureToggleRepository(
     private val featureTogglesDao: FeatureTogglesDao,
-    private val panelSettingsRepository: PanelSettingsRepository
+    private val pluginSettingsRepository: PluginSettingsRepository
 ) : FeatureToggleRepository {
 
     private lateinit var featureTogglesConfig: FeatureTogglesConfig
 
     override fun initConfig(featureTogglesConfig: FeatureTogglesConfig): Completable {
         this.featureTogglesConfig = featureTogglesConfig
-        return if (panelSettingsRepository.overrideFeatureToggleEnable) {
+        return if (pluginSettingsRepository.overrideFeatureToggleEnable) {
             updateInitialToggles(true)
         } else {
             Completable.complete()
@@ -65,8 +65,8 @@ class LocalFeatureToggleRepository(
 
 
     override fun updateOverrideEnable(newOverrideEnable: Boolean): Completable {
-        return if (panelSettingsRepository.overrideFeatureToggleEnable != newOverrideEnable) {
-            panelSettingsRepository.overrideFeatureToggleEnable = newOverrideEnable
+        return if (pluginSettingsRepository.overrideFeatureToggleEnable != newOverrideEnable) {
+            pluginSettingsRepository.overrideFeatureToggleEnable = newOverrideEnable
             updateInitialToggles(newOverrideEnable)
         } else {
             Completable.complete()

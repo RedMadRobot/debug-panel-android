@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
+import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.ui.item.AccountItem
-import com.redmadrobot.core.data.storage.entity.DebugAccount
 import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.SectionHeaderItem
 import com.redmadrobot.core.ui.base.BaseViewModel

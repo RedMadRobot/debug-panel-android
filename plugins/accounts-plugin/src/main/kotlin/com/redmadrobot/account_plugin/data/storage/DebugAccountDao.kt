@@ -1,7 +1,7 @@
-package com.redmadrobot.core.data.storage.dao
+package com.redmadrobot.account_plugin.data.storage
 
 import androidx.room.*
-import com.redmadrobot.core.data.storage.entity.DebugAccount
+import com.redmadrobot.account_plugin.data.model.DebugAccount
 import io.reactivex.Completable
 import io.reactivex.Single
 

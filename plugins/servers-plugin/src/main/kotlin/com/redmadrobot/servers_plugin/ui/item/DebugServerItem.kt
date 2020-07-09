@@ -1,8 +1,8 @@
 package com.redmadrobot.servers_plugin.ui.item
 
 import androidx.core.view.isVisible
-import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_debug_server.view.*

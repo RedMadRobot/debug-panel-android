@@ -1,6 +1,6 @@
 package com.redmadrobot.servers_plugin.data
 
-import com.redmadrobot.core.data.storage.entity.DebugServer
+import com.redmadrobot.servers_plugin.data.model.DebugServer
 import io.reactivex.Completable
 import io.reactivex.Single
 

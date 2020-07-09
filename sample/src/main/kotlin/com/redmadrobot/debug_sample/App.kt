@@ -2,16 +2,16 @@ package com.redmadrobot.debug_sample
 
 import android.app.Application
 import com.redmadrobot.account_plugin.authenticator.DebugAuthenticator
+import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.core.data.PreInstalledData
-import com.redmadrobot.core.data.storage.entity.DebugAccount
-import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.debug_panel.internal.DebugPanel
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
+import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.listener.OnServerChangedListener
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import io.reactivex.Completable

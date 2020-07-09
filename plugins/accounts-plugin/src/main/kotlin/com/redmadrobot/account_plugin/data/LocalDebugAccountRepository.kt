@@ -1,8 +1,8 @@
 package com.redmadrobot.account_plugin.data
 
+import com.redmadrobot.account_plugin.data.model.DebugAccount
+import com.redmadrobot.account_plugin.data.storage.DebugAccountDao
 import com.redmadrobot.core.data.PreInstalledData
-import com.redmadrobot.core.data.storage.dao.DebugAccountDao
-import com.redmadrobot.core.data.storage.entity.DebugAccount
 import com.redmadrobot.core.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single

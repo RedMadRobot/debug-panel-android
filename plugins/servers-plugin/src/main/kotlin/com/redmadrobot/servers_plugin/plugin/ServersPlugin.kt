@@ -3,9 +3,9 @@ package com.redmadrobot.servers_plugin.plugin
 import androidx.fragment.app.Fragment
 import com.redmadrobot.core.CommonContainer
 import com.redmadrobot.core.data.PreInstalledData
-import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.core.plugin.Plugin
 import com.redmadrobot.core.plugin.PluginDependencyContainer
+import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.listener.DefaultOnServerChangedListener
 import com.redmadrobot.servers_plugin.listener.OnServerChangedListener
 import com.redmadrobot.servers_plugin.ui.add.ServersFragment

@@ -1,6 +1,6 @@
 package com.redmadrobot.account_plugin.data
 
-import com.redmadrobot.core.data.storage.entity.DebugAccount
+import com.redmadrobot.account_plugin.data.model.DebugAccount
 import io.reactivex.Completable
 import io.reactivex.Single
 

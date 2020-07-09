@@ -2,20 +2,20 @@ package com.redmadrobot.servers_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.core.data.storage.PanelSettingsRepository
-import com.redmadrobot.core.data.storage.entity.DebugServer
 import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.SectionHeaderItem
 import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
+import com.redmadrobot.servers_plugin.data.model.DebugServer
+import com.redmadrobot.servers_plugin.data.repository.PluginSettingsRepository
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
 import timber.log.Timber
 
 class ServersViewModel(
     private val context: Context,
     private val serversRepository: DebugServerRepository,
-    private val panelSettingsRepository: PanelSettingsRepository
+    private val pluginSettingsRepository: PluginSettingsRepository
 ) : BaseViewModel() {
 
     val state = MutableLiveData<ServersViewState>().apply {
@@ -33,7 +33,8 @@ class ServersViewModel(
     }
 
     fun addServer(host: String) {
-        val server = DebugServer(url = host)
+        val server =
+            DebugServer(url = host)
         serversRepository.addServer(server)
             .observeOnMain()
             .subscribe(
@@ -74,7 +75,7 @@ class ServersViewModel(
     fun selectServerAsCurrent(debugServerItem: DebugServerItem) {
         updateSelectedItem(debugServerItem)
         val serverData = debugServerItem.debugServer
-        panelSettingsRepository.saveSelectedServerHost(serverData.url)
+        pluginSettingsRepository.saveSelectedServerHost(serverData.url)
     }
 
 
@@ -126,7 +127,7 @@ class ServersViewModel(
     }
 
     private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
-        val selectedHost = panelSettingsRepository.getSelectedServerHost()
+        val selectedHost = pluginSettingsRepository.getSelectedServerHost()
         return servers.map { debugServer ->
             val isSelected = selectedHost != null && selectedHost == debugServer.url
             DebugServerItem(debugServer, isSelected).also { item ->

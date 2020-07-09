@@ -1,6 +1,6 @@
 package com.redmadrobot.feature_togles_plugin.data
 
-import com.redmadrobot.core.data.storage.entity.FeatureToggle
+import com.redmadrobot.feature_togles_plugin.data.model.FeatureToggle
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 
 import io.reactivex.Completable

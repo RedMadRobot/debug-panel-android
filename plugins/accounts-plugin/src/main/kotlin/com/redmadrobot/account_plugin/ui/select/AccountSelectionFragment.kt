@@ -5,12 +5,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
+import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.AccountsViewState
 import com.redmadrobot.account_plugin.ui.item.AccountItem
 import com.redmadrobot.account_plugin.ui.pin.AddPinDialog
-import com.redmadrobot.core.data.storage.entity.DebugAccount
 import com.redmadrobot.core.extension.*
 import com.redmadrobot.core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter

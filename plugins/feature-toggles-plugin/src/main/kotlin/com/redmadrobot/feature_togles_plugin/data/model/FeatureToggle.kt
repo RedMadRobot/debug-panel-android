@@ -1,4 +1,4 @@
-package com.redmadrobot.core.data.storage.entity
+package com.redmadrobot.feature_togles_plugin.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

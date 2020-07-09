@@ -3,6 +3,8 @@ package com.redmadrobot.feature_togles_plugin.plugin
 import com.redmadrobot.core.CommonContainer
 import com.redmadrobot.core.plugin.PluginDependencyContainer
 import com.redmadrobot.feature_togles_plugin.data.LocalFeatureToggleRepository
+import com.redmadrobot.feature_togles_plugin.data.repository.PluginSettingsRepository
+import com.redmadrobot.feature_togles_plugin.data.storage.FeatureTogglePluginDatabase
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleHolder
 import com.redmadrobot.feature_togles_plugin.ui.FeatureTogglesViewModel
 
@@ -10,10 +12,16 @@ internal class FeatureTogglesPluginContainer(
     private val container: CommonContainer
 ) : PluginDependencyContainer {
 
+    private val pluginStorage by lazy { FeatureTogglePluginDatabase.getInstance(container.context) }
+
+    private val pluginSettingsRepository by lazy {
+        PluginSettingsRepository(container.context)
+    }
+
     private val localFeatureToggleRepository by lazy {
         LocalFeatureToggleRepository(
-            container.dataBaseInstance.getFeatureTogglesDao(),
-            container.panelSettingsRepository
+            pluginStorage.getFeatureTogglesDao(),
+            pluginSettingsRepository
         )
     }
 
@@ -22,7 +30,7 @@ internal class FeatureTogglesPluginContainer(
     fun createFeatureTogglesViewModel(): FeatureTogglesViewModel {
         return FeatureTogglesViewModel(
             localFeatureToggleRepository,
-            container.panelSettingsRepository
+            pluginSettingsRepository
         )
     }
 }

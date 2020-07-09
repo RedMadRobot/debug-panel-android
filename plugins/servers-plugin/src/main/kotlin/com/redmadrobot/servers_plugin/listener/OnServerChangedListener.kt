@@ -1,6 +1,6 @@
 package com.redmadrobot.servers_plugin.listener
 
-import com.redmadrobot.core.data.storage.entity.DebugServer
+import com.redmadrobot.servers_plugin.data.model.DebugServer
 
 interface OnServerChangedListener {
     fun onChanged(server: DebugServer?)

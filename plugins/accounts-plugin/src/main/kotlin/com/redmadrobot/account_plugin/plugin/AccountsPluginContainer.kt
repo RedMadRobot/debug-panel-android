@@ -1,10 +1,11 @@
 package com.redmadrobot.account_plugin.plugin
 
 import com.redmadrobot.account_plugin.data.LocalDebugAccountRepository
+import com.redmadrobot.account_plugin.data.model.DebugAccount
+import com.redmadrobot.account_plugin.data.storage.AccountsPluginDatabase
 import com.redmadrobot.account_plugin.ui.AccountsViewModel
 import com.redmadrobot.core.CommonContainer
 import com.redmadrobot.core.data.PreInstalledData
-import com.redmadrobot.core.data.storage.entity.DebugAccount
 import com.redmadrobot.core.plugin.PluginDependencyContainer
 
 internal class AccountsPluginContainer(
@@ -12,9 +13,12 @@ internal class AccountsPluginContainer(
     private val container: CommonContainer
 ) : PluginDependencyContainer {
 
+
+    private val pluginStorage by lazy { AccountsPluginDatabase.getInstance(container.context) }
+
     private val debugAccountRepository by lazy {
         LocalDebugAccountRepository(
-            container.dataBaseInstance.getDebugAccountsDao(),
+            pluginStorage.getDebugAccountsDao(),
             preInstalledAccounts
         )
     }

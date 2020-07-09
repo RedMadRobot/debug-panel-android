@@ -1,23 +1,23 @@
 package com.redmadrobot.feature_togles_plugin.ui
 
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.core.data.storage.PanelSettingsRepository
-import com.redmadrobot.core.data.storage.entity.FeatureToggle
 import com.redmadrobot.core.extension.observeOnMain
 import com.redmadrobot.core.ui.base.BaseViewModel
 import com.redmadrobot.feature_togles_plugin.data.FeatureToggleRepository
+import com.redmadrobot.feature_togles_plugin.data.model.FeatureToggle
+import com.redmadrobot.feature_togles_plugin.data.repository.PluginSettingsRepository
 import com.redmadrobot.feature_togles_plugin.ui.item.FeatureToggleItem
 import timber.log.Timber
 
 class FeatureTogglesViewModel(
     private val featureToggleRepository: FeatureToggleRepository,
-    private val panelSettingsRepository: PanelSettingsRepository
+    private val pluginSettingsRepository: PluginSettingsRepository
 ) : BaseViewModel() {
 
     val screenState = MutableLiveData<FeatureTogglesState>()
 
     fun loadFeatureToggles() {
-        val overrideEnable = panelSettingsRepository.overrideFeatureToggleEnable
+        val overrideEnable = pluginSettingsRepository.overrideFeatureToggleEnable
         featureToggleRepository.getAllFeatureToggles()
             .observeOnMain()
             .map { items ->
