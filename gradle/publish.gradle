@@ -28,7 +28,7 @@ afterEvaluate {
         }
         publications {
             release(MavenPublication) {
-                artifact "$buildDir/outputs/aar/debug-panel-release.aar"
+                artifact "$buildDir${libraryProperties["artifact_location"]}"
 
                 groupId = libraryProperties["group_id"]
                 artifactId = libraryProperties["lib_name"]
