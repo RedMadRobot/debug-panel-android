@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    implementation(
+    api(
             deps.kotlin.stdlib,
 
             deps.retrofit.runtime,

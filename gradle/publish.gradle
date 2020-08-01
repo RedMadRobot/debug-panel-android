@@ -14,6 +14,12 @@ if (libraryPropertiesFile.canRead()) {
     libraryProperties.load(new FileInputStream(libraryPropertiesFile))
 }
 
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+
 afterEvaluate {
     publishing {
         repositories {
@@ -28,12 +34,16 @@ afterEvaluate {
         }
         publications {
             release(MavenPublication) {
-                artifact "$buildDir${libraryProperties["artifact_location"]}"
+
+                from components.release
+
+                artifact androidSourcesJar
 
                 groupId = libraryProperties["group_id"]
                 artifactId = libraryProperties["lib_name"]
                 version = getVersionNameFromProperties()
             }
         }
+
     }
 }
