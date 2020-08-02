@@ -11,7 +11,6 @@ import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 import com.redmadrobot.servers_plugin.data.model.DebugServer
-import com.redmadrobot.servers_plugin.listener.OnServerChangedListener
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import io.reactivex.Completable
 
@@ -27,12 +26,7 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
                     debugAuthenticator = this
                 ),
                 ServersPlugin(
-                    preInstalledServers = getPreInstalledServers(),
-                    onServerChangedListener = object : OnServerChangedListener {
-                        override fun onChanged(server: DebugServer?) {
-                            onServerChanged(server)
-                        }
-                    }
+                    preInstalledServers = getPreInstalledServers()
                 ),
                 AppSettingsPlugin(
                     sharedPreferences = listOf(
