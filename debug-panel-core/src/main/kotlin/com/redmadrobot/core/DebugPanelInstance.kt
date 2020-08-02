@@ -2,10 +2,13 @@ package com.redmadrobot.core
 
 import android.app.Application
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.core.internal.DebugEvent
 import com.redmadrobot.core.plugin.Plugin
 import com.redmadrobot.core.plugin.PluginManager
 
-class DebugPanelInstance constructor(
+internal class DebugPanelInstance constructor(
     application: Application,
     plugins: List<Plugin> = emptyList()
 ) {
@@ -17,6 +20,7 @@ class DebugPanelInstance constructor(
 
     private var commonContainer: CommonContainer? = null
     private var pluginManager: PluginManager? = null
+    private val eventLiveData: MutableLiveData<DebugEvent> = MutableLiveData()
 
 
     init {
@@ -28,6 +32,14 @@ class DebugPanelInstance constructor(
     fun getContainer(): CommonContainer {
         return commonContainer
             ?: throw IllegalStateException("Container not initialised")
+    }
+
+    internal fun getEventLiveData(): LiveData<DebugEvent> {
+        return eventLiveData
+    }
+
+    internal fun pushEvent(debugEvent: DebugEvent) {
+        eventLiveData.value = debugEvent
     }
 
     internal fun getPluginManger(): PluginManager {
