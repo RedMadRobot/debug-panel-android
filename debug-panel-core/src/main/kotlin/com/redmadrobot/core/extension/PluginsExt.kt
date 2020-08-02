@@ -1,6 +1,5 @@
 package com.redmadrobot.core.extension
 
-import androidx.fragment.app.Fragment
 import com.redmadrobot.core.DebugPanelInstance
 import com.redmadrobot.core.plugin.Plugin
 
@@ -14,7 +13,7 @@ fun getAllPlugins(): List<Plugin> {
     return DebugPanelInstance.instance?.getPluginManger()?.plugins ?: emptyList()
 }
 
-inline fun <reified T : Plugin> Fragment.getPlugin(): T {
+inline fun <reified T : Plugin> getPlugin(): T {
     val plugin = getPlugin(T::class.java.name)
     return plugin as T
 }

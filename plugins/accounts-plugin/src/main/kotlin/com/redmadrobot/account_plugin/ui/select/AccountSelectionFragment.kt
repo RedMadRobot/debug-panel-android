@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.model.DebugAccount
+import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.AccountsViewState
@@ -51,7 +52,7 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
                 .subscribeOnIo()
                 .observeOnMain()
                 .subscribe(
-                    { showSelectionInfo(account) },
+                    { pushEvent(account) },
                     { throwable ->
                         Timber.e(throwable)
                         showError(throwable.localizedMessage)
@@ -87,7 +88,7 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
                     if (account.pinNeeded) {
                         showAddPinDialog(account)
                     } else {
-                        showSelectionInfo(account)
+                        pushEvent(account)
                     }
                 },
                 { throwable ->
@@ -105,12 +106,13 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
         ).show()
     }
 
-    private fun showSelectionInfo(account: DebugAccount) {
+    private fun pushEvent(account: DebugAccount) {
         Toast.makeText(
             requireActivity(),
             "Account ${account.login} selected",
             Toast.LENGTH_SHORT
         ).show()
+        getPlugin<AccountsPlugin>().pushEvent(AccountSelectedEvent(account))
     }
 
     private fun render(state: AccountsViewState) {
