@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.inapp
+package com.redmadrobot.core.inapp
 
 import android.content.Context
 import android.graphics.Canvas

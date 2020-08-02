@@ -1,9 +1,10 @@
-package com.redmadrobot.debug_panel.internal
+package com.redmadrobot.core.internal
 
 import android.app.Application
+import androidx.lifecycle.LifecycleOwner
 import com.redmadrobot.core.DebugPanelInstance
 import com.redmadrobot.core.plugin.Plugin
-import com.redmadrobot.debug_panel.util.ActivityLifecycleHandler
+import com.redmadrobot.core.util.ActivityLifecycleHandler
 import timber.log.Timber
 
 object DebugPanel {
@@ -12,6 +13,10 @@ object DebugPanel {
         createDebugPanelInstance(application, plugins)
         ActivityLifecycleHandler(application).start()
         initTimber()
+    }
+
+    fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) {
+
     }
 
     private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {

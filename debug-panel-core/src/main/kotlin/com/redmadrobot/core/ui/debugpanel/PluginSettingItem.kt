@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.debugpanel
+package com.redmadrobot.core.ui.debugpanel
 
 import com.redmadrobot.panel_core.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder

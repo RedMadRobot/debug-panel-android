@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.util
+package com.redmadrobot.core.util
 
 import android.app.*
 import android.content.Context
@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
+import com.redmadrobot.core.ui.debugpanel.DebugActivity
 import com.redmadrobot.debug_panel.inapp.shake.ShakeController
-import com.redmadrobot.debug_panel.ui.debugpanel.DebugActivity
 import com.redmadrobot.panel_core.R
 
 class ActivityLifecycleHandler(private val application: Application) {

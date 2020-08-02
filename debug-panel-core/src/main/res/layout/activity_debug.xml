@@ -4,7 +4,7 @@
     android:id="@+id/debug_activity_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.redmadrobot.debug_panel.ui.debugpanel.DebugActivity">
+    tools:context="com.redmadrobot.core.ui.debugpanel.DebugActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/debug_feature_list"

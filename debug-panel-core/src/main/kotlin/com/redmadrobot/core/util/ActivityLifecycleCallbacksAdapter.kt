@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.util
+package com.redmadrobot.core.util
 
 import android.app.Activity
 import android.app.Application

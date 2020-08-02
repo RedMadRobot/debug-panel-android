@@ -4,7 +4,7 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
-import com.redmadrobot.debug_panel.inapp.DebugBottomSheet
+import com.redmadrobot.core.inapp.DebugBottomSheet
 
 class ShakeController(context: Context) {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager

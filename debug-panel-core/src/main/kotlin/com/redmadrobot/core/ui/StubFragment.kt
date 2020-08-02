@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui
+package com.redmadrobot.core.ui
 
 import androidx.fragment.app.Fragment
 import com.redmadrobot.panel_core.R

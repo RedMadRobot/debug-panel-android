@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.ui.debugpanel
+package com.redmadrobot.core.ui.debugpanel
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -5,7 +5,7 @@ import com.redmadrobot.account_plugin.authenticator.DebugAuthenticator
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
-import com.redmadrobot.debug_panel.internal.DebugPanel
+import com.redmadrobot.core.internal.DebugPanel
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener

@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel.inapp
+package com.redmadrobot.core.inapp
 
 import android.app.Dialog
 import android.os.Bundle
