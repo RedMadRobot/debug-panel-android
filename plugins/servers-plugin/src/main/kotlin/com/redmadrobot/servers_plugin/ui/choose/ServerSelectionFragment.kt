@@ -8,6 +8,7 @@ import com.redmadrobot.core.extension.observe
 import com.redmadrobot.core.extension.obtainShareViewModel
 import com.redmadrobot.core.ui.base.BaseFragment
 import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import com.redmadrobot.servers_plugin.ui.ServersViewState
@@ -61,6 +62,6 @@ class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection)
 
     private fun onServerSelected(debugServerItem: DebugServerItem) {
         serversViewModel.selectServerAsCurrent(debugServerItem)
-        getPlugin<ServersPlugin>().onServerChangedListener.onChanged(debugServerItem.debugServer)
+        getPlugin<ServersPlugin>().pushEvent(ServerSelectedEvent(debugServerItem.debugServer))
     }
 }
