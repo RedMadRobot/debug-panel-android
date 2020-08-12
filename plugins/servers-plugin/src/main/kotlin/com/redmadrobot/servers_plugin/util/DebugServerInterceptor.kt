@@ -32,7 +32,7 @@ class DebugServerInterceptor : Interceptor {
         val debugServer = panelSettingsRepository.getSelectedServerHost()
 
         if (debugServer != null && debugServer.isNotEmpty()) {
-            val newUrl = getNewUrl(debugServer)
+            val newUrl = request.getNewUrl(debugServer)
             request = request.newBuilder()
                 .url(newUrl)
                 .build()
@@ -41,9 +41,9 @@ class DebugServerInterceptor : Interceptor {
         return chain.proceed(requestModifier?.invoke(request) ?: request)
     }
 
-    private fun getNewUrl(debugServer: String): HttpUrl {
+    private fun Request.getNewUrl(debugServer: String): HttpUrl {
         val serverUri = URI(debugServer)
-        return HttpUrl.Builder()
+        return this.url.newBuilder()
             .scheme(serverUri.scheme)
             .host(serverUri.host)
             .build()
