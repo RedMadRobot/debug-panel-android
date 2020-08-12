@@ -24,7 +24,8 @@ object ApiFactory {
                     request.newBuilder()
                         .addHeader("Authorization", "token")
                         .build()
-                })
+                }
+            )
             .addInterceptor(object : Interceptor {
                 override fun intercept(chain: Interceptor.Chain): Response {
                     onCalled.invoke(chain.request().url.toString())

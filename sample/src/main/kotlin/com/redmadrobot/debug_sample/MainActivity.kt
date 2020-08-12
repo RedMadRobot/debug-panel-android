@@ -3,7 +3,7 @@ package com.redmadrobot.debug_sample
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.redmadrobot.debug_panel_core.inapp.DebugBottomSheet
+import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -64,6 +64,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun chooseAccount() {
-        DebugBottomSheet.show(supportFragmentManager)
+        DebugPanel.showPanel(supportFragmentManager)
     }
 }

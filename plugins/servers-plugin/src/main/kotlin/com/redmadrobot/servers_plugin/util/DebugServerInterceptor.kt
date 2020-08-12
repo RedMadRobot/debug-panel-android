@@ -1,6 +1,7 @@
 package com.redmadrobot.servers_plugin.util
 
 import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import okhttp3.HttpUrl
@@ -29,17 +30,18 @@ class DebugServerInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        val debugServer = panelSettingsRepository.getSelectedServerHost()
-
-        if (debugServer != null && debugServer.isNotEmpty()) {
-            val newUrl = request.getNewUrl(debugServer)
-            request = request.newBuilder()
-                .url(newUrl)
-                .build()
+        if (DebugPanel.isInitialized()) {
+            val debugServer = panelSettingsRepository.getSelectedServerHost()
+            if (debugServer != null && debugServer.isNotEmpty()) {
+                val newUrl = request.getNewUrl(debugServer)
+                request = request.newBuilder()
+                    .url(newUrl)
+                    .build()
+            }
         }
-
         return chain.proceed(requestModifier?.invoke(request) ?: request)
     }
+
 
     private fun Request.getNewUrl(debugServer: String): HttpUrl {
         val serverUri = URI(debugServer)

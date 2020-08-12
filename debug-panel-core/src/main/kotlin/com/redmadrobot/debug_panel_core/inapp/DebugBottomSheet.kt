@@ -17,7 +17,7 @@ import com.redmadrobot.panel_core.R
 import kotlinx.android.synthetic.main.bottom_sheet_debug_panel.view.*
 
 
-class DebugBottomSheet : BottomSheetDialogFragment() {
+internal class DebugBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         private const val TAG = "DebugBottomSheet"

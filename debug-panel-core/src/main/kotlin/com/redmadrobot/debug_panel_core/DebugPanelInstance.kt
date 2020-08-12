@@ -15,7 +15,6 @@ internal class DebugPanelInstance constructor(
 
     companion object {
         var instance: DebugPanelInstance? = null
-            get() = field ?: throw IllegalStateException("Debug panel must be initialised")
     }
 
     private var commonContainer: CommonContainer? = null
