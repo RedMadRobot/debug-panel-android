@@ -1,6 +1,6 @@
 package com.redmadrobot.servers_plugin.util
 
-import com.redmadrobot.core.extension.getPlugin
+import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import okhttp3.HttpUrl
@@ -11,28 +11,39 @@ import java.net.URI
 
 class DebugServerInterceptor : Interceptor {
 
+    private var requestModifier: ((Request) -> Request?)? = null
+
     private val panelSettingsRepository by lazy {
         getPlugin<ServersPlugin>()
             .getContainer<ServersPluginContainer>()
             .pluginSettingsRepository
     }
 
+    /**
+     * Дополнительная Модификация запроса
+     * */
+    fun modifyRequest(block: (Request) -> Request): DebugServerInterceptor {
+        this.requestModifier = block
+        return this
+    }
+
     override fun intercept(chain: Interceptor.Chain): Response {
-        var request: Request = chain.request()
+        var request = chain.request()
         val debugServer = panelSettingsRepository.getSelectedServerHost()
 
         if (debugServer != null && debugServer.isNotEmpty()) {
-            val newUrl = request.getNewUrl(debugServer)
+            val newUrl = getNewUrl(debugServer)
             request = request.newBuilder()
                 .url(newUrl)
                 .build()
         }
-        return chain.proceed(request)
+
+        return chain.proceed(requestModifier?.invoke(request) ?: request)
     }
 
-    private fun Request.getNewUrl(debugServer: String): HttpUrl {
+    private fun getNewUrl(debugServer: String): HttpUrl {
         val serverUri = URI(debugServer)
-        return this.url.newBuilder()
+        return HttpUrl.Builder()
             .scheme(serverUri.scheme)
             .host(serverUri.host)
             .build()

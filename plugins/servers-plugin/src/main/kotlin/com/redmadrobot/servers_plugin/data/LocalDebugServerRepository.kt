@@ -1,6 +1,6 @@
 package com.redmadrobot.servers_plugin.data
 
-import com.redmadrobot.core.extension.subscribeOnIo
+import com.redmadrobot.debug_panel_core.extension.subscribeOnIo
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.data.storage.DebugServersDao
 import io.reactivex.Completable

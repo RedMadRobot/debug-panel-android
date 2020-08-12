@@ -1,7 +1,7 @@
 package com.redmadrobot.feature_togles_plugin.plugin
 
-import com.redmadrobot.core.CommonContainer
-import com.redmadrobot.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug_panel_core.CommonContainer
+import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.feature_togles_plugin.data.LocalFeatureToggleRepository
 import com.redmadrobot.feature_togles_plugin.data.repository.PluginSettingsRepository
 import com.redmadrobot.feature_togles_plugin.data.storage.FeatureTogglePluginDatabase

@@ -1,6 +1,6 @@
 package com.redmadrobot.feature_togles_plugin.data
 
-import com.redmadrobot.core.extension.subscribeOnIo
+import com.redmadrobot.debug_panel_core.extension.subscribeOnIo
 import com.redmadrobot.feature_togles_plugin.data.model.FeatureToggle
 import com.redmadrobot.feature_togles_plugin.data.repository.PluginSettingsRepository
 import com.redmadrobot.feature_togles_plugin.data.storage.FeatureTogglesDao

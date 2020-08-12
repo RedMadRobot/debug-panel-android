@@ -3,7 +3,7 @@ package com.redmadrobot.debug_sample
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.redmadrobot.core.inapp.DebugBottomSheet
+import com.redmadrobot.debug_panel_core.inapp.DebugBottomSheet
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
 import kotlinx.android.synthetic.main.activity_main.*

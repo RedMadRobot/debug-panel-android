@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.core.extension.getPlugin
-import com.redmadrobot.core.extension.observe
-import com.redmadrobot.core.extension.obtainShareViewModel
-import com.redmadrobot.core.ui.ItemTouchHelperCallback
-import com.redmadrobot.core.ui.base.BaseFragment
+import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug_panel_core.extension.observe
+import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
+import com.redmadrobot.debug_panel_core.ui.ItemTouchHelperCallback
+import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
@@ -84,9 +84,11 @@ class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
 
     private fun handleItemClick(item: DebugServerItem) {
         if (addedServersSection.getPosition(item) >= 0) {
-            val host = item.debugServer.url
+            val debugServer = item.debugServer
             val bundle = Bundle().apply {
-                putString(ServerHostDialog.HOST, host)
+                putInt(ServerHostDialog.KEY_ID, debugServer.id)
+                putString(ServerHostDialog.KEY_NAME, debugServer.name)
+                putString(ServerHostDialog.KEY_URL, debugServer.url)
             }
             ServerHostDialog.show(childFragmentManager, bundle)
         }

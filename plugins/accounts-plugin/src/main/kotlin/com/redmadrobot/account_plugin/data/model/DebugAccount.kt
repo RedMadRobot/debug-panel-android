@@ -16,7 +16,7 @@ data class DebugAccount(
     val password: String,
 
     @ColumnInfo(name = "pinNeeded")
-    val pinNeeded: Boolean = false
+    val hasPin: Boolean = false
 ) {
     companion object {
         const val TABLE_NAME = "debug_account"

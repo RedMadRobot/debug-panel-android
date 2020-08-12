@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.redmadrobot.core.inapp.ModalLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.redmadrobot.debug_panel_core.inapp.ModalLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_container"
     android:layout_width="match_parent"
@@ -29,4 +29,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/debug_sheet_tab_layout" />
 
-</com.redmadrobot.core.inapp.ModalLayout>
+</com.redmadrobot.debug_panel_core.inapp.ModalLayout>

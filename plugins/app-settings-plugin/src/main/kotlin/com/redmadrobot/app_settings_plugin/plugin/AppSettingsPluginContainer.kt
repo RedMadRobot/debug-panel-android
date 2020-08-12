@@ -3,7 +3,7 @@ package com.redmadrobot.app_settings_plugin.plugin
 import android.content.SharedPreferences
 import com.redmadrobot.app_settings_plugin.data.AppSettingsRepositoryImpl
 import com.redmadrobot.app_settings_plugin.ui.ApplicationSettingsViewModel
-import com.redmadrobot.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 
 internal class AppSettingsPluginContainer(
     private val preferencesList: List<SharedPreferences>

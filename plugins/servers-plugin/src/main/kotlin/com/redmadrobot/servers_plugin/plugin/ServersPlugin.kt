@@ -1,9 +1,9 @@
 package com.redmadrobot.servers_plugin.plugin
 
 import androidx.fragment.app.Fragment
-import com.redmadrobot.core.CommonContainer
-import com.redmadrobot.core.plugin.Plugin
-import com.redmadrobot.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug_panel_core.CommonContainer
+import com.redmadrobot.debug_panel_core.plugin.Plugin
+import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.ui.add.ServersFragment
 import com.redmadrobot.servers_plugin.ui.choose.ServerSelectionFragment

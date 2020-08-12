@@ -11,8 +11,8 @@ import androidx.fragment.app.FragmentManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
-import com.redmadrobot.core.extension.getPlugin
-import com.redmadrobot.core.extension.obtainShareViewModel
+import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
 import kotlinx.android.synthetic.main.dialog_add_account.*
 
 class AddAccountDialog : DialogFragment() {

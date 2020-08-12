@@ -2,7 +2,7 @@ package com.redmadrobot.account_plugin.data
 
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.data.storage.DebugAccountDao
-import com.redmadrobot.core.extension.subscribeOnIo
+import com.redmadrobot.debug_panel_core.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single
 

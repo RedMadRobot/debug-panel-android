@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.redmadrobot.core.ui.debugpanel.DebugActivity"
+            android:name="com.redmadrobot.debug_panel_core.ui.debugpanel.DebugActivity"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
             android:theme="@style/DebugPanelTheme" />
 
@@ -11,7 +11,7 @@
             android:name="com.redmadrobot.debug_panel.DebugLauncherActivity"
             android:enabled="true"
             android:label="@string/debug_panel"
-            android:targetActivity="com.redmadrobot.core.ui.debugpanel.DebugActivity"
+            android:targetActivity="com.redmadrobot.debug_panel_core.ui.debugpanel.DebugActivity"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
             android:theme="@style/DebugPanelTheme">
             <intent-filter>

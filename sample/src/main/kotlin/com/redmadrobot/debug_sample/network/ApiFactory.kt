@@ -19,7 +19,12 @@ object ApiFactory {
 
     private fun getSampleClient(onCalled: (String) -> Unit): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(DebugServerInterceptor())
+            .addInterceptor(
+                DebugServerInterceptor().modifyRequest { request ->
+                    request.newBuilder()
+                        .addHeader("Authorization", "token")
+                        .build()
+                })
             .addInterceptor(object : Interceptor {
                 override fun intercept(chain: Interceptor.Chain): Response {
                     onCalled.invoke(chain.request().url.toString())

@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.redmadrobot.core.extension.getPlugin
-import com.redmadrobot.core.extension.obtainShareViewModel
+import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.dialog_server.*
 class ServerHostDialog : DialogFragment() {
 
     companion object {
-        const val HOST = "HOST"
+        const val KEY_NAME = "NAME"
+        const val KEY_URL = "URL"
+        const val KEY_ID = "ID"
         private const val TAG = "AddServerDialog"
 
         fun show(fragmentManager: FragmentManager, params: Bundle? = null) {
@@ -61,18 +63,21 @@ class ServerHostDialog : DialogFragment() {
     }
 
     private fun obtainArguments() {
-        val host = arguments?.getString(HOST)
-        host?.let {
-            server_host.setText(it)
+        val name = arguments?.getString(KEY_NAME)
+        val url = arguments?.getString(KEY_URL)
+        if (!name.isNullOrEmpty() && !url.isNullOrEmpty()) {
+            server_name.setText(name)
+            server_host.setText(url)
             isEditMode = true
         }
     }
 
     private fun setView() {
         save_server_button.setOnClickListener {
-            val host = server_host.text.toString()
-            if (isHostValid(host)) {
-                save(host)
+            val name = server_name.text.toString()
+            val url = server_host.text.toString()
+            if (isDataValid(name, url)) {
+                save(name, url)
             } else {
                 showWrongHostError()
             }
@@ -80,29 +85,45 @@ class ServerHostDialog : DialogFragment() {
         server_host.requestFocus()
     }
 
-    private fun save(host: String) {
+    private fun save(name: String, url: String) {
         if (isEditMode) {
-            update(host)
+            update(name, url)
         } else {
-            saveNew(host)
+            saveNew(name, url)
         }
     }
 
-    private fun update(newHost: String) {
-        val oldValue = arguments?.getString(HOST)
-        oldValue?.let {
-            shareViewModel.updateServerData(oldValue, newHost)
+    private fun update(name: String, url: String) {
+        val id = arguments?.getInt(KEY_ID)
+        id?.let {
+            shareViewModel.updateServerData(id, name, url)
         }
         dialog?.dismiss()
     }
 
-    private fun saveNew(host: String) {
-        shareViewModel.addServer(host)
+    private fun saveNew(name: String, url: String) {
+        shareViewModel.addServer(name, url)
         dialog?.dismiss()
     }
 
-    private fun isHostValid(host: String): Boolean {
-        return Patterns.WEB_URL.matcher(host).matches()
+    private fun isDataValid(name: String, url: String): Boolean {
+        return when {
+            name.isEmpty() -> {
+                showEmptyNameError()
+                false
+            }
+            !Patterns.WEB_URL.matcher(url).matches() -> {
+                showWrongHostError()
+                false
+            }
+            else -> {
+                true
+            }
+        }
+    }
+
+    private fun showEmptyNameError() {
+        server_name_input_layout.error = getString(R.string.error_empty_name)
     }
 
     private fun showWrongHostError() {

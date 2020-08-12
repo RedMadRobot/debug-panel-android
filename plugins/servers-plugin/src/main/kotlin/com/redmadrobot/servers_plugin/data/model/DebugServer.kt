@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class DebugServer(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val name: String,
     val url: String,
     val isSelected: Boolean = false
 ) {
@@ -14,6 +15,6 @@ data class DebugServer(
         const val TABLE_NAME = "debug_server"
 
         fun getEmpty() =
-            DebugServer(url = "")
+            DebugServer(name = "", url = "")
     }
 }

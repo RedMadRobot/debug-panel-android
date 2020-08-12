@@ -5,7 +5,7 @@ import com.redmadrobot.account_plugin.authenticator.DebugAuthenticator
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
-import com.redmadrobot.core.internal.DebugPanel
+import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
@@ -70,7 +70,7 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
 
     private fun getPreInstalledServers(): List<DebugServer> {
         return listOf(
-            DebugServer(url = "https://testserver1.com")
+            DebugServer(name = "debug 1",url = "https://testserver1.com")
         )
     }
 
@@ -83,17 +83,17 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
             DebugAccount(
                 login = "2777248041",
                 password = "Qq!11111",
-                pinNeeded = true
+                hasPin = true
             ),
             DebugAccount(
                 login = "4183730054",
                 password = "Ww!11111",
-                pinNeeded = true
+                hasPin = true
             ),
             DebugAccount(
                 login = "1944647499",
                 password = "Qq!11111",
-                pinNeeded = true
+                hasPin = true
             )
         )
     }

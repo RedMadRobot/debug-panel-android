@@ -6,8 +6,8 @@ import com.redmadrobot.app_settings_plugin.data.AppSettingsRepository
 import com.redmadrobot.app_settings_plugin.ui.item.AppSettingBooleanItem
 import com.redmadrobot.app_settings_plugin.ui.item.AppSettingValueItem
 import com.redmadrobot.app_settings_plugin.ui.item.HeaderItem
-import com.redmadrobot.core.extension.observeOnMain
-import com.redmadrobot.core.ui.base.BaseViewModel
+import com.redmadrobot.debug_panel_core.extension.observeOnMain
+import com.redmadrobot.debug_panel_core.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
 import timber.log.Timber
 

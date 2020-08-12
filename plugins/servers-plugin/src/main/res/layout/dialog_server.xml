@@ -5,6 +5,19 @@
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/server_name_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/server_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/server_host_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +29,6 @@
             android:layout_height="match_parent"
             android:hint="@string/server_host_hint" />
     </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/save_server_button"
         android:layout_width="wrap_content"

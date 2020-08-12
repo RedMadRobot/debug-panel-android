@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.core.extension.getPlugin
-import com.redmadrobot.core.extension.observe
-import com.redmadrobot.core.extension.obtainViewModel
-import com.redmadrobot.core.ui.base.BaseFragment
+import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug_panel_core.extension.observe
+import com.redmadrobot.debug_panel_core.extension.obtainViewModel
+import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.redmadrobot.feature_toggles_plugin.R
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPluginContainer

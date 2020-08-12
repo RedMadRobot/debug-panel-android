@@ -14,11 +14,11 @@ class DebugServerItem(var debugServer: DebugServer, var isSelected: Boolean) : I
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         with(viewHolder.containerView) {
-            val url = debugServer.url.takeIf { url ->
-                url.isNotEmpty()
+            val name = debugServer.name.takeIf { name ->
+                name.isNotEmpty()
             } ?: context.getString(R.string.default_server)
 
-            item_server_url.text = url
+            item_server_name.text = name
             is_selected_icon.isVisible = this@DebugServerItem.isSelected
         }
     }

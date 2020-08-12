@@ -6,9 +6,9 @@ import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.ui.item.AccountItem
-import com.redmadrobot.core.extension.observeOnMain
-import com.redmadrobot.core.ui.SectionHeaderItem
-import com.redmadrobot.core.ui.base.BaseViewModel
+import com.redmadrobot.debug_panel_core.extension.observeOnMain
+import com.redmadrobot.debug_panel_core.ui.SectionHeaderItem
+import com.redmadrobot.debug_panel_core.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
 import timber.log.Timber
 
@@ -34,7 +34,7 @@ class AccountsViewModel(
         val account = DebugAccount(
             login = login,
             password = password,
-            pinNeeded = pinNeeded
+            hasPin = pinNeeded
         )
         debugAccountsRepository
             .addAccount(account)
@@ -53,7 +53,7 @@ class AccountsViewModel(
             id = id,
             login = newLogin,
             password = newPassword,
-            pinNeeded = pinNeeded
+            hasPin = pinNeeded
         )
         debugAccountsRepository
             .updateAccount(account)

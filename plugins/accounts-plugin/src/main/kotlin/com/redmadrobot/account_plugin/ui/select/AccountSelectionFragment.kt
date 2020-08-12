@@ -12,8 +12,8 @@ import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.AccountsViewState
 import com.redmadrobot.account_plugin.ui.item.AccountItem
 import com.redmadrobot.account_plugin.ui.pin.AddPinDialog
-import com.redmadrobot.core.extension.*
-import com.redmadrobot.core.ui.base.BaseFragment
+import com.redmadrobot.debug_panel_core.extension.*
+import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -85,7 +85,7 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select),
             .observeOnMain()
             .subscribe(
                 {
-                    if (account.pinNeeded) {
+                    if (account.hasPin) {
                         showAddPinDialog(account)
                     } else {
                         pushEvent(account)

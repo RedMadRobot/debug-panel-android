@@ -1,7 +1,7 @@
 package com.redmadrobot.app_settings_plugin.data
 
 import android.content.SharedPreferences
-import com.redmadrobot.core.extension.subscribeOnIo
+import com.redmadrobot.debug_panel_core.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single
 

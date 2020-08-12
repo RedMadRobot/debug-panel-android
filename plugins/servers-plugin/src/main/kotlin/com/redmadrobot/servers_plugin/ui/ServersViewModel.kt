@@ -2,9 +2,9 @@ package com.redmadrobot.servers_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.core.extension.observeOnMain
-import com.redmadrobot.core.ui.SectionHeaderItem
-import com.redmadrobot.core.ui.base.BaseViewModel
+import com.redmadrobot.debug_panel_core.extension.observeOnMain
+import com.redmadrobot.debug_panel_core.ui.SectionHeaderItem
+import com.redmadrobot.debug_panel_core.ui.base.BaseViewModel
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.data.model.DebugServer
@@ -32,9 +32,8 @@ class ServersViewModel(
         loadAddedServers()
     }
 
-    fun addServer(host: String) {
-        val server =
-            DebugServer(url = host)
+    fun addServer(name: String, url: String) {
+        val server = DebugServer(name = name, url = url)
         serversRepository.addServer(server)
             .observeOnMain()
             .subscribe(
@@ -54,12 +53,12 @@ class ServersViewModel(
             .autoDispose()
     }
 
-    fun updateServerData(oldValue: String, newValue: String) {
+    fun updateServerData(id: Int, name: String, url: String) {
         val itemForUpdate = state.value?.addedItems
-            ?.find { it is DebugServerItem && it.debugServer.url == oldValue } as? DebugServerItem
+            ?.find { it is DebugServerItem && it.debugServer.id == id } as? DebugServerItem
 
         val serverForUpdate = itemForUpdate?.debugServer
-        val updatedServer = serverForUpdate?.copy(url = newValue)
+        val updatedServer = serverForUpdate?.copy(name = name, url = url)
 
         updatedServer?.let { server ->
             serversRepository.updateServer(server)

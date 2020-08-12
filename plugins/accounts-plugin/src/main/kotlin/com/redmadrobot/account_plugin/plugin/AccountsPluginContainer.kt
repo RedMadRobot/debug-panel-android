@@ -4,8 +4,8 @@ import com.redmadrobot.account_plugin.data.LocalDebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.data.storage.AccountsPluginDatabase
 import com.redmadrobot.account_plugin.ui.AccountsViewModel
-import com.redmadrobot.core.CommonContainer
-import com.redmadrobot.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug_panel_core.CommonContainer
+import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 
 internal class AccountsPluginContainer(
     private val preInstalledAccounts: List<DebugAccount>,
