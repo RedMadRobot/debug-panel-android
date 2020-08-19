@@ -2,6 +2,7 @@ package com.redmadrobot.servers_plugin.util
 
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
+import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import okhttp3.HttpUrl
@@ -12,7 +13,7 @@ import java.net.URI
 
 class DebugServerInterceptor : Interceptor {
 
-    private var requestModifier: ((Request) -> Request?)? = null
+    private var requestModifier: ((Request, DebugServer) -> Request?)? = null
 
     private val panelSettingsRepository by lazy {
         getPlugin<ServersPlugin>()
@@ -23,23 +24,25 @@ class DebugServerInterceptor : Interceptor {
     /**
      * Дополнительная Модификация запроса
      * */
-    fun modifyRequest(block: (Request) -> Request): DebugServerInterceptor {
+    fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
         this.requestModifier = block
         return this
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        if (DebugPanel.isInitialized()) {
-            val debugServer = panelSettingsRepository.getSelectedServerHost()
-            if (debugServer != null && debugServer.isNotEmpty()) {
-                val newUrl = request.getNewUrl(debugServer)
+        return if (DebugPanel.isInitialized()) {
+            val debugServer = panelSettingsRepository.getSelectedServer()
+            if (debugServer.name.isNotEmpty()) {
+                val newUrl = request.getNewUrl(debugServer.url)
                 request = request.newBuilder()
                     .url(newUrl)
                     .build()
             }
+            chain.proceed(requestModifier?.invoke(request, debugServer) ?: request)
+        } else {
+            chain.proceed(request)
         }
-        return chain.proceed(requestModifier?.invoke(request) ?: request)
     }
 
 

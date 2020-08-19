@@ -35,26 +35,4 @@ class LocalDebugServerRepository(
         return debugServersDao.update(server)
             .subscribeOnIo()
     }
-
-    override fun setSelected(id: Int): Completable {
-        return clearSelection()
-            .andThen(debugServersDao.getServer(id))
-            .flatMapCompletable { server ->
-                val updatedServerData = server.copy(isSelected = true)
-                updateServer(updatedServerData)
-            }
-    }
-
-    override fun clearSelection(): Completable {
-        return debugServersDao.getSelectedServer()
-            .onErrorReturnItem(DebugServer.getEmpty())
-            .flatMapCompletable { server ->
-                if (server.url.isNotEmpty()) {
-                    val updatedServerData = server.copy(isSelected = false)
-                    updateServer(updatedServerData)
-                } else {
-                    Completable.complete()
-                }
-            }
-    }
 }

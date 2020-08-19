@@ -74,7 +74,7 @@ class ServersViewModel(
     fun selectServerAsCurrent(debugServerItem: DebugServerItem) {
         updateSelectedItem(debugServerItem)
         val serverData = debugServerItem.debugServer
-        pluginSettingsRepository.saveSelectedServerHost(serverData.url)
+        pluginSettingsRepository.saveSelectedServer(serverData)
     }
 
 
@@ -84,11 +84,7 @@ class ServersViewModel(
             .filter { it.isNotEmpty() }
             .map { servers ->
                 listOf(
-                    SectionHeaderItem(
-                        context.getString(
-                            R.string.pre_installed_servers
-                        )
-                    )
+                    SectionHeaderItem(context.getString(R.string.pre_installed_servers))
                 )
                     .plus(mapToItems(servers))
             }
@@ -126,9 +122,9 @@ class ServersViewModel(
     }
 
     private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
-        val selectedHost = pluginSettingsRepository.getSelectedServerHost()
+        val selectedServer = pluginSettingsRepository.getSelectedServer()
         return servers.map { debugServer ->
-            val isSelected = selectedHost != null && selectedHost == debugServer.url
+            val isSelected = selectedServer != null && selectedServer.url == debugServer.url
             DebugServerItem(debugServer, isSelected).also { item ->
                 if (isSelected) this.selectedServerItem = item
             }

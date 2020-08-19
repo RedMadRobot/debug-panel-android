@@ -19,9 +19,6 @@ interface DebugServersDao {
     @Update
     fun update(server: com.redmadrobot.servers_plugin.data.model.DebugServer): Completable
 
-    @Query("SELECT * FROM ${com.redmadrobot.servers_plugin.data.model.DebugServer.TABLE_NAME} WHERE isSelected = 1")
-    fun getSelectedServer(): Single<com.redmadrobot.servers_plugin.data.model.DebugServer>
-
     @Query("SELECT * FROM ${com.redmadrobot.servers_plugin.data.model.DebugServer.TABLE_NAME} WHERE id = :serverId")
     fun getServer(serverId: Int): Single<com.redmadrobot.servers_plugin.data.model.DebugServer>
 }

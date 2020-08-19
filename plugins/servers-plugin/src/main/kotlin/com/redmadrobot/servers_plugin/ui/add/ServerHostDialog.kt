@@ -82,7 +82,7 @@ class ServerHostDialog : DialogFragment() {
                 showWrongHostError()
             }
         }
-        server_host.requestFocus()
+        server_name.requestFocus()
     }
 
     private fun save(name: String, url: String) {

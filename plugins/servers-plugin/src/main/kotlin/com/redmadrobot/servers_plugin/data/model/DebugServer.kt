@@ -8,8 +8,7 @@ data class DebugServer(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    val url: String,
-    val isSelected: Boolean = false
+    val url: String
 ) {
     companion object {
         const val TABLE_NAME = "debug_server"
