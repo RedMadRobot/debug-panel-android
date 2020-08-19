@@ -46,20 +46,9 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
         )
     }
 
-    private fun onServerChanged(server: DebugServer?) {
-        val url = server?.url
-        println("Server changed to - $url")
-    }
-
     override fun onAccountSelected(account: DebugAccount): Completable {
         return Completable.fromCallable {
             println("Login - ${account.login}, Password - ${account.password}")
-        }
-    }
-
-    override fun onPinAdded(pin: String): Completable {
-        return Completable.fromCallable {
-            println(" Pin - $pin")
         }
     }
 

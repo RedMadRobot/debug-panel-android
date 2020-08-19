@@ -3,9 +3,11 @@ package com.redmadrobot.debug_sample
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
+import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -18,6 +20,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setViews()
+
+        DebugPanel.subscribeToEvents(this) { event ->
+            when (event) {
+                is AccountSelectedEvent -> {
+                    //Обработка выбора аккаунта
+                }
+                is ServerSelectedEvent -> {
+                    //Обработка выбора сервера
+                }
+            }
+        }
     }
 
     private fun setViews() {

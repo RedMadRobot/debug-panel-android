@@ -20,10 +20,14 @@ object ApiFactory {
     private fun getSampleClient(onCalled: (String) -> Unit): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(
-                DebugServerInterceptor().modifyRequest { request ->
-                    request.newBuilder()
-                        .addHeader("Authorization", "token")
-                        .build()
+                DebugServerInterceptor().modifyRequest { request, server ->
+                    if (server.name == "Test") {
+                        request.newBuilder()
+                            .addHeader("Authorization", "testToken")
+                            .build()
+                    } else {
+                        request
+                    }
                 }
             )
             .addInterceptor(object : Interceptor {

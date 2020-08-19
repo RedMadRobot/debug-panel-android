@@ -5,5 +5,5 @@ import io.reactivex.Completable
 
 interface DebugAuthenticator {
     fun onAccountSelected(account: DebugAccount): Completable
-    fun onPinAdded(pin: String): Completable
+    fun onPinAdded(pin: String): Completable = Completable.complete()
 }
