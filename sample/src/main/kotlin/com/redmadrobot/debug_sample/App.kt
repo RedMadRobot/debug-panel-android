@@ -12,7 +12,6 @@ import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
-import io.reactivex.Completable
 
 class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
     override fun onCreate() {
@@ -46,10 +45,8 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
         )
     }
 
-    override fun onAccountSelected(account: DebugAccount): Completable {
-        return Completable.fromCallable {
-            println("Login - ${account.login}, Password - ${account.password}")
-        }
+    override fun onAccountSelected(account: DebugAccount) {
+        println("Login - ${account.login}, Password - ${account.password} Pin - ${account.pin}")
     }
 
     override fun onFeatureToggleChange(name: String, newValue: Boolean) {
@@ -59,7 +56,7 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
 
     private fun getPreInstalledServers(): List<DebugServer> {
         return listOf(
-            DebugServer(name = "debug 1",url = "https://testserver1.com")
+            DebugServer(name = "debug 1", url = "https://testserver1.com")
         )
     }
 
@@ -71,18 +68,17 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
             ),
             DebugAccount(
                 login = "2777248041",
-                password = "Qq!11111",
-                hasPin = true
+                password = "Qq!11111"
             ),
             DebugAccount(
                 login = "4183730054",
                 password = "Ww!11111",
-                hasPin = true
+                pin = "112"
             ),
             DebugAccount(
                 login = "1944647499",
                 password = "Qq!11111",
-                hasPin = true
+                pin = "1111"
             )
         )
     }

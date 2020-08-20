@@ -94,9 +94,7 @@ class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
     private fun openAddAccountDialog(account: DebugAccount) {
         AddAccountDialog.show(
             fragmentManager = requireActivity().supportFragmentManager,
-            id = account.id,
-            login = account.login,
-            password = account.password
+            account = account
         )
     }
 

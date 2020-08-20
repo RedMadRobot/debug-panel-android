@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.account_plugin.R
+import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.debug_panel_core.extension.getPlugin
@@ -21,28 +22,31 @@ class AddAccountDialog : DialogFragment() {
         private const val KEY_ID = "ID"
         private const val KEY_LOGIN = "LOGIN"
         private const val KEY_PASSWORD = "PASSWORD"
+        private const val KEY_PIN = "PIN"
 
         private const val TAG = "AddAccountDialog"
 
         fun show(
             fragmentManager: FragmentManager,
-            id: Int? = null,
-            login: String? = null,
-            password: String? = null
+            account: DebugAccount? = null
         ) {
             AddAccountDialog().apply {
-                this.arguments = bundleOf(
-                    KEY_ID to id,
-                    KEY_LOGIN to login,
-                    KEY_PASSWORD to password
-                )
+                if (account != null) {
+                    this.arguments = bundleOf(
+                        KEY_ID to account.id,
+                        KEY_LOGIN to account.login,
+                        KEY_PASSWORD to account.password,
+                        KEY_PIN to account.pin
+                    )
+                }
             }.show(fragmentManager, TAG)
         }
     }
 
+    private val id by lazy { arguments?.getInt(KEY_ID) }
     private val login by lazy { arguments?.getString(KEY_LOGIN) }
     private val password by lazy { arguments?.getString(KEY_PASSWORD) }
-    private val id by lazy { arguments?.getInt(KEY_ID) }
+    private val pin by lazy { arguments?.getString(KEY_PIN) }
 
     private val isEditMode: Boolean
         get() = login != null && password != null
@@ -82,6 +86,7 @@ class AddAccountDialog : DialogFragment() {
         if (!login.isNullOrEmpty() && password != null) {
             account_login.setText(login)
             account_password.setText(password)
+            account_pin.setText(pin)
         }
     }
 
@@ -94,13 +99,13 @@ class AddAccountDialog : DialogFragment() {
     private fun save() {
         val login = account_login.text.toString()
         val password = account_password.text.toString()
-        val pinNeeded = pin_check.isChecked
+        val pin = account_pin.text.toString()
         if (isEditMode) {
             id?.let { id ->
-                sharedViewModel.updateAccount(id, login, password, pinNeeded)
+                sharedViewModel.updateAccount(id, login, password, pin)
             }
         } else {
-            sharedViewModel.saveAccount(login, password, pinNeeded)
+            sharedViewModel.saveAccount(login, password, pin)
         }
         dialog?.dismiss()
     }

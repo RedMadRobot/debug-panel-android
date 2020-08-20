@@ -30,11 +30,11 @@ class AccountsViewModel(
         loadAddedAccounts()
     }
 
-    fun saveAccount(login: String, password: String, pinNeeded: Boolean) {
+    fun saveAccount(login: String, password: String, pin: String) {
         val account = DebugAccount(
             login = login,
             password = password,
-            hasPin = pinNeeded
+            pin = pin
         )
         debugAccountsRepository
             .addAccount(account)
@@ -47,13 +47,13 @@ class AccountsViewModel(
         id: Int,
         newLogin: String,
         newPassword: String,
-        pinNeeded: Boolean
+        pin: String
     ) {
         val account = DebugAccount(
             id = id,
             login = newLogin,
             password = newPassword,
-            hasPin = pinNeeded
+            pin = pin
         )
         debugAccountsRepository
             .updateAccount(account)
