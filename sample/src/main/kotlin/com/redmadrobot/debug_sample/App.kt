@@ -1,11 +1,11 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
-import com.redmadrobot.account_plugin.authenticator.DebugAuthenticator
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
+import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
@@ -13,16 +13,16 @@ import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 
-class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
+class App : Application(), FeatureToggleChangeListener {
     override fun onCreate() {
         super.onCreate()
 
         DebugPanel.initialize(
-            this, listOf(
+            application = this,
+            plugins = listOf(
                 AccountsPlugin(
                     preInstalledAccounts = getPreInstalledAccounts(),
-                    //TODO Временная реализация. Здесь это не должно делаться.
-                    debugAuthenticator = this
+                    debugAuthenticator = DebugUserAuthenticator()
                 ),
                 ServersPlugin(
                     preInstalledServers = getPreInstalledServers()
@@ -43,10 +43,6 @@ class App : Application(), DebugAuthenticator, FeatureToggleChangeListener {
                 )
             )
         )
-    }
-
-    override fun onAccountSelected(account: DebugAccount) {
-        println("Login - ${account.login}, Password - ${account.password} Pin - ${account.pin}")
     }
 
     override fun onFeatureToggleChange(name: String, newValue: Boolean) {
