@@ -7,13 +7,10 @@ import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
 import com.redmadrobot.debug_sample.storage.AppTestSettings
-import com.redmadrobot.feature_togles_plugin.plugin.FeatureTogglesPlugin
-import com.redmadrobot.feature_togles_plugin.toggles.FeatureToggleChangeListener
-import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 
-class App : Application(), FeatureToggleChangeListener {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
@@ -31,24 +28,24 @@ class App : Application(), FeatureToggleChangeListener {
                     sharedPreferences = listOf(
                         AppTestSettings(this.applicationContext).testSharedPreferences,
                         AppTestSettings(this.applicationContext).testSharedPreferences,
-                        AppTestSettings(this.applicationContext)    .testSharedPreferences
-                    )
-                ),
-                FeatureTogglesPlugin(
-                    featureTogglesConfig = FeatureTogglesConfig(
-                        FeatureToggleWrapperImpl.toggleNames,
-                        FeatureToggleWrapperImpl(),
-                        this
+                        AppTestSettings(this.applicationContext).testSharedPreferences
                     )
                 )
+//                , FeatureTogglesPlugin(
+//                    featureTogglesConfig = FeatureTogglesConfig(
+//                        FeatureToggleWrapperImpl.toggleNames,
+//                        FeatureToggleWrapperImpl(),
+//                        this
+//                    )
+//                )
             )
         )
     }
 
-    override fun onFeatureToggleChange(name: String, newValue: Boolean) {
-        // Feature toggle was changed. You need
-        println("New value for key \"$name\" = $newValue")
-    }
+//    override fun onFeatureToggleChange(name: String, newValue: Boolean) {
+//        // Feature toggle was changed. You need
+//        println("New value for key \"$name\" = $newValue")
+//    }
 
     private fun getPreInstalledServers(): List<DebugServer> {
         return listOf(

@@ -1,3 +1,4 @@
+include ':debug-panel-no-op'
 include ':sample',
         ':debug-panel-core',
         ':accounts-plugin',
