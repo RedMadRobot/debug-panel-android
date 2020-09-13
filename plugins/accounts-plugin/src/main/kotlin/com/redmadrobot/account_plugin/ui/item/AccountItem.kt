@@ -6,7 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_user_credentials.view.*
 
-class AccountItem(var account: DebugAccount) : Item() {
+internal class AccountItem(var account: DebugAccount) : Item() {
 
     override fun getLayout() = R.layout.item_user_credentials
     override fun getId() = account.id.toLong()

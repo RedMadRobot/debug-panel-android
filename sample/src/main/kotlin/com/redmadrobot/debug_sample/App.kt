@@ -31,7 +31,7 @@ class App : Application(), FeatureToggleChangeListener {
                     sharedPreferences = listOf(
                         AppTestSettings(this.applicationContext).testSharedPreferences,
                         AppTestSettings(this.applicationContext).testSharedPreferences,
-                        AppTestSettings(this.applicationContext).testSharedPreferences
+                        AppTestSettings(this.applicationContext)    .testSharedPreferences
                     )
                 ),
                 FeatureTogglesPlugin(

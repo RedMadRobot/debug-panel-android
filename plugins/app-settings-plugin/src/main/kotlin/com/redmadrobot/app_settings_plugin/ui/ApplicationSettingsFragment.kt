@@ -15,7 +15,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_app_settings.*
 
-class ApplicationSettingsFragment : BaseFragment(R.layout.fragment_app_settings) {
+internal class ApplicationSettingsFragment : BaseFragment(R.layout.fragment_app_settings) {
 
     private val settingsViewModel by lazy {
         obtainViewModel {

@@ -6,7 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
-interface DebugAccountDao {
+internal interface DebugAccountDao {
     @Query("SELECT * FROM ${DebugAccount.TABLE_NAME}")
     fun getAll(): Single<List<DebugAccount>>
 

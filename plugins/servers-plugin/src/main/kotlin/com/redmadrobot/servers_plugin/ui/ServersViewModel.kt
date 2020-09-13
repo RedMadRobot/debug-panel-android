@@ -12,7 +12,7 @@ import com.redmadrobot.servers_plugin.data.repository.PluginSettingsRepository
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
 import timber.log.Timber
 
-class ServersViewModel(
+internal class ServersViewModel(
     private val context: Context,
     private val serversRepository: DebugServerRepository,
     private val pluginSettingsRepository: PluginSettingsRepository

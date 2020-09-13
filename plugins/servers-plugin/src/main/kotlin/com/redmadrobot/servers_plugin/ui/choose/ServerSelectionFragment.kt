@@ -18,7 +18,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
-class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection) {
+internal class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection) {
 
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()
     private val preInstalledServersSection = Section()

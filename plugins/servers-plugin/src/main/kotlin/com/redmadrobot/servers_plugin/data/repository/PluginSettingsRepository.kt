@@ -3,7 +3,7 @@ package com.redmadrobot.servers_plugin.data.repository
 import android.content.Context
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 
-class PluginSettingsRepository(context: Context) {
+internal class PluginSettingsRepository(context: Context) {
     companion object {
         private const val NAME = ":servers"
         private const val SELECTED_SERVER_URL = "SELECTED_SERVER_URL"

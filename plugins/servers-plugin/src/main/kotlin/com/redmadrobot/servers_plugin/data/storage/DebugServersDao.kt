@@ -1,24 +1,25 @@
 package com.redmadrobot.servers_plugin.data.storage
 
 import androidx.room.*
+import com.redmadrobot.servers_plugin.data.model.DebugServer
 import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
-interface DebugServersDao {
+internal interface DebugServersDao {
 
-    @Query("SELECT * FROM ${com.redmadrobot.servers_plugin.data.model.DebugServer.TABLE_NAME}")
-    fun getAll(): Single<List<com.redmadrobot.servers_plugin.data.model.DebugServer>>
+    @Query("SELECT * FROM ${DebugServer.TABLE_NAME}")
+    fun getAll(): Single<List<DebugServer>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(server: com.redmadrobot.servers_plugin.data.model.DebugServer): Completable
+    fun insert(server: DebugServer): Completable
 
     @Delete
-    fun remove(server: com.redmadrobot.servers_plugin.data.model.DebugServer): Completable
+    fun remove(server: DebugServer): Completable
 
     @Update
-    fun update(server: com.redmadrobot.servers_plugin.data.model.DebugServer): Completable
+    fun update(server: DebugServer): Completable
 
-    @Query("SELECT * FROM ${com.redmadrobot.servers_plugin.data.model.DebugServer.TABLE_NAME} WHERE id = :serverId")
-    fun getServer(serverId: Int): Single<com.redmadrobot.servers_plugin.data.model.DebugServer>
+    @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE id = :serverId")
+    fun getServer(serverId: Int): Single<DebugServer>
 }

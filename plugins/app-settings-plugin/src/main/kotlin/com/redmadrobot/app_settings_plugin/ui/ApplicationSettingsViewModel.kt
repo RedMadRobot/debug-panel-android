@@ -11,7 +11,7 @@ import com.redmadrobot.debug_panel_core.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
 import timber.log.Timber
 
-class ApplicationSettingsViewModel(
+internal class ApplicationSettingsViewModel(
     private val appSettingsRepository: AppSettingsRepository
 ) : BaseViewModel() {
 

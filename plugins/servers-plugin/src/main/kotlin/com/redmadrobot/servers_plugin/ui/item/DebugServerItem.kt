@@ -7,7 +7,7 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_debug_server.view.*
 
-class DebugServerItem(var debugServer: DebugServer, var isSelected: Boolean) : Item() {
+internal class DebugServerItem(var debugServer: DebugServer, var isSelected: Boolean) : Item() {
 
     override fun getLayout() = R.layout.item_debug_server
     override fun getId() = debugServer.url.hashCode().toLong()

@@ -4,7 +4,7 @@ import com.redmadrobot.servers_plugin.data.model.DebugServer
 import io.reactivex.Completable
 import io.reactivex.Single
 
-interface DebugServerRepository {
+internal interface DebugServerRepository {
     fun addServer(server: DebugServer): Completable
     fun getPreInstalledServers(): Single<List<DebugServer>>
     fun getServers(): Single<List<DebugServer>>

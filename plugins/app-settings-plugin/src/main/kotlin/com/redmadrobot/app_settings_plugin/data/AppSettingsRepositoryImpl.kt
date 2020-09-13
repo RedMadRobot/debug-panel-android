@@ -5,7 +5,7 @@ import com.redmadrobot.debug_panel_core.extension.subscribeOnIo
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class AppSettingsRepositoryImpl(
+internal class AppSettingsRepositoryImpl(
     private val sharedPreferencesList: List<SharedPreferences>
 ) : AppSettingsRepository {
 

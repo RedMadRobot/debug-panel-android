@@ -15,7 +15,7 @@ import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import kotlinx.android.synthetic.main.dialog_server.*
 
-class ServerHostDialog : DialogFragment() {
+internal class ServerHostDialog : DialogFragment() {
 
     companion object {
         const val KEY_NAME = "NAME"

@@ -8,7 +8,7 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_preference_value.view.*
 import timber.log.Timber
 
-class AppSettingValueItem(
+internal class AppSettingValueItem(
     private val key: String,
     private var value: Any?,
     private val onChanged: (key: String, newValue: Any) -> Unit

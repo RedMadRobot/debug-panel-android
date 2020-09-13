@@ -16,7 +16,7 @@ import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
 import kotlinx.android.synthetic.main.dialog_add_account.*
 
-class AddAccountDialog : DialogFragment() {
+internal class AddAccountDialog : DialogFragment() {
 
     companion object {
         private const val KEY_ID = "ID"

@@ -11,7 +11,6 @@ import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.AccountsViewState
 import com.redmadrobot.account_plugin.ui.item.AccountItem
-import com.redmadrobot.account_plugin.ui.pin.AddPinDialog
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.extension.observe
 import com.redmadrobot.debug_panel_core.extension.obtainViewModel
@@ -21,7 +20,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
-class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) {
+internal class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) {
 
     private val accountsViewModel by lazy {
         obtainViewModel {
@@ -30,7 +29,6 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
                 .createAccountsViewModel()
         }
     }
-    private var selectedAccount: DebugAccount? = null
     private val accountsAdapter = GroupAdapter<GroupieViewHolder>()
     private val preInstalledAccountsSection = Section()
     private val addedAccountsSection = Section()
@@ -57,11 +55,6 @@ class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) 
         }
         accountsAdapter.add(preInstalledAccountsSection)
         accountsAdapter.add(addedAccountsSection)
-    }
-
-    private fun showAddPinDialog(account: DebugAccount?) {
-        this.selectedAccount = account
-        AddPinDialog.show(this)
     }
 
     private fun onAccountSelected(account: DebugAccount) {

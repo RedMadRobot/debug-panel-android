@@ -19,7 +19,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
-class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
+internal class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
 
     companion object {
         fun getInstance() = ServersFragment()

@@ -4,7 +4,7 @@ import com.redmadrobot.account_plugin.data.model.DebugAccount
 import io.reactivex.Completable
 import io.reactivex.Single
 
-interface DebugAccountRepository {
+internal interface DebugAccountRepository {
     fun addAccount(account: DebugAccount): Completable
 
     fun updateAccount(account: DebugAccount): Completable

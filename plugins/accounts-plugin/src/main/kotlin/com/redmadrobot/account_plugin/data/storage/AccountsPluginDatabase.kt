@@ -10,7 +10,7 @@ import com.redmadrobot.account_plugin.data.model.DebugAccount
     entities = [DebugAccount::class],
     version = 1
 )
-abstract class AccountsPluginDatabase : RoomDatabase() {
+ internal abstract class AccountsPluginDatabase : RoomDatabase() {
     abstract fun getDebugAccountsDao(): DebugAccountDao
 
     companion object {

@@ -10,7 +10,7 @@ import com.redmadrobot.servers_plugin.data.model.DebugServer
     entities = [DebugServer::class],
     version = 1
 )
-abstract class ServersPluginDatabase : RoomDatabase() {
+internal abstract class ServersPluginDatabase : RoomDatabase() {
     abstract fun getDebugServersDao(): DebugServersDao
 
     companion object {

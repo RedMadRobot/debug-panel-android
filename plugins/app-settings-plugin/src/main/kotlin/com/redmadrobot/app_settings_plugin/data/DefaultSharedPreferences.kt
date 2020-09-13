@@ -2,7 +2,7 @@ package com.redmadrobot.app_settings_plugin.data
 
 import android.content.SharedPreferences
 
-class DefaultSharedPreferences : SharedPreferences {
+internal class DefaultSharedPreferences : SharedPreferences {
     override fun contains(key: String?): Boolean {
         return false
     }

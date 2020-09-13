@@ -5,7 +5,7 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_preference_boolean.view.*
 
-class AppSettingBooleanItem(
+internal class AppSettingBooleanItem(
     private val key: String,
     private var value: Boolean,
     private val onChanged: (key: String, newValue: Any) -> Unit

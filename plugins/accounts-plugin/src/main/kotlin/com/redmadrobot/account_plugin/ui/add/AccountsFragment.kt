@@ -20,7 +20,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_add_account.*
 
-class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
+internal class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
 
     private val accountsViewModel by lazy {
         obtainShareViewModel {

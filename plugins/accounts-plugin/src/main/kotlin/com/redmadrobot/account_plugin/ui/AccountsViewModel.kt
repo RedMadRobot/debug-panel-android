@@ -12,7 +12,7 @@ import com.redmadrobot.debug_panel_core.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
 import timber.log.Timber
 
-class AccountsViewModel(
+internal class AccountsViewModel(
     private val context: Context,
     private val debugAccountsRepository: DebugAccountRepository
 ) : BaseViewModel() {

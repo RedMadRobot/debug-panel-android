@@ -6,7 +6,7 @@ import com.redmadrobot.servers_plugin.data.storage.DebugServersDao
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class LocalDebugServerRepository(
+internal class LocalDebugServerRepository(
     private val debugServersDao: DebugServersDao,
     private val preInstalledServers: List<DebugServer>
 ) : DebugServerRepository {
