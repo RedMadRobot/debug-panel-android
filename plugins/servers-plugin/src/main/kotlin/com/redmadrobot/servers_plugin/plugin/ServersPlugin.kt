@@ -2,6 +2,7 @@ package com.redmadrobot.servers_plugin.plugin
 
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug_panel_core.CommonContainer
+import com.redmadrobot.debug_panel_core.data.DebugDataProvider
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
@@ -15,6 +16,10 @@ class ServersPlugin(
     companion object {
         const val NAME = "SERVERS"
     }
+
+    constructor(debugDataProvider: DebugDataProvider<List<DebugServer>>) : this(
+        preInstalledServers = debugDataProvider.provideData()
+    )
 
     override fun getName() = NAME
 

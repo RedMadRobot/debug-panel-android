@@ -28,11 +28,6 @@ internal class DebugPanelInstance constructor(
         instance = this
     }
 
-    fun getContainer(): CommonContainer {
-        return commonContainer
-            ?: throw IllegalStateException("Container not initialised")
-    }
-
     internal fun getEventLiveData(): LiveData<DebugEvent> {
         return eventLiveData
     }

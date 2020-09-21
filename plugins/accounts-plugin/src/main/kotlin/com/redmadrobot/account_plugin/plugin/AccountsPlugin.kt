@@ -7,6 +7,7 @@ import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.ui.add.AccountsFragment
 import com.redmadrobot.account_plugin.ui.select.AccountSelectionFragment
 import com.redmadrobot.debug_panel_core.CommonContainer
+import com.redmadrobot.debug_panel_core.data.DebugDataProvider
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 
@@ -18,6 +19,14 @@ class AccountsPlugin(
     companion object {
         const val NAME = "ACCOUNTS"
     }
+
+    constructor(
+        debugDataProvider: DebugDataProvider<List<DebugAccount>>,
+        debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
+    ) : this(
+        preInstalledAccounts = debugDataProvider.provideData(),
+        debugAuthenticator = debugAuthenticator
+    )
 
     override fun getName() = NAME
 
