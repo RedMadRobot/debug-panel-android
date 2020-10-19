@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="material_list_item_height">56dp</dimen>
+    <dimen name="handle_top_margin">8dp</dimen>
+    <dimen name="handle_height">2dp</dimen>
+    <dimen name="handle_width">48dp</dimen>
+</resources>

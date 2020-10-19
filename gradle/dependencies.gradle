@@ -1,0 +1,151 @@
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.mavenCentral()
+    handler.maven { url 'https://jitpack.io' }
+    handler.maven { url 'https://maven.fabric.io/public' }
+}
+
+ext.addRepos = this.&addRepos
+
+//region Build versions
+ext.build_versions = [
+        min_sdk    : 21,
+        target_sdk : 29,
+        compile_sdk: 29
+]
+//endregion
+
+def versions = [:]
+ext.deps = [:]
+
+//region Gradle
+versions.android_plugin = "3.6.2"
+
+deps.gradle = [
+        android_plugin: "com.android.tools.build:gradle:$versions.android_plugin"
+]
+//endregion
+
+//region Kotlin
+versions.kotlin = "1.3.70"
+
+deps.kotlin = [
+        stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
+        test  : "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin",
+        plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+]
+//endregion
+
+//region RxJava
+versions.rxKotlin = "2.4.0"
+versions.rxandroid = "2.1.1"
+versions.rxbinding = "3.1.0"
+versions.rxrelay = "2.1.1"
+
+deps.rx = [
+        rxKotlin           : "io.reactivex.rxjava2:rxkotlin:$versions.rxKotlin",
+        rxandroid          : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
+        rxbinding          : "com.jakewharton.rxbinding3:rxbinding:$versions.rxbinding",
+        rxbinding_appcompat: "com.jakewharton.rxbinding3:rxbinding-appcompat:$versions.rxbinding",
+        rxrelay            : "com.jakewharton.rxrelay2:rxrelay:$versions.rxrelay"
+]
+//endregion
+
+//region Network
+versions.retrofit = "2.7.1"
+versions.okhttp = "4.5.0"
+
+deps.retrofit = [
+        runtime: "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        rxjava : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+]
+deps.okhttp = "com.squareup.okhttp3:mockwebserver:$versions.okhttp"
+//endregion
+
+//region AndroidX
+versions.app_compat = "1.1.0"
+versions.design = "1.2.0-alpha05"
+versions.constraint_layout = "1.1.3"
+versions.recyclerview = "1.1.0"
+versions.annotation = "1.1.0"
+versions.customtabs = "1.2.0"
+
+deps.androidx = [
+        app_compat       : "androidx.appcompat:appcompat:$versions.app_compat",
+        design           : "com.google.android.material:material:$versions.design",
+        constraint_layout: "androidx.constraintlayout:constraintlayout:$versions.constraint_layout",
+        recyclerview     : "androidx.recyclerview:recyclerview:$versions.recyclerview",
+        annotations      : "androidx.annotation:annotation:$versions.annotation",
+        customtabs       : "androidx.browser:browser:$versions.customtabs"
+]
+//endregion
+
+
+//region Firebase
+versions.app_distribution = "1.3.1"
+versions.firebase_crashlytics = "2.0.0-beta04"
+
+deps.firebase = [
+        app_distribution    : "com.google.firebase:firebase-appdistribution-gradle:$versions.app_distribution",
+        firebase_crashlytics: "com.google.firebase:firebase-crashlytics-gradle:$versions.firebase_crashlytics"
+]
+//endregion
+
+//region Android Jetpack
+versions.lifecycle = "2.2.0"
+versions.lifecycle_testing = "2.1.0"
+
+deps.lifecycle = [
+        extensions             : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
+        runtime                : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
+        lifecycle_livedata     : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
+        lifecycle_livedata_core: "androidx.lifecycle:lifecycle-livedata-core-ktx:$versions.lifecycle",
+        testing                : "androidx.arch.core:core-testing:$versions.lifecycle_testing"
+]
+
+versions.room = "2.2.3"
+
+deps.room = [
+        runtime : "androidx.room:room-runtime:$versions.room",
+        compiler: "androidx.room:room-compiler:$versions.room",
+        rxjava2 : "androidx.room:room-rxjava2:$versions.room",
+        testing : "androidx.room:room-testing:$versions.room"
+]
+//endregion
+
+//region Navigation
+versions.navigation = "2.2.0"
+
+deps.navigation = [
+        plugin      : "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation",
+        fragment_ktx: "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+        ui_ktx      : "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+]
+//endregion
+
+//region UI components
+versions.glide = "4.11.0"
+versions.groupie = "2.7.2"
+
+deps.ui = [
+        groupie                  : "com.xwray:groupie:$versions.groupie",
+        groupie_kotlin_extensions: "com.xwray:groupie-kotlin-android-extensions:$versions.groupie",
+]
+//endregion
+
+//region Tools
+versions.android_ktx = "1.1.0"
+
+deps.tools = [
+        android_ktx: "androidx.core:core-ktx:$versions.android_ktx"
+]
+//endregion
+
+//region Debugging
+versions.timber = "4.7.1"
+
+deps.debugging = [
+        timber: "com.jakewharton.timber:timber:$versions.timber"
+]
+//endregion

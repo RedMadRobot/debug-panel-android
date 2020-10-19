@@ -1,8 +1,0 @@
-<resources>
-    <string name="debug_panel">DebugPanel</string>
-    <string name="accounts">Accounts</string>
-    <string name="in_the_piepline">В разработке</string>
-    <string name="login_hint">Login</string>
-    <string name="password_hint">Password</string>
-    <string name="save_account_text">save</string>
-</resources>

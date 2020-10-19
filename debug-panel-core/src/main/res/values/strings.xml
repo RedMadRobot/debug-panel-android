@@ -1,0 +1,18 @@
+<resources>
+    <string name="debug_panel">DebugPanel</string>
+    <string name="accounts">Accounts</string>
+    <string name="servers">Servers</string>
+    <string name="settings">Settings</string>
+    <string name="toggles">Toggles</string>
+    <string name="in_the_piepline">В разработке</string>
+
+    <!--Common-->
+    <string name="pre_installed">Pre-installed</string>
+    <string name="added">Added</string>
+    <!---->
+
+    <!--Notification-->
+    <string name="notification_title">Открыть DebugPanel</string>
+
+
+</resources>
