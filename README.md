@@ -228,7 +228,7 @@ OkHttpClient.Builder()
 # Безопасность!
 Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
 
-`buildType debug`
+**buildType**  `debug`
 
 ```kotlin
 class DebugServersProvider : DebugDataProvider<List<DebugServer>> {
@@ -240,7 +240,7 @@ class DebugServersProvider : DebugDataProvider<List<DebugServer>> {
     }
 }
 ```
-`buildType release`
+**buildType**  `release`
 
 ```kotlin
 class DebugServersProvider : DebugDataProvider<List<DebugServer>> {
