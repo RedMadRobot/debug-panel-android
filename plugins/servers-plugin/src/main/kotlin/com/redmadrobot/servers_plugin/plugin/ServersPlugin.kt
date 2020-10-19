@@ -17,8 +17,8 @@ class ServersPlugin(
         const val NAME = "SERVERS"
     }
 
-    constructor(debugDataProvider: DebugDataProvider<List<DebugServer>>) : this(
-        preInstalledServers = debugDataProvider.provideData()
+    constructor(preInstalledServers: DebugDataProvider<List<DebugServer>>) : this(
+        preInstalledServers = preInstalledServers.provideData()
     )
 
     override fun getName() = NAME

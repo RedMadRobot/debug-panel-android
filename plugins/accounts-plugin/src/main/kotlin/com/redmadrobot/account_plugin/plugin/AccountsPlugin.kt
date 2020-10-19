@@ -21,10 +21,10 @@ class AccountsPlugin(
     }
 
     constructor(
-        debugDataProvider: DebugDataProvider<List<DebugAccount>>,
+        preInstalledAccounts: DebugDataProvider<List<DebugAccount>>,
         debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
     ) : this(
-        preInstalledAccounts = debugDataProvider.provideData(),
+        preInstalledAccounts = preInstalledAccounts.provideData(),
         debugAuthenticator = debugAuthenticator
     )
 

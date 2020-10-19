@@ -6,6 +6,8 @@ import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
+import com.redmadrobot.debug_sample.debug_data.DebugAccountsProvider
+import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
@@ -18,11 +20,11 @@ class App : Application() {
             application = this,
             plugins = listOf(
                 AccountsPlugin(
-                    preInstalledAccounts = getPreInstalledAccounts(),
+                    preInstalledAccounts = DebugAccountsProvider(),
                     debugAuthenticator = DebugUserAuthenticator()
                 ),
                 ServersPlugin(
-                    preInstalledServers = getPreInstalledServers()
+                    preInstalledServers = DebugServersProvider()
                 ),
                 AppSettingsPlugin(
                     sharedPreferences = listOf(
@@ -42,10 +44,6 @@ class App : Application() {
         )
     }
 
-//    override fun onFeatureToggleChange(name: String, newValue: Boolean) {
-//        // Feature toggle was changed. You need
-//        println("New value for key \"$name\" = $newValue")
-//    }
 
     private fun getPreInstalledServers(): List<DebugServer> {
         return listOf(
