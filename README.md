@@ -105,6 +105,8 @@ fun openDebugPanel() {
 
 Так же у панели есть режим редактирования который можно открыть через центр уведомлений.
 
+![Режим редактирования](https://git.redmadrobot.com/r.choryev/Debug-panel/raw/master/assets/debug_notification.png)
+
 ## Работа с плагинами
 
 ### AccountsPlugin 
