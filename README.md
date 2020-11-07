@@ -39,7 +39,7 @@ maven {
 
 dependencies {
     //core модуль панели
-    debugImplementation 'com.redmadrobot.debug:panel_core:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:panel_core:${debug_panel_version}'
 }
 ```
 
@@ -50,13 +50,13 @@ dependencies {
 ```groovy
 dependencies {
     //Плагин для работы с аккаунтами
-    debugImplementation 'com.redmadrobot.debug:accounts_plugin:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:accounts_plugin:${debug_panel_version}'
     
     //Плагин для работы с серверами
-    debugImplementation 'com.redmadrobot.debug:servers_plugin:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:servers_plugin:${debug_panel_version}'
     
     //Плагин для работы с SharedPreferences
-    debugImplementation 'com.redmadrobot.debug:app_settings_plugin:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:app_settings_plugin:${debug_panel_version}'
 }
 
 ```
@@ -66,7 +66,7 @@ dependencies {
 4. Для того чтобы библиотека не попала в релизную сборку необходимо подключить `no-op` версию библиотеки
 
 ```groovy
-   implementation 'com.redmadrobot.debug:panel_no_op:${debug_panel_version}'
+   releaseImplementation 'com.redmadrobot.debug:panel_no_op:${debug_panel_version}'
 ```
 
 
