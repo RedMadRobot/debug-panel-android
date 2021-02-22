@@ -27,11 +27,15 @@ class ServersPlugin(
         return ServersPluginContainer(preInstalledServers, commonContainer)
     }
 
-    override fun getFragment(): Fragment? {
+    override fun getFragment(): Fragment {
         return ServerSelectionFragment()
     }
 
-    override fun getSettingFragment(): Fragment? {
+    override fun getSettingFragment(): Fragment {
         return ServersFragment()
+    }
+
+    fun getSelectedServer(): DebugServer {
+        return getContainer<ServersPluginContainer>().pluginSettingsRepository.getSelectedServer()
     }
 }
