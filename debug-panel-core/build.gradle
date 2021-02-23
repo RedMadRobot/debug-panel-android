@@ -33,6 +33,7 @@ android {
 
 dependencies {
     implementation project(path: ':debug-panel-common')
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     kapt(deps.room.compiler)
 }
