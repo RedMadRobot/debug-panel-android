@@ -20,11 +20,11 @@ class App : Application() {
             application = this,
             plugins = listOf(
                 AccountsPlugin(
-                    preInstalledAccounts = DebugAccountsProvider(),
+                    preInstalledAccounts = DebugAccountsProvider().provideData(),
                     debugAuthenticator = DebugUserAuthenticator()
                 ),
                 ServersPlugin(
-                    preInstalledServers = DebugServersProvider()
+                    preInstalledServers = DebugServersProvider().provideData()
                 ),
                 AppSettingsPlugin(
                     sharedPreferences = listOf(
