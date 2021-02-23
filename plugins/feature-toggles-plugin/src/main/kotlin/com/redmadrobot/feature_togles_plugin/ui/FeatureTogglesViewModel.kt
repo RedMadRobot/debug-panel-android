@@ -1,7 +1,7 @@
 package com.redmadrobot.feature_togles_plugin.ui
 
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel_common.base.BaseViewModel
+import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.debug_panel_core.extension.observeOnMain
 import com.redmadrobot.feature_togles_plugin.data.FeatureToggleRepository
 import com.redmadrobot.feature_togles_plugin.data.model.FeatureToggle
@@ -12,7 +12,7 @@ import timber.log.Timber
 class FeatureTogglesViewModel(
     private val featureToggleRepository: FeatureToggleRepository,
     private val pluginSettingsRepository: PluginSettingsRepository
-) : BaseViewModel() {
+) : PluginViewModel() {
 
     val screenState = MutableLiveData<FeatureTogglesState>()
 

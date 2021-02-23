@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-public open class BaseViewModel : ViewModel() {
+public open class PluginViewModel : ViewModel() {
 
     private val compositeDisposable by lazy { CompositeDisposable() }
 

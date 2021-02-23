@@ -2,7 +2,7 @@ package com.redmadrobot.servers_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug_panel_common.base.BaseViewModel
+import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.debug_panel_common.ui.SectionHeaderItem
 import com.redmadrobot.debug_panel_core.extension.observeOnMain
 import com.redmadrobot.servers_plugin.R
@@ -16,7 +16,7 @@ internal class ServersViewModel(
     private val context: Context,
     private val serversRepository: DebugServerRepository,
     private val pluginSettingsRepository: PluginSettingsRepository
-) : BaseViewModel() {
+) : PluginViewModel() {
 
     val state = MutableLiveData<ServersViewState>().apply {
         /*Default state*/

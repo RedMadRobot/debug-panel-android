@@ -6,14 +6,14 @@ import com.redmadrobot.app_settings_plugin.data.AppSettingsRepository
 import com.redmadrobot.app_settings_plugin.ui.item.AppSettingBooleanItem
 import com.redmadrobot.app_settings_plugin.ui.item.AppSettingValueItem
 import com.redmadrobot.app_settings_plugin.ui.item.HeaderItem
-import com.redmadrobot.debug_panel_common.base.BaseViewModel
+import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.debug_panel_core.extension.observeOnMain
 import com.xwray.groupie.kotlinandroidextensions.Item
 import timber.log.Timber
 
 internal class ApplicationSettingsViewModel(
     private val appSettingsRepository: AppSettingsRepository
-) : BaseViewModel() {
+) : PluginViewModel() {
 
     val settings = MutableLiveData<List<Item>>()
 
