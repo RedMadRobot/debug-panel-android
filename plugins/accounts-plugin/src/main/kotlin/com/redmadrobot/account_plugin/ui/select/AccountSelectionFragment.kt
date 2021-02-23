@@ -3,7 +3,6 @@ package com.redmadrobot.account_plugin.ui.select
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.model.DebugAccount
@@ -15,12 +14,13 @@ import com.redmadrobot.account_plugin.ui.item.AccountItem
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.extension.observe
 import com.redmadrobot.debug_panel_core.extension.obtainViewModel
+import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
-internal class AccountSelectionFragment : Fragment(R.layout.fragment_account_select) {
+internal class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) {
 
     private val accountsViewModel by lazy {
         obtainViewModel {

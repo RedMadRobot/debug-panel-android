@@ -2,7 +2,6 @@ package com.redmadrobot.app_settings_plugin.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.app_settings_plugin.R
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
@@ -10,12 +9,13 @@ import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPluginContainer
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.extension.observe
 import com.redmadrobot.debug_panel_core.extension.obtainViewModel
+import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_app_settings.*
 
-internal class ApplicationSettingsFragment : Fragment(R.layout.fragment_app_settings) {
+internal class ApplicationSettingsFragment : BaseFragment(R.layout.fragment_app_settings) {
 
     private val settingsViewModel by lazy {
         obtainViewModel {
