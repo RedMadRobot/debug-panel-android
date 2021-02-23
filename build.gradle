@@ -2,6 +2,9 @@
 
 buildscript {
     apply from: 'gradle/dependencies.gradle'
+    ext {
+        kotlin_version = '1.4.20'
+    }
 
     repositories {
         google()
@@ -12,6 +15,7 @@ buildscript {
         classpath deps.gradle.android_plugin
         classpath deps.kotlin.plugin
         classpath 'com.kezong:fat-aar:1.2.15'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // in the individual module build.gradle files
     }
 }
