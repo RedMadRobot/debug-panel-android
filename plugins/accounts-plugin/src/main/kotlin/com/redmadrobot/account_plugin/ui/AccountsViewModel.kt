@@ -8,10 +8,9 @@ import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.ui.item.AccountItem
+import com.redmadrobot.debug_panel_common.extension.safeLaunch
 import com.redmadrobot.debug_panel_core.ui.SectionHeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 internal class AccountsViewModel(
     private val context: Context,
@@ -27,13 +26,9 @@ internal class AccountsViewModel(
     }
 
     fun loadAccounts() {
-        viewModelScope.launch {
-            try {
-                loadPreInstalledAccounts()
-                loadAddedAccounts()
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+        viewModelScope.safeLaunch {
+            loadPreInstalledAccounts()
+            loadAddedAccounts()
         }
     }
 
@@ -43,13 +38,9 @@ internal class AccountsViewModel(
             password = password,
             pin = pin
         )
-        viewModelScope.launch {
-            try {
-                debugAccountsRepository.addAccount(account)
-                loadAddedAccounts()
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+        viewModelScope.safeLaunch {
+            debugAccountsRepository.addAccount(account)
+            loadAddedAccounts()
         }
     }
 
@@ -65,24 +56,17 @@ internal class AccountsViewModel(
             password = newPassword,
             pin = pin
         )
-        viewModelScope.launch {
-            try {
-                debugAccountsRepository.updateAccount(account)
-                getItemById(id)?.update(account)
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+        viewModelScope.safeLaunch {
+            debugAccountsRepository.updateAccount(account)
+            getItemById(id)?.update(account)
         }
+
     }
 
     fun removeAccount(account: DebugAccount) {
-        viewModelScope.launch {
-            try {
-                debugAccountsRepository.removeAccount(account)
-                loadAddedAccounts()
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+        viewModelScope.safeLaunch {
+            debugAccountsRepository.removeAccount(account)
+            loadAddedAccounts()
         }
     }
 
