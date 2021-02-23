@@ -112,7 +112,7 @@ deps.lifecycle = [
         testing                : "androidx.arch.core:core-testing:$versions.lifecycle_testing"
 ]
 
-versions.room = "2.2.3"
+versions.room = "2.2.6"
 
 deps.room = [
         runtime : "androidx.room:room-runtime:$versions.room",
