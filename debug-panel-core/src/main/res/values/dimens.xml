@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="handle_top_margin">8dp</dimen>
-    <dimen name="handle_height">2dp</dimen>
-    <dimen name="handle_width">48dp</dimen>
+    <dimen name="debug_panel_handle_top_margin">8dp</dimen>
+    <dimen name="debug_panel_handle_height">2dp</dimen>
+    <dimen name="debug_panel_handle_width">48dp</dimen>
 </resources>

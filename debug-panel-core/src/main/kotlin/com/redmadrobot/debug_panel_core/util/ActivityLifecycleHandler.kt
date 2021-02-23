@@ -73,7 +73,7 @@ internal class ActivityLifecycleHandler(private val application: Application) {
 
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_debug_notification)
-            .setContentTitle(context.getString(R.string.notification_title))
+            .setContentTitle(context.getString(R.string.debug_panel_notification_title))
             .setOngoing(true)
             .setSound(Uri.EMPTY)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
