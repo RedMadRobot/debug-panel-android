@@ -44,11 +44,13 @@ dependencies {
             deps.androidx.design,
             deps.androidx.constraint_layout,
 
+            deps.coroutines.coroutines_android,
+
             deps.lifecycle.runtime,
             deps.lifecycle.extensions,
             deps.lifecycle.lifecycle_livedata,
             deps.lifecycle.lifecycle_livedata_core,
-
+            deps.lifecycle.lifecycle_view_model,
             deps.room.runtime,
             deps.room.rxjava2,
 

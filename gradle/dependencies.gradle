@@ -52,6 +52,13 @@ deps.rx = [
 ]
 //endregion
 
+//region Coroutines
+versions.coroutines = "1.3.9"
+deps.coroutines = [
+        coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+]
+//
+
 //region Network
 versions.retrofit = "2.7.1"
 versions.okhttp = "4.5.0"
@@ -92,7 +99,7 @@ deps.firebase = [
 ]
 //endregion
 
-//region Android Jetpack
+//region Lifecycle
 versions.lifecycle = "2.2.0"
 versions.lifecycle_testing = "2.1.0"
 
@@ -101,6 +108,7 @@ deps.lifecycle = [
         runtime                : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
         lifecycle_livedata     : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
         lifecycle_livedata_core: "androidx.lifecycle:lifecycle-livedata-core-ktx:$versions.lifecycle",
+        lifecycle_view_model   : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
         testing                : "androidx.arch.core:core-testing:$versions.lifecycle_testing"
 ]
 
