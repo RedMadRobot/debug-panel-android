@@ -11,7 +11,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.activity_debug.*
 
-class DebugActivity : AppCompatActivity() {
+internal class DebugActivity : AppCompatActivity() {
 
     private val debugFeatureListAdapter = GroupAdapter<GroupieViewHolder>()
 

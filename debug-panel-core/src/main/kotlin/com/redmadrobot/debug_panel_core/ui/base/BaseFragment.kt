@@ -11,7 +11,7 @@ import com.redmadrobot.panel_core.R
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class BaseFragment(private val layoutId: Int) : Fragment() {
+    public open class BaseFragment(private val layoutId: Int) : Fragment() {
     private val compositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCreateView(

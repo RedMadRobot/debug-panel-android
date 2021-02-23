@@ -11,16 +11,16 @@ import com.redmadrobot.debug_panel_core.data.DebugDataProvider
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 
-class AccountsPlugin(
+public class AccountsPlugin(
     private val preInstalledAccounts: List<DebugAccount> = emptyList(),
-    val debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
+    public val debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
 ) : Plugin() {
 
-    companion object {
+   internal companion object {
         const val NAME = "ACCOUNTS"
     }
 
-    constructor(
+    public constructor(
         preInstalledAccounts: DebugDataProvider<List<DebugAccount>>,
         debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
     ) : this(
@@ -28,17 +28,17 @@ class AccountsPlugin(
         debugAuthenticator = debugAuthenticator
     )
 
-    override fun getName() = NAME
+    override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return AccountsPluginContainer(preInstalledAccounts, commonContainer)
     }
 
-    override fun getFragment(): Fragment? {
+    override fun getFragment(): Fragment {
         return AccountSelectionFragment()
     }
 
-    override fun getSettingFragment(): Fragment? {
+    override fun getSettingFragment(): Fragment {
         return AccountsFragment()
     }
 }

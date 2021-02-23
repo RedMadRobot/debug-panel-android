@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = DebugAccount.TABLE_NAME)
-data class DebugAccount(
+public data class DebugAccount(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
@@ -18,7 +18,7 @@ data class DebugAccount(
     @ColumnInfo(name = "pin")
     val pin: String = ""
 ) {
-    companion object {
-        const val TABLE_NAME = "debug_account"
+    internal companion object {
+        const val TABLE_NAME: String = "debug_account"
     }
 }

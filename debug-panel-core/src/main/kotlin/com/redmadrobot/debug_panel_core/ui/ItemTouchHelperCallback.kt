@@ -3,7 +3,7 @@ package com.redmadrobot.debug_panel_core.ui
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemTouchHelperCallback(
+public class ItemTouchHelperCallback(
     private val onSwiped: (Int) -> Unit,
     private val canBeSwiped: ((Int) -> Boolean)? = null
 ) : ItemTouchHelper.Callback() {

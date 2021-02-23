@@ -9,11 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
-import com.redmadrobot.debug_panel.inapp.shake.ShakeController
+import com.redmadrobot.debug_panel_core.inapp.shake.ShakeController
 import com.redmadrobot.debug_panel_core.ui.debugpanel.DebugActivity
 import com.redmadrobot.panel_core.R
 
-class ActivityLifecycleHandler(private val application: Application) {
+internal class ActivityLifecycleHandler(private val application: Application) {
 
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"

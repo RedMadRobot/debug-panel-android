@@ -10,11 +10,11 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
 //region Single
-fun <T> Single<T>.subscribeOnIo(): Single<T> = subscribeOn(Schedulers.io())
+public fun <T> Single<T>.subscribeOnIo(): Single<T> = subscribeOn(Schedulers.io())
 
-fun <T> Single<T>.observeOnMain(): Single<T> = observeOn(AndroidSchedulers.mainThread())
+public fun <T> Single<T>.observeOnMain(): Single<T> = observeOn(AndroidSchedulers.mainThread())
 
-fun <T> Single<List<T>>.zipList(anotherSource: Single<List<T>>): Single<List<T>> {
+public fun <T> Single<List<T>>.zipList(anotherSource: Single<List<T>>): Single<List<T>> {
     return this.zipWith(
         anotherSource,
         BiFunction<List<T>, List<T>, List<T>> { currentList, anotherList ->
@@ -25,18 +25,18 @@ fun <T> Single<List<T>>.zipList(anotherSource: Single<List<T>>): Single<List<T>>
 //endregion
 
 //region Maybe
-fun <T> Maybe<T>.observeOnMain(): Maybe<T> = observeOn(AndroidSchedulers.mainThread())
+public fun <T> Maybe<T>.observeOnMain(): Maybe<T> = observeOn(AndroidSchedulers.mainThread())
 //endregion
 
 //region Completable
-fun Completable.subscribeOnIo(): Completable = subscribeOn(Schedulers.io())
+public fun Completable.subscribeOnIo(): Completable = subscribeOn(Schedulers.io())
 
-fun Completable.observeOnMain(): Completable = observeOn(AndroidSchedulers.mainThread())
+public fun Completable.observeOnMain(): Completable = observeOn(AndroidSchedulers.mainThread())
 //endregion
 
 
 //
-fun Disposable.autoDispose(compositeDisposable: CompositeDisposable): Disposable {
+public fun Disposable.autoDispose(compositeDisposable: CompositeDisposable): Disposable {
     compositeDisposable.add(this)
     return this
 }
