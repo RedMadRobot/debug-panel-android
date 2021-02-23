@@ -1,9 +1,8 @@
-package com.redmadrobot.debug_panel_core.extension
+package com.redmadrobot.debug_panel_common.extension
 
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -42,5 +41,5 @@ public inline fun <reified T : Any, reified L : LiveData<T>> Fragment.observe(
     liveData: L,
     noinline block: (T) -> Unit
 ) {
-    liveData.observe(viewLifecycleOwner, Observer<T> { it?.let { block.invoke(it) } })
+    liveData.observe(viewLifecycleOwner, { it?.let { block.invoke(it) } })
 }

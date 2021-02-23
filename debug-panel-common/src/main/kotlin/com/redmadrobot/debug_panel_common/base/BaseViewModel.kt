@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel_core.ui.base
+package com.redmadrobot.debug_panel_common.base
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable

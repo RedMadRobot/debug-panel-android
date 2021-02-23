@@ -2,9 +2,9 @@ package com.redmadrobot.servers_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.debug_panel_common.base.BaseViewModel
+import com.redmadrobot.debug_panel_common.ui.SectionHeaderItem
 import com.redmadrobot.debug_panel_core.extension.observeOnMain
-import com.redmadrobot.debug_panel_core.ui.SectionHeaderItem
-import com.redmadrobot.debug_panel_core.ui.base.BaseViewModel
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.data.model.DebugServer

@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.redmadrobot.debug_panel_common.base.BaseFragment
+import com.redmadrobot.debug_panel_common.extension.observe
+import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
+import com.redmadrobot.debug_panel_common.ui.ItemTouchHelperCallback
 import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.extension.observe
-import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel_core.ui.ItemTouchHelperCallback
-import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer

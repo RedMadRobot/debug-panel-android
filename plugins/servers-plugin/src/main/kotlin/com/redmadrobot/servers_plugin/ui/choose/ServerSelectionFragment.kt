@@ -3,10 +3,10 @@ package com.redmadrobot.servers_plugin.ui.choose
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.redmadrobot.debug_panel_common.base.BaseFragment
+import com.redmadrobot.debug_panel_common.extension.observe
+import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.extension.observe
-import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin

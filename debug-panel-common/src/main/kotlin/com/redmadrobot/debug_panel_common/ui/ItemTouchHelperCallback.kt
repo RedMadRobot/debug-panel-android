@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel_core.ui
+package com.redmadrobot.debug_panel_common.ui
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

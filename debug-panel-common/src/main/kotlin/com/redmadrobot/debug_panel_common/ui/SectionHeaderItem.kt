@@ -1,6 +1,6 @@
-package com.redmadrobot.debug_panel_core.ui
+package com.redmadrobot.debug_panel_common.ui
 
-import com.redmadrobot.panel_core.R
+import com.redmadrobot.debug_panel_common.R
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_section_header.view.*

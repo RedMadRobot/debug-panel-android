@@ -2,20 +2,20 @@ package com.redmadrobot.account_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.ui.item.AccountItem
+import com.redmadrobot.debug_panel_common.base.BaseViewModel
 import com.redmadrobot.debug_panel_common.extension.safeLaunch
-import com.redmadrobot.debug_panel_core.ui.SectionHeaderItem
+import com.redmadrobot.debug_panel_common.ui.SectionHeaderItem
 import com.xwray.groupie.kotlinandroidextensions.Item
 
 internal class AccountsViewModel(
     private val context: Context,
     private val debugAccountsRepository: DebugAccountRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     val state = MutableLiveData<AccountsViewState>().apply {
         /*Default state*/

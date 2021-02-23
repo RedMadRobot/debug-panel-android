@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer

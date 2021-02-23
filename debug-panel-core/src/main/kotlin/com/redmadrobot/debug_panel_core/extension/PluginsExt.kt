@@ -9,7 +9,7 @@ public fun getPlugin(pluginName: String): Plugin {
     return requireNotNull(plugin)
 }
 
-public fun getAllPlugins(): List<Plugin> {
+internal fun getAllPlugins(): List<Plugin> {
     return DebugPanelInstance.instance?.getPluginManger()?.plugins ?: emptyList()
 }
 
