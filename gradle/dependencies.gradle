@@ -115,10 +115,10 @@ deps.lifecycle = [
 versions.room = "2.2.6"
 
 deps.room = [
+        ktx     : "androidx.room:room-ktx:$versions.room",
         runtime : "androidx.room:room-runtime:$versions.room",
         compiler: "androidx.room:room-compiler:$versions.room",
-        rxjava2 : "androidx.room:room-rxjava2:$versions.room",
-        testing : "androidx.room:room-testing:$versions.room"
+        rxjava2 : "androidx.room:room-rxjava2:$versions.room"
 ]
 //endregion
 

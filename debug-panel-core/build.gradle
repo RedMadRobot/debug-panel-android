@@ -52,6 +52,7 @@ dependencies {
             deps.lifecycle.lifecycle_livedata_core,
             deps.lifecycle.lifecycle_view_model,
             deps.room.runtime,
+            deps.room.ktx,
             deps.room.rxjava2,
 
             deps.tools.android_ktx,
