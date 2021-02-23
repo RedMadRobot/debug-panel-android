@@ -2,13 +2,13 @@ package com.redmadrobot.servers_plugin.ui.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.extension.observe
 import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.ui.ItemTouchHelperCallback
-import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
@@ -19,11 +19,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
-internal class ServersFragment : BaseFragment(R.layout.fragment_add_server) {
-
-    companion object {
-        fun getInstance() = ServersFragment()
-    }
+internal class ServersFragment : Fragment(R.layout.fragment_add_server) {
 
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()
     private val preInstalledServersSection = Section()

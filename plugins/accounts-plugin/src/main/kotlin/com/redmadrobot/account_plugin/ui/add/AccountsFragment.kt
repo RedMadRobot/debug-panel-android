@@ -2,6 +2,7 @@ package com.redmadrobot.account_plugin.ui.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
@@ -14,13 +15,12 @@ import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.extension.observe
 import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.ui.ItemTouchHelperCallback
-import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_add_account.*
 
-internal class AccountsFragment : BaseFragment(R.layout.fragment_add_account) {
+internal class AccountsFragment : Fragment(R.layout.fragment_add_account) {
 
     private val accountsViewModel by lazy {
         obtainShareViewModel {
