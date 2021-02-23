@@ -2,36 +2,39 @@ package com.redmadrobot.account_plugin.data
 
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.data.storage.DebugAccountDao
-import com.redmadrobot.debug_panel_core.extension.subscribeOnIo
-import io.reactivex.Completable
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 internal class LocalDebugAccountRepository(
     private val debugAccountDao: DebugAccountDao,
     private val preInstalledAccounts: List<DebugAccount>
 ) : DebugAccountRepository {
 
-    override fun addAccount(account: DebugAccount): Completable {
-        return debugAccountDao.insert(account)
-            .subscribeOnIo()
+    override suspend fun addAccount(account: DebugAccount) {
+        withContext(Dispatchers.IO) {
+            debugAccountDao.insert(account)
+        }
     }
 
-    override fun updateAccount(account: DebugAccount): Completable {
-        return debugAccountDao.update(account)
-            .subscribeOnIo()
+    override suspend fun updateAccount(account: DebugAccount) {
+        withContext(Dispatchers.IO) {
+            debugAccountDao.update(account)
+        }
     }
 
-    override fun getAccounts(): Single<List<DebugAccount>> {
-        return debugAccountDao.getAll()
-            .subscribeOnIo()
+    override suspend fun getAccounts(): List<DebugAccount> {
+        return withContext(Dispatchers.IO) {
+            debugAccountDao.getAll()
+        }
     }
 
-    override fun getPreInstalledAccounts(): Single<List<DebugAccount>> {
-        return Single.just(preInstalledAccounts).subscribeOnIo()
+    override suspend fun getPreInstalledAccounts(): List<DebugAccount> {
+        return preInstalledAccounts
     }
 
-    override fun removeAccount(user: DebugAccount): Completable {
-        return debugAccountDao.remove(user)
-            .subscribeOnIo()
+    override suspend fun removeAccount(user: DebugAccount) {
+        return withContext(Dispatchers.IO) {
+            debugAccountDao.remove(user)
+        }
     }
 }

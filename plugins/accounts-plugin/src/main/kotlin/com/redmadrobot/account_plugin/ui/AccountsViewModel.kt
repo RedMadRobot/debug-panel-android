@@ -2,20 +2,21 @@ package com.redmadrobot.account_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.ui.item.AccountItem
-import com.redmadrobot.debug_panel_core.extension.observeOnMain
 import com.redmadrobot.debug_panel_core.ui.SectionHeaderItem
-import com.redmadrobot.debug_panel_core.ui.base.BaseViewModel
 import com.xwray.groupie.kotlinandroidextensions.Item
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class AccountsViewModel(
     private val context: Context,
     private val debugAccountsRepository: DebugAccountRepository
-) : BaseViewModel() {
+) : ViewModel() {
 
     val state = MutableLiveData<AccountsViewState>().apply {
         /*Default state*/
@@ -26,8 +27,14 @@ internal class AccountsViewModel(
     }
 
     fun loadAccounts() {
-        loadPreInstalledAccounts()
-        loadAddedAccounts()
+        viewModelScope.launch {
+            try {
+                loadPreInstalledAccounts()
+                loadAddedAccounts()
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
     fun saveAccount(login: String, password: String, pin: String) {
@@ -36,11 +43,14 @@ internal class AccountsViewModel(
             password = password,
             pin = pin
         )
-        debugAccountsRepository
-            .addAccount(account)
-            .observeOnMain()
-            .subscribe { loadAddedAccounts() }
-            .autoDispose()
+        viewModelScope.launch {
+            try {
+                debugAccountsRepository.addAccount(account)
+                loadAddedAccounts()
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
     fun updateAccount(
@@ -55,68 +65,49 @@ internal class AccountsViewModel(
             password = newPassword,
             pin = pin
         )
-        debugAccountsRepository
-            .updateAccount(account)
-            .observeOnMain()
-            .subscribe(
-                { getItemById(id)?.update(account) },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+        viewModelScope.launch {
+            try {
+                debugAccountsRepository.updateAccount(account)
+                getItemById(id)?.update(account)
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
-
 
     fun removeAccount(account: DebugAccount) {
-        debugAccountsRepository
-            .removeAccount(account)
-            .observeOnMain()
-            .subscribe(
-                { loadAddedAccounts() },
-                { Timber.e(it) }
-            )
-            .autoDispose()
-    }
-
-    private fun loadPreInstalledAccounts() {
-        debugAccountsRepository.getPreInstalledAccounts()
-            .filter { it.isNotEmpty() }
-            .map { accounts ->
-                /*"Pre-installed" header*/
-                listOf(SectionHeaderItem(context.getString(R.string.pre_installed_accounts)))
-                    .plus(mapToAccountItems(accounts))
+        viewModelScope.launch {
+            try {
+                debugAccountsRepository.removeAccount(account)
+                loadAddedAccounts()
+            } catch (e: Exception) {
+                Timber.e(e)
             }
-            .observeOnMain()
-            .subscribe(
-                { items ->
-                    state.value = state.value?.copy(preInstalledItems = items)
-                },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+        }
     }
 
-    private fun loadAddedAccounts() {
-        debugAccountsRepository.getAccounts()
-            .filter { it.isNotEmpty() }
-            .map { accounts ->
-                /*"Added" header*/
-                listOf(SectionHeaderItem(context.getString(R.string.added_accounts)))
-                    .plus(mapToAccountItems(accounts))
-            }
-            .observeOnMain()
-            .subscribe(
-                { items ->
-                    state.value = state.value?.copy(addedItems = items)
-                },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+    private suspend fun loadPreInstalledAccounts() {
+        val accounts = debugAccountsRepository.getPreInstalledAccounts()
+        if (accounts.isNotEmpty()) {
+            val items = mapToItems(context.getString(R.string.pre_installed_accounts), accounts)
+            state.value = state.value?.copy(preInstalledItems = items)
+        }
     }
 
-    private fun mapToAccountItems(accounts: List<DebugAccount>): List<Item> {
-        return accounts.map { account ->
+    private suspend fun loadAddedAccounts() {
+        val accounts = debugAccountsRepository.getAccounts()
+        if (accounts.isNotEmpty()) {
+            val items = mapToItems(context.getString(R.string.added_accounts), accounts)
+            state.value = state.value?.copy(addedItems = items)
+        }
+    }
+
+    private fun mapToItems(header: String, accounts: List<DebugAccount>): List<Item> {
+        val items = accounts.map { account ->
             AccountItem(account)
         }
+        return listOf(/*Header item*/SectionHeaderItem(header))
+            .plus(items)
     }
 
     private fun getItemById(id: Int): AccountItem? {
