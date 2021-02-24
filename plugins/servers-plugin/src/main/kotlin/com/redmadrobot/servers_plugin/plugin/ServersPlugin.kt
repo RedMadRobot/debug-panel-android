@@ -34,4 +34,8 @@ public class ServersPlugin(
     override fun getSettingFragment(): Fragment {
         return ServersFragment()
     }
+
+    fun getSelectedServer(): DebugServer {
+        return getContainer<ServersPluginContainer>().pluginSettingsRepository.getSelectedServer()
+    }
 }
