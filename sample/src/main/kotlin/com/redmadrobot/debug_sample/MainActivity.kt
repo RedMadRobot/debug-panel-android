@@ -1,5 +1,6 @@
 package com.redmadrobot.debug_sample
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         }
         request_test.setOnClickListener {
             makeTestRequest()
+        }
+        open_second_activity.setOnClickListener {
+            startActivity(Intent(this, SecondActivity::class.java))
         }
     }
 
