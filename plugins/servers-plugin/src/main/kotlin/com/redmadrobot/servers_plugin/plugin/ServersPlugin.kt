@@ -21,6 +21,10 @@ public class ServersPlugin(
         preInstalledServers = preInstalledServers.provideData()
     )
 
+    public fun getSelectedServer(): DebugServer {
+        return getContainer<ServersPluginContainer>().pluginSettingsRepository.getSelectedServer()
+    }
+
     override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
