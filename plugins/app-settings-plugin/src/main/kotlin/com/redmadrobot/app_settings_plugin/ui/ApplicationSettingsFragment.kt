@@ -29,7 +29,7 @@ internal class ApplicationSettingsFragment : PluginFragment(R.layout.fragment_ap
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(settingsViewModel.settings, ::setSettingList)
+        observe(settingsViewModel.settingsLiveData, ::setSettingList)
         settingsViewModel.loadSettings()
     }
 

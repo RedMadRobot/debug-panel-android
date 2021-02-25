@@ -7,27 +7,18 @@ import com.redmadrobot.app_settings_plugin.ui.item.AppSettingBooleanItem
 import com.redmadrobot.app_settings_plugin.ui.item.AppSettingValueItem
 import com.redmadrobot.app_settings_plugin.ui.item.HeaderItem
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
-import com.redmadrobot.debug_panel_core.extension.observeOnMain
 import com.xwray.groupie.kotlinandroidextensions.Item
-import timber.log.Timber
 
 internal class ApplicationSettingsViewModel(
     private val appSettingsRepository: AppSettingsRepository
 ) : PluginViewModel() {
 
-    val settings = MutableLiveData<List<Item>>()
+    val settingsLiveData = MutableLiveData<List<Item>>()
 
     fun loadSettings() {
-        appSettingsRepository.getSettings()
-            .map { mapToItems(it) }
-            .observeOnMain()
-            .subscribe(
-                { settingItems ->
-                    settings.value = settingItems
-                },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+        val settings = appSettingsRepository.getSettings()
+        val settingItems = mapToItems(settings)
+        settingsLiveData.value = settingItems
     }
 
     private fun mapToItems(settings: List<SharedPreferences>): List<Item> {
@@ -57,11 +48,5 @@ internal class ApplicationSettingsViewModel(
 
     private fun updateSetting(settingKey: String, newValue: Any) {
         appSettingsRepository.updateSetting(settingKey, newValue)
-            .observeOnMain()
-            .subscribe(
-                {/*do nothing*/ },
-                { Timber.e(it) }
-            )
-            .autoDispose()
     }
 }
