@@ -2,15 +2,16 @@ package com.redmadrobot.servers_plugin.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
+import com.redmadrobot.debug_panel_common.extension.safeLaunch
 import com.redmadrobot.debug_panel_common.ui.SectionHeaderItem
-import com.redmadrobot.debug_panel_core.extension.observeOnMain
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.data.repository.PluginSettingsRepository
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
-import timber.log.Timber
+import com.xwray.groupie.kotlinandroidextensions.Item
 
 internal class ServersViewModel(
     private val context: Context,
@@ -28,29 +29,25 @@ internal class ServersViewModel(
     private var selectedServerItem: DebugServerItem? = null
 
     fun loadServers() {
-        loadPreInstalledServers()
-        loadAddedServers()
+        viewModelScope.safeLaunch {
+            loadPreInstalledServers()
+            loadAddedServers()
+        }
     }
 
     fun addServer(name: String, url: String) {
         val server = DebugServer(name = name, url = url)
-        serversRepository.addServer(server)
-            .observeOnMain()
-            .subscribe(
-                { loadAddedServers() },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+        viewModelScope.safeLaunch {
+            serversRepository.addServer(server)
+            loadAddedServers()
+        }
     }
 
     fun removeServer(serverItem: DebugServerItem) {
-        serversRepository.removeServer(serverItem.debugServer)
-            .observeOnMain()
-            .subscribe(
-                { loadAddedServers() },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+        viewModelScope.safeLaunch {
+            serversRepository.removeServer(serverItem.debugServer)
+            loadAddedServers()
+        }
     }
 
     fun updateServerData(id: Int, name: String, url: String) {
@@ -61,13 +58,10 @@ internal class ServersViewModel(
         val updatedServer = serverForUpdate?.copy(name = name, url = url)
 
         updatedServer?.let { server ->
-            serversRepository.updateServer(server)
-                .observeOnMain()
-                .subscribe(
-                    { itemForUpdate.update(server) },
-                    { Timber.e(it) }
-                )
-                .autoDispose()
+            viewModelScope.safeLaunch {
+                serversRepository.updateServer(server)
+                itemForUpdate.update(server)
+            }
         }
     }
 
@@ -78,57 +72,32 @@ internal class ServersViewModel(
     }
 
 
-    private fun loadPreInstalledServers() {
-        serversRepository.getPreInstalledServers()
-            .map { addDefaultServer(it) }
-            .filter { it.isNotEmpty() }
-            .map { servers ->
-                listOf(
-                    SectionHeaderItem(context.getString(R.string.pre_installed_servers))
-                )
-                    .plus(mapToItems(servers))
-            }
-            .observeOnMain()
-            .subscribe(
-                { items ->
-                    state.value = state.value?.copy(preInstalledItems = items)
-                },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+    private suspend fun loadPreInstalledServers() {
+        val servers = serversRepository.getPreInstalledServers()
+        val serverItems = mapToItems(context.getString(R.string.pre_installed_servers), servers)
+        state.value = state.value?.copy(preInstalledItems = serverItems)
     }
 
-    private fun loadAddedServers() {
-        serversRepository.getServers()
-            .filter { it.isNotEmpty() }
-            .map { servers ->
-                val headerText = context.getString(R.string.added_servers)
-                listOf(SectionHeaderItem(headerText))
-                    .plus(mapToItems(servers))
-            }
-            .observeOnMain()
-            .subscribe(
-                { items ->
-                    state.value = state.value?.copy(addedItems = items)
-                },
-                { Timber.e(it) }
-            )
-            .autoDispose()
+    private suspend fun loadAddedServers() {
+        val servers = serversRepository.getServers()
+        if (servers.isNotEmpty()) {
+            val serverItems = mapToItems(context.getString(R.string.added_servers), servers)
+            state.value = state.value?.copy(addedItems = serverItems)
+        }
     }
 
-    private fun addDefaultServer(servers: List<DebugServer>): List<DebugServer> {
-        val defaultServer = DebugServer.getEmpty()
-        return listOf(defaultServer).plus(servers)
-    }
-
-    private fun mapToItems(servers: List<DebugServer>): List<DebugServerItem> {
+    private fun mapToItems(header: String, servers: List<DebugServer>): List<Item> {
         val selectedServer = pluginSettingsRepository.getSelectedServer()
-        return servers.map { debugServer ->
-            val isSelected = selectedServer != null && selectedServer.url == debugServer.url
+        val items = servers.map { debugServer ->
+            val isSelected = selectedServer.url == debugServer.url
             DebugServerItem(debugServer, isSelected).also { item ->
                 if (isSelected) this.selectedServerItem = item
             }
         }
+        return listOf(
+            /*Заголовок списка*/
+            SectionHeaderItem(header)
+        ).plus(items)
     }
 
     private fun updateSelectedItem(debugServerItem: DebugServerItem) {
