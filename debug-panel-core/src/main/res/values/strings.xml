@@ -3,4 +3,5 @@
 
     <!--Notification-->
     <string name="debug_panel_notification_title">Открыть DebugPanel</string>
+    <string name="debug_panel_notification_settings">Settings</string>
 </resources>

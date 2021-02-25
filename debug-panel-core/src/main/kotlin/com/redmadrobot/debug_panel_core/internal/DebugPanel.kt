@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.redmadrobot.debug_panel_core.DebugPanelInstance
 import com.redmadrobot.debug_panel_core.inapp.DebugBottomSheet
 import com.redmadrobot.debug_panel_core.plugin.Plugin
-import com.redmadrobot.debug_panel_core.util.ActivityLifecycleHandler
+import com.redmadrobot.debug_panel_core.util.ApplicationLifecycleHandler
 import timber.log.Timber
 
 public object DebugPanel {
@@ -16,7 +16,7 @@ public object DebugPanel {
 
     public fun initialize(application: Application, plugins: List<Plugin>) {
         createDebugPanelInstance(application, plugins)
-        ActivityLifecycleHandler(application).start()
+        ApplicationLifecycleHandler(application).start()
         initTimber()
     }
 
