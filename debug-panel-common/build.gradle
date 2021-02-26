@@ -34,10 +34,6 @@ android {
 dependencies {
     api(
             deps.kotlin.stdlib,
-
-            deps.retrofit.runtime,
-            deps.rx.rxandroid,
-
             deps.okhttp,
 
             deps.androidx.app_compat,
@@ -53,7 +49,6 @@ dependencies {
             deps.lifecycle.lifecycle_view_model,
             deps.room.runtime,
             deps.room.ktx,
-            deps.room.rxjava2,
 
             deps.tools.android_ktx,
 
