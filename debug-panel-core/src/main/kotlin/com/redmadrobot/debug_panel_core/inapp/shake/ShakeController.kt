@@ -14,6 +14,7 @@ internal class ShakeController(context: Context) {
     private var openDebugPanelAction: (() -> Unit)? = null
 
     fun register(fragmentManager: FragmentManager) {
+        unregister()
         openDebugPanelAction = { DebugBottomSheet.show(fragmentManager) }
         sensorManager.registerListener(shakeDetector, accelerometer, SensorManager.SENSOR_DELAY_UI)
     }
