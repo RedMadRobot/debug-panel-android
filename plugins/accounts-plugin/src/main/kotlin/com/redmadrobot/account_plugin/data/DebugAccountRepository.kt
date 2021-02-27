@@ -1,17 +1,15 @@
 package com.redmadrobot.account_plugin.data
 
 import com.redmadrobot.account_plugin.data.model.DebugAccount
-import io.reactivex.Completable
-import io.reactivex.Single
 
 internal interface DebugAccountRepository {
-    fun addAccount(account: DebugAccount): Completable
+    suspend fun addAccount(account: DebugAccount)
 
-    fun updateAccount(account: DebugAccount): Completable
+    suspend fun updateAccount(account: DebugAccount)
 
-    fun getAccounts(): Single<List<DebugAccount>>
+    suspend fun getAccounts(): List<DebugAccount>
 
-    fun getPreInstalledAccounts(): Single<List<DebugAccount>>
+    suspend fun getPreInstalledAccounts(): List<DebugAccount>
 
-    fun removeAccount(user: DebugAccount): Completable
+    suspend fun removeAccount(user: DebugAccount)
 }

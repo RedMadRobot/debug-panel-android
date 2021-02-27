@@ -30,7 +30,7 @@ android {
 dependencies {
     implementation(
             project(path: ':debug-panel-core'),
-
+            project(path: ':debug-panel-common'),
             deps.kotlin.stdlib
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])

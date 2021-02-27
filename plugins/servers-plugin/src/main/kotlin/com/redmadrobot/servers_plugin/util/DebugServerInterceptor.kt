@@ -11,7 +11,7 @@ import okhttp3.Request
 import okhttp3.Response
 import java.net.URI
 
-class DebugServerInterceptor : Interceptor {
+public class DebugServerInterceptor : Interceptor {
 
     private var requestModifier: ((Request, DebugServer) -> Request?)? = null
 
@@ -24,7 +24,7 @@ class DebugServerInterceptor : Interceptor {
     /**
      * Дополнительная Модификация запроса
      * */
-    fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
+    public fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
         this.requestModifier = block
         return this
     }

@@ -9,7 +9,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.redmadrobot.panel_core.R
 
-class ModalLayout @JvmOverloads constructor(
+internal class ModalLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : CoordinatorLayout(context, attrs, defStyleAttr) {
 
@@ -25,10 +25,10 @@ class ModalLayout @JvmOverloads constructor(
      * Координаты для отрисовки "ручки" модального окна
      * */
     private val handleRect by lazy {
-        val height = resources.getDimensionPixelSize(R.dimen.handle_height).toFloat()
-        val width = resources.getDimensionPixelSize(R.dimen.handle_width).toFloat()
+        val height = resources.getDimensionPixelSize(R.dimen.debug_panel_handle_height).toFloat()
+        val width = resources.getDimensionPixelSize(R.dimen.debug_panel_handle_width).toFloat()
         val displayWidthCenter = resources.displayMetrics.widthPixels / 2
-        val topMargin = resources.getDimensionPixelSize(R.dimen.handle_top_margin).toFloat()
+        val topMargin = resources.getDimensionPixelSize(R.dimen.debug_panel_handle_top_margin).toFloat()
 
         RectF(
             (displayWidthCenter - width / 2),
@@ -46,7 +46,7 @@ class ModalLayout @JvmOverloads constructor(
     }
 
     override fun dispatchDraw(canvas: Canvas) {
-        val radius = resources.getDimensionPixelSize(R.dimen.handle_height) / 2
+        val radius = resources.getDimensionPixelSize(R.dimen.debug_panel_handle_height) / 2
         canvas.drawRoundRect(
             handleRect,
             radius.toFloat(),

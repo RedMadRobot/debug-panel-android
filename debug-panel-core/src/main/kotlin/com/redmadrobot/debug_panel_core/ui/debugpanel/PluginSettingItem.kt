@@ -5,7 +5,7 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_debug_feature.view.*
 
-class PluginSettingItem(
+internal class PluginSettingItem(
     private val pluginName: String,
     private val onClicked: () -> Unit
 ) : Item() {

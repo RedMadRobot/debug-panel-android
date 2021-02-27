@@ -11,16 +11,16 @@ import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.AccountsViewState
 import com.redmadrobot.account_plugin.ui.item.AccountItem
+import com.redmadrobot.debug_panel_common.base.PluginFragment
+import com.redmadrobot.debug_panel_common.extension.observe
+import com.redmadrobot.debug_panel_common.extension.obtainViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.extension.observe
-import com.redmadrobot.debug_panel_core.extension.obtainViewModel
-import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_account_select.*
 
-internal class AccountSelectionFragment : BaseFragment(R.layout.fragment_account_select) {
+internal class AccountSelectionFragment : PluginFragment(R.layout.fragment_account_select) {
 
     private val accountsViewModel by lazy {
         obtainViewModel {

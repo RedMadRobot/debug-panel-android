@@ -1,14 +1,13 @@
-package com.redmadrobot.debug_panel_core.extension
+package com.redmadrobot.debug_panel_common.extension
 
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 @MainThread
-inline fun <reified VM : ViewModel> Fragment.obtainViewModel(
+public inline fun <reified VM : ViewModel> Fragment.obtainViewModel(
     crossinline viewModelProducer: () -> VM
 ): VM {
     val factory =
@@ -18,7 +17,7 @@ inline fun <reified VM : ViewModel> Fragment.obtainViewModel(
 }
 
 @MainThread
-inline fun <reified VM : ViewModel> Fragment.obtainShareViewModel(
+public inline fun <reified VM : ViewModel> Fragment.obtainShareViewModel(
     crossinline viewModelProducer: () -> VM
 ): VM {
     val factory =
@@ -27,7 +26,7 @@ inline fun <reified VM : ViewModel> Fragment.obtainShareViewModel(
     return viewModelProvider[VM::class.java]
 }
 
-inline fun <reified VM : ViewModel> getViewModelFactory(
+public inline fun <reified VM : ViewModel> getViewModelFactory(
     crossinline viewModelProducer: () -> VM
 ): ViewModelProvider.Factory {
 
@@ -38,9 +37,9 @@ inline fun <reified VM : ViewModel> getViewModelFactory(
     }
 }
 
-inline fun <reified T : Any, reified L : LiveData<T>> Fragment.observe(
+public inline fun <reified T : Any, reified L : LiveData<T>> Fragment.observe(
     liveData: L,
     noinline block: (T) -> Unit
 ) {
-    liveData.observe(viewLifecycleOwner, Observer<T> { it?.let { block.invoke(it) } })
+    liveData.observe(viewLifecycleOwner, { it?.let { block.invoke(it) } })
 }

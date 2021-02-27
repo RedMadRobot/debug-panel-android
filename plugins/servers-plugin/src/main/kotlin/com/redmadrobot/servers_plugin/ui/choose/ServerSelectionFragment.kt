@@ -3,10 +3,10 @@ package com.redmadrobot.servers_plugin.ui.choose
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.redmadrobot.debug_panel_common.base.PluginFragment
+import com.redmadrobot.debug_panel_common.extension.observe
+import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.extension.observe
-import com.redmadrobot.debug_panel_core.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
@@ -18,7 +18,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
-internal class ServerSelectionFragment : BaseFragment(R.layout.fragment_server_selection) {
+internal class ServerSelectionFragment : PluginFragment(R.layout.fragment_server_selection) {
 
     private val serversAdapter = GroupAdapter<GroupieViewHolder>()
     private val preInstalledServersSection = Section()

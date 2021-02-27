@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.app_settings_plugin.R
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPluginContainer
+import com.redmadrobot.debug_panel_common.base.PluginFragment
+import com.redmadrobot.debug_panel_common.extension.observe
+import com.redmadrobot.debug_panel_common.extension.obtainViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.extension.observe
-import com.redmadrobot.debug_panel_core.extension.obtainViewModel
-import com.redmadrobot.debug_panel_core.ui.base.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.fragment_app_settings.*
 
-internal class ApplicationSettingsFragment : BaseFragment(R.layout.fragment_app_settings) {
+internal class ApplicationSettingsFragment : PluginFragment(R.layout.fragment_app_settings) {
 
     private val settingsViewModel by lazy {
         obtainViewModel {
@@ -29,7 +29,7 @@ internal class ApplicationSettingsFragment : BaseFragment(R.layout.fragment_app_
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(settingsViewModel.settings, ::setSettingList)
+        observe(settingsViewModel.settingsLiveData, ::setSettingList)
         settingsViewModel.loadSettings()
     }
 

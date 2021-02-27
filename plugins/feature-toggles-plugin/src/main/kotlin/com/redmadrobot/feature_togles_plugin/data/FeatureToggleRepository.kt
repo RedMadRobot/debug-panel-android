@@ -3,13 +3,10 @@ package com.redmadrobot.feature_togles_plugin.data
 import com.redmadrobot.feature_togles_plugin.data.model.FeatureToggle
 import com.redmadrobot.feature_togles_plugin.toggles.FeatureTogglesConfig
 
-import io.reactivex.Completable
-import io.reactivex.Single
-
 interface FeatureToggleRepository {
-    fun initConfig(featureTogglesConfig: FeatureTogglesConfig): Completable
-    fun updateFeatureToggle(featureToggle: FeatureToggle): Completable
-    fun getAllFeatureToggles(): Single<List<FeatureToggle>>
-    fun resetAll(): Completable
-    fun updateOverrideEnable(newOverrideEnable: Boolean): Completable
+    suspend fun initConfig(featureTogglesConfig: FeatureTogglesConfig)
+    suspend fun updateFeatureToggle(featureToggle: FeatureToggle)
+    suspend fun getAllFeatureToggles(): List<FeatureToggle>
+    suspend fun resetAll()
+    suspend fun updateOverrideEnable(newOverrideEnable: Boolean)
 }

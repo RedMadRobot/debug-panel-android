@@ -1,3 +1,3 @@
 package com.redmadrobot.debug_panel_core.plugin
 
-interface PluginDependencyContainer
+public interface PluginDependencyContainer

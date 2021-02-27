@@ -25,11 +25,16 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
+    kotlinOptions {
+        freeCompilerArgs += "-Xexplicit-api=strict"
+    }
 }
 
 dependencies {
     implementation(
             project(path: ':debug-panel-core'),
+            project(path: ':debug-panel-common'),
 
             deps.kotlin.stdlib
     )

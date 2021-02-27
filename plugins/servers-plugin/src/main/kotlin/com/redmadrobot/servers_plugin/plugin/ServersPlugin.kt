@@ -9,29 +9,33 @@ import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.ui.add.ServersFragment
 import com.redmadrobot.servers_plugin.ui.choose.ServerSelectionFragment
 
-class ServersPlugin(
+public class ServersPlugin(
     private val preInstalledServers: List<DebugServer> = emptyList()
 ) : Plugin() {
 
-    companion object {
+    internal companion object {
         const val NAME = "SERVERS"
     }
 
-    constructor(preInstalledServers: DebugDataProvider<List<DebugServer>>) : this(
+    public constructor(preInstalledServers: DebugDataProvider<List<DebugServer>>) : this(
         preInstalledServers = preInstalledServers.provideData()
     )
 
-    override fun getName() = NAME
+    public fun getSelectedServer(): DebugServer {
+        return getContainer<ServersPluginContainer>().pluginSettingsRepository.getSelectedServer()
+    }
+
+    override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return ServersPluginContainer(preInstalledServers, commonContainer)
     }
 
-    override fun getFragment(): Fragment? {
+    override fun getFragment(): Fragment {
         return ServerSelectionFragment()
     }
 
-    override fun getSettingFragment(): Fragment? {
+    override fun getSettingFragment(): Fragment {
         return ServersFragment()
     }
 }

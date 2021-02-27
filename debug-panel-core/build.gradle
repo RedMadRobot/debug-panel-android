@@ -25,36 +25,15 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
+    kotlinOptions {
+        freeCompilerArgs += "-Xexplicit-api=strict"
+    }
 }
 
 dependencies {
-    api(
-            deps.kotlin.stdlib,
+    implementation project(path: ':debug-panel-common')
 
-            deps.retrofit.runtime,
-            deps.rx.rxandroid,
-
-            deps.okhttp,
-
-            deps.androidx.app_compat,
-            deps.androidx.design,
-            deps.androidx.constraint_layout,
-
-            deps.lifecycle.runtime,
-            deps.lifecycle.extensions,
-            deps.lifecycle.lifecycle_livedata,
-            deps.lifecycle.lifecycle_livedata_core,
-
-            deps.room.runtime,
-            deps.room.rxjava2,
-
-            deps.tools.android_ktx,
-
-            deps.ui.groupie,
-            deps.ui.groupie_kotlin_extensions,
-
-            deps.debugging.timber
-    )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     kapt(deps.room.compiler)
 }

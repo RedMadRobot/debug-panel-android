@@ -7,30 +7,30 @@ import androidx.lifecycle.Observer
 import com.redmadrobot.debug_panel_core.DebugPanelInstance
 import com.redmadrobot.debug_panel_core.inapp.DebugBottomSheet
 import com.redmadrobot.debug_panel_core.plugin.Plugin
-import com.redmadrobot.debug_panel_core.util.ActivityLifecycleHandler
+import com.redmadrobot.debug_panel_core.util.ApplicationLifecycleHandler
 import timber.log.Timber
 
-object DebugPanel {
+public object DebugPanel {
 
     private var instance: DebugPanelInstance? = null
 
-    fun initialize(application: Application, plugins: List<Plugin>) {
+    public fun initialize(application: Application, plugins: List<Plugin>) {
         createDebugPanelInstance(application, plugins)
-        ActivityLifecycleHandler(application).start()
+        ApplicationLifecycleHandler(application).start()
         initTimber()
     }
 
-    fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) {
+    public fun isInitialized(): Boolean = instance != null
+
+    public fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) {
         instance?.getEventLiveData()?.observe(lifecycleOwner, Observer { onEvent.invoke(it) })
     }
 
-    fun showPanel(fragmentManager: FragmentManager) {
+    public fun showPanel(fragmentManager: FragmentManager) {
         if (isInitialized()) {
             DebugBottomSheet.show(fragmentManager)
         }
     }
-
-    fun isInitialized() = instance != null
 
     private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {
         instance = DebugPanelInstance(application, plugins)

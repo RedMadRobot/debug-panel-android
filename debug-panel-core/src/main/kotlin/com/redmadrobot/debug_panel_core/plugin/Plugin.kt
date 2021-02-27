@@ -5,7 +5,8 @@ import com.redmadrobot.debug_panel_core.CommonContainer
 import com.redmadrobot.debug_panel_core.DebugPanelInstance
 import com.redmadrobot.debug_panel_core.internal.DebugEvent
 
-abstract class Plugin {
+public abstract class Plugin {
+
     private lateinit var pluginContainer: PluginDependencyContainer
 
     internal fun start(commonContainer: CommonContainer): Plugin {
@@ -13,17 +14,17 @@ abstract class Plugin {
         return this
     }
 
-    fun pushEvent(debugEvent: DebugEvent) {
+    public fun pushEvent(debugEvent: DebugEvent) {
         DebugPanelInstance.instance?.pushEvent(debugEvent)
     }
 
-    fun <T> getContainer() = pluginContainer as T
+    public fun <T> getContainer(): T = pluginContainer as T
 
-    open fun getFragment(): Fragment? = null
+    public open fun getFragment(): Fragment? = null
 
-    open fun getSettingFragment(): Fragment? = null
+    public open fun getSettingFragment(): Fragment? = null
 
-    abstract fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer
+    public abstract fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer
 
-    abstract fun getName(): String
+    public abstract fun getName(): String
 }

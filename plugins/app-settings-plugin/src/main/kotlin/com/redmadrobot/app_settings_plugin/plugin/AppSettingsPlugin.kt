@@ -8,15 +8,15 @@ import com.redmadrobot.debug_panel_core.CommonContainer
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 
-class AppSettingsPlugin(
+public class AppSettingsPlugin(
     private val sharedPreferences: List<SharedPreferences> = listOf(DefaultSharedPreferences())
 ) : Plugin() {
 
-    companion object {
+    internal companion object {
         const val NAME = "APP SETTINGS"
     }
 
-    override fun getName() = NAME
+    override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return AppSettingsPluginContainer(sharedPreferences)

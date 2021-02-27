@@ -20,7 +20,7 @@ def versions = [:]
 ext.deps = [:]
 
 //region Gradle
-versions.android_plugin = "3.6.2"
+versions.android_plugin = "4.1.1"
 
 deps.gradle = [
         android_plugin: "com.android.tools.build:gradle:$versions.android_plugin"
@@ -37,20 +37,12 @@ deps.kotlin = [
 ]
 //endregion
 
-//region RxJava
-versions.rxKotlin = "2.4.0"
-versions.rxandroid = "2.1.1"
-versions.rxbinding = "3.1.0"
-versions.rxrelay = "2.1.1"
-
-deps.rx = [
-        rxKotlin           : "io.reactivex.rxjava2:rxkotlin:$versions.rxKotlin",
-        rxandroid          : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
-        rxbinding          : "com.jakewharton.rxbinding3:rxbinding:$versions.rxbinding",
-        rxbinding_appcompat: "com.jakewharton.rxbinding3:rxbinding-appcompat:$versions.rxbinding",
-        rxrelay            : "com.jakewharton.rxrelay2:rxrelay:$versions.rxrelay"
+//region Coroutines
+versions.coroutines = "1.3.9"
+deps.coroutines = [
+        coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
 ]
-//endregion
+//
 
 //region Network
 versions.retrofit = "2.7.1"
@@ -92,7 +84,7 @@ deps.firebase = [
 ]
 //endregion
 
-//region Android Jetpack
+//region Lifecycle
 versions.lifecycle = "2.2.0"
 versions.lifecycle_testing = "2.1.0"
 
@@ -101,16 +93,17 @@ deps.lifecycle = [
         runtime                : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
         lifecycle_livedata     : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
         lifecycle_livedata_core: "androidx.lifecycle:lifecycle-livedata-core-ktx:$versions.lifecycle",
+        lifecycle_view_model   : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
         testing                : "androidx.arch.core:core-testing:$versions.lifecycle_testing"
 ]
 
-versions.room = "2.2.3"
+versions.room = "2.2.6"
 
 deps.room = [
+        ktx     : "androidx.room:room-ktx:$versions.room",
         runtime : "androidx.room:room-runtime:$versions.room",
         compiler: "androidx.room:room-compiler:$versions.room",
-        rxjava2 : "androidx.room:room-rxjava2:$versions.room",
-        testing : "androidx.room:room-testing:$versions.room"
+        rxjava2 : "androidx.room:room-rxjava2:$versions.room"
 ]
 //endregion
 
