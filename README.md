@@ -1,7 +1,7 @@
 # Debug-panel
 
 #### Бибилиотека для отладки приложений. 
-### v 0.5.8
+### [v 0.6.0](https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.0)
 
 **Важно** : Библиотека находится в стадии разработки.
 
@@ -39,7 +39,7 @@ maven {
 
 dependencies {
     //core модуль панели
-    implementation 'com.redmadrobot.debug:panel_core:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:panel-core:${debug_panel_version}'
 }
 ```
 
@@ -50,13 +50,13 @@ dependencies {
 ```groovy
 dependencies {
     //Плагин для работы с аккаунтами
-    implementation 'com.redmadrobot.debug:accounts_plugin:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:accounts-plugin:${debug_panel_version}'
     
     //Плагин для работы с серверами
-    implementation 'com.redmadrobot.debug:servers_plugin:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:servers-plugin:${debug_panel_version}'
     
     //Плагин для работы с SharedPreferences
-    implementation 'com.redmadrobot.debug:app_settings_plugin:${debug_panel_version}'
+    implementation 'com.redmadrobot.debug:app-settings-plugin:${debug_panel_version}'
 }
 
 ```
@@ -66,7 +66,7 @@ dependencies {
 4. Для того чтобы библиотека не попала в релизную сборку необходимо подключить `no-op` версию библиотеки
 
 ```groovy
-   releaseImplementation 'com.redmadrobot.debug:panel_no_op:${debug_panel_version}'
+   releaseImplementation 'com.redmadrobot.debug:panel-no-op:${debug_panel_version}'
 ```
 
 
@@ -103,7 +103,7 @@ fun openDebugPanel() {
 }
 ```
 
-Так же у панели есть режим редактирования который можно открыть через центр уведомлений.
+Так же в панель можно войти через уведомление которое появляется при запуске приложения использующее библиотеку. Через это же уведомление можно перейти в ручную настройку панели. Для этого нужно нажать кнопку `SETTINGS` в раскрытом уведомлении.
 
 ![Режим редактирования](https://git.redmadrobot.com/r.choryev/Debug-panel/raw/master/assets/debug_notification.png)
 
@@ -212,7 +212,16 @@ OkHttpClient.Builder()
    )
    .build()
 ```
+Текущий выбранный сервер можно получить следующим образом
+
+```ko
+val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
+```
+
+
+
 ### AppSettingsPlugin 
+
 Используется для просмотра и редактирования `SharedPreferences` в проекте
 
 Для подключения плагина, необходимо передать в него список `SharedPreferences` с которыми хотите работать:
