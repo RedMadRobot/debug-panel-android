@@ -7,7 +7,7 @@ include ':sample',
         ':feature-toggles-plugin',
         ':app-settings-plugin'
 
-
+/*Plugin aliases*/
 project(':accounts-plugin').projectDir = new File(rootDir, 'plugins/accounts-plugin')
 project(':servers-plugin').projectDir = new File(rootDir, 'plugins/servers-plugin')
 project(':feature-toggles-plugin').projectDir = new File(rootDir, 'plugins/feature-toggles-plugin')
