@@ -1,7 +1,10 @@
 # Debug-panel
 
 #### Бибилиотека для отладки приложений. 
-### [v 0.6.0](https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.0)
+
+[Документация по разработке плагинов][plugin-development-doc]
+
+### [v 0.6.0][last-release]
 
 **Важно** : Библиотека находится в стадии разработки.
 
@@ -269,7 +272,6 @@ ServersPlugin(
 )
 ```
 
-
 ## Backlog разработки
 
 - [ ]  Управление Feature toggle
@@ -283,3 +285,7 @@ ServersPlugin(
     - [ ]  включение/отключение профилирования GPU
 - [ ]  Создание Deep-link
 - [ ]  Сброс окружения/настроек/токенов
+
+
+[last-release]:https://git.redmadrob§ot.com/r.choryev/Debug-panel/-/releases/0.6.0
+[plugin-development-doc]:docs/plugin_development.md
