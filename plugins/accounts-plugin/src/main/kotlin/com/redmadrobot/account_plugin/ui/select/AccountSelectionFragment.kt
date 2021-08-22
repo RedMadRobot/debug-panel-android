@@ -3,14 +3,12 @@ package com.redmadrobot.account_plugin.ui.select
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.AccountsViewState
-import com.redmadrobot.account_plugin.ui.item.AccountItem
 import com.redmadrobot.debug_panel_common.base.PluginFragment
 import com.redmadrobot.debug_panel_common.extension.observe
 import com.redmadrobot.debug_panel_common.extension.obtainViewModel
@@ -18,7 +16,6 @@ import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import kotlinx.android.synthetic.main.fragment_account_select.*
 
 internal class AccountSelectionFragment : PluginFragment(R.layout.fragment_account_select) {
 
@@ -45,16 +42,16 @@ internal class AccountSelectionFragment : PluginFragment(R.layout.fragment_accou
     }
 
     private fun setView() {
-        account_select_recycler.apply {
-            adapter = accountsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-        accountsAdapter.setOnItemClickListener { item, _ ->
-            val account = (item as? AccountItem)?.account
-            account?.let { onAccountSelected(it) }
-        }
-        accountsAdapter.add(preInstalledAccountsSection)
-        accountsAdapter.add(addedAccountsSection)
+//        account_select_recycler.apply {
+//            adapter = accountsAdapter
+//            layoutManager = LinearLayoutManager(requireContext())
+//        }
+//        accountsAdapter.setOnItemClickListener { item, _ ->
+//            val account = (item as? AccountItems)?.account
+//            account?.let { onAccountSelected(it) }
+//        }
+//        accountsAdapter.add(preInstalledAccountsSection)
+//        accountsAdapter.add(addedAccountsSection)
     }
 
     private fun onAccountSelected(account: DebugAccount) {
@@ -80,8 +77,8 @@ internal class AccountSelectionFragment : PluginFragment(R.layout.fragment_accou
     }
 
     private fun render(state: AccountsViewState) {
-        preInstalledAccountsSection.update(state.preInstalledItems)
-        addedAccountsSection.update(state.addedItems)
+//        preInstalledAccountsSection.update(state.preInstalledAccounts)
+//        addedAccountsSection.update(state.addedAccounts)
     }
 
 }

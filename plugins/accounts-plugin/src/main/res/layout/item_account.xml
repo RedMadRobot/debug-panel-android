@@ -15,7 +15,7 @@
         android:background="?selectableItemBackgroundBorderless">
 
         <ImageView
-            android:id="@+id/item_credential_icon"
+            android:id="@+id/account_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -26,14 +26,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/item_credential_login"
+            android:id="@+id/account_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="32dp"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/item_credential_icon"
+            app:layout_constraintStart_toEndOf="@id/account_icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="[Login]" />
     </androidx.constraintlayout.widget.ConstraintLayout>
