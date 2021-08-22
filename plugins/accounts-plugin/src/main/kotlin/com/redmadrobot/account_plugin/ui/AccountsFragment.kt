@@ -20,9 +20,9 @@ import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
-import kotlinx.android.synthetic.main.fragment_add_account.*
+import kotlinx.android.synthetic.main.fragment_accounts.*
 
-internal class AccountsFragment : PluginFragment(R.layout.fragment_add_account) {
+internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
 
     companion object {
         const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
