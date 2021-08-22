@@ -3,6 +3,7 @@ package com.redmadrobot.account_plugin.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.model.DebugAccount
@@ -32,7 +33,7 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
         requireNotNull(arguments).getBoolean(IS_EDIT_MODE_KEY)
     }
 
-    private val accountsViewModel by lazy {
+    private val viewModel by lazy {
         obtainShareViewModel {
             getPlugin<AccountsPlugin>()
                 .getContainer<AccountsPluginContainer>()
@@ -42,8 +43,8 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(accountsViewModel.state, ::render)
-        accountsViewModel.loadAccounts()
+        observe(viewModel.state, ::render)
+        viewModel.loadAccounts()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,12 +77,16 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
                 is DebugAccountItems.PreinstalledAccount -> {
                     bind<ItemAccountBinding>(R.layout.item_account) {
                         accountLogin.text = item.account.login
-                        root.setOnClickListener { setAccountAsCurrent(item.account) }
+                        if (!isEditMode) {
+                            root.setOnClickListener { setAccountAsCurrent(item.account) }
+                        }
                     }
                 }
                 is DebugAccountItems.AddedAccount -> {
                     bind<ItemAccountBinding>(R.layout.item_account) {
                         accountLogin.text = item.account.login
+                        accountDelete.isVisible = isEditMode
+                        accountDelete.setOnClickListener { viewModel.removeAccount(item.account) }
                         root.setOnClickListener { onAddedAccountClicked(item.account) }
                     }
                 }
@@ -90,11 +95,7 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
     }
 
     private fun onAddedAccountClicked(account: DebugAccount) {
-        if (isEditMode) {
-            openAccountDialog(account)
-        } else {
-            setAccountAsCurrent(account)
-        }
+        if (isEditMode) openAccountDialog(account) else setAccountAsCurrent(account)
     }
 
     private fun openAccountDialog(account: DebugAccount) {

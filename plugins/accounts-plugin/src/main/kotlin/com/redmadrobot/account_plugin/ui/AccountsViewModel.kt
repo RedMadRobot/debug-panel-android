@@ -70,29 +70,29 @@ internal class AccountsViewModel(
 
     private suspend fun loadPreInstalledAccounts() {
         val accounts = debugAccountsRepository.getPreInstalledAccounts()
-        if (accounts.isNotEmpty()) {
+        val preInstalledAccounts = if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
                 DebugAccountItems.PreinstalledAccount(account)
             }
             val header = context.getString(R.string.pre_installed_accounts)
-            val preInstalledAccounts = listOf(/*Header item*/DebugAccountItems.Header(header))
-                .plus(items)
-
-            state.value = state.value?.copy(preInstalledAccounts = preInstalledAccounts)
+            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+        } else {
+            emptyList()
         }
+        state.value = state.value?.copy(preInstalledAccounts = preInstalledAccounts)
     }
 
     private suspend fun loadAddedAccounts() {
         val accounts = debugAccountsRepository.getAccounts()
-        if (accounts.isNotEmpty()) {
+        val addedAccountItems = if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
                 DebugAccountItems.AddedAccount(account)
             }
             val header = context.getString(R.string.added_accounts)
-            val addedAccounts = listOf(/*Header item*/DebugAccountItems.Header(header))
-                .plus(items)
-
-            state.value = state.value?.copy(addedAccounts = addedAccounts)
+            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+        } else {
+            emptyList()
         }
+        state.value = state.value?.copy(addedAccounts = addedAccountItems)
     }
 }
