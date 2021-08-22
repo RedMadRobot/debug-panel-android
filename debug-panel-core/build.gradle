@@ -29,6 +29,10 @@ android {
     kotlinOptions {
         freeCompilerArgs += "-Xexplicit-api=strict"
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
