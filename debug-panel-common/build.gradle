@@ -54,6 +54,7 @@ dependencies {
 
             deps.ui.groupie,
             deps.ui.groupie_kotlin_extensions,
+            deps.ui.items_adapter,
 
             deps.debugging.timber
     )
