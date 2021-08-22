@@ -11,7 +11,7 @@ import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.add.AddAccountDialog
-import com.redmadrobot.account_plugin.ui.item.AccountItems
+import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
 import com.redmadrobot.debug_panel_common.base.PluginFragment
 import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.debug_panel_common.extension.observe
@@ -68,18 +68,18 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
     private fun createAdapterByState(state: AccountsViewState): ItemsAdapter {
         return itemsAdapter(state.preInstalledAccounts.plus(state.addedAccounts)) { item ->
             when (item) {
-                is AccountItems.Header -> {
+                is DebugAccountItems.Header -> {
                     bind<ItemSectionHeaderBinding>(R.layout.item_section_header) {
                         itemSectionTitle.text = item.header
                     }
                 }
-                is AccountItems.PreinstalledAccount -> {
+                is DebugAccountItems.PreinstalledAccount -> {
                     bind<ItemAccountBinding>(R.layout.item_account) {
                         accountLogin.text = item.account.login
                         root.setOnClickListener { setAccountAsCurrent(item.account) }
                     }
                 }
-                is AccountItems.AddedAccount -> {
+                is DebugAccountItems.AddedAccount -> {
                     bind<ItemAccountBinding>(R.layout.item_account) {
                         accountLogin.text = item.account.login
                         root.setOnClickListener { onAddedAccountClicked(item.account) }

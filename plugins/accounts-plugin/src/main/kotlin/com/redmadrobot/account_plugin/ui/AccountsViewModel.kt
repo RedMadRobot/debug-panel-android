@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
-import com.redmadrobot.account_plugin.ui.item.AccountItems
+import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.debug_panel_common.extension.safeLaunch
 
@@ -72,10 +72,10 @@ internal class AccountsViewModel(
         val accounts = debugAccountsRepository.getPreInstalledAccounts()
         if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
-                AccountItems.PreinstalledAccount(account)
+                DebugAccountItems.PreinstalledAccount(account)
             }
             val header = context.getString(R.string.pre_installed_accounts)
-            val preInstalledAccounts = listOf(/*Header item*/AccountItems.Header(header))
+            val preInstalledAccounts = listOf(/*Header item*/DebugAccountItems.Header(header))
                 .plus(items)
 
             state.value = state.value?.copy(preInstalledAccounts = preInstalledAccounts)
@@ -86,10 +86,10 @@ internal class AccountsViewModel(
         val accounts = debugAccountsRepository.getAccounts()
         if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
-                AccountItems.AddedAccount(account)
+                DebugAccountItems.AddedAccount(account)
             }
             val header = context.getString(R.string.added_accounts)
-            val addedAccounts = listOf(/*Header item*/AccountItems.Header(header))
+            val addedAccounts = listOf(/*Header item*/DebugAccountItems.Header(header))
                 .plus(items)
 
             state.value = state.value?.copy(addedAccounts = addedAccounts)
