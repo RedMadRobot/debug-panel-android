@@ -13,7 +13,7 @@ public data class DebugServer(
    internal companion object {
         const val TABLE_NAME = "debug_server"
 
-        fun getEmpty() =
-            DebugServer(name = "", url = "")
+        fun getDefault() =
+            DebugServer(name = "Default", url = "")
     }
 }

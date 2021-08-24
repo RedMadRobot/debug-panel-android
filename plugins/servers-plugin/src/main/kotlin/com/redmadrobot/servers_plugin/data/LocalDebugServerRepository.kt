@@ -18,7 +18,7 @@ internal class LocalDebugServerRepository(
 
     override suspend fun getPreInstalledServers(): List<DebugServer> {
         return withContext(Dispatchers.IO) {
-            listOf(DebugServer.getEmpty()).plus(preInstalledServers)
+            listOf(DebugServer.getDefault()).plus(preInstalledServers)
         }
     }
 

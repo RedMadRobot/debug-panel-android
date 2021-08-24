@@ -33,7 +33,7 @@ public class DebugServerInterceptor : Interceptor {
         var request = chain.request()
         return if (DebugPanel.isInitialized()) {
             val debugServer = panelSettingsRepository.getSelectedServer()
-            if (debugServer.name.isNotEmpty()) {
+            if (debugServer.url.isNotEmpty()) {
                 val newUrl = request.getNewUrl(debugServer.url)
                 request = request.newBuilder()
                     .url(newUrl)
