@@ -21,7 +21,7 @@ import com.redmadrobot.servers_plugin.ui.ServersViewState
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
-internal class ServersFragment : PluginFragment(R.layout.fragment_add_server) {
+internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
 
     companion object {
         const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
