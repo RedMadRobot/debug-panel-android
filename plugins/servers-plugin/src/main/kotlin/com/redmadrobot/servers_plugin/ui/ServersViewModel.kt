@@ -43,6 +43,9 @@ internal class ServersViewModel(
     fun removeServer(debugServer: DebugServer) {
         viewModelScope.safeLaunch {
             serversRepository.removeServer(debugServer)
+            if (pluginSettingsRepository.getSelectedServer() == debugServer) {
+                pluginSettingsRepository.saveSelectedServer(DebugServer.getDefault())
+            }
             loadAddedServers()
         }
     }

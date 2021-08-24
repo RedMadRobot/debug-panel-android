@@ -10,10 +10,17 @@ public data class DebugServer(
     val name: String,
     val url: String
 ) {
-   internal companion object {
+    internal companion object {
         const val TABLE_NAME = "debug_server"
 
         fun getDefault() =
             DebugServer(name = "Default", url = "")
     }
+
+    override fun equals(other: Any?): Boolean {
+        return with(other as DebugServer) {
+            this.name == name && this.url == url
+        }
+    }
+
 }
