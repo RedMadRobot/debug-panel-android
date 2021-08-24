@@ -2,35 +2,36 @@ package com.redmadrobot.servers_plugin.ui.add
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel_common.base.PluginFragment
+import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.debug_panel_common.extension.observe
 import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel_common.ui.ItemTouchHelperCallback
 import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.itemsadapter.ItemsAdapter
+import com.redmadrobot.itemsadapter.bind
+import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.servers_plugin.data.model.DebugServer
+import com.redmadrobot.servers_plugin.databinding.ItemDebugServerBinding
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import com.redmadrobot.servers_plugin.ui.ServersViewState
-import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Section
-import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
 import kotlinx.android.synthetic.main.fragment_add_server.*
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_add_server) {
 
     companion object {
-        fun getInstance() = ServersFragment()
+        const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
     }
 
-    private val serversAdapter = GroupAdapter<GroupieViewHolder>()
-    private val preInstalledServersSection = Section()
-    private val addedServersSection = Section()
+    private val isEditMode by lazy {
+        requireNotNull(arguments).getBoolean(IS_EDIT_MODE_KEY)
+    }
 
-
-    private val serversViewModel by lazy {
+    private val viewModel by lazy {
         obtainShareViewModel {
             getPlugin<ServersPlugin>()
                 .getContainer<ServersPluginContainer>()
@@ -40,8 +41,8 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_add_server) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(serversViewModel.state, ::render)
-        serversViewModel.loadServers()
+        observe(viewModel.state, ::render)
+        viewModel.loadServers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,51 +52,62 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_add_server) {
 
     private fun setViews() {
         server_list.layoutManager = LinearLayoutManager(requireContext())
-        server_list.adapter = serversAdapter
-
-        val itemTouchHelperCallback =
-            ItemTouchHelperCallback(
-                onSwiped = { position ->
-                    /*remove server from DB*/
-                    val item = serversAdapter.getItem(position) as DebugServerItem
-                    serversViewModel.removeServer(item)
-                },
-                canBeSwiped = { position ->
-                    serversAdapter.getGroupAtAdapterPosition(position) == addedServersSection &&
-                            serversAdapter.getItem(position) is DebugServerItem
-                }
-            )
-
-        ItemTouchHelper(itemTouchHelperCallback).apply {
-            attachToRecyclerView(server_list)
-        }
-
         add_server.setOnClickListener {
             ServerHostDialog.show(childFragmentManager)
-        }
-
-        serversAdapter.setOnItemClickListener { item, _ ->
-            (item as? DebugServerItem)?.let { handleItemClick(it) }
-        }
-
-        serversAdapter.add(preInstalledServersSection)
-        serversAdapter.add(addedServersSection)
-    }
-
-    private fun handleItemClick(item: DebugServerItem) {
-        if (addedServersSection.getPosition(item) >= 0) {
-            val debugServer = item.debugServer
-            val bundle = Bundle().apply {
-                putInt(ServerHostDialog.KEY_ID, debugServer.id)
-                putString(ServerHostDialog.KEY_NAME, debugServer.name)
-                putString(ServerHostDialog.KEY_URL, debugServer.url)
-            }
-            ServerHostDialog.show(childFragmentManager, bundle)
         }
     }
 
     private fun render(state: ServersViewState) {
-        preInstalledServersSection.update(state.preInstalledItems)
-        addedServersSection.update(state.addedItems)
+        val adapter = createAdapterByState(state)
+        server_list.adapter = adapter
+    }
+
+    private fun createAdapterByState(state: ServersViewState): ItemsAdapter {
+        val items = state.preInstalledServers.plus(state.addedServers)
+        return itemsAdapter(items) { item ->
+            when (item) {
+                is DebugServerItems.Header -> {
+                    bind<ItemSectionHeaderBinding>(R.layout.item_section_header) {
+                        itemSectionTitle.text = item.header
+                    }
+                }
+                is DebugServerItems.PreinstalledServer -> {
+                    bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
+                        itemServerName.text = item.debugServer.name
+                        isSelectedIcon.isVisible = item.isSelected && !isEditMode
+                        if (!isEditMode) {
+                            root.setOnClickListener {
+                                viewModel.selectServerAsCurrent(item.debugServer)
+                            }
+                        }
+                    }
+                }
+                is DebugServerItems.AddedServer -> {
+                    bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
+                        itemServerName.text = item.debugServer.name
+                        isSelectedIcon.isVisible = item.isSelected && !isEditMode
+                        itemServerDelete.isVisible = isEditMode
+                        val server = item.debugServer
+                        itemServerDelete.setOnClickListener { viewModel.removeServer(server) }
+                        root.setOnClickListener {
+                            if (!isEditMode) {
+                                viewModel.selectServerAsCurrent(server)
+                            } else {
+                                editServerData(server)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun editServerData(debugServer: DebugServer) {
+        val bundle = Bundle().apply {
+            putInt(ServerHostDialog.KEY_ID, debugServer.id)
+            putString(ServerHostDialog.KEY_NAME, debugServer.name)
+            putString(ServerHostDialog.KEY_URL, debugServer.url)
+        }
+        ServerHostDialog.show(childFragmentManager, bundle)
     }
 }

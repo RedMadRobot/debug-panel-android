@@ -5,13 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.debug_panel_common.extension.safeLaunch
-import com.redmadrobot.debug_panel_common.ui.SectionHeaderItem
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.data.repository.PluginSettingsRepository
-import com.redmadrobot.servers_plugin.ui.item.DebugServerItem
-import com.xwray.groupie.kotlinandroidextensions.Item
+import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
 
 internal class ServersViewModel(
     private val context: Context,
@@ -22,11 +20,10 @@ internal class ServersViewModel(
     val state = MutableLiveData<ServersViewState>().apply {
         /*Default state*/
         value = ServersViewState(
-            preInstalledItems = emptyList(),
-            addedItems = emptyList()
+            preInstalledServers = emptyList(),
+            addedServers = emptyList()
         )
     }
-    private var selectedServerItem: DebugServerItem? = null
 
     fun loadServers() {
         viewModelScope.safeLaunch {
@@ -43,16 +40,17 @@ internal class ServersViewModel(
         }
     }
 
-    fun removeServer(serverItem: DebugServerItem) {
+    fun removeServer(debugServer: DebugServer) {
         viewModelScope.safeLaunch {
-            serversRepository.removeServer(serverItem.debugServer)
+            serversRepository.removeServer(debugServer)
             loadAddedServers()
         }
     }
 
     fun updateServerData(id: Int, name: String, url: String) {
-        val itemForUpdate = state.value?.addedItems
-            ?.find { it is DebugServerItem && it.debugServer.id == id } as? DebugServerItem
+        val itemForUpdate = state.value?.addedServers
+            ?.find { it is DebugServerItems.AddedServer && it.debugServer.id == id }
+                as? DebugServerItems.AddedServer
 
         val serverForUpdate = itemForUpdate?.debugServer
         val updatedServer = serverForUpdate?.copy(name = name, url = url)
@@ -60,53 +58,54 @@ internal class ServersViewModel(
         updatedServer?.let { server ->
             viewModelScope.safeLaunch {
                 serversRepository.updateServer(server)
-                itemForUpdate.update(server)
+                loadAddedServers()
             }
         }
     }
 
-    fun selectServerAsCurrent(debugServerItem: DebugServerItem) {
-        updateSelectedItem(debugServerItem)
-        val serverData = debugServerItem.debugServer
-        pluginSettingsRepository.saveSelectedServer(serverData)
+    fun selectServerAsCurrent(debugServer: DebugServer) {
+        pluginSettingsRepository.saveSelectedServer(debugServer)
+        loadServers()
     }
-
 
     private suspend fun loadPreInstalledServers() {
         val servers = serversRepository.getPreInstalledServers()
-        val serverItems = mapToItems(context.getString(R.string.pre_installed_servers), servers)
-        state.value = state.value?.copy(preInstalledItems = serverItems)
+        val headerText = context.getString(R.string.pre_installed_servers)
+        val serverItems = mapToPreinstalledItems(headerText, servers)
+        state.value = state.value?.copy(preInstalledServers = serverItems)
     }
 
     private suspend fun loadAddedServers() {
         val servers = serversRepository.getServers()
-        if (servers.isNotEmpty()) {
-            val serverItems = mapToItems(context.getString(R.string.added_servers), servers)
-            state.value = state.value?.copy(addedItems = serverItems)
-        }
+        val headerText = context.getString(R.string.added_servers)
+        val serverItems = mapToAddedItems(headerText, servers)
+        state.value = state.value?.copy(addedServers = serverItems)
     }
 
-    private fun mapToItems(header: String, servers: List<DebugServer>): List<Item> {
+    private fun mapToPreinstalledItems(
+        header: String,
+        servers: List<DebugServer>
+    ): List<DebugServerItems> {
         val selectedServer = pluginSettingsRepository.getSelectedServer()
         val items = servers.map { debugServer ->
             val isSelected = selectedServer.url == debugServer.url
-            DebugServerItem(debugServer, isSelected).also { item ->
-                if (isSelected) this.selectedServerItem = item
-            }
+            DebugServerItems.PreinstalledServer(debugServer, isSelected)
         }
-        return listOf(
-            /*Заголовок списка*/
-            SectionHeaderItem(header)
-        ).plus(items)
+
+        return listOf(/*Заголовок списка*/DebugServerItems.Header(header)).plus(items)
     }
 
-    private fun updateSelectedItem(debugServerItem: DebugServerItem) {
-        this.selectedServerItem?.isSelected = false
-        this.selectedServerItem?.notifyChanged()
+    private fun mapToAddedItems(
+        header: String,
+        servers: List<DebugServer>
+    ): List<DebugServerItems> {
+        if (servers.isEmpty()) return emptyList()
+        val selectedServer = pluginSettingsRepository.getSelectedServer()
+        val items = servers.map { debugServer ->
+            val isSelected = selectedServer.url == debugServer.url
+            DebugServerItems.AddedServer(debugServer, isSelected)
+        }
 
-        debugServerItem.isSelected = true
-        debugServerItem.notifyChanged()
-
-        this.selectedServerItem = debugServerItem
+        return listOf(/*Заголовок списка*/DebugServerItems.Header(header)).plus(items)
     }
 }

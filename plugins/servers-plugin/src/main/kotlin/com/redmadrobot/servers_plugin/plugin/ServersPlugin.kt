@@ -1,5 +1,6 @@
 package com.redmadrobot.servers_plugin.plugin
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug_panel_core.CommonContainer
 import com.redmadrobot.debug_panel_core.data.DebugDataProvider
@@ -7,7 +8,6 @@ import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.ui.add.ServersFragment
-import com.redmadrobot.servers_plugin.ui.choose.ServerSelectionFragment
 
 public class ServersPlugin(
     private val preInstalledServers: List<DebugServer> = emptyList()
@@ -21,10 +21,6 @@ public class ServersPlugin(
         preInstalledServers = preInstalledServers.provideData()
     )
 
-    public fun getSelectedServer(): DebugServer {
-        return getContainer<ServersPluginContainer>().pluginSettingsRepository.getSelectedServer()
-    }
-
     override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
@@ -32,10 +28,14 @@ public class ServersPlugin(
     }
 
     override fun getFragment(): Fragment {
-        return ServerSelectionFragment()
+        return ServersFragment().apply {
+            arguments = bundleOf(ServersFragment.IS_EDIT_MODE_KEY to false)
+        }
     }
 
     override fun getSettingFragment(): Fragment {
-        return ServersFragment()
+        return ServersFragment().apply {
+            arguments = bundleOf(ServersFragment.IS_EDIT_MODE_KEY to true)
+        }
     }
 }
