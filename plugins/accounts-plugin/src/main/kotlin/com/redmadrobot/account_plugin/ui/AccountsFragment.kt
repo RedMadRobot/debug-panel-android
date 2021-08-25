@@ -59,6 +59,7 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
                 requireActivity().supportFragmentManager
             )
         }
+        add_account.isVisible = isEditMode
     }
 
     private fun render(state: AccountsViewState) {
