@@ -54,6 +54,7 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
         add_server.setOnClickListener {
             ServerHostDialog.show(childFragmentManager)
         }
+        add_server.isVisible = isEditMode
     }
 
     private fun render(state: ServersViewState) {
