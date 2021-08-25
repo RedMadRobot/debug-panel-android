@@ -55,9 +55,6 @@ dependencies {
             deps.room.ktx,
 
             deps.tools.android_ktx,
-
-            deps.ui.groupie,
-            deps.ui.groupie_kotlin_extensions,
             deps.ui.items_adapter,
 
             deps.debugging.timber

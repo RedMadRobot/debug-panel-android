@@ -31,7 +31,9 @@ dependencies {
     implementation(
             project(path: ':debug-panel-core'),
             project(path: ':debug-panel-common'),
-            deps.kotlin.stdlib
+            deps.kotlin.stdlib,
+            deps.ui.groupie,
+            deps.ui.groupie_kotlin_extensions,
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     kapt(deps.room.compiler)
