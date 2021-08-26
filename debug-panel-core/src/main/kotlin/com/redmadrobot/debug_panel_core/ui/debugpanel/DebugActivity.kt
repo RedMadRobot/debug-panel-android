@@ -5,15 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug_panel_core.extension.getAllPlugins
+import com.redmadrobot.itemsadapter.bind
+import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.panel_core.R
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.kotlinandroidextensions.Item
+import com.redmadrobot.panel_core.databinding.ItemPluginSettingBinding
 import kotlinx.android.synthetic.main.activity_debug.*
 
 internal class DebugActivity : AppCompatActivity() {
-
-    private val debugFeatureListAdapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +21,12 @@ internal class DebugActivity : AppCompatActivity() {
 
     private fun setViews() {
         debug_feature_list.layoutManager = LinearLayoutManager(this)
-        debug_feature_list.adapter = debugFeatureListAdapter
-        debugFeatureListAdapter.update(getSettingItems())
+        debug_feature_list.adapter = itemsAdapter(getSettingItems()) { item ->
+            bind<ItemPluginSettingBinding>(R.layout.item_plugin_setting) {
+                itemDebugFeatureLabel.text = item.pluginName
+                root.setOnClickListener { item.onClicked.invoke() }
+            }
+        }
     }
 
     private fun openSetting(settingFragment: Fragment) {
@@ -34,15 +36,14 @@ internal class DebugActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun getSettingItems(): List<Item> {
-        val plugins = getAllPlugins()
+    private fun getSettingItems(): List<PluginsSettingItem> {
+        return getAllPlugins()
             /*Only Plugins with SettingFragment*/
             .filter { it.getSettingFragment() != null }
-
-        return plugins.map { plugin ->
-            PluginSettingItem(plugin.getName()) {
-                openSetting(requireNotNull(plugin.getSettingFragment()))
+            .map { plugin ->
+                PluginsSettingItem(plugin.getName()) {
+                    openSetting(requireNotNull(plugin.getSettingFragment()))
+                }
             }
-        }
     }
 }
