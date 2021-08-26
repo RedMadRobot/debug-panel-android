@@ -14,13 +14,14 @@
         android:layout_height="match_parent"
         android:background="?selectableItemBackgroundBorderless">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/account_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:src="@drawable/icon_account"
+            android:tint="?attr/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,6 +47,7 @@
             android:padding="4dp"
             android:src="@drawable/icon_delete"
             android:visibility="gone"
+            android:tint="?attr/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
