@@ -57,7 +57,7 @@ deps.okhttp = "com.squareup.okhttp3:mockwebserver:$versions.okhttp"
 
 //region AndroidX
 versions.app_compat = "1.1.0"
-versions.design = "1.2.0-alpha05"
+versions.design = "1.5.0-alpha02"
 versions.constraint_layout = "1.1.3"
 versions.recyclerview = "1.1.0"
 versions.annotation = "1.1.0"
