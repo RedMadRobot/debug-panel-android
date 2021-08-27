@@ -11,8 +11,8 @@ ext.addRepos = this.&addRepos
 //region Build versions
 ext.build_versions = [
         min_sdk    : 21,
-        target_sdk : 29,
-        compile_sdk: 29
+        target_sdk : 30,
+        compile_sdk: 30
 ]
 //endregion
 
