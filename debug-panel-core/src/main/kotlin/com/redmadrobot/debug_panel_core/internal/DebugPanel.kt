@@ -8,7 +8,6 @@ import com.redmadrobot.debug_panel_core.DebugPanelInstance
 import com.redmadrobot.debug_panel_core.inapp.DebugBottomSheet
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.util.ApplicationLifecycleHandler
-import timber.log.Timber
 
 public object DebugPanel {
 
@@ -17,7 +16,6 @@ public object DebugPanel {
     public fun initialize(application: Application, plugins: List<Plugin>) {
         createDebugPanelInstance(application, plugins)
         ApplicationLifecycleHandler(application).start()
-        initTimber()
     }
 
     public fun isInitialized(): Boolean = instance != null
@@ -34,9 +32,5 @@ public object DebugPanel {
 
     private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {
         instance = DebugPanelInstance(application, plugins)
-    }
-
-    private fun initTimber() {
-        Timber.plant(Timber.DebugTree())
     }
 }
