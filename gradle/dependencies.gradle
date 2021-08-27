@@ -45,13 +45,8 @@ deps.coroutines = [
 //
 
 //region Network
-versions.retrofit = "2.7.1"
-versions.okhttp = "4.5.0"
-
-deps.retrofit = [
-        runtime: "com.squareup.retrofit2:retrofit:$versions.retrofit"
-]
-deps.okhttp = "com.squareup.okhttp3:mockwebserver:$versions.okhttp"
+versions.okhttp = "4.9.0"
+deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 //endregion
 
 //region AndroidX
