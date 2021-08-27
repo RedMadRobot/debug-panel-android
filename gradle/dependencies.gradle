@@ -49,8 +49,7 @@ versions.retrofit = "2.7.1"
 versions.okhttp = "4.5.0"
 
 deps.retrofit = [
-        runtime: "com.squareup.retrofit2:retrofit:$versions.retrofit",
-        rxjava : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+        runtime: "com.squareup.retrofit2:retrofit:$versions.retrofit"
 ]
 deps.okhttp = "com.squareup.okhttp3:mockwebserver:$versions.okhttp"
 //endregion
@@ -102,8 +101,7 @@ versions.room = "2.3.0"
 deps.room = [
         ktx     : "androidx.room:room-ktx:$versions.room",
         runtime : "androidx.room:room-runtime:$versions.room",
-        compiler: "androidx.room:room-compiler:$versions.room",
-        rxjava2 : "androidx.room:room-rxjava2:$versions.room"
+        compiler: "androidx.room:room-compiler:$versions.room"
 ]
 //endregion
 
