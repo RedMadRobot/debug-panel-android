@@ -112,12 +112,9 @@ deps.navigation = [
 
 //region UI components
 versions.glide = "4.11.0"
-versions.groupie = "2.7.2"
 versions.items_adapter = "1.1"
 
 deps.ui = [
-        groupie                  : "com.xwray:groupie:$versions.groupie",
-        groupie_kotlin_extensions: "com.xwray:groupie-kotlin-android-extensions:$versions.groupie",
         items_adapter            : "com.redmadrobot.itemsadapter:itemsadapter-viewbinding:$versions.items_adapter"
 ]
 //endregion

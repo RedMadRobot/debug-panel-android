@@ -31,10 +31,10 @@ dependencies {
     implementation(
             project(path: ':debug-panel-core'),
             project(path: ':debug-panel-common'),
-            deps.kotlin.stdlib,
-            deps.ui.groupie,
-            deps.ui.groupie_kotlin_extensions,
+            deps.kotlin.stdlib
     )
+    implementation("com.xwray:groupie:2.9.0")
+    implementation("com.xwray:groupie-kotlin-android-extensions:2.9.0")
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     kapt(deps.room.compiler)
 }
