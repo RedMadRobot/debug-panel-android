@@ -31,7 +31,7 @@ public class DebugServerInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        return if (DebugPanel.isInitialized()) {
+        return if (DebugPanel.isInitialized) {
             val debugServer = panelSettingsRepository.getSelectedServer()
             if (debugServer.url.isNotEmpty()) {
                 val newUrl = request.getNewUrl(debugServer.url)
