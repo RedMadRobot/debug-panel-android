@@ -6,11 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
-import com.redmadrobot.account_plugin.ui.item.AccountItem
+import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.debug_panel_common.extension.safeLaunch
-import com.redmadrobot.debug_panel_common.ui.SectionHeaderItem
-import com.xwray.groupie.kotlinandroidextensions.Item
 
 internal class AccountsViewModel(
     private val context: Context,
@@ -20,8 +18,8 @@ internal class AccountsViewModel(
     val state = MutableLiveData<AccountsViewState>().apply {
         /*Default state*/
         value = AccountsViewState(
-            preInstalledItems = emptyList(),
-            addedItems = emptyList()
+            preInstalledAccounts = emptyList(),
+            addedAccounts = emptyList()
         )
     }
 
@@ -50,15 +48,15 @@ internal class AccountsViewModel(
         newPassword: String,
         pin: String
     ) {
-        val account = DebugAccount(
+        val newAccount = DebugAccount(
             id = id,
             login = newLogin,
             password = newPassword,
             pin = pin
         )
         viewModelScope.safeLaunch {
-            debugAccountsRepository.updateAccount(account)
-            getItemById(id)?.update(account)
+            debugAccountsRepository.updateAccount(newAccount)
+            loadAddedAccounts()
         }
 
     }
@@ -72,32 +70,29 @@ internal class AccountsViewModel(
 
     private suspend fun loadPreInstalledAccounts() {
         val accounts = debugAccountsRepository.getPreInstalledAccounts()
-        if (accounts.isNotEmpty()) {
-            val items = mapToItems(context.getString(R.string.pre_installed_accounts), accounts)
-            state.value = state.value?.copy(preInstalledItems = items)
+        val preInstalledAccounts = if (accounts.isNotEmpty()) {
+            val items = accounts.map { account ->
+                DebugAccountItems.PreinstalledAccount(account)
+            }
+            val header = context.getString(R.string.pre_installed_accounts)
+            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+        } else {
+            emptyList()
         }
+        state.value = state.value?.copy(preInstalledAccounts = preInstalledAccounts)
     }
 
     private suspend fun loadAddedAccounts() {
         val accounts = debugAccountsRepository.getAccounts()
-        if (accounts.isNotEmpty()) {
-            val items = mapToItems(context.getString(R.string.added_accounts), accounts)
-            state.value = state.value?.copy(addedItems = items)
+        val addedAccountItems = if (accounts.isNotEmpty()) {
+            val items = accounts.map { account ->
+                DebugAccountItems.AddedAccount(account)
+            }
+            val header = context.getString(R.string.added_accounts)
+            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+        } else {
+            emptyList()
         }
-    }
-
-    private fun mapToItems(header: String, accounts: List<DebugAccount>): List<Item> {
-        val items = accounts.map { account ->
-            AccountItem(account)
-        }
-        return listOf(/*Header item*/SectionHeaderItem(header))
-            .plus(items)
-    }
-
-    private fun getItemById(id: Int): AccountItem? {
-        return state.value?.addedItems
-            ?.find { item ->
-                item is AccountItem && item.account.id == id
-            } as? AccountItem
+        state.value = state.value?.copy(addedAccounts = addedAccountItems)
     }
 }

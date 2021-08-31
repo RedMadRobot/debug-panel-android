@@ -29,7 +29,6 @@ dependencies {
     implementation(
             deps.kotlin.stdlib,
             deps.okhttp,
-            deps.lifecycle.runtime,
             deps.androidx.app_compat
     )
 }

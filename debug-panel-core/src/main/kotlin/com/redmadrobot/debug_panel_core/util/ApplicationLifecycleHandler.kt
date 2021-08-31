@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.IntentFilter
 import androidx.fragment.app.FragmentActivity
 import com.redmadrobot.debug_panel_core.inapp.shake.ShakeController
+import timber.log.Timber
 
 internal class ApplicationLifecycleHandler(private val application: Application) {
 
@@ -58,10 +59,13 @@ internal class ApplicationLifecycleHandler(private val application: Application)
     }
 
     private fun onAppResumed() {
-        showDebugNotification()
+        debugPanelNotification.show()
+        initLoggerIfNeeded()
     }
 
-    private fun showDebugNotification() {
-        debugPanelNotification.show()
+    private fun initLoggerIfNeeded() {
+        if (Timber.forest().isEmpty()) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }

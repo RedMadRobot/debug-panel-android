@@ -31,18 +31,8 @@ internal class DebugPanelNotification(private val context: Context) {
             notificationManager?.createNotificationChannel(channel)
         }
 
-        val settingActivityIntent = Intent(context, DebugActivity::class.java)
-        val settingActivityPendingIntent = TaskStackBuilder.create(context)
-            .addNextIntentWithParentStack(settingActivityIntent)
-            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val openPanelIntent = Intent(DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL)
-        val openPanelPendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            openPanelIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        val settingActivityPendingIntent = getSettingActivityPendingIntent(context)
+        val openPanelPendingIntent = getPanelPendingIntent(context)
 
         val notification = NotificationCompat.Builder(
             context,
@@ -68,4 +58,21 @@ internal class DebugPanelNotification(private val context: Context) {
         notificationManager?.cancel(NOTIFICATION_ID)
     }
 
+    private fun getSettingActivityPendingIntent(context: Context): PendingIntent? {
+        val settingActivityIntent = Intent(context, DebugActivity::class.java)
+
+        return TaskStackBuilder.create(context)
+            .addNextIntentWithParentStack(settingActivityIntent)
+            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    private fun getPanelPendingIntent(context: Context): PendingIntent? {
+        val openPanelIntent = Intent(DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL)
+        return PendingIntent.getBroadcast(
+            context,
+            0,
+            openPanelIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
 }

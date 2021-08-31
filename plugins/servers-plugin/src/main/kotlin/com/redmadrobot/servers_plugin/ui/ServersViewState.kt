@@ -1,8 +1,8 @@
 package com.redmadrobot.servers_plugin.ui
 
-import com.xwray.groupie.kotlinandroidextensions.Item
+import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
 
 internal data class ServersViewState(
-    val preInstalledItems: List<Item>,
-    val addedItems: List<Item>
+    val preInstalledServers: List<DebugServerItems>,
+    val addedServers: List<DebugServerItems>
 )
