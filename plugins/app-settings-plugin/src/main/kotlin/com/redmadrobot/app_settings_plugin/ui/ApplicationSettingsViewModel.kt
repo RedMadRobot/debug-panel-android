@@ -3,17 +3,14 @@ package com.redmadrobot.app_settings_plugin.ui
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.app_settings_plugin.data.AppSettingsRepository
-import com.redmadrobot.app_settings_plugin.ui.item.AppSettingBooleanItem
-import com.redmadrobot.app_settings_plugin.ui.item.AppSettingValueItem
-import com.redmadrobot.app_settings_plugin.ui.item.HeaderItem
+import com.redmadrobot.app_settings_plugin.ui.item.AppSettingItems
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
-import com.xwray.groupie.kotlinandroidextensions.Item
 
 internal class ApplicationSettingsViewModel(
     private val appSettingsRepository: AppSettingsRepository
 ) : PluginViewModel() {
 
-    val settingsLiveData = MutableLiveData<List<Item>>()
+    val settingsLiveData = MutableLiveData<List<AppSettingItems>>()
 
     fun loadSettings() {
         val settings = appSettingsRepository.getSettings()
@@ -21,22 +18,22 @@ internal class ApplicationSettingsViewModel(
         settingsLiveData.value = settingItems
     }
 
-    private fun mapToItems(settings: List<SharedPreferences>): List<Item> {
-        val items = mutableListOf<Item>()
+    private fun mapToItems(settings: List<SharedPreferences>): List<AppSettingItems> {
+        val items = mutableListOf<AppSettingItems>()
         settings.forEach { sharedPreferences ->
             /*Settings header*/
             items.add(
-                HeaderItem(sharedPreferences.toString())
+                AppSettingItems.Header(sharedPreferences.toString())
             )
 
             /*Map SharedPreferences to Items*/
             sharedPreferences.all.forEach { (key, value) ->
                 val item = if (value is Boolean) {
-                    AppSettingBooleanItem(key, value) { settingKey, newValue ->
+                    AppSettingItems.BooleanValueItem(key, value) { settingKey, newValue ->
                         updateSetting(settingKey, newValue)
                     }
                 } else {
-                    AppSettingValueItem(key, value) { settingKey, newValue ->
+                    AppSettingItems.ValueItem(key, value) { settingKey, newValue ->
                         updateSetting(settingKey, newValue)
                     }
                 }

@@ -1,4 +1,4 @@
-package com.redmadrobot.servers_plugin.ui.add
+package com.redmadrobot.servers_plugin.ui
 
 import android.os.Bundle
 import android.util.Patterns

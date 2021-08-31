@@ -14,8 +14,6 @@ buildscript {
     dependencies {
         classpath deps.gradle.android_plugin
         classpath deps.kotlin.plugin
-        classpath 'com.kezong:fat-aar:1.2.15'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // in the individual module build.gradle files
     }
 }

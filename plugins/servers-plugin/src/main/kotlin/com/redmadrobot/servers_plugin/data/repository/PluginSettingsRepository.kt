@@ -28,7 +28,7 @@ internal class PluginSettingsRepository(context: Context) {
         return if (serverName != null && serverUrl != null) {
             DebugServer(name = serverName, url = serverUrl)
         } else {
-            DebugServer.getEmpty()
+            DebugServer.getDefault()
         }
     }
 }
