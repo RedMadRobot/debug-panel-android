@@ -4,7 +4,7 @@
 
 [Документация по разработке плагинов][plugin-development-doc]
 
-### [v 0.6.0][last-release]
+### [v 0.6.7][last-release]
 ### [Changelog][changelog]
 
 ### [!]Важно. Библиотека находится в стадии разработки.
@@ -288,6 +288,6 @@ ServersPlugin(
 - [ ]  Сброс окружения/настроек/токенов
 
 
-[last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.0
+[last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.7
 [plugin-development-doc]:docs/plugin_development.md
 [changelog]: docs/changelog.md
