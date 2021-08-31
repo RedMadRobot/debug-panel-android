@@ -108,7 +108,7 @@ fun openDebugPanel() {
 
 Так же в панель можно войти через уведомление которое появляется при запуске приложения использующее библиотеку. Через это же уведомление можно перейти в ручную настройку панели. Для этого нужно нажать кнопку `SETTINGS` в раскрытом уведомлении.
 
-![Режим редактирования](https://git.redmadrobot.com/r.choryev/Debug-panel/raw/master/assets/debug_notification.png)
+![Режим редактирования](assets/debug_notification.png)
 
 ## Работа с плагинами
 
@@ -166,7 +166,7 @@ AccountsPlugin(
 
 Можно задать список предустановленных серверов
 
-``` kotlin
+```kotlin
 ServersPlugin(
     preInstalledServers = listOf(
         DebugServer(
@@ -217,7 +217,7 @@ OkHttpClient.Builder()
 ```
 Текущий выбранный сервер можно получить следующим образом
 
-```ko
+```kotlin
 val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
 ```
 
