@@ -1,12 +1,13 @@
 # Debug-panel
 
-#### Бибилиотека для отладки приложений. 
+#### Бибилиотека для отладки приложений.
 
 [Документация по разработке плагинов][plugin-development-doc]
 
 ### [v 0.6.0][last-release]
+### [Changelog][changelog]
 
-**Важно** : Библиотека находится в стадии разработки.
+### [!]Важно. Библиотека находится в стадии разработки.
 
 Тебе надоело каждый раз вручную вбивать логин и пароль тестового пользователя или пересобирать приложение для того чтобы поменять сервер в настройках? Эта библиотека разрабатывается с идеей решить эти и другие проблемы, и сделать процесс отладки приложения более удобным. 
 
@@ -287,5 +288,6 @@ ServersPlugin(
 - [ ]  Сброс окружения/настроек/токенов
 
 
-[last-release]:https://git.redmadrob§ot.com/r.choryev/Debug-panel/-/releases/0.6.0
+[last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.0
 [plugin-development-doc]:docs/plugin_development.md
+[changelog]: docs/changelog.md
