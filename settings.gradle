@@ -5,10 +5,12 @@ include ':sample',
         ':accounts-plugin',
         ':servers-plugin',
         ':feature-toggles-plugin',
-        ':app-settings-plugin'
+        ':app-settings-plugin',
+        ':flipper-plugin'
 
 /*Plugin aliases*/
 project(':accounts-plugin').projectDir = new File(rootDir, 'plugins/accounts-plugin')
 project(':servers-plugin').projectDir = new File(rootDir, 'plugins/servers-plugin')
 project(':feature-toggles-plugin').projectDir = new File(rootDir, 'plugins/feature-toggles-plugin')
 project(':app-settings-plugin').projectDir = new File(rootDir, 'plugins/app-settings-plugin')
+project(':flipper-plugin').projectDir = new File(rootDir, 'plugins/flipper-plugin')

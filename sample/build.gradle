@@ -48,7 +48,8 @@ dependencies {
             project(path: ':servers-plugin'),
             project(path: ':feature-toggles-plugin'),
             project(path: ':accounts-plugin'),
-            project(path: ':app-settings-plugin')
+            project(path: ':app-settings-plugin'),
+            project(path: ':flipper-plugin')
     )
     //No-op dependency
     releaseImplementation(project(path: ':debug-panel-no-op'))
