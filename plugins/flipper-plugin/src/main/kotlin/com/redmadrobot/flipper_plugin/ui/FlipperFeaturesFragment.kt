@@ -1,0 +1,50 @@
+package com.redmadrobot.flipper_plugin.ui
+
+import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.redmadrobot.debug_panel_common.base.PluginFragment
+import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
+import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.flipper_plugin.R
+import com.redmadrobot.flipper_plugin.databinding.FragmentFlipperFeaturesBinding
+import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
+import com.redmadrobot.flipper_plugin.plugin.FlipperPluginContainer
+import com.redmadrobot.flipper_plugin.ui.recycler.FlipperFeaturesAdapter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
+internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flipper_features) {
+
+    private var _binding: FragmentFlipperFeaturesBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: FlipperFeaturesViewModel by lazy {
+        obtainShareViewModel {
+            getPlugin<FlipperPlugin>()
+                .getContainer<FlipperPluginContainer>()
+                .createFlipperFeaturesViewModel()
+        }
+    }
+
+    private lateinit var featuresAdapter: FlipperFeaturesAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        this.featuresAdapter = FlipperFeaturesAdapter(
+            onBooleanFeatureStateChanged = viewModel::onBooleanFeatureStateChanged,
+        )
+
+        binding.featureList.adapter = this.featuresAdapter
+
+        viewModel.state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { state ->
+                featuresAdapter.submitList(state.featureItems)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+}
