@@ -31,4 +31,6 @@ dependencies {
             deps.okhttp,
             deps.androidx.app_compat
     )
+
+    implementation("com.redmadrobot:flipper:2.0.0")
 }
