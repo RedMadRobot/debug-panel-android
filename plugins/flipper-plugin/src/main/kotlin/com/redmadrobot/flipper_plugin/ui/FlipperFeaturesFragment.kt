@@ -2,6 +2,7 @@ package com.redmadrobot.flipper_plugin.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +42,9 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
         )
 
         binding.featureList.adapter = this.featuresAdapter
+        binding.query.addTextChangedListener { text ->
+            viewModel.onQueryChanged(text?.toString().orEmpty())
+        }
 
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
