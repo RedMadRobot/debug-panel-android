@@ -9,7 +9,10 @@
         android:id="@+id/feature_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="30dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="24"
         tools:listitem="@layout/item_flipper_feature_boolean" />
 
 </FrameLayout>

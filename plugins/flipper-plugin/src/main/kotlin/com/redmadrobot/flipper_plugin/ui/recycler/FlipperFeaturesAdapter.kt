@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureBooleanBinding
 import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
 
 internal class FlipperFeaturesAdapter(
-    private val onBooleanFeatureStateChanged: (featureName: CharSequence, state: Boolean) -> Unit,
+    private val onFeatureValueChanged: (feature: Feature, value: FlipperValue) -> Unit,
 ) : ListAdapter<FlipperFeatureItem, RecyclerView.ViewHolder>(
     DIFF_CALLBACK,
 ) {
@@ -21,7 +22,7 @@ internal class FlipperFeaturesAdapter(
                 oldItem: FlipperFeatureItem,
                 newItem: FlipperFeatureItem,
             ): Boolean {
-                return oldItem.name == newItem.name
+                return oldItem.feature.id == newItem.feature.id
             }
 
             override fun areContentsTheSame(
@@ -48,7 +49,7 @@ internal class FlipperFeaturesAdapter(
 
                 BooleanFeatureViewHolder(
                     itemView = featureBinding.root,
-                    onCheckedStateChange = onBooleanFeatureStateChanged::invoke,
+                    onFeatureValueChanged = onFeatureValueChanged::invoke,
                 )
             }
 
@@ -60,7 +61,7 @@ internal class FlipperFeaturesAdapter(
         val item = getItem(position)
         when (item.value) {
             is FlipperValue.BooleanValue -> {
-                (holder as BooleanFeatureViewHolder).bind(item.name, item.value.value)
+                (holder as BooleanFeatureViewHolder).bind(item.feature, item.value)
             }
 
             else -> {

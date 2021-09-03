@@ -1,30 +1,53 @@
 package com.redmadrobot.flipper_plugin.ui
 
+import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
+import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
+import com.redmadrobot.flipper_plugin.plugin.FeatureValueChangedEvent
+import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 internal class FlipperFeaturesViewModel(
-    private val featureStateMap: Map<Feature, FlipperValue>,
+    private val featureValueMap: Map<Feature, FlipperValue>,
 ) : PluginViewModel() {
 
-    private val _state = MutableSharedFlow<FlipperFeaturesViewState>()
-    val state = _state as SharedFlow<FlipperFeaturesViewState>
+    private val _state = MutableStateFlow(FlipperFeaturesViewState())
+    val state = _state.asStateFlow()
 
     init {
-        val initialState = FlipperFeaturesViewState(
-            featureItems = featureStateMap.map { (feature, value) ->
-                FlipperFeatureItem(feature.id, value)
-            }
-        )
+        viewModelScope.launch {
+            val initialState = FlipperFeaturesViewState(
+                featureItems = featureValueMap.map { (feature, value) ->
+                    FlipperFeatureItem(feature, value)
+                }
+            )
 
-        _state.tryEmit(initialState)
+            _state.emit(initialState)
+        }
     }
 
-    fun onBooleanFeatureStateChanged(featureName: CharSequence, state: Boolean) {
+    fun onFeatureValueChanged(feature: Feature, value: FlipperValue) {
+        viewModelScope.launch {
+            _state.emit(
+                state.value.copy(
+                    featureItems = state.value.featureItems.map { item ->
+                        if (item.feature == feature) {
+                            item.copy(value = value)
+                        } else {
+                            item
+                        }
+                    }
+                )
+            )
+        }
 
+        getPlugin<FlipperPlugin>().pushEvent(
+            FeatureValueChangedEvent(feature, value)
+        )
     }
 }

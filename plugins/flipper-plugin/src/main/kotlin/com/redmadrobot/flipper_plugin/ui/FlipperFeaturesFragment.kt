@@ -34,14 +34,16 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        _binding = FragmentFlipperFeaturesBinding.bind(view)
+
         this.featuresAdapter = FlipperFeaturesAdapter(
-            onBooleanFeatureStateChanged = viewModel::onBooleanFeatureStateChanged,
+            onFeatureValueChanged = viewModel::onFeatureValueChanged,
         )
 
         binding.featureList.adapter = this.featuresAdapter
 
         viewModel.state
-            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
             .onEach { state ->
                 featuresAdapter.submitList(state.featureItems)
             }
