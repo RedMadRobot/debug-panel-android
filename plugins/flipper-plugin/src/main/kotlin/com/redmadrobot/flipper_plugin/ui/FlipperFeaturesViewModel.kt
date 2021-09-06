@@ -26,6 +26,35 @@ internal class FlipperFeaturesViewModel(
     )
 
     init {
+        updateShownFeaturesOnQueryChange()
+    }
+
+    fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            queryState.emit(query)
+        }
+    }
+
+    fun onFeatureValueChanged(feature: Feature, value: FlipperValue) {
+        viewModelScope.launch {
+            val updatedFeatureItemsState = featureItemsState.value.map { item ->
+                if (item.feature == feature) {
+                    item.copy(value = value)
+                } else {
+                    item
+                }
+            }
+
+            featureItemsState.emit(updatedFeatureItemsState)
+        }
+
+        getPlugin<FlipperPlugin>().pushEvent(
+            FeatureValueChangedEvent(feature, value)
+        )
+    }
+
+    // Функция отвечает за обновление списка фичей с учётом ввода из поисковой строки
+    private fun updateShownFeaturesOnQueryChange() {
         combine(
             queryState.debounce(QUERY_DEBOUNCE_MS).distinctUntilChanged(),
             featureItemsState,
@@ -40,30 +69,6 @@ internal class FlipperFeaturesViewModel(
                 _state.emit(FlipperFeaturesViewState(featureItems))
             }
             .launchIn(viewModelScope)
-    }
-
-    fun onQueryChanged(query: String) {
-        viewModelScope.launch {
-            queryState.emit(query)
-        }
-    }
-
-    fun onFeatureValueChanged(feature: Feature, value: FlipperValue) {
-        viewModelScope.launch {
-            featureItemsState.emit(
-                featureItemsState.value.map { item ->
-                    if (item.feature == feature) {
-                        item.copy(value = value)
-                    } else {
-                        item
-                    }
-                }
-            )
-        }
-
-        getPlugin<FlipperPlugin>().pushEvent(
-            FeatureValueChangedEvent(feature, value)
-        )
     }
 
     internal companion object {
