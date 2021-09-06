@@ -2,7 +2,6 @@ package com.redmadrobot.flipper_plugin.ui.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.flipper.Feature
@@ -13,26 +12,8 @@ import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
 internal class FlipperFeaturesAdapter(
     private val onFeatureValueChanged: (feature: Feature, value: FlipperValue) -> Unit,
 ) : ListAdapter<FlipperFeatureItem, RecyclerView.ViewHolder>(
-    DIFF_CALLBACK,
+    FlipperFeaturesDiffCallback(),
 ) {
-
-    internal companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FlipperFeatureItem>() {
-            override fun areItemsTheSame(
-                oldItem: FlipperFeatureItem,
-                newItem: FlipperFeatureItem,
-            ): Boolean {
-                return oldItem.feature.id == newItem.feature.id
-            }
-
-            override fun areContentsTheSame(
-                oldItem: FlipperFeatureItem,
-                newItem: FlipperFeatureItem,
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
 
     override fun getItemViewType(position: Int): Int {
         return getItem(position).value::class.hashCode()
