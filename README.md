@@ -16,6 +16,7 @@
 1. **Добавление, редактирование и выбор юзера.**
 2. **Добавление, редактирование и выбор сервера.**
 3. **Просмотр и редактирование SharedPreferences.**
+4. **Управление Feature toggle на основе Flipper.**
 
 Библиотека разрабатывается используя подход работы с плагинами, когда каждый функционал подключается отдельным модулем в зависимостях.
 
@@ -61,6 +62,9 @@ dependencies {
     
     //Плагин для работы с SharedPreferences
     implementation 'com.redmadrobot.debug:app-settings-plugin:${debug_panel_version}'
+
+   //Плагин для работы с Feature Toggle на основе Flipper
+   implementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
 }
 
 ```
@@ -237,6 +241,33 @@ val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
          secondarySharedPreferences
      )
  )
+```
+
+### FlipperPlugin
+
+Используется для просмотра и редактирования Flipper feature toggle'ов в проекте
+
+Для подключения плагина, необходимо передать в него map поддерживаемых фичей и их значений
+
+```kotlin
+FlipperPlugin(
+   featureStateMap = mapOf(
+      Feature() to FlipperValue()
+   )
+)
+```
+
+Для изменения значений в рамках проекта необходимо подписаться на event'ы изменения значения feature toggle
+
+```kotlin
+DebugPanel
+   .observeEvents()
+   ?.onEach { event ->
+      if (event is FeatureValueChangedEvent) {
+         updateToggle(event.feature, event.value)
+      }
+   }
+   ?.launchIn(lifecycleScope)
 ```
 
 
