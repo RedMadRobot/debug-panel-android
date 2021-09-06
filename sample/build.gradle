@@ -35,6 +35,9 @@ android {
 
 dependencies {
     implementation(
+            project(path: ':debug-panel-common')
+    )
+    implementation(
             deps.kotlin.stdlib,
             deps.androidx.app_compat,
             deps.androidx.constraint_layout,
@@ -56,6 +59,4 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation("com.redmadrobot:flipper:2.0.0")
 }

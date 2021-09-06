@@ -36,16 +36,9 @@ android {
 dependencies {
     implementation(
             project(path: ':debug-panel-core'),
-            project(path: ':debug-panel-common'),
-
-            deps.kotlin.stdlib,
-
-            deps.androidx.design,
-            deps.androidx.app_compat,
-            deps.androidx.constraint_layout
+            project(path: ':debug-panel-common')
     )
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03")
 
-    implementation("com.redmadrobot:flipper:2.0.0")
 }
