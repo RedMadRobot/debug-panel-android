@@ -53,4 +53,10 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
+
+    override fun onDestroyView() {
+        _binding = null
+
+        super.onDestroyView()
+    }
 }
