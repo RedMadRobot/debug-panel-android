@@ -8,6 +8,7 @@ import com.redmadrobot.debug_panel_core.DebugPanelInstance
 import com.redmadrobot.debug_panel_core.inapp.DebugBottomSheet
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.util.ApplicationLifecycleHandler
+import kotlinx.coroutines.flow.Flow
 
 public object DebugPanel {
 
@@ -22,6 +23,10 @@ public object DebugPanel {
 
     public fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) {
         instance?.getEventLiveData()?.observe(lifecycleOwner, Observer { onEvent.invoke(it) })
+    }
+
+    public fun observeEvents(): Flow<DebugEvent>? {
+        return instance?.getEventFlow()
     }
 
     public fun showPanel(fragmentManager: FragmentManager) {
