@@ -42,6 +42,8 @@ dependencies {
             deps.androidx.app_compat,
             deps.androidx.constraint_layout,
 
+            deps.feature_toggles.flipper,
+
             deps.debugging.timber
     )
 

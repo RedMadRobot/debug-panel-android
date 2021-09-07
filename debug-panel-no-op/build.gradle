@@ -29,8 +29,7 @@ dependencies {
     implementation(
             deps.kotlin.stdlib,
             deps.okhttp,
-            deps.androidx.app_compat
+            deps.androidx.app_compat,
+            deps.feature_toggles.flipper
     )
-
-    implementation("com.redmadrobot:flipper:2.0.0")
 }
