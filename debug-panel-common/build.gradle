@@ -57,6 +57,8 @@ dependencies {
             deps.tools.android_ktx,
             deps.ui.items_adapter,
 
+            deps.feature_toggles.flipper,
+
             deps.debugging.timber
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])

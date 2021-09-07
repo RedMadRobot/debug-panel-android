@@ -35,9 +35,14 @@ android {
 
 dependencies {
     implementation(
+            project(path: ':debug-panel-common')
+    )
+    implementation(
             deps.kotlin.stdlib,
             deps.androidx.app_compat,
             deps.androidx.constraint_layout,
+
+            deps.feature_toggles.flipper,
 
             deps.debugging.timber
     )
@@ -48,12 +53,12 @@ dependencies {
             project(path: ':servers-plugin'),
             project(path: ':feature-toggles-plugin'),
             project(path: ':accounts-plugin'),
-            project(path: ':app-settings-plugin')
+            project(path: ':app-settings-plugin'),
+            project(path: ':flipper-plugin')
     )
     //No-op dependency
     releaseImplementation(project(path: ':debug-panel-no-op'))
 
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
-    implementation 'com.google.android.material:material:1.5.0-alpha02'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
