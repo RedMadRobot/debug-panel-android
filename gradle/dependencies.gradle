@@ -134,3 +134,11 @@ deps.debugging = [
         timber: "com.jakewharton.timber:timber:$versions.timber"
 ]
 //endregion
+
+//region Feature Toggles
+versions.flipper = "2.0.0"
+
+deps.feature_toggles = [
+        flipper: "com.redmadrobot:flipper:$versions.flipper"
+]
+//endregion

@@ -8,6 +8,7 @@ import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
+import com.redmadrobot.flipper_plugin.plugin.FeatureValueChangedEvent
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 is ServerSelectedEvent -> {
                     //Обработка выбора сервера
+                }
+                is FeatureValueChangedEvent -> {
+                    //Обработка изменения фича тогла
                 }
             }
         }

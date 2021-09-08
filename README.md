@@ -4,7 +4,7 @@
 
 [Документация по разработке плагинов][plugin-development-doc]
 
-### [v 0.6.7][last-release]
+### [v 0.6.8][last-release]
 ### [Changelog][changelog]
 
 ### [!]Важно. Библиотека находится в стадии разработки.
@@ -16,6 +16,7 @@
 1. **Добавление, редактирование и выбор юзера.**
 2. **Добавление, редактирование и выбор сервера.**
 3. **Просмотр и редактирование SharedPreferences.**
+4. **Управление Feature toggle на основе Flipper.**
 
 Библиотека разрабатывается используя подход работы с плагинами, когда каждый функционал подключается отдельным модулем в зависимостях.
 
@@ -61,6 +62,11 @@ dependencies {
     
     //Плагин для работы с SharedPreferences
     implementation 'com.redmadrobot.debug:app-settings-plugin:${debug_panel_version}'
+
+   //Плагин для работы с Feature Toggle на основе Flipper
+   implementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
+   //Так же необходимо подключить саму библеотеку flipper
+   implementation "com.redmadrobot:flipper:${flipper_version}"
 }
 
 ```
@@ -239,6 +245,33 @@ val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
  )
 ```
 
+### FlipperPlugin
+
+Используется для просмотра и редактирования Flipper feature toggle'ов в проекте
+
+Для подключения плагина, необходимо передать в него map поддерживаемых фичей и их значений
+
+```kotlin
+FlipperPlugin(
+   featureStateMap = mapOf(
+      Feature() to FlipperValue()
+   )
+)
+```
+
+Для изменения значений в рамках проекта необходимо подписаться на event'ы изменения значения feature toggle
+
+```kotlin
+DebugPanel
+   .observeEvents()
+   ?.onEach { event ->
+      if (event is FeatureValueChangedEvent) {
+         updateToggle(event.feature, event.value)
+      }
+   }
+   ?.launchIn(lifecycleScope)
+```
+
 
 # Безопасность!
 Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
@@ -289,6 +322,6 @@ ServersPlugin(
 - [ ]  Сброс окружения/настроек/токенов
 
 
-[last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.7
+[last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.8
 [plugin-development-doc]:docs/plugin_development.md
 [changelog]: docs/changelog.md

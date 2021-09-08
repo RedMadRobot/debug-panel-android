@@ -13,10 +13,10 @@ cd ..
 ./gradlew debug-panel-common:build
 
 # Build plugin artifacts
-./gradlew accounts-plugin:build
-./gradlew app-settings-plugin:build
 ./gradlew server-plugin:build
 ./gradlew flipper-plugin:build
+./gradlew accounts-plugin:build
+./gradlew app-settings-plugin:build
 
 # Publish all artifacts
-./gradlew publish
+./gradlew publishToMavenLocal

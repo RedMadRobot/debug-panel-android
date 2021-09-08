@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 apply from: rootProject.file("gradle/publish.gradle")
 
@@ -23,13 +25,20 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    kotlinOptions {
+        freeCompilerArgs += "-Xexplicit-api=strict"
+    }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
     implementation(
-            deps.kotlin.stdlib,
-            deps.okhttp,
-            deps.androidx.app_compat,
-            deps.feature_toggles.flipper
+            project(path: ':debug-panel-core'),
+            project(path: ':debug-panel-common')
     )
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03")
+
 }

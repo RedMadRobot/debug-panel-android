@@ -7,6 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.debug_panel_core.internal.DebugEvent
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginManager
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 internal class DebugPanelInstance constructor(
     application: Application,
@@ -20,7 +23,10 @@ internal class DebugPanelInstance constructor(
     private var commonContainer: CommonContainer? = null
     private var pluginManager: PluginManager? = null
     private val eventLiveData: MutableLiveData<DebugEvent> = MutableLiveData()
-
+    private val eventSharedFlow: MutableSharedFlow<DebugEvent> = MutableSharedFlow(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
 
     init {
         initContainer(application.applicationContext)
@@ -32,8 +38,13 @@ internal class DebugPanelInstance constructor(
         return eventLiveData
     }
 
+    internal fun getEventFlow(): Flow<DebugEvent> {
+        return eventSharedFlow
+    }
+
     internal fun pushEvent(debugEvent: DebugEvent) {
         eventLiveData.value = debugEvent
+        eventSharedFlow.tryEmit(debugEvent)
     }
 
     internal fun getPluginManger(): PluginManager {
