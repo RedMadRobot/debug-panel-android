@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.6.8
-###Изменения
+### Изменения  
 Добавлен [flipper-plugin](../plugins/flipper-plugin) для удобной работы с библиотекой [Flipper](https://github.com/RedMadRobot/flipper)
 
 ## 0.6.7
