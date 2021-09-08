@@ -16,6 +16,7 @@ cd ..
 ./gradlew accounts-plugin:build
 ./gradlew app-settings-plugin:build
 ./gradlew server-plugin:build
+./gradlew flipper-plugin:build
 
 # Publish all artifacts
 ./gradlew publish
