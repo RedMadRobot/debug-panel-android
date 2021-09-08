@@ -4,7 +4,7 @@
 
 [Документация по разработке плагинов][plugin-development-doc]
 
-### [v 0.6.7][last-release]
+### [v 0.6.8][last-release]
 ### [Changelog][changelog]
 
 ### [!]Важно. Библиотека находится в стадии разработки.
@@ -65,6 +65,8 @@ dependencies {
 
    //Плагин для работы с Feature Toggle на основе Flipper
    implementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
+   //Так же необходимо подключить саму библеотеку flipper
+   implementation "com.redmadrobot:flipper:${flipper_version}"
 }
 
 ```
@@ -320,6 +322,6 @@ ServersPlugin(
 - [ ]  Сброс окружения/настроек/токенов
 
 
-[last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.7
+[last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.6.8
 [plugin-development-doc]:docs/plugin_development.md
 [changelog]: docs/changelog.md
