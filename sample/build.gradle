@@ -35,15 +35,10 @@ android {
 
 dependencies {
     implementation(
-            project(path: ':debug-panel-common')
-    )
-    implementation(
             deps.kotlin.stdlib,
             deps.androidx.app_compat,
             deps.androidx.constraint_layout,
-
             deps.feature_toggles.flipper,
-
             deps.debugging.timber
     )
 
