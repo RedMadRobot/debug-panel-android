@@ -30,6 +30,7 @@ dependencies {
             deps.kotlin.stdlib,
             deps.okhttp,
             deps.androidx.app_compat,
-            deps.feature_toggles.flipper
+            deps.feature_toggles.flipper,
+            deps.coroutines.coroutines_android,
     )
 }
