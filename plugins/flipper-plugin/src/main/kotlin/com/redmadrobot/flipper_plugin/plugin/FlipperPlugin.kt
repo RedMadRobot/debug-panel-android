@@ -19,7 +19,10 @@ public class FlipperPlugin(
     override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return FlipperPluginContainer(featureStateMap)
+        return FlipperPluginContainer(
+            context = commonContainer.context,
+            defaultFeaturesMap = featureStateMap,
+        )
     }
 
     override fun getFragment(): Fragment {

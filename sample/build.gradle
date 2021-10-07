@@ -45,7 +45,8 @@ dependencies {
             deps.androidx.app_compat,
             deps.androidx.constraint_layout,
             deps.feature_toggles.flipper,
-            deps.debugging.timber
+            deps.debugging.timber,
+            deps.coroutines.coroutines_android
     )
 
     //Debug panel dependencies

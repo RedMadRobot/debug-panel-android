@@ -2,15 +2,24 @@ package com.redmadrobot.debug_sample
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
-import com.redmadrobot.flipper_plugin.plugin.FeatureValueChangedEvent
+import com.redmadrobot.flipper.Feature
+import com.redmadrobot.flipper.config.FlipperValue
+import com.redmadrobot.flipper_plugin.plugin.FlipperPluginTogglesStateDispatcher
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,8 +29,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setViews()
+
+        observeFeatureToggles()
 
         DebugPanel.subscribeToEvents(this) { event ->
             when (event) {
@@ -30,9 +42,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 is ServerSelectedEvent -> {
                     //Обработка выбора сервера
-                }
-                is FeatureValueChangedEvent -> {
-                    //Обработка изменения фича тогла
                 }
             }
         }
@@ -86,5 +95,52 @@ class MainActivity : AppCompatActivity() {
 
     private fun chooseAccount() {
         DebugPanel.showPanel(supportFragmentManager)
+    }
+
+    private fun observeFeatureToggles() {
+        FlipperPluginTogglesStateDispatcher().let { togglesDispatcher ->
+            togglesDispatcher.observeUpdatedToggle()
+                .onEach { (feature, value) ->
+                    tryUpdateFeatureToggleLabelVisibility(feature, value)
+                }
+                .flowOn(Dispatchers.Main)
+                .launchIn(GlobalScope)
+
+            GlobalScope.launch {
+                togglesDispatcher
+                    .getSavedTogglesStates()
+                    .filter { (feature) -> feature.id.contains("show", true) }
+                    .forEach { (feature, value) ->
+                        tryUpdateFeatureToggleLabelVisibility(feature, value)
+                    }
+            }
+        }
+    }
+
+    private fun tryUpdateFeatureToggleLabelVisibility(feature: Feature, value: FlipperValue) {
+        val shouldShow = (value as? FlipperValue.BooleanValue)?.value ?: false
+        when (feature.id) {
+            "Show label 1" -> {
+                label_feature_toggle_1.visibility = if (shouldShow) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            }
+            "Show label 2" -> {
+                label_feature_toggle_2.visibility = if (shouldShow) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            }
+            "Show label 3" -> {
+                label_feature_toggle_3.visibility = if (shouldShow) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            }
+        }
     }
 }

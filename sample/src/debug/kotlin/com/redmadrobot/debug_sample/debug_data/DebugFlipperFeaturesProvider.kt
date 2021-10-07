@@ -14,9 +14,21 @@ internal class DebugFlipperFeaturesProvider : DebugDataProvider<Map<Feature, Fli
     private fun generateTestFeatures(): Map<Feature, FlipperValue> {
         val map = mutableMapOf<Feature, FlipperValue>()
 
-        (1..20).forEach { index ->
+        map[object : Feature() {
+            override val id: String = "Show label 1"
+        }] = FlipperValue.BooleanValue(false)
+
+        map[object : Feature() {
+            override val id: String = "Show label 2"
+        }] = FlipperValue.BooleanValue(true)
+
+        map[object : Feature() {
+            override val id: String = "Show label 3"
+        }] = FlipperValue.BooleanValue(false)
+
+        (4..20).forEach { index ->
             val feature = object : Feature() {
-                override val id: String = "Feature toggle $index"
+                override val id: String = "Didn't do nothing toggle $index"
             }
 
             map[feature] = FlipperValue.BooleanValue(Random.nextBoolean())
