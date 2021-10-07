@@ -2,30 +2,27 @@ package com.redmadrobot.flipper_plugin.ui
 
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
-import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.flipper_plugin.plugin.FeatureValueChangedEvent
-import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
+import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
 import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 internal class FlipperFeaturesViewModel(
-    private val featureValueMap: Map<Feature, FlipperValue>,
+    private val togglesRepository: FeatureTogglesRepository,
 ) : PluginViewModel() {
 
     private val _state = MutableStateFlow(FlipperFeaturesViewState())
     val state = _state.asStateFlow()
 
     private val queryState = MutableStateFlow("")
-    private val featureItemsState = MutableStateFlow(
-        featureValueMap.map { (feature, value) ->
-            FlipperFeatureItem(feature, value)
-        }
-    )
+    private val featureItemsState = MutableStateFlow(emptyList<FlipperFeatureItem>())
 
     init {
+        updateAvailableFeatures()
+
         updateShownFeaturesOnQueryChange()
     }
 
@@ -37,6 +34,9 @@ internal class FlipperFeaturesViewModel(
 
     fun onFeatureValueChanged(feature: Feature, value: FlipperValue) {
         viewModelScope.launch {
+            togglesRepository.saveFeatureState(feature, value)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
             val updatedFeatureItemsState = featureItemsState.value.map { item ->
                 if (item.feature == feature) {
                     item.copy(value = value)
@@ -47,10 +47,24 @@ internal class FlipperFeaturesViewModel(
 
             featureItemsState.emit(updatedFeatureItemsState)
         }
+    }
 
-        getPlugin<FlipperPlugin>().pushEvent(
-            FeatureValueChangedEvent(feature, value)
-        )
+    fun onResetClicked() {
+        viewModelScope.launch {
+            togglesRepository.resetAllToDefault()
+
+            updateAvailableFeatures()
+        }
+    }
+
+    private fun updateAvailableFeatures() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val items = togglesRepository.getFeatureToggles().map { (feature, value) ->
+                FlipperFeatureItem(feature, value)
+            }
+
+            featureItemsState.emit(items)
+        }
     }
 
     // Функция отвечает за обновление списка фичей с учётом ввода из поисковой строки
@@ -68,6 +82,7 @@ internal class FlipperFeaturesViewModel(
             .onEach { featureItems ->
                 _state.emit(FlipperFeaturesViewState(featureItems))
             }
+            .flowOn(Dispatchers.IO)
             .launchIn(viewModelScope)
     }
 
