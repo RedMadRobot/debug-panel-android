@@ -11,7 +11,7 @@ public object FlipperPluginTogglesStateDispatcher {
         return emptyFlow()
     }
 
-    public suspend fun getSavedTogglesStates(): Map<Feature, FlipperValue> {
-        return emptyMap()
+    public suspend fun observeMultipleTogglesChanged(): Flow<Map<Feature, FlipperValue>> {
+        return emptyFlow()
     }
 }
