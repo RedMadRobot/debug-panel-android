@@ -7,6 +7,7 @@ import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesFragment
+import java.util.*
 
 public class FlipperPlugin(
     private val featureStateMap: Map<Feature, FlipperValue>,
@@ -21,7 +22,7 @@ public class FlipperPlugin(
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return FlipperPluginContainer(
             context = commonContainer.context,
-            defaultFeaturesMap = featureStateMap,
+            defaultFeaturesMap = Collections.unmodifiableMap(HashMap(featureStateMap)),
         )
     }
 

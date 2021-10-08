@@ -5,7 +5,7 @@ import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-public class FlipperPluginTogglesStateDispatcher {
+public object FlipperPluginTogglesStateDispatcher {
 
     public fun observeUpdatedToggle(): Flow<Pair<Feature, FlipperValue>> {
         return emptyFlow()
