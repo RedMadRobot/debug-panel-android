@@ -5,7 +5,7 @@ import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.flow.Flow
 
-public object FlipperPluginTogglesStateDispatcher {
+internal object FlipperPluginTogglesStateDispatcher {
 
     private val featureTogglesRepository by lazy(LazyThreadSafetyMode.NONE) {
         getPlugin<FlipperPlugin>()
@@ -13,11 +13,11 @@ public object FlipperPluginTogglesStateDispatcher {
             .featureTogglesRepository
     }
 
-    public fun observeUpdatedToggle(): Flow<Pair<Feature, FlipperValue>> {
+    fun observeUpdatedToggle(): Flow<Pair<Feature, FlipperValue>> {
         return featureTogglesRepository.observeUpdatedToggle()
     }
 
-    public fun observeMultipleTogglesChanged(): Flow<Map<Feature, FlipperValue>> {
+    fun observeMultipleTogglesChanged(): Flow<Map<Feature, FlipperValue>> {
         return featureTogglesRepository.observeMultipleTogglesChanged()
     }
 }
