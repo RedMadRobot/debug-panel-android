@@ -11,7 +11,7 @@ import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
 import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.flipper_plugin.plugin.FlipperPluginTogglesStateDispatcher
+import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
@@ -97,26 +97,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeFeatureToggles() {
-        FlipperPluginTogglesStateDispatcher.let { togglesDispatcher ->
-            togglesDispatcher.observeUpdatedToggle()
-                .onEach { (feature, value) ->
-                    tryUpdateFeatureToggleLabelVisibility(feature, value)
-                }
-                .flowOn(Dispatchers.Main)
-                .launchIn(GlobalScope)
+        FlipperPlugin
+            .observeUpdatedToggle()
+            .onEach { (feature, value) ->
+                tryUpdateFeatureToggleLabelVisibility(feature, value)
+            }
+            .flowOn(Dispatchers.Main)
+            .launchIn(GlobalScope)
 
-            togglesDispatcher
-                .observeMultipleTogglesChanged()
-                .onEach { updatedToggles ->
-                    updatedToggles
-                        .filter { (feature) -> feature.id.contains("show", true) }
-                        .forEach { (feature, value) ->
-                            tryUpdateFeatureToggleLabelVisibility(feature, value)
-                        }
-                }
-                .flowOn(Dispatchers.Main)
-                .launchIn(GlobalScope)
-        }
+        FlipperPlugin
+            .observeMultipleTogglesChanged()
+            .onEach { updatedToggles ->
+                updatedToggles
+                    .filter { (feature) -> feature.id.contains("show", true) }
+                    .forEach { (feature, value) ->
+                        tryUpdateFeatureToggleLabelVisibility(feature, value)
+                    }
+            }
+            .flowOn(Dispatchers.Main)
+            .launchIn(GlobalScope)
     }
 
     private fun tryUpdateFeatureToggleLabelVisibility(feature: Feature, value: FlipperValue) {
