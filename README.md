@@ -273,17 +273,24 @@ FlipperPlugin(
 )
 ```
 
-Для изменения значений в рамках проекта необходимо подписаться на event'ы изменения значения feature toggle
+Для изменения значений в рамках проекта необходимо использовать методы FlipperPluginTogglesStateDispatcher:
 
 ```kotlin
-DebugPanel
-   .observeEvents()
-   ?.onEach { event ->
-      if (event is FeatureValueChangedEvent) {
-         updateToggle(event.feature, event.value)
-      }
+FlipperPluginTogglesStateDispatcher
+   .observeUpdatedToggle() // Пришлёт обновление одного feature toggle'а
+   .onEach { (feature, value) ->
+      yourFeatures[feature] = value
    }
-   ?.launchIn(lifecycleScope)
+   .flowOn(Dispatchers.Main)
+   .launchIn(debugScope)
+
+FlipperPluginTogglesStateDispatcher
+   .observeMultipleTogglesChanged() // Пришлёт map размером = [0, yourFeatures.size]
+   .onEach { updatedToggles ->      // Первый раз пришлёт сохранённые значения
+      yourFeatures.putAll(updatedToggles)
+   }
+   .flowOn(Dispatchers.Main)
+   .launchIn(debugScope)
 ```
 
 
