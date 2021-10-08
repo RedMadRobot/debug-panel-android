@@ -19,7 +19,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -98,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeFeatureToggles() {
-        FlipperPluginTogglesStateDispatcher().let { togglesDispatcher ->
+        FlipperPluginTogglesStateDispatcher.let { togglesDispatcher ->
             togglesDispatcher.observeUpdatedToggle()
                 .onEach { (feature, value) ->
                     tryUpdateFeatureToggleLabelVisibility(feature, value)
@@ -106,14 +105,17 @@ class MainActivity : AppCompatActivity() {
                 .flowOn(Dispatchers.Main)
                 .launchIn(GlobalScope)
 
-            GlobalScope.launch {
-                togglesDispatcher
-                    .getSavedTogglesStates()
-                    .filter { (feature) -> feature.id.contains("show", true) }
-                    .forEach { (feature, value) ->
-                        tryUpdateFeatureToggleLabelVisibility(feature, value)
-                    }
-            }
+            togglesDispatcher
+                .observeMultipleTogglesChanged()
+                .onEach { updatedToggles ->
+                    updatedToggles
+                        .filter { (feature) -> feature.id.contains("show", true) }
+                        .forEach { (feature, value) ->
+                            tryUpdateFeatureToggleLabelVisibility(feature, value)
+                        }
+                }
+                .flowOn(Dispatchers.Main)
+                .launchIn(GlobalScope)
         }
     }
 
