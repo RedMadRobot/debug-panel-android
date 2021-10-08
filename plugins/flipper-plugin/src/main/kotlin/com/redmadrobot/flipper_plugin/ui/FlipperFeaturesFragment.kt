@@ -66,13 +66,13 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
 
     private fun showResetConfirmationDialog() {
         AlertDialog.Builder(requireContext())
-            .setMessage("Сбросить все тоглы на состояние по-умолчанию?")
-            .setPositiveButton("Да") { dialog, _ ->
+            .setMessage(R.string.dialog_title_feature_toggles_reset)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
                 viewModel.onResetClicked()
 
                 dialog.dismiss()
             }
-            .setNegativeButton("Не") { dialog, _ ->
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
