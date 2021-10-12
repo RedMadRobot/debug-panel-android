@@ -23,7 +23,14 @@ allprojects {
     repositories {
         google()
         jcenter()
+    }
 
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            freeCompilerArgs += [
+                    '-Xopt-in=com.redmadrobot.debug_panel_core.annotation.DebugPanelInternal'
+            ]
+        }
     }
 }
 
