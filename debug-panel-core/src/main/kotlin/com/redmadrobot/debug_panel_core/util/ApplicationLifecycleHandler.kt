@@ -8,16 +8,22 @@ import androidx.fragment.app.FragmentActivity
 import com.redmadrobot.debug_panel_core.inapp.shake.ShakeController
 import timber.log.Timber
 
-internal class ApplicationLifecycleHandler(private val application: Application) {
+internal class ApplicationLifecycleHandler(
+    private val application: Application,
+    private val shakerMode: Boolean
+) {
 
     //Счетчик открытых activity
     private var openActivityCount = 0
 
-    private val shakeController = ShakeController(application.applicationContext)
-    private val debugPanelNotification = DebugPanelNotification(application.applicationContext)
+    private var shakeController: ShakeController? = null
     private var debugPanelBroadcastReceiver: BroadcastReceiver? = null
+    private val debugPanelNotification = DebugPanelNotification(application.applicationContext)
 
     fun start() {
+        if (shakerMode) {
+            shakeController = ShakeController(application.applicationContext)
+        }
         registerActivityLifecycleCallback()
     }
 
@@ -29,7 +35,7 @@ internal class ApplicationLifecycleHandler(private val application: Application)
                     ++openActivityCount
 
                     (activity as? FragmentActivity)?.let { fragmentActivity ->
-                        shakeController.register(fragmentActivity.supportFragmentManager)
+                        shakeController?.register(fragmentActivity.supportFragmentManager)
 
                         /*register BroadcastReceiver for debug panel inner actions*/
                         debugPanelBroadcastReceiver = DebugPanelBroadcastReceiver(
@@ -55,7 +61,7 @@ internal class ApplicationLifecycleHandler(private val application: Application)
 
     private fun onAppPaused() {
         debugPanelNotification.hide()
-        shakeController.unregister()
+        shakeController?.unregister()
     }
 
     private fun onAppResumed() {
