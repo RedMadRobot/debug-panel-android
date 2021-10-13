@@ -263,12 +263,12 @@ val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
 
 Используется для просмотра и редактирования Flipper feature toggle'ов в проекте
 
-Для подключения плагина, необходимо передать в него map поддерживаемых фичей и их значений
+Для подключения плагина, необходимо передать в него map id поддерживаемых фичей и их значений
 
 ```kotlin
 FlipperPlugin(
    featureStateMap = mapOf(
-      Feature() to FlipperValue()
+      "Toggle Id" to FlipperValue()
    )
 )
 ```
@@ -276,21 +276,23 @@ FlipperPlugin(
 Для изменения значений в рамках проекта необходимо использовать методы FlipperPluginTogglesStateDispatcher:
 
 ```kotlin
-FlipperPluginTogglesStateDispatcher
-   .observeUpdatedToggle() // Пришлёт обновление одного feature toggle'а
-   .onEach { (feature, value) ->
-      yourFeatures[feature] = value
+FlipperPlugin
+   .observeChangedToggles()         // Пришлёт map размером = [0, yourFeatures.size]
+   .onEach { changedToggles ->      // Первый раз пришлёт сохранённые значения
+      this.yourDebugPanelChangedToggles = changedToggles
    }
    .flowOn(Dispatchers.Main)
    .launchIn(debugScope)
+```
 
-FlipperPluginTogglesStateDispatcher
-   .observeMultipleTogglesChanged() // Пришлёт map размером = [0, yourFeatures.size]
-   .onEach { updatedToggles ->      // Первый раз пришлёт сохранённые значения
-      yourFeatures.putAll(updatedToggles)
-   }
-   .flowOn(Dispatchers.Main)
-   .launchIn(debugScope)
+В FlipperConfig должно быть что-то наподобии
+
+```kotlin
+override fun getValue(feature: Feature): FlipperValue {
+   return yourDebugPanelChangedToggles[feature.id]
+      ?: localConfig[feature.id]
+      ?: FlipperValue.BooleanValue(false)
+}
 ```
 
 
