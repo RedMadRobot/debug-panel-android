@@ -98,50 +98,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeFeatureToggles() {
         FlipperPlugin
-            .observeUpdatedToggle()
-            .onEach { (feature, value) ->
-                tryUpdateFeatureToggleLabelVisibility(feature, value)
-            }
-            .flowOn(Dispatchers.Main)
-            .launchIn(GlobalScope)
-
-        FlipperPlugin
-            .observeMultipleTogglesChanged()
-            .onEach { updatedToggles ->
-                updatedToggles
-                    .filter { (feature) -> feature.id.contains("show", true) }
-                    .forEach { (feature, value) ->
-                        tryUpdateFeatureToggleLabelVisibility(feature, value)
-                    }
+            .observeChangedToggles()
+            .onEach { changedToggles ->
+                onFlipperTogglesChanged(changedToggles)
             }
             .flowOn(Dispatchers.Main)
             .launchIn(GlobalScope)
     }
 
-    private fun tryUpdateFeatureToggleLabelVisibility(feature: Feature, value: FlipperValue) {
-        val shouldShow = (value as? FlipperValue.BooleanValue)?.value ?: false
-        when (feature.id) {
-            "Show label 1" -> {
-                label_feature_toggle_1.visibility = if (shouldShow) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+    private fun onFlipperTogglesChanged(changedToggles: Map<Feature, FlipperValue>) {
+        val showFirst = changedToggles.entries
+            .find { (feature) -> feature.id.contains("Show label 1", true) }
+            ?.let { (_, value) ->
+                (value as? FlipperValue.BooleanValue)?.value
             }
-            "Show label 2" -> {
-                label_feature_toggle_2.visibility = if (shouldShow) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+            ?: false
+
+        val showSecond = changedToggles.entries
+            .find { (feature) -> feature.id.contains("Show label 2", true) }
+            ?.let { (_, value) ->
+                (value as? FlipperValue.BooleanValue)?.value
             }
-            "Show label 3" -> {
-                label_feature_toggle_3.visibility = if (shouldShow) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+            ?: true
+
+        val showThird = changedToggles.entries
+            .find { (feature) -> feature.id.contains("Show label 3", true) }
+            ?.let { (_, value) ->
+                (value as? FlipperValue.BooleanValue)?.value
             }
-        }
+            ?: false
+
+        label_feature_toggle_1.visibility = if (showFirst) View.VISIBLE else View.GONE
+        label_feature_toggle_2.visibility = if (showSecond) View.VISIBLE else View.GONE
+        label_feature_toggle_3.visibility = if (showThird) View.VISIBLE else View.GONE
     }
 }

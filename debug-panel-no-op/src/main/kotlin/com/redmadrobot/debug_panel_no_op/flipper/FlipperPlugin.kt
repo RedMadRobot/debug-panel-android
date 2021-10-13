@@ -10,11 +10,7 @@ public class FlipperPlugin(
 ) {
 
     public companion object {
-        public fun observeUpdatedToggle(): Flow<Pair<Feature, FlipperValue>> {
-            return emptyFlow()
-        }
-
-        public fun observeMultipleTogglesChanged(): Flow<Map<Feature, FlipperValue>> {
+        public fun observeChangedToggles(): Flow<Map<Feature, FlipperValue>> {
             return emptyFlow()
         }
     }

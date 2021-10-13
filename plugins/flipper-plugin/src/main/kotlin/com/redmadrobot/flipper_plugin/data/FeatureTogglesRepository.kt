@@ -6,9 +6,8 @@ import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper.config.FlipperValue.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -24,34 +23,24 @@ internal class FeatureTogglesRepository(
         private const val TOGGLES_FILE_NAME = "serialized_feature_toggles"
     }
 
-    private val featureToggles = LinkedHashMap(defaultFeatureToggles)
-    private val updatedFeatureToggleFlow = MutableSharedFlow<Pair<Feature, FlipperValue>>(
-        replay = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-    )
-    private val multipleTogglesChangedFlow = MutableSharedFlow<Map<Feature, FlipperValue>>(
-        replay = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-    )
+    private val changedTogglesState = MutableStateFlow(emptyMap<Feature, FlipperValue>())
 
     init {
         CoroutineScope(Dispatchers.IO).launch { restoreTogglesState() }
     }
 
-    fun observeUpdatedToggle(): Flow<Pair<Feature, FlipperValue>> = updatedFeatureToggleFlow
-
-    fun observeMultipleTogglesChanged(): Flow<Map<Feature, FlipperValue>> {
-        return multipleTogglesChangedFlow
-    }
+    fun observeChangedToggles(): Flow<Map<Feature, FlipperValue>> = changedTogglesState
 
     fun getFeatureToggles(): Map<Feature, FlipperValue> {
-        return featureToggles
+        return defaultFeatureToggles + changedTogglesState.value
     }
 
     suspend fun saveFeatureState(feature: Feature, value: FlipperValue) {
-        featureToggles[feature] = value
-
-        updatedFeatureToggleFlow.emit(feature to value)
+        changedTogglesState.value = if (defaultFeatureToggles[feature] != value) {
+            changedTogglesState.value + (feature to value)
+        } else {
+            changedTogglesState.value - feature
+        }
 
         withContext(Dispatchers.IO) {
             saveState()
@@ -59,30 +48,20 @@ internal class FeatureTogglesRepository(
     }
 
     suspend fun resetAllToDefault() {
-        multipleTogglesChangedFlow.emit(defaultFeatureToggles diffWith featureToggles)
-
-        featureToggles.clear()
-        featureToggles.putAll(defaultFeatureToggles)
+        changedTogglesState.value = mutableMapOf()
 
         withContext(Dispatchers.IO) {
             saveState()
         }
     }
 
-    private suspend fun restoreTogglesState(): Map<Feature, FlipperValue> {
-        val savedToggles = withContext(Dispatchers.IO) {
+    private suspend fun restoreTogglesState() {
+        changedTogglesState.value = withContext(Dispatchers.IO) {
             getSavedToggles()
         }
-
-        featureToggles.clear()
-        featureToggles.putAll(savedToggles)
-
-        multipleTogglesChangedFlow.emit(savedToggles diffWith defaultFeatureToggles)
-
-        return featureToggles
     }
 
-    private fun getSavedToggles(): MutableMap<Feature, FlipperValue> {
+    private fun getSavedToggles(): Map<Feature, FlipperValue> {
         return try {
             ObjectInputStream(
                 context.openFileInput(TOGGLES_FILE_NAME)
@@ -92,18 +71,20 @@ internal class FeatureTogglesRepository(
 
                 serializedToggles.entries.forEach { (featureId, value) ->
                     val feature = defaultFeatureToggles.keys.find { it.id == featureId }
-                    val featureValue = value.deserializeToFlipperValue()
                     val defaultValue = defaultFeatureToggles[feature]
+                    val restoredValue = value.deserializeToFlipperValue()
 
                     if (feature != null && defaultValue != null) {
-                        restoredFeatureToggles[feature] = featureValue ?: defaultValue
+                        restoredFeatureToggles[feature] = restoredValue ?: defaultValue
                     }
                 }
 
                 restoredFeatureToggles
             }
         } catch (e: FileNotFoundException) {
-            LinkedHashMap(defaultFeatureToggles)
+            Timber.e(e)
+
+            mutableMapOf()
         }
     }
 
@@ -111,18 +92,13 @@ internal class FeatureTogglesRepository(
         ObjectOutputStream(
             context.openFileOutput(TOGGLES_FILE_NAME, Context.MODE_PRIVATE)
         ).use { outputStream ->
-            val serializableToggles = featureToggles.entries.associate { (feature, value) ->
-                feature.id to value.serializeToString()
-            }
+            val serializableToggles = changedTogglesState.value.entries
+                .associate { (feature, value) ->
+                    feature.id to value.serializeToString()
+                }
 
             outputStream.writeObject(serializableToggles)
             outputStream.flush()
-        }
-    }
-
-    private infix fun <T, V> Map<T, V>.diffWith(other: Map<T, V>): Map<T, V> {
-        return this.filter { (key, value) ->
-            key in other.keys && value != other[key]
         }
     }
 

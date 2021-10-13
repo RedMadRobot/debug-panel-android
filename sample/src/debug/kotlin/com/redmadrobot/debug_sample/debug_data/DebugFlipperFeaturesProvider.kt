@@ -26,12 +26,13 @@ internal class DebugFlipperFeaturesProvider : DebugDataProvider<Map<Feature, Fli
             override val id: String = "Show label 3"
         }] = FlipperValue.BooleanValue(false)
 
+        val debugRandom = Random(282)
         (4..20).forEach { index ->
             val feature = object : Feature() {
                 override val id: String = "Didn't do nothing toggle $index"
             }
 
-            map[feature] = FlipperValue.BooleanValue(Random.nextBoolean())
+            map[feature] = FlipperValue.BooleanValue(debugRandom.nextBoolean())
         }
 
         return map
