@@ -9,6 +9,7 @@ import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesFragment
 import kotlinx.coroutines.flow.Flow
 import java.util.*
+import kotlin.collections.LinkedHashMap
 
 public class FlipperPlugin(
     private val featureStateMap: Map<Feature, FlipperValue>,
@@ -17,12 +18,8 @@ public class FlipperPlugin(
     public companion object {
         private const val NAME = "FLIPPER PLUGIN"
 
-        public fun observeUpdatedToggle(): Flow<Pair<Feature, FlipperValue>> {
-            return FlipperPluginTogglesStateDispatcher.observeUpdatedToggle()
-        }
-
-        public fun observeMultipleTogglesChanged(): Flow<Map<Feature, FlipperValue>> {
-            return FlipperPluginTogglesStateDispatcher.observeMultipleTogglesChanged()
+        public fun observeChangedToggles(): Flow<Map<Feature, FlipperValue>> {
+            return FlipperPluginTogglesStateDispatcher.observeChangedToggles()
         }
     }
 
@@ -31,7 +28,7 @@ public class FlipperPlugin(
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return FlipperPluginContainer(
             context = commonContainer.context,
-            defaultFeaturesMap = Collections.unmodifiableMap(HashMap(featureStateMap)),
+            defaultFeaturesMap = Collections.unmodifiableMap(LinkedHashMap(featureStateMap)),
         )
     }
 

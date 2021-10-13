@@ -13,11 +13,7 @@ internal object FlipperPluginTogglesStateDispatcher {
             .featureTogglesRepository
     }
 
-    fun observeUpdatedToggle(): Flow<Pair<Feature, FlipperValue>> {
-        return featureTogglesRepository.observeUpdatedToggle()
-    }
-
-    fun observeMultipleTogglesChanged(): Flow<Map<Feature, FlipperValue>> {
-        return featureTogglesRepository.observeMultipleTogglesChanged()
+    fun observeChangedToggles(): Flow<Map<Feature, FlipperValue>> {
+        return featureTogglesRepository.observeChangedToggles()
     }
 }
