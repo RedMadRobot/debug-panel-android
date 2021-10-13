@@ -2,7 +2,6 @@ package com.redmadrobot.flipper_plugin.ui
 
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
-import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
 import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
@@ -32,13 +31,13 @@ internal class FlipperFeaturesViewModel(
         }
     }
 
-    fun onFeatureValueChanged(feature: Feature, value: FlipperValue) {
+    fun onFeatureValueChanged(feature: String, value: FlipperValue) {
         viewModelScope.launch {
             togglesRepository.saveFeatureState(feature, value)
         }
         viewModelScope.launch(Dispatchers.IO) {
             val updatedFeatureItemsState = featureItemsState.value.map { item ->
-                if (item.feature == feature) {
+                if (item.featureId == feature) {
                     item.copy(value = value)
                 } else {
                     item
@@ -76,7 +75,7 @@ internal class FlipperFeaturesViewModel(
             if (query.isBlank()) {
                 featureItems
             } else {
-                featureItems.filter { query in it.feature.id }
+                featureItems.filter { query in it.featureId }
             }
         }
             .onEach { featureItems ->

@@ -8,7 +8,7 @@ internal class FlipperFeaturesDiffCallback : DiffUtil.ItemCallback<FlipperFeatur
         oldItem: FlipperFeatureItem,
         newItem: FlipperFeatureItem,
     ): Boolean {
-        return oldItem.feature.id == newItem.feature.id
+        return oldItem.featureId == newItem.featureId
     }
 
     override fun areContentsTheSame(
