@@ -1,7 +1,6 @@
 package com.redmadrobot.flipper_plugin.data
 
 import android.content.Context
-import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper.config.FlipperValue.*
 import kotlinx.coroutines.CoroutineScope
@@ -17,25 +16,25 @@ import java.io.ObjectOutputStream
 
 internal class FeatureTogglesRepository(
     private val context: Context,
-    private val defaultFeatureToggles: Map<Feature, FlipperValue>,
+    private val defaultFeatureToggles: Map<String, FlipperValue>,
 ) {
     companion object {
         private const val TOGGLES_FILE_NAME = "com.redmadrobot.flipper_plugin.toggles"
     }
 
-    private val changedTogglesState = MutableStateFlow(emptyMap<Feature, FlipperValue>())
+    private val changedTogglesState = MutableStateFlow(emptyMap<String, FlipperValue>())
 
     init {
         CoroutineScope(Dispatchers.IO).launch { restoreTogglesState() }
     }
 
-    fun observeChangedToggles(): Flow<Map<Feature, FlipperValue>> = changedTogglesState
+    fun observeChangedToggles(): Flow<Map<String, FlipperValue>> = changedTogglesState
 
-    fun getFeatureToggles(): Map<Feature, FlipperValue> {
+    fun getFeatureToggles(): Map<String, FlipperValue> {
         return defaultFeatureToggles + changedTogglesState.value
     }
 
-    suspend fun saveFeatureState(feature: Feature, value: FlipperValue) {
+    suspend fun saveFeatureState(feature: String, value: FlipperValue) {
         changedTogglesState.value = if (defaultFeatureToggles[feature] != value) {
             changedTogglesState.value + (feature to value)
         } else {
@@ -61,21 +60,24 @@ internal class FeatureTogglesRepository(
         }
     }
 
-    private fun getSavedToggles(): Map<Feature, FlipperValue> {
+    private fun getSavedToggles(): Map<String, FlipperValue> {
         return try {
             ObjectInputStream(
                 context.openFileInput(TOGGLES_FILE_NAME)
             ).use { inputStream ->
                 val serializedToggles = (inputStream.readObject() as? Map<*, *>).orEmpty()
-                val restoredFeatureToggles = mutableMapOf<Feature, FlipperValue>()
+                val restoredFeatureToggles = mutableMapOf<String, FlipperValue>()
 
-                serializedToggles.entries.forEach { (featureId, value) ->
-                    val feature = defaultFeatureToggles.keys.find { it.id == featureId }
-                    val defaultValue = defaultFeatureToggles[feature]
+                serializedToggles.entries.forEach { (serializedFeatureId, value) ->
+                    val featureId = serializedFeatureId as? String
+                    val defaultValue = defaultFeatureToggles[featureId]
                     val restoredValue = (value as? String)?.deserializeToFlipperValue()
 
-                    if (feature != null && defaultValue != null) {
-                        restoredFeatureToggles[feature] = restoredValue ?: defaultValue
+                    if (featureId != null &&
+                        featureId in defaultFeatureToggles.keys &&
+                        defaultValue != null
+                    ) {
+                        restoredFeatureToggles[featureId] = restoredValue ?: defaultValue
                     }
                 }
 
@@ -84,7 +86,7 @@ internal class FeatureTogglesRepository(
         } catch (e: FileNotFoundException) {
             Timber.e(e)
 
-            mutableMapOf()
+            emptyMap()
         }
     }
 
@@ -93,8 +95,8 @@ internal class FeatureTogglesRepository(
             context.openFileOutput(TOGGLES_FILE_NAME, Context.MODE_PRIVATE)
         ).use { outputStream ->
             val serializableToggles = changedTogglesState.value.entries
-                .associate { (feature, value) ->
-                    feature.id to value.serializeToString()
+                .associate { (featureId, value) ->
+                    featureId to value.serializeToString()
                 }
 
             outputStream.writeObject(serializableToggles)

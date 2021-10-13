@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureBooleanBinding
 import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
 
 internal class FlipperFeaturesAdapter(
-    private val onFeatureValueChanged: (feature: Feature, value: FlipperValue) -> Unit,
+    private val onFeatureValueChanged: (featureId: String, value: FlipperValue) -> Unit,
 ) : ListAdapter<FlipperFeatureItem, RecyclerView.ViewHolder>(
     FlipperFeaturesDiffCallback(),
 ) {
@@ -42,7 +41,7 @@ internal class FlipperFeaturesAdapter(
         val item = getItem(position)
         when (item.value) {
             is FlipperValue.BooleanValue -> {
-                (holder as BooleanFeatureViewHolder).bind(item.feature, item.value)
+                (holder as BooleanFeatureViewHolder).bind(item.featureId, item.value)
             }
 
             else -> {
