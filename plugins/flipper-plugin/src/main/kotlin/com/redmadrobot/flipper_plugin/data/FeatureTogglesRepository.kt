@@ -66,13 +66,13 @@ internal class FeatureTogglesRepository(
             ObjectInputStream(
                 context.openFileInput(TOGGLES_FILE_NAME)
             ).use { inputStream ->
-                val serializedToggles = (inputStream.readObject() as? Map<String, String>).orEmpty()
+                val serializedToggles = (inputStream.readObject() as? Map<*, *>).orEmpty()
                 val restoredFeatureToggles = mutableMapOf<Feature, FlipperValue>()
 
                 serializedToggles.entries.forEach { (featureId, value) ->
                     val feature = defaultFeatureToggles.keys.find { it.id == featureId }
                     val defaultValue = defaultFeatureToggles[feature]
-                    val restoredValue = value.deserializeToFlipperValue()
+                    val restoredValue = (value as? String)?.deserializeToFlipperValue()
 
                     if (feature != null && defaultValue != null) {
                         restoredFeatureToggles[feature] = restoredValue ?: defaultValue
