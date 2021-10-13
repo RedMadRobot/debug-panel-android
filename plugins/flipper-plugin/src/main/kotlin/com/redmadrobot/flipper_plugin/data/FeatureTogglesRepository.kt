@@ -20,7 +20,7 @@ internal class FeatureTogglesRepository(
     private val defaultFeatureToggles: Map<Feature, FlipperValue>,
 ) {
     companion object {
-        private const val TOGGLES_FILE_NAME = "serialized_feature_toggles"
+        private const val TOGGLES_FILE_NAME = "com.redmadrobot.flipper_plugin.toggles"
     }
 
     private val changedTogglesState = MutableStateFlow(emptyMap<Feature, FlipperValue>())
