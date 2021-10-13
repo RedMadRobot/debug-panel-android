@@ -112,12 +112,11 @@ internal class FeatureTogglesRepository(
             is ByteArrayValue -> this.value.contentToString()
         }
 
-        return "$value ${this::class.simpleName}"
+        return "${this::class.simpleName} $value"
     }
 
     private fun String.deserializeToFlipperValue(): FlipperValue? {
-        val className = this.substringAfterLast(' ')
-        val serializedValue = this.substringBeforeLast(' ')
+        val (className, serializedValue) = this.split(' ', limit = 2)
 
         return when (className) {
             LongValue::class.simpleName -> LongValue(serializedValue.toLong())
