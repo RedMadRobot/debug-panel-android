@@ -66,7 +66,7 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
 
     private fun showResetConfirmationDialog() {
         AlertDialog.Builder(requireContext())
-            .setMessage(R.string.dialog_title_feature_toggles_reset)
+            .setMessage(R.string.flipper_plugin_dialog_title_feature_toggles_reset)
             .setPositiveButton(android.R.string.ok) { dialog, _ ->
                 viewModel.onResetClicked()
 
