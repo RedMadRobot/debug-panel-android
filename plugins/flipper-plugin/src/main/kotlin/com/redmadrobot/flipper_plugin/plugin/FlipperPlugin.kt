@@ -8,7 +8,8 @@ import com.redmadrobot.flipper.Feature
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesFragment
 import kotlinx.coroutines.flow.Flow
-import okhttp3.internal.toImmutableMap
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
 public class FlipperPlugin(
     private val featureStateMap: Map<Feature, FlipperValue>,
@@ -27,7 +28,7 @@ public class FlipperPlugin(
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return FlipperPluginContainer(
             context = commonContainer.context,
-            defaultFeaturesMap = featureStateMap.toImmutableMap(),
+            defaultFeaturesMap = Collections.unmodifiableMap(LinkedHashMap(featureStateMap)),
         )
     }
 
