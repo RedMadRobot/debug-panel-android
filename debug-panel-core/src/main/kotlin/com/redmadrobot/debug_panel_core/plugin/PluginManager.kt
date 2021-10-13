@@ -15,6 +15,6 @@ internal class PluginManager(val plugins: List<Plugin>) {
 
     fun findPluginByName(pluginName: String): Plugin {
         return containers[pluginName]
-            ?: throw IllegalArgumentException("Plugin with $pluginName name non exist")
+            ?: throw IllegalStateException("Plugin $pluginName must be initialized in Debug Panel")
     }
 }
