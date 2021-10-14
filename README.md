@@ -273,7 +273,7 @@ FlipperPlugin(
 )
 ```
 
-Для изменения значений в рамках проекта необходимо использовать методы FlipperPluginTogglesStateDispatcher:
+Для изменения значений в рамках проекта необходимо использовать метод FlipperPlugin.observeChangedToggles():
 
 ```kotlin
 FlipperPlugin
@@ -285,7 +285,7 @@ FlipperPlugin
    .launchIn(debugScope)
 ```
 
-В FlipperConfig должно быть что-то наподобии
+В FlipperConfig должно быть что-то наподобие
 
 ```kotlin
 override fun getValue(feature: Feature): FlipperValue {
