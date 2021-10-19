@@ -1,5 +1,6 @@
 package com.redmadrobot.flipper_plugin.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
@@ -45,6 +46,9 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
         binding.query.addTextChangedListener { text ->
             viewModel.onQueryChanged(text?.toString().orEmpty())
         }
+        binding.resetToDefault.setOnClickListener {
+            showResetConfirmationDialog()
+        }
 
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
@@ -58,5 +62,20 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
         _binding = null
 
         super.onDestroyView()
+    }
+
+    private fun showResetConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setMessage(R.string.flipper_plugin_dialog_title_feature_toggles_reset)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                viewModel.onResetClicked()
+
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }

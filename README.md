@@ -249,27 +249,36 @@ val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
 
 Используется для просмотра и редактирования Flipper feature toggle'ов в проекте
 
-Для подключения плагина, необходимо передать в него map поддерживаемых фичей и их значений
+Для подключения плагина, необходимо передать в него map id поддерживаемых фичей и их значений
 
 ```kotlin
 FlipperPlugin(
    featureStateMap = mapOf(
-      Feature() to FlipperValue()
+      "Toggle Id" to FlipperValue()
    )
 )
 ```
 
-Для изменения значений в рамках проекта необходимо подписаться на event'ы изменения значения feature toggle
+Для изменения значений в рамках проекта необходимо использовать метод FlipperPlugin.observeChangedToggles():
 
 ```kotlin
-DebugPanel
-   .observeEvents()
-   ?.onEach { event ->
-      if (event is FeatureValueChangedEvent) {
-         updateToggle(event.feature, event.value)
-      }
+FlipperPlugin
+   .observeChangedToggles()         // Пришлёт map размером = [0, yourFeatures.size]
+   .onEach { changedToggles ->      // Первый раз пришлёт сохранённые значения
+      this.yourDebugPanelChangedToggles = changedToggles
    }
-   ?.launchIn(lifecycleScope)
+   .flowOn(Dispatchers.Main)
+   .launchIn(debugScope)
+```
+
+В FlipperConfig должно быть что-то наподобие
+
+```kotlin
+override fun getValue(feature: Feature): FlipperValue {
+   return yourDebugPanelChangedToggles[feature.id]
+      ?: localConfig[feature.id]
+      ?: FlipperValue.BooleanValue(false)
+}
 ```
 
 
