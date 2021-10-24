@@ -20,7 +20,7 @@ public class ServersPlugin(
         public fun getSelectedServer(): DebugServer {
             return getPlugin<ServersPlugin>()
                 .getContainer<ServersPluginContainer>()
-                .pluginSettingsRepository
+                .serversRepository
                 .getSelectedServer()
         }
     }
