@@ -93,6 +93,7 @@ class App : Application() {
         
       DebugPanel.initialize(
             application = this,
+            config = DebugPanelConfig(shakerMode = false),
             plugins = listOf(
                 AccountsPlugin(/*arguments*/),
                 ServersPlugin(/*arguments*/),
