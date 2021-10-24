@@ -51,8 +51,9 @@ internal class ApplicationLifecycleHandler(
                 override fun onActivityPaused(activity: Activity) {
                     --openActivityCount
 
-                    activity.unregisterReceiver(debugPanelBroadcastReceiver)
-
+                    (activity as? FragmentActivity)?.let {
+                        activity.unregisterReceiver(debugPanelBroadcastReceiver)
+                    }
                     if (openActivityCount == 0) onAppPaused()
                 }
             }
