@@ -192,7 +192,8 @@ ServersPlugin(
     preInstalledServers = listOf(
         DebugServer(
             name = "server_name",
-            url = "https://debug_server.com"
+            url = "https://debug_server.com",
+            isDefault = true /*!!!Обязательно должен быть указан хотя бы один сервер по умолчанию*/
         )
     )
 )
