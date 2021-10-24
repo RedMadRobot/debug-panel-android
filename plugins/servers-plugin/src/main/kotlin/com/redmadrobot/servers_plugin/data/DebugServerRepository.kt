@@ -10,6 +10,8 @@ internal interface DebugServerRepository {
 
     fun getSelectedServer(): DebugServer
 
+    fun getDefault(): DebugServer
+
     suspend fun getServers(): List<DebugServer>
 
     suspend fun addServer(server: DebugServer)

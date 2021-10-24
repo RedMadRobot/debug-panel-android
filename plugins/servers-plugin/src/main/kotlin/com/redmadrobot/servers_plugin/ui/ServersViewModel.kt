@@ -9,6 +9,8 @@ import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 internal class ServersViewModel(
     private val context: Context,
@@ -25,8 +27,10 @@ internal class ServersViewModel(
 
     fun loadServers() {
         viewModelScope.safeLaunch {
-            loadPreInstalledServers()
-            loadAddedServers()
+            withContext(Dispatchers.IO) {
+                loadPreInstalledServers()
+                loadAddedServers()
+            }
         }
     }
 
@@ -41,9 +45,6 @@ internal class ServersViewModel(
     fun removeServer(debugServer: DebugServer) {
         viewModelScope.safeLaunch {
             serversRepository.removeServer(debugServer)
-            if (serversRepository.getSelectedServer() == debugServer) {
-                serversRepository.saveSelectedServer(DebugServer.getDefault())
-            }
             loadAddedServers()
         }
     }
@@ -69,18 +70,22 @@ internal class ServersViewModel(
         loadServers()
     }
 
-    private fun loadPreInstalledServers() {
+    private suspend fun loadPreInstalledServers() {
         val servers = serversRepository.getPreInstalledServers()
         val headerText = context.getString(R.string.pre_installed_servers)
         val serverItems = mapToPreinstalledItems(headerText, servers)
-        state.value = state.value?.copy(preInstalledServers = serverItems)
+        withContext(Dispatchers.Main) {
+            state.value = state.value?.copy(preInstalledServers = serverItems)
+        }
     }
 
     private suspend fun loadAddedServers() {
         val servers = serversRepository.getServers()
         val headerText = context.getString(R.string.added_servers)
         val serverItems = mapToAddedItems(headerText, servers)
-        state.value = state.value?.copy(addedServers = serverItems)
+        withContext(Dispatchers.Main) {
+            state.value = state.value?.copy(addedServers = serverItems)
+        }
     }
 
     private fun mapToPreinstalledItems(

@@ -14,8 +14,13 @@ public class ServersPlugin(
     private val preInstalledServers: List<DebugServer> = emptyList()
 ) : Plugin() {
 
+    init {
+        preInstalledServers.find { it.isDefault }
+            ?: throw IllegalStateException("At least one server must be default")
+    }
+
     public companion object {
-       internal const val NAME = "SERVERS"
+        internal const val NAME = "SERVERS"
 
         public fun getSelectedServer(): DebugServer {
             return getPlugin<ServersPlugin>()
