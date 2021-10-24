@@ -9,13 +9,10 @@ public data class DebugServer(
     val id: Int = 0,
     val name: String,
     val url: String,
-    val isDefault: Boolean = false
+    val isDefault: Boolean
 ) {
     internal companion object {
         const val TABLE_NAME = "debug_server"
-
-        fun getDefault() =
-            DebugServer(name = "Default", url = "")
     }
 
     override fun equals(other: Any?): Boolean {

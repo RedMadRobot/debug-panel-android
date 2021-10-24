@@ -31,7 +31,7 @@ internal class ServersViewModel(
     }
 
     fun addServer(name: String, url: String) {
-        val server = DebugServer(name = name, url = url)
+        val server = DebugServer(name = name, url = url, isDefault = false)
         viewModelScope.safeLaunch {
             serversRepository.addServer(server)
             loadAddedServers()

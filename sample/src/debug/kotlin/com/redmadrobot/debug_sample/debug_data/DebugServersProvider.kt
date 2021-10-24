@@ -7,7 +7,7 @@ class DebugServersProvider : DebugDataProvider<List<DebugServer>> {
 
     override fun provideData(): List<DebugServer> {
         return listOf(
-            DebugServer(name = "debug 1", url = "https://testserver1.com")
+            DebugServer(name = "debug 1", url = "https://testserver1.com", isDefault = true)
         )
     }
 }
