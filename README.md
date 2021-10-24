@@ -192,7 +192,8 @@ ServersPlugin(
     preInstalledServers = listOf(
         DebugServer(
             name = "server_name",
-            url = "https://debug_server.com"
+            url = "https://debug_server.com",
+            isDefault = true /*!!!Обязательно должен быть указан хотя бы один сервер по умолчанию*/
         )
     )
 )
@@ -209,6 +210,13 @@ DebugPanel.subscribeToEvents(lifecycleOwner = this) { event ->
         }
     }
 }
+```
+
+Для получения выбранного сервера или **default** сервера из кода:
+
+```kotlin
+   val selectedServer = ServersPlugin.getSelectedServer()
+   val defaultServer = ServersPlugin.getDefaultServer()
 ```
 
 Так же если вы используете `OkHttp` в своем сетевом стеке то можете использовать `DebugServerInterceptor` который будет автоматически подменять хост в запросах на выбранный вами.
