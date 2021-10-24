@@ -9,7 +9,7 @@ public data class DebugServer(
     val id: Int = 0,
     val name: String,
     val url: String,
-    val isDefault: Boolean
+    val isDefault: Boolean = false
 ) {
     internal companion object {
         const val TABLE_NAME = "debug_server"
