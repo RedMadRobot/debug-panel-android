@@ -16,7 +16,7 @@ public class ServersPlugin(
 
     init {
         preInstalledServers.find { it.isDefault }
-            ?: throw IllegalStateException("At least one server must be default")
+            ?: throw IllegalStateException("DebugPanel - ServersPlugin can't be initialized. At least one server must be default")
     }
 
     public companion object {
@@ -27,6 +27,13 @@ public class ServersPlugin(
                 .getContainer<ServersPluginContainer>()
                 .serversRepository
                 .getSelectedServer()
+        }
+
+        public fun getDefaultServer(): DebugServer {
+            return getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .serversRepository
+                .getDefault()
         }
     }
 
