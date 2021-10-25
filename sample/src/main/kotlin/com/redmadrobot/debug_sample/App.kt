@@ -5,6 +5,7 @@ import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
+import com.redmadrobot.debug_panel_core.internal.DebugPanelConfig
 import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
 import com.redmadrobot.debug_sample.debug_data.DebugAccountsProvider
 import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
@@ -20,6 +21,7 @@ class App : Application() {
 
         DebugPanel.initialize(
             application = this,
+            config = DebugPanelConfig(shakerMode = false),
             plugins = listOf(
                 AccountsPlugin(
                     preInstalledAccounts = DebugAccountsProvider().provideData(),

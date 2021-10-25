@@ -8,13 +8,13 @@ import com.redmadrobot.debug_panel_common.extension.safeLaunch
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.data.model.DebugServer
-import com.redmadrobot.servers_plugin.data.repository.PluginSettingsRepository
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 internal class ServersViewModel(
     private val context: Context,
-    private val serversRepository: DebugServerRepository,
-    private val pluginSettingsRepository: PluginSettingsRepository
+    private val serversRepository: DebugServerRepository
 ) : PluginViewModel() {
 
     val state = MutableLiveData<ServersViewState>().apply {
@@ -27,13 +27,15 @@ internal class ServersViewModel(
 
     fun loadServers() {
         viewModelScope.safeLaunch {
-            loadPreInstalledServers()
-            loadAddedServers()
+            withContext(Dispatchers.IO) {
+                loadPreInstalledServers()
+                loadAddedServers()
+            }
         }
     }
 
     fun addServer(name: String, url: String) {
-        val server = DebugServer(name = name, url = url)
+        val server = DebugServer(name = name, url = url, isDefault = false)
         viewModelScope.safeLaunch {
             serversRepository.addServer(server)
             loadAddedServers()
@@ -43,9 +45,6 @@ internal class ServersViewModel(
     fun removeServer(debugServer: DebugServer) {
         viewModelScope.safeLaunch {
             serversRepository.removeServer(debugServer)
-            if (pluginSettingsRepository.getSelectedServer() == debugServer) {
-                pluginSettingsRepository.saveSelectedServer(DebugServer.getDefault())
-            }
             loadAddedServers()
         }
     }
@@ -67,7 +66,7 @@ internal class ServersViewModel(
     }
 
     fun selectServerAsCurrent(debugServer: DebugServer) {
-        pluginSettingsRepository.saveSelectedServer(debugServer)
+        serversRepository.saveSelectedServer(debugServer)
         loadServers()
     }
 
@@ -75,21 +74,25 @@ internal class ServersViewModel(
         val servers = serversRepository.getPreInstalledServers()
         val headerText = context.getString(R.string.pre_installed_servers)
         val serverItems = mapToPreinstalledItems(headerText, servers)
-        state.value = state.value?.copy(preInstalledServers = serverItems)
+        withContext(Dispatchers.Main) {
+            state.value = state.value?.copy(preInstalledServers = serverItems)
+        }
     }
 
     private suspend fun loadAddedServers() {
         val servers = serversRepository.getServers()
         val headerText = context.getString(R.string.added_servers)
         val serverItems = mapToAddedItems(headerText, servers)
-        state.value = state.value?.copy(addedServers = serverItems)
+        withContext(Dispatchers.Main) {
+            state.value = state.value?.copy(addedServers = serverItems)
+        }
     }
 
     private fun mapToPreinstalledItems(
         header: String,
         servers: List<DebugServer>
     ): List<DebugServerItems> {
-        val selectedServer = pluginSettingsRepository.getSelectedServer()
+        val selectedServer = serversRepository.getSelectedServer()
         val items = servers.map { debugServer ->
             val isSelected = selectedServer.url == debugServer.url
             DebugServerItems.PreinstalledServer(debugServer, isSelected)
@@ -103,7 +106,7 @@ internal class ServersViewModel(
         servers: List<DebugServer>
     ): List<DebugServerItems> {
         if (servers.isEmpty()) return emptyList()
-        val selectedServer = pluginSettingsRepository.getSelectedServer()
+        val selectedServer = serversRepository.getSelectedServer()
         val items = servers.map { debugServer ->
             val isSelected = selectedServer.url == debugServer.url
             DebugServerItems.AddedServer(debugServer, isSelected)

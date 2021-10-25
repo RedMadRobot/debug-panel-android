@@ -1,3 +1,6 @@
 package com.redmadrobot.debug_panel_core.plugin
 
+import com.redmadrobot.debug_panel_core.annotation.DebugPanelInternal
+
+@DebugPanelInternal
 public interface PluginDependencyContainer

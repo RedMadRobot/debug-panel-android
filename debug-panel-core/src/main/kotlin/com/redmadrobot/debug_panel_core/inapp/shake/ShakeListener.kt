@@ -8,7 +8,7 @@ import android.hardware.SensorManager
 internal class ShakeListener(private val onAction: () -> Unit) : SensorEventListener {
 
     companion object {
-        private const val TRIGGER_MOTION_BORDER = 3.0f
+        private const val TRIGGER_MOTION_BORDER = 10.0f
         private const val VECTOR_COUNT = 3
         private const val EVENT_TIME_DELAY = 1000L
     }

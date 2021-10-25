@@ -93,6 +93,7 @@ class App : Application() {
         
       DebugPanel.initialize(
             application = this,
+            config = DebugPanelConfig(shakerMode = false),
             plugins = listOf(
                 AccountsPlugin(/*arguments*/),
                 ServersPlugin(/*arguments*/),
@@ -103,9 +104,7 @@ class App : Application() {
 }
 ```
 
-
-
-Для того чтобы открыть панель внутри приложения достаточно встряхнуть устройство, либо бызвать в коде:
+Для того чтобы открыть DebugPanel, нужно вызвать в коде:
 
 ```kotlin
 fun openDebugPanel() {
@@ -116,6 +115,22 @@ fun openDebugPanel() {
 Так же в панель можно войти через уведомление которое появляется при запуске приложения использующее библиотеку. Через это же уведомление можно перейти в ручную настройку панели. Для этого нужно нажать кнопку `SETTINGS` в раскрытом уведомлении.
 
 ![Режим редактирования](assets/debug_notification.png)
+
+## Конфигурация
+
+Для дополнительной конфигурации **DebugPanel**, нужно добавить свою версию `DebugPanelConfig` класса при инициализации панели.
+
+```kotlin
+   DebugPanel.initialize(
+            application = this,
+            config = DebugPanelConfig(),
+            plugins = listOf(/*plugins*/)
+)
+```
+
+### Доступные возможности для конфигурации 
+
+`shakerMode: Boolean` - Открытие **DebugPanel** при встряхивании устройства.
 
 ## Работа с плагинами
 
@@ -178,7 +193,8 @@ ServersPlugin(
     preInstalledServers = listOf(
         DebugServer(
             name = "server_name",
-            url = "https://debug_server.com"
+            url = "https://debug_server.com",
+            isDefault = true /*!!!Обязательно должен быть указан хотя бы один сервер по умолчанию*/
         )
     )
 )
@@ -195,6 +211,13 @@ DebugPanel.subscribeToEvents(lifecycleOwner = this) { event ->
         }
     }
 }
+```
+
+Для получения выбранного сервера или **default** сервера из кода:
+
+```kotlin
+   val selectedServer = ServersPlugin.getSelectedServer()
+   val defaultServer = ServersPlugin.getDefaultServer()
 ```
 
 Так же если вы используете `OkHttp` в своем сетевом стеке то можете использовать `DebugServerInterceptor` который будет автоматически подменять хост в запросах на выбранный вами.
@@ -317,7 +340,7 @@ ServersPlugin(
 
 ## Backlog разработки
 
-- [ ]  Управление Feature toggle
+- [x]  Управление Feature toggle
 - [ ]  Добавить возможность подменять полный путь запроса при использовании Retrofit
 - [ ]  Логирование
     - [ ]  Логирование запросов

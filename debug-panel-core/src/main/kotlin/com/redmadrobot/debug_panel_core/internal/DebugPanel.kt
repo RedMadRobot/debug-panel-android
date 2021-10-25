@@ -16,9 +16,13 @@ public object DebugPanel {
     public val isInitialized: Boolean
         get() = instance != null
 
-    public fun initialize(application: Application, plugins: List<Plugin>) {
+    public fun initialize(
+        application: Application,
+        plugins: List<Plugin>,
+        config: DebugPanelConfig = DebugPanelConfig.defaultConfig
+    ) {
         createDebugPanelInstance(application, plugins)
-        ApplicationLifecycleHandler(application).start()
+        ApplicationLifecycleHandler(application, config.shakerMode).start()
     }
 
     public fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) {
@@ -38,4 +42,6 @@ public object DebugPanel {
     private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {
         instance = DebugPanelInstance(application, plugins)
     }
+
+
 }

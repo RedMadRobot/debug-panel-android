@@ -4,6 +4,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug_panel_core.CommonContainer
 import com.redmadrobot.debug_panel_core.data.DebugDataProvider
+import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
@@ -13,8 +14,27 @@ public class ServersPlugin(
     private val preInstalledServers: List<DebugServer> = emptyList()
 ) : Plugin() {
 
-    internal companion object {
-        const val NAME = "SERVERS"
+    init {
+        preInstalledServers.find { it.isDefault }
+            ?: throw IllegalStateException("DebugPanel - ServersPlugin can't be initialized. At least one server must be default")
+    }
+
+    public companion object {
+        internal const val NAME = "SERVERS"
+
+        public fun getSelectedServer(): DebugServer {
+            return getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .serversRepository
+                .getSelectedServer()
+        }
+
+        public fun getDefaultServer(): DebugServer {
+            return getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .serversRepository
+                .getDefault()
+        }
     }
 
     public constructor(preInstalledServers: DebugDataProvider<List<DebugServer>>) : this(

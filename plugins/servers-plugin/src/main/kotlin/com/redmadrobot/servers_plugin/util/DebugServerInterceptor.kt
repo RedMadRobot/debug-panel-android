@@ -15,10 +15,10 @@ public class DebugServerInterceptor : Interceptor {
 
     private var requestModifier: ((Request, DebugServer) -> Request?)? = null
 
-    private val panelSettingsRepository by lazy {
+    private val serverRepository by lazy {
         getPlugin<ServersPlugin>()
             .getContainer<ServersPluginContainer>()
-            .pluginSettingsRepository
+            .serversRepository
     }
 
     /**
@@ -32,7 +32,7 @@ public class DebugServerInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         return if (DebugPanel.isInitialized) {
-            val debugServer = panelSettingsRepository.getSelectedServer()
+            val debugServer = serverRepository.getSelectedServer()
             if (debugServer.url.isNotEmpty()) {
                 val newUrl = request.getNewUrl(debugServer.url)
                 request = request.newBuilder()
