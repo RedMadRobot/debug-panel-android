@@ -61,6 +61,10 @@ internal class FeatureTogglesRepository(
     }
 
     private fun getSavedToggles(): Map<String, FlipperValue> {
+        if (context.getFileStreamPath(TOGGLES_FILE_NAME)?.exists() != true) {
+            return emptyMap()
+        }
+
         return try {
             ObjectInputStream(
                 context.openFileInput(TOGGLES_FILE_NAME)
