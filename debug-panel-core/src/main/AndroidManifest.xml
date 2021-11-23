@@ -13,7 +13,8 @@
             android:label="@string/debug_panel"
             android:targetActivity="com.redmadrobot.debug_panel_core.ui.debugpanel.DebugActivity"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
-            android:theme="@style/DebugPanelTheme">
+            android:theme="@style/DebugPanelTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
