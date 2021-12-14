@@ -73,6 +73,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/request_test" />
 
+    <Button
+        android:id="@+id/autofill_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="I want you to fill me, babe"
+        app:layout_constraintBottom_toTopOf="@id/choose_account" />
+
     <TextView
         android:id="@+id/account_data"
         android:layout_width="wrap_content"

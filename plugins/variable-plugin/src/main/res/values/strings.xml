@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_variable_settings">Settings</string>
+    <string name="setting_increment">Autoincrement</string>
+    <string name="setting_increment_hint">Step</string>
+</resources>

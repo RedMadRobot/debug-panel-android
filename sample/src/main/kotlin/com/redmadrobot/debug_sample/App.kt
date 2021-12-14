@@ -14,6 +14,7 @@ import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
+import com.redmadrobot.variable_plugin.plugin.VariablePlugin
 
 class App : Application() {
     override fun onCreate() {
@@ -40,6 +41,7 @@ class App : Application() {
                 FlipperPlugin(
                     featureStateMap = DebugFlipperFeaturesProvider().provideData(),
                 ),
+                VariablePlugin(),
 //                , FeatureTogglesPlugin(
 //                    featureTogglesConfig = FeatureTogglesConfig(
 //                        FeatureToggleWrapperImpl.toggleNames,

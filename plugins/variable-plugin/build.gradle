@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: rootProject.file("gradle/publish.gradle")
+
+android {
+    compileSdkVersion build_versions.compile_sdk
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
+        versionCode getVersionCodeFromProperties()
+        versionName getVersionNameFromProperties()
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    kotlinOptions {
+        freeCompilerArgs += "-Xexplicit-api=strict"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation(
+            project(path: ':debug-panel-core'),
+            project(path: ':debug-panel-common'),
+            deps.kotlin.stdlib
+    )
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03")
+}
