@@ -123,15 +123,19 @@ private fun <T> T.toDebugVariableInternal(
             .0
         }
 
-        when (this) {
-            is Int -> savedValue.toIntOrNull()?.plus(incrementStep)
-            is Long -> savedValue.toLongOrNull()?.plus(incrementStep)
-            is Short -> savedValue.toShortOrNull()?.plus(incrementStep)
-            is Float -> savedValue.toFloatOrNull()?.plus(incrementStep)
+        val updatedSavedValue = when (this) {
+            is Int -> savedValue.toIntOrNull()?.plus(incrementStep)?.toInt()
+            is Long -> savedValue.toLongOrNull()?.plus(incrementStep)?.toLong()
+            is Short -> savedValue.toShortOrNull()?.plus(incrementStep)?.toInt()?.toShort()
+            is Float -> savedValue.toFloatOrNull()?.plus(incrementStep)?.toFloat()
             is Double -> savedValue.toDoubleOrNull()?.plus(incrementStep)
             is Boolean -> settings[name]?.isEnabled ?: this
             else -> savedValue
-        } as? T
+        } as T
+
+        modifiers.value[name] = VariableItem(name, updatedSavedValue.toString(), this!!::class.simpleName!!)
+
+        updatedSavedValue
     }
 
     modifiers.tryEmit(modifiers.value)

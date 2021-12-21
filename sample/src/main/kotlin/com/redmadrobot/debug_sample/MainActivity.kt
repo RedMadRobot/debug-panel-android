@@ -59,19 +59,13 @@ class MainActivity : AppCompatActivity() {
         autofill_sample.setOnClickListener {
             Toast.makeText(
                 applicationContext,
-                "initString".toDebugVariable("initString") +
-                        " ".toDebugVariable("memes1") +
-                        true.toDebugVariable("boolean") +
-                        12.toDebugVariable("memes") +
-                        1.toDebugVariable("nano") +
-                        2.toDebugVariable("nano2") +
-                        3.toDebugVariable("nano3") +
-                        4.toDebugVariable("nano4") +
-                        5.toDebugVariable("nano5") +
-                        6.toDebugVariable("nano6") +
-                        7.toDebugVariable("nano7") +
-                        8.toDebugVariable("nano8") +
-                        9.toDebugVariable("nano9"),
+                """
+                    ${"initString".toDebugVariable("filledString")}
+                    ${" ".toDebugVariable("initialyEmptyString")}
+                    ${true.toDebugVariable("boolean")}
+                    ${12.toDebugVariable("integer")}
+                    ${1.toFloat().toDebugVariable("float")}
+                """.trimIndent(),
                 Toast.LENGTH_LONG
             ).show()
         }
