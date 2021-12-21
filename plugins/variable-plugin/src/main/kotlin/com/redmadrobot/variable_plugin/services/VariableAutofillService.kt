@@ -20,32 +20,30 @@ public class VariableAutofillService : AutofillService() {
 
         val focusedView = findFocusedView(structure.getWindowNodeAt(0).rootViewNode)
         if (focusedView != null) {
-            try {
-                callback.onSuccess(
-                    FillResponse.Builder()
-                        .addDataset(
-                            Dataset.Builder()
-                                .setValue(
-                                    focusedView.autofillId!!,
-                                    null,
-                                    RemoteViews(
-                                        packageName,
-                                        R.layout.simple_list_item_1
-                                    )
+            callback.onSuccess(
+                FillResponse.Builder()
+                    .addDataset(
+                        Dataset.Builder()
+                            .setValue(
+                                focusedView.autofillId!!,
+                                null,
+                                RemoteViews(
+                                    packageName,
+                                    R.layout.simple_list_item_1
                                 )
-                                .build()
-                        )
-                        .setSaveInfo(
-                            SaveInfo.Builder(
-                                SaveInfo.SAVE_DATA_TYPE_GENERIC,
-                                arrayOf(focusedView.autofillId!!)
-                            ).build()
-                        )
-                        .build()
-                )
-            } catch (e: Exception) {
-                println(e)
-            }
+                            )
+                            .build()
+                    )
+                    .setSaveInfo(
+                        SaveInfo.Builder(
+                            SaveInfo.SAVE_DATA_TYPE_GENERIC,
+                            arrayOf(focusedView.autofillId!!)
+                        ).build()
+                    )
+                    .build()
+            )
+        } else {
+            callback.onFailure(null)
         }
     }
 
