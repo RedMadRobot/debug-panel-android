@@ -11,8 +11,8 @@ ext.addRepos = this.&addRepos
 //region Build versions
 ext.build_versions = [
         min_sdk    : 21,
-        target_sdk : 30,
-        compile_sdk: 30
+        target_sdk : 31,
+        compile_sdk: 31
 ]
 //endregion
 
@@ -91,7 +91,7 @@ deps.lifecycle = [
         testing                : "androidx.arch.core:core-testing:$versions.lifecycle_testing"
 ]
 
-versions.room = "2.3.0"
+versions.room = "2.4.0"
 
 deps.room = [
         ktx     : "androidx.room:room-ktx:$versions.room",
