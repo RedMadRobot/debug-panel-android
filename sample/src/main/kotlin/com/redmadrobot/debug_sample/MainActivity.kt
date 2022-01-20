@@ -12,7 +12,7 @@ import com.redmadrobot.debugpanel.R
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
-import com.redmadrobot.variable_plugin.ui.toDebugVariable
+import com.redmadrobot.variable_plugin.plugin.toDebugVariable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 applicationContext,
                 """
                     ${"initString".toDebugVariable("filledString")}
-                    ${" ".toDebugVariable("initialyEmptyString")}
+                    ${"".toDebugVariable("initialyEmptyString")}
                     ${true.toDebugVariable("boolean")}
                     ${12.toDebugVariable("integer")}
                     ${1.toFloat().toDebugVariable("float")}
