@@ -51,7 +51,7 @@ internal class VariableRepository {
     ): T {
         require(variableClass.isInstance(defaultValue))
 
-        if (variableClass.isBoolean() && name in settings.keys) {
+        if (variableClass == Boolean::class && name in settings.keys) {
             return settings[name]?.isEnabled as? T ?: defaultValue
         }
 
@@ -60,7 +60,7 @@ internal class VariableRepository {
         if (!variableSettings.isEnabled) return defaultValue
 
         val savedValue = _modifiers.value.getOrPut(name) {
-            settings[name] = if (variableClass.isBoolean()) {
+            settings[name] = if (variableClass == Boolean::class) {
                 VariableSettings.DEFAULT.copy(isEnabled = defaultValue as Boolean)
             } else {
                 VariableSettings.DEFAULT
@@ -75,13 +75,13 @@ internal class VariableRepository {
             .0
         }
 
-        val updatedSavedValue = when {
-            variableClass.isInt() -> savedValue.toIntOrNull()?.plus(incrementStep)?.toInt()
-            variableClass.isLong() -> savedValue.toLongOrNull()?.plus(incrementStep)?.toLong()
-            variableClass.isShort() -> savedValue.toShortOrNull()?.plus(incrementStep)?.toInt()?.toShort()
-            variableClass.isFloat() -> savedValue.toFloatOrNull()?.plus(incrementStep)?.toFloat()
-            variableClass.isDouble() -> savedValue.toDoubleOrNull()?.plus(incrementStep)
-            variableClass.isBoolean() -> settings[name]?.isEnabled ?: this
+        val updatedSavedValue = when (variableClass) {
+            Int::class -> savedValue.toIntOrNull()?.plus(incrementStep)?.toInt()
+            Long::class -> savedValue.toLongOrNull()?.plus(incrementStep)?.toLong()
+            Short::class -> savedValue.toShortOrNull()?.plus(incrementStep)?.toInt()?.toShort()
+            Float::class -> savedValue.toFloatOrNull()?.plus(incrementStep)?.toFloat()
+            Double::class -> savedValue.toDoubleOrNull()?.plus(incrementStep)
+            Boolean::class -> settings[name]?.isEnabled ?: this
             else -> savedValue
         } as T
 
@@ -95,11 +95,4 @@ internal class VariableRepository {
 
         return updatedSavedValue ?: defaultValue
     }
-
-    private fun KClass<*>.isInt(): Boolean = this.qualifiedName == Int::class.qualifiedName
-    private fun KClass<*>.isLong(): Boolean = this.qualifiedName == Long::class.qualifiedName
-    private fun KClass<*>.isShort(): Boolean = this.qualifiedName == Short::class.qualifiedName
-    private fun KClass<*>.isFloat(): Boolean = this.qualifiedName == Float::class.qualifiedName
-    private fun KClass<*>.isDouble(): Boolean = this.qualifiedName == Double::class.qualifiedName
-    private fun KClass<*>.isBoolean(): Boolean = this.qualifiedName == Boolean::class.qualifiedName
 }
