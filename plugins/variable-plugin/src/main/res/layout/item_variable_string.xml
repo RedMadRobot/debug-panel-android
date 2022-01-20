@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     android:background="@color/white"
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
@@ -62,7 +63,7 @@
         app:layout_constraintTop_toTopOf="@id/checkbox_autoincrement" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/number_settings_group"
+        android:id="@+id/settings_group"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"

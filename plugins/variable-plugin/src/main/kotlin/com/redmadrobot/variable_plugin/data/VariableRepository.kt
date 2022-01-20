@@ -66,7 +66,7 @@ internal class VariableRepository {
                 VariableSettings.DEFAULT
             }
 
-            VariableItem(name, defaultValue.toString(), variableClass.simpleName!!)
+            VariableItem(name, defaultValue.toString(), variableClass)
         }.value
 
         val incrementStep = if (variableSettings.autoincrement.isEnabled) {
@@ -88,7 +88,7 @@ internal class VariableRepository {
         _modifiers.value[name] = VariableItem(
             name = name,
             value = updatedSavedValue.toString(),
-            className = variableClass.simpleName!!,
+            clazz = variableClass,
         )
 
         _modifiers.tryEmit(_modifiers.value)

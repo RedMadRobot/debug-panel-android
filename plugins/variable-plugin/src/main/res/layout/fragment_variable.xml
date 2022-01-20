@@ -14,6 +14,6 @@
         android:paddingBottom="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="4"
-        tools:listitem="@layout/item_variable" />
+        tools:listitem="@layout/item_variable_string" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
