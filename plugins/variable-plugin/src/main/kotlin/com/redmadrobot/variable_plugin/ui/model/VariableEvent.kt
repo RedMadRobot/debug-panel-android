@@ -1,14 +1,21 @@
 package com.redmadrobot.variable_plugin.ui.model
 
+import com.redmadrobot.variable_plugin.plugin.VariableSettings
+
 internal sealed interface VariableEvent {
 
-    data class ValueChange(
+    data class ValueChanged<T>(
         val variableName: String,
-        val newValue: String,
+        val newValue: T,
     ) : VariableEvent
 
-    data class SettingChanged(
+    data class SettingsChanged<T : Any>(
         val variableName: String,
-        val setting: VariableSetting,
+        val newSettings: VariableSettings<T>,
+    ) : VariableEvent
+
+    data class EnabledStatusChanged(
+        val variableName: String,
+        val enabled: Boolean,
     ) : VariableEvent
 }

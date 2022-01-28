@@ -57,15 +57,24 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SecondActivity::class.java))
         }
         autofill_sample.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                """
+            val strings = """
                     ${"initString".toDebugVariable("filledString")}
                     ${"".toDebugVariable("initialyEmptyString")}
-                    ${true.toDebugVariable("boolean")}
-                    ${12.toDebugVariable("integer")}
-                    ${1.toFloat().toDebugVariable("float")}
-                """.trimIndent(),
+                """.trimIndent()
+            val boolean = """
+                ${true.toDebugVariable("initialy true")}
+                ${false.toDebugVariable("initialy false")}
+            """.trimIndent()
+            val digits = """
+                ${10.toDebugVariable("integer10")}
+                ${100.toDebugVariable("integer100")}
+                ${10F.toDebugVariable("float10")}
+                ${.0.toDebugVariable("double0")}
+            """.trimIndent()
+
+            Toast.makeText(
+                applicationContext,
+                strings + "\n" + boolean + "\n" + digits,
                 Toast.LENGTH_LONG
             ).show()
         }

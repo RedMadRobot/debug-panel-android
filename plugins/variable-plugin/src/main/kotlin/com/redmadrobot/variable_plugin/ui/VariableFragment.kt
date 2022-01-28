@@ -35,8 +35,10 @@ internal class VariableFragment : Fragment(R.layout.fragment_variable) {
         _binding = FragmentVariableBinding.bind(view)
 
         adapter = VariableAdapter(
-            viewModel::onVariableEvent,
-            viewModel::getVariableSettings,
+            onEventAction = viewModel::onVariableEvent,
+            onWidgetRequested = viewModel::requireVariableWidget,
+            onItemSettingsRequested = viewModel::requireVariableSettings,
+            onItemEnabledStatusRequested = viewModel::getVariableEnabledStatus,
         )
 
         binding.recycler.adapter = adapter

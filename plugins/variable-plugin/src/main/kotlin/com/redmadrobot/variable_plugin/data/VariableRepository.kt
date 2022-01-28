@@ -1,98 +1,119 @@
 package com.redmadrobot.variable_plugin.data
 
-import com.redmadrobot.variable_plugin.ui.model.VariableItem
-import com.redmadrobot.variable_plugin.ui.model.VariableSetting
-import com.redmadrobot.variable_plugin.ui.model.VariableSettings
+import androidx.collection.ArrayMap
+import com.redmadrobot.variable_plugin.plugin.VariableItem
+import com.redmadrobot.variable_plugin.plugin.VariableSettings
+import com.redmadrobot.variable_plugin.plugin.VariableWidget
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.reflect.KClass
 
 internal class VariableRepository {
 
-    private val _modifiers: MutableStateFlow<MutableMap<String, VariableItem>> = MutableStateFlow(
+    private val supportedClasses = ArrayMap<Int, VariableWidget<Any>>()
+    private val supportedClassesSettings = ArrayMap<Int, VariableSettings<Any>>()
+
+    private val _savedVariables = MutableStateFlow<MutableMap<String, VariableItem<Any>>>(
         mutableMapOf()
     )
-    val modifiers = _modifiers.asStateFlow()
+    val savedVariables: StateFlow<Map<String, VariableItem<Any>>> = _savedVariables.asStateFlow()
 
-    private val settings: MutableMap<String, VariableSettings> = mutableMapOf()
+    private val variableSettings: MutableMap<String, VariableSettings<Any>> = mutableMapOf()
+    private val variableEnabledStatus: MutableMap<String, Boolean> = mutableMapOf()
 
-    fun updateVariableValue(
+    fun <T> updateVariableValue(
         variableName: String,
-        value: String,
+        value: T,
     ) {
-        _modifiers.value[variableName]?.let { updatedVariable ->
-            _modifiers.value[updatedVariable.name] = updatedVariable.copy(value = value)
-        }
+        _savedVariables.value[variableName]
+            ?.copy(value = value as Any)
+            ?.let { updatedValue ->
+                val updatedMap = _savedVariables.value.also { variablesMap ->
+                    variablesMap[variableName] = updatedValue
+                }
+                _savedVariables.tryEmit(updatedMap)
+            }
     }
 
-    fun updateVariableSetting(
+    fun <T : Any> updateVariableSetting(
         variableName: String,
-        setting: VariableSetting,
+        setting: VariableSettings<T>,
     ) {
-        val isEnabled = (setting as? VariableSetting.Enabled)?.isEnabled
-        val autoincrement = setting as? VariableSetting.Autoincrement
+        require(variableName in variableSettings.keys)
 
-        settings[variableName]?.let { variableSettings ->
-            settings[variableName] = variableSettings.copy(
-                isEnabled = isEnabled ?: variableSettings.isEnabled,
-                autoincrement = autoincrement ?: variableSettings.autoincrement,
-            )
-        }
+        variableSettings[variableName] = setting as VariableSettings<Any>
     }
 
-    fun getVariableSettings(variableName: String): VariableSettings {
-        return settings[variableName] ?: VariableSettings.DEFAULT
+    fun getVariableSettings(variableName: String): VariableSettings<Any>? {
+        return variableSettings[variableName]
     }
 
-    fun <T> getDebugVariableValue(
+    fun updateEnabledStatus(
+        variableName: String,
+        enabled: Boolean,
+    ) {
+        variableEnabledStatus[variableName] = enabled
+    }
+
+    fun getVariableEnabledStatus(variableName: String): Boolean {
+        return variableEnabledStatus[variableName] ?: true
+    }
+
+    fun getVariableWidget(variableKClassHashCode: Int): VariableWidget<Any>? {
+        return supportedClasses[variableKClassHashCode]
+    }
+
+    fun <T : Any> addWidget(widget: VariableWidget<T>) {
+        supportedClasses[widget.kClass.hashCode()] = widget as VariableWidget<Any>
+    }
+
+    fun <T : Any> getDebugVariableValue(
         name: String,
         defaultValue: T,
-        variableClass: KClass<*>,
+        variableClass: KClass<T>,
     ): T {
+        val variableClassHashCode = variableClass.hashCode()
+
         require(variableClass.isInstance(defaultValue))
+        require(variableClassHashCode in supportedClasses.keys)
 
-        if (variableClass == Boolean::class && name in settings.keys) {
-            return settings[name]?.isEnabled as? T ?: defaultValue
+        val variables = _savedVariables.value
+        if (variables[name]?.kClass != variableClass) {
+            createNewVariable(name, defaultValue, variableClass)
         }
 
-        val variableSettings = settings[name] ?: VariableSettings.DEFAULT
+        if (!variableEnabledStatus[name]!!) return defaultValue
 
-        if (!variableSettings.isEnabled) return defaultValue
-
-        val savedValue = _modifiers.value.getOrPut(name) {
-            settings[name] = if (variableClass == Boolean::class) {
-                VariableSettings.DEFAULT.copy(isEnabled = defaultValue as Boolean)
-            } else {
-                VariableSettings.DEFAULT
-            }
-
-            VariableItem(name, defaultValue.toString(), variableClass)
-        }.value
-
-        val incrementStep = if (variableSettings.autoincrement.isEnabled) {
-            variableSettings.autoincrement.step
-        } else {
-            .0
+        val variable = variables[name]!!
+        val updatedVariable = variableSettings[name]?.apply(variable) ?: variable
+        if (updatedVariable != variable) {
+            updateVariableValue(name, updatedVariable.value)
         }
 
-        val updatedSavedValue = when (variableClass) {
-            Int::class -> savedValue.toIntOrNull()?.plus(incrementStep)?.toInt()
-            Long::class -> savedValue.toLongOrNull()?.plus(incrementStep)?.toLong()
-            Short::class -> savedValue.toShortOrNull()?.plus(incrementStep)?.toInt()?.toShort()
-            Float::class -> savedValue.toFloatOrNull()?.plus(incrementStep)?.toFloat()
-            Double::class -> savedValue.toDoubleOrNull()?.plus(incrementStep)
-            Boolean::class -> settings[name]?.isEnabled ?: this
-            else -> savedValue
-        } as T
+        return updatedVariable.value as T
+    }
 
-        _modifiers.value[name] = VariableItem(
+    private fun <T : Any> createNewVariable(
+        name: String,
+        defaultValue: T,
+        variableClass: KClass<T>,
+    ) {
+        val variables = _savedVariables.value
+        variables[name] = VariableItem(
             name = name,
-            value = updatedSavedValue.toString(),
-            clazz = variableClass,
+            value = defaultValue,
+            kClass = variableClass as KClass<Any>,
         )
 
-        _modifiers.tryEmit(_modifiers.value)
+        getVariableWidget(variableClass.hashCode())!!
+            .getSupportedSettings()
+            ?.let { supportedSettings ->
+                variableSettings[name] = supportedSettings
+            }
 
-        return updatedSavedValue ?: defaultValue
+        variableEnabledStatus[name] = true
+
+        _savedVariables.tryEmit(variables)
     }
 }
