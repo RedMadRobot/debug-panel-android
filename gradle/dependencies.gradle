@@ -79,7 +79,7 @@ deps.firebase = [
 //endregion
 
 //region Lifecycle
-versions.lifecycle = "2.2.0"
+versions.lifecycle = "2.4.0"
 versions.lifecycle_testing = "2.1.0"
 
 deps.lifecycle = [
