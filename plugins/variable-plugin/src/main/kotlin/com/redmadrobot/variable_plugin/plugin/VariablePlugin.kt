@@ -32,12 +32,6 @@ public class VariablePlugin(
     }
 }
 
-private val variableRepository by lazy(LazyThreadSafetyMode.NONE) {
-    getPlugin<VariablePlugin>()
-        .getContainer<VariablePluginContainer>()
-        .variableRepository
-}
-
 public fun <T : Any> T.toDebugVariable(
     name: String,
 ): T {
@@ -46,6 +40,12 @@ public fun <T : Any> T.toDebugVariable(
         defaultValue = this,
         variableClass = this::class as KClass<T>,
     )
+}
+
+private val variableRepository by lazy(LazyThreadSafetyMode.NONE) {
+    getPlugin<VariablePlugin>()
+        .getContainer<VariablePluginContainer>()
+        .variableRepository
 }
 
 public abstract class VariableWidget<T : Any>(
