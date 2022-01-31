@@ -40,7 +40,7 @@ dependencies {
             project(path: ':debug-panel-core'),
             project(path: ':debug-panel-common'),
             deps.kotlin.stdlib,
-            deps.lifecycle.lifecycle_livedata_core
+            deps.lifecycle.lifecycle_runtime
     )
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

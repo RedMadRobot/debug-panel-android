@@ -36,9 +36,7 @@ android {
 dependencies {
     implementation(
             project(path: ':debug-panel-core'),
-            project(path: ':debug-panel-common')
+            project(path: ':debug-panel-common'),
+            deps.lifecycle.lifecycle_runtime
     )
-
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03")
-
 }

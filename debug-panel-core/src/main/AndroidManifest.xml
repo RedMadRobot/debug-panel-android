@@ -4,12 +4,14 @@
     <application>
         <activity
             android:name="com.redmadrobot.debug_panel_core.ui.debugpanel.DebugActivity"
+            android:exported="false"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
             android:theme="@style/DebugPanelTheme" />
 
         <activity-alias
             android:name="com.redmadrobot.debug_panel.DebugLauncherActivity"
             android:enabled="true"
+            android:exported="true"
             android:label="@string/debug_panel"
             android:targetActivity="com.redmadrobot.debug_panel_core.ui.debugpanel.DebugActivity"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
