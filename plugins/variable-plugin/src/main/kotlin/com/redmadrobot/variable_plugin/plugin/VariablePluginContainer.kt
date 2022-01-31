@@ -6,10 +6,7 @@ import com.redmadrobot.variable_plugin.data.VariableRepository
 import com.redmadrobot.variable_plugin.ui.VariableViewModel
 import com.redmadrobot.variable_plugin.ui.widgets.BooleanVariableWidget
 import com.redmadrobot.variable_plugin.ui.widgets.StringVariableWidget
-import com.redmadrobot.variable_plugin.ui.widgets.numbers.DoubleVariableWidget
-import com.redmadrobot.variable_plugin.ui.widgets.numbers.FloatVariableWidget
-import com.redmadrobot.variable_plugin.ui.widgets.numbers.IntVariableWidget
-import com.redmadrobot.variable_plugin.ui.widgets.numbers.LongVariableWidget
+import com.redmadrobot.variable_plugin.ui.widgets.numbers.*
 
 internal class VariablePluginContainer(
     private val container: CommonContainer,
@@ -20,6 +17,7 @@ internal class VariablePluginContainer(
         VariableRepository().apply {
             addWidget(IntVariableWidget())
             addWidget(LongVariableWidget())
+            addWidget(ShortVariableWidget())
             addWidget(FloatVariableWidget())
             addWidget(DoubleVariableWidget())
 
