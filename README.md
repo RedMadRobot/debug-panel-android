@@ -304,6 +304,22 @@ override fun getValue(feature: Feature): FlipperValue {
 }
 ```
 
+###VariablePlugin
+
+This plugin aims to help with debugging by allowing you to change some variables without the need of project rebuild/relaunch
+
+Core api consist of a single method: 'toDebugVariable("var_name")', add it to any variable in your app, use it once and voilà - it's now can be edited from the panel.
+
+Supported types: String, Boolean, Numbers (except unsigned)
+
+<details><summary>You can add your own types, or override existent!</summary>
+1. Extend the VariableWidget<*> and implement required methods
+2. (optional) add settings to your variable by overriding settings related methods of VariableWidget
+3. Pass your widgets to plugin upon initialization
+
+Example can be found in DebugVariableWidgetsProvider, or in plugin itself
+</details>
+
 
 # Безопасность!
 Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
