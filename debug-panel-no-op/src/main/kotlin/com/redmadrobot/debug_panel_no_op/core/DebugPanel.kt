@@ -7,7 +7,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 object DebugPanel {
-    fun initialize(application: Application, plugins: List<Any>) = Unit
+    fun initialize(
+        application: Application,
+        plugins: List<Any>,
+        config: DebugPanelConfig = DebugPanelConfig.defaultConfig
+    ) = Unit
 
     fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) = Unit
 

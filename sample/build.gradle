@@ -37,6 +37,7 @@ dependencies {
     implementation(
             deps.kotlin.stdlib,
             deps.androidx.app_compat,
+            deps.androidx.design,
             deps.androidx.constraint_layout,
             deps.feature_toggles.flipper,
             deps.debugging.timber,
