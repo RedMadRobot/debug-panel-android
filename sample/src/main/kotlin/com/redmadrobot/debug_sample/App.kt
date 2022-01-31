@@ -10,6 +10,7 @@ import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
 import com.redmadrobot.debug_sample.debug_data.DebugAccountsProvider
 import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
 import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
+import com.redmadrobot.debug_sample.debug_data.DebugVariableWidgetsProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.data.model.DebugServer
@@ -41,7 +42,9 @@ class App : Application() {
                 FlipperPlugin(
                     featureStateMap = DebugFlipperFeaturesProvider().provideData(),
                 ),
-                VariablePlugin(),
+                VariablePlugin(
+                    customWidgets = DebugVariableWidgetsProvider().provideData()
+                ),
 //                , FeatureTogglesPlugin(
 //                    featureTogglesConfig = FeatureTogglesConfig(
 //                        FeatureToggleWrapperImpl.toggleNames,

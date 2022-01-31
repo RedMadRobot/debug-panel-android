@@ -1,6 +1,7 @@
 package com.redmadrobot.debug_sample
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -23,6 +24,8 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,10 +74,17 @@ class MainActivity : AppCompatActivity() {
                 ${10F.toDebugVariable("float10")}
                 ${.0.toDebugVariable("double0")}
             """.trimIndent()
+            val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                LocalDateTime.now()
+                    .toDebugVariable("local_date_time")
+                    .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            } else {
+                ""
+            }
 
             Toast.makeText(
                 applicationContext,
-                strings + "\n" + boolean + "\n" + digits,
+                strings + "\n" + boolean + "\n" + digits + "\n" + date,
                 Toast.LENGTH_LONG
             ).show()
         }
