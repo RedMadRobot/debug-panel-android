@@ -9,7 +9,7 @@
         android:id="@+id/variable_checkbox"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@id/variable_button_settings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,5 +45,5 @@
         tools:background="@color/green"
         tools:layout_height="30dp"
         tools:visibility="visible" />
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>
