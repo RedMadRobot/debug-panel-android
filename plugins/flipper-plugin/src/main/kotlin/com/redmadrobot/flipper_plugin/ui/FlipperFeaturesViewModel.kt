@@ -25,57 +25,8 @@ internal class FlipperFeaturesViewModel(
     init {
         updateShownFeaturesOnQueryChange()
 
-        togglesRepository
-            .getFeatureToggles()
-            .map { pluginToggles ->
-                val mappedGroups = mutableMapOf<String, List<FlipperFeature>>()
-
-                pluginToggles
-                    .groupBy(PluginToggle::group)
-                    .forEach { (groupName, toggles) ->
-                        val features = mutableListOf<FlipperFeature>()
-
-                        features += FlipperFeature.Group(
-                            name = groupName,
-                            allEnabled = toggles.all { toggle ->
-                                (toggle.value as? FlipperValue.BooleanValue)?.value ?: true
-                            }
-                        )
-
-                        toggles.forEach { toggle ->
-                            features += FlipperFeature.Item(
-                                id = toggle.id,
-                                value = toggle.value,
-                                description = toggle.description,
-                            )
-                        }
-
-                        mappedGroups[groupName] = features
-                    }
-
-                mappedGroups
-            }
-            .onEach(groupedFeaturesState::emit)
-            .flowOn(Dispatchers.Main)
-            .launchIn(viewModelScope)
-
-        combine(
-            groupedFeaturesState,
-            collapsedGroupsState,
-        ) { features, collapsedGroups ->
-            features
-                .map { (groupName, items) ->
-                    if (groupName in collapsedGroups) {
-                        listOf(items.first())
-                    } else {
-                        items
-                    }
-                }
-                .flatten()
-        }
-            .onEach(featureItemsState::emit)
-            .flowOn(Dispatchers.Main)
-            .launchIn(viewModelScope)
+        upkeepFeatureGroups()
+        upkeepFeatureItems()
     }
 
     fun onQueryChanged(query: String) {
@@ -122,6 +73,62 @@ internal class FlipperFeaturesViewModel(
         viewModelScope.launch {
             togglesRepository.resetAllToDefault()
         }
+    }
+
+    private fun upkeepFeatureGroups() {
+        togglesRepository
+            .getFeatureToggles()
+            .map { pluginToggles ->
+                val mappedGroups = mutableMapOf<String, List<FlipperFeature>>()
+
+                pluginToggles
+                    .groupBy(PluginToggle::group)
+                    .forEach { (groupName, toggles) ->
+                        val features = mutableListOf<FlipperFeature>()
+
+                        features += FlipperFeature.Group(
+                            name = groupName,
+                            allEnabled = toggles.all { toggle ->
+                                (toggle.value as? FlipperValue.BooleanValue)?.value ?: true
+                            }
+                        )
+
+                        toggles.forEach { toggle ->
+                            features += FlipperFeature.Item(
+                                id = toggle.id,
+                                value = toggle.value,
+                                description = toggle.description,
+                            )
+                        }
+
+                        mappedGroups[groupName] = features
+                    }
+
+                mappedGroups
+            }
+            .onEach(groupedFeaturesState::emit)
+            .flowOn(Dispatchers.Main)
+            .launchIn(viewModelScope)
+    }
+
+    private fun upkeepFeatureItems() {
+        combine(
+            groupedFeaturesState,
+            collapsedGroupsState,
+        ) { features, collapsedGroups ->
+            features
+                .map { (groupName, items) ->
+                    if (groupName in collapsedGroups) {
+                        listOf(items.first())
+                    } else {
+                        items
+                    }
+                }
+                .flatten()
+        }
+            .onEach(featureItemsState::emit)
+            .flowOn(Dispatchers.Main)
+            .launchIn(viewModelScope)
     }
 
     // Функция отвечает за обновление списка фичей с учётом ввода из поисковой строки
