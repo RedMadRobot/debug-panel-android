@@ -12,6 +12,7 @@ import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature.Group
 import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature.Item
 
 internal class FlipperFeaturesAdapter(
+    private val onGroupClick: (groupName: String) -> Unit,
     private val onFeatureValueChanged: (featureId: String, value: FlipperValue) -> Unit,
     private val onGroupToggleStateChanged: (groupName: String, checked: Boolean) -> Unit,
 ) : ListAdapter<FlipperFeature, RecyclerView.ViewHolder>(
@@ -55,6 +56,7 @@ internal class FlipperFeaturesAdapter(
 
                 GroupViewHolder(
                     itemView = binding.root,
+                    onGroupClick = onGroupClick::invoke,
                     onTogglesStateChanged = onGroupToggleStateChanged::invoke,
                 )
             }

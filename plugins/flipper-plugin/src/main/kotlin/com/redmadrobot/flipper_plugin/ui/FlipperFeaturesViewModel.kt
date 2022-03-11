@@ -19,18 +19,22 @@ internal class FlipperFeaturesViewModel(
 
     private val queryState = MutableStateFlow("")
     private val featureItemsState = MutableStateFlow(emptyList<FlipperFeature>())
+    private val groupedFeaturesState = MutableStateFlow(emptyMap<String, List<FlipperFeature>>())
+    private val collapsedGroupsState = MutableStateFlow(emptySet<String>())
 
     init {
         updateShownFeaturesOnQueryChange()
 
         togglesRepository
             .getFeatureToggles()
-            .onEach { pluginToggles ->
-                val features = mutableListOf<FlipperFeature>()
+            .map { pluginToggles ->
+                val mappedGroups = mutableMapOf<String, List<FlipperFeature>>()
 
                 pluginToggles
                     .groupBy(PluginToggle::group)
                     .forEach { (groupName, toggles) ->
+                        val features = mutableListOf<FlipperFeature>()
+
                         features += FlipperFeature.Group(
                             name = groupName,
                             allEnabled = toggles.all { toggle ->
@@ -45,10 +49,31 @@ internal class FlipperFeaturesViewModel(
                                 description = toggle.description,
                             )
                         }
+
+                        mappedGroups[groupName] = features
                     }
 
-                featureItemsState.emit(features)
+                mappedGroups
             }
+            .onEach(groupedFeaturesState::emit)
+            .flowOn(Dispatchers.Main)
+            .launchIn(viewModelScope)
+
+        combine(
+            groupedFeaturesState,
+            collapsedGroupsState,
+        ) { features, collapsedGroups ->
+            features
+                .map { (groupName, items) ->
+                    if (groupName in collapsedGroups) {
+                        listOf(items.first())
+                    } else {
+                        items
+                    }
+                }
+                .flatten()
+        }
+            .onEach(featureItemsState::emit)
             .flowOn(Dispatchers.Main)
             .launchIn(viewModelScope)
     }
@@ -66,26 +91,31 @@ internal class FlipperFeaturesViewModel(
     }
 
     fun onGroupToggleStateChanged(groupName: String, checked: Boolean) {
+        val items = groupedFeaturesState.value[groupName] ?: return
         viewModelScope.launch {
-            val items = featureItemsState.value
-            val indexOfGroup =
-                items.indexOfFirst { (it as? FlipperFeature.Group)?.name == groupName }
+            for (item in items) {
+                item as? FlipperFeature.Item ?: continue
 
-            if (indexOfGroup >= 0 && indexOfGroup < items.lastIndex) {
-                for (i in indexOfGroup + 1..items.lastIndex) {
-                    val item = (items[i] as? FlipperFeature.Item) ?: continue
-
-                    if (item.value is FlipperValue.BooleanValue) {
-                        togglesRepository.saveFeatureState(
-                            item.id,
-                            FlipperValue.BooleanValue(checked)
-                        )
-                    }
-
-                    if (items.getOrNull(i + 1) is FlipperFeature.Group) break
+                if (item.value is FlipperValue.BooleanValue) {
+                    togglesRepository.saveFeatureState(
+                        item.id,
+                        FlipperValue.BooleanValue(checked)
+                    )
                 }
             }
         }
+    }
+
+    fun onGroupClick(groupName: String) {
+        val collapsedGroups = collapsedGroupsState.value
+
+        collapsedGroupsState.tryEmit(
+            if (groupName in collapsedGroups) {
+                collapsedGroups - groupName
+            } else {
+                collapsedGroups + groupName
+            }
+        )
     }
 
     fun onResetClicked() {
