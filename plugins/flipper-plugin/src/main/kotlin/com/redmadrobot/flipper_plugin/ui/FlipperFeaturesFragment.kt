@@ -40,6 +40,7 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
 
         this.featuresAdapter = FlipperFeaturesAdapter(
             onFeatureValueChanged = viewModel::onFeatureValueChanged,
+            onGroupToggleStateChanged = viewModel::onGroupToggleStateChanged,
         )
 
         binding.featureList.adapter = this.featuresAdapter

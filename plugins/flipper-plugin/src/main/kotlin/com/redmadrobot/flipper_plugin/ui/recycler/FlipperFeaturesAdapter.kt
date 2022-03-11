@@ -13,6 +13,7 @@ import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature.Item
 
 internal class FlipperFeaturesAdapter(
     private val onFeatureValueChanged: (featureId: String, value: FlipperValue) -> Unit,
+    private val onGroupToggleStateChanged: (groupName: String, checked: Boolean) -> Unit,
 ) : ListAdapter<FlipperFeature, RecyclerView.ViewHolder>(
     FlipperFeaturesDiffCallback(),
 ) {
@@ -53,7 +54,8 @@ internal class FlipperFeaturesAdapter(
                 )
 
                 GroupViewHolder(
-                    itemView = binding.root
+                    itemView = binding.root,
+                    onTogglesStateChanged = onGroupToggleStateChanged::invoke,
                 )
             }
 
@@ -69,7 +71,7 @@ internal class FlipperFeaturesAdapter(
                 val group = item as Group
                 val groupHolder = holder as GroupViewHolder
 
-                groupHolder.bind(group.name)
+                groupHolder.bind(group.name, group.allEnabled)
             }
 
             ViewType.BOOLEAN -> {

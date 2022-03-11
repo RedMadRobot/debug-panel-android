@@ -31,7 +31,12 @@ internal class FlipperFeaturesViewModel(
                 pluginToggles
                     .groupBy(PluginToggle::group)
                     .forEach { (groupName, toggles) ->
-                        features += FlipperFeature.Group(name = groupName)
+                        features += FlipperFeature.Group(
+                            name = groupName,
+                            allEnabled = toggles.all { toggle ->
+                                (toggle.value as? FlipperValue.BooleanValue)?.value ?: true
+                            }
+                        )
 
                         toggles.forEach { toggle ->
                             features += FlipperFeature.Item(
@@ -57,6 +62,29 @@ internal class FlipperFeaturesViewModel(
     fun onFeatureValueChanged(feature: String, value: FlipperValue) {
         viewModelScope.launch {
             togglesRepository.saveFeatureState(feature, value)
+        }
+    }
+
+    fun onGroupToggleStateChanged(groupName: String, checked: Boolean) {
+        viewModelScope.launch {
+            val items = featureItemsState.value
+            val indexOfGroup =
+                items.indexOfFirst { (it as? FlipperFeature.Group)?.name == groupName }
+
+            if (indexOfGroup >= 0 && indexOfGroup < items.lastIndex) {
+                for (i in indexOfGroup + 1..items.lastIndex) {
+                    val item = (items[i] as? FlipperFeature.Item) ?: continue
+
+                    if (item.value is FlipperValue.BooleanValue) {
+                        togglesRepository.saveFeatureState(
+                            item.id,
+                            FlipperValue.BooleanValue(checked)
+                        )
+                    }
+
+                    if (items.getOrNull(i + 1) is FlipperFeature.Group) break
+                }
+            }
         }
     }
 
