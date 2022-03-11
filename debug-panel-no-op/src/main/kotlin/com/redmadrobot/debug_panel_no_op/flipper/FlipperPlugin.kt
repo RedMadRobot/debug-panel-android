@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 public class FlipperPlugin(
-    private val featureStateMap: Map<String, FlipperValue> = emptyMap(),
+    private val toggles: List<PluginToggle> = emptyList(),
 ) {
 
     public companion object {
@@ -13,4 +13,16 @@ public class FlipperPlugin(
             return emptyFlow()
         }
     }
+
+    @Deprecated(message = "Use primary constructor")
+    public constructor(
+        featureStateMap: Map<String, FlipperValue>,
+    ) : this(emptyList())
 }
+
+public data class PluginToggle(
+    val id: String,
+    val group: String,
+    val value: FlipperValue,
+    val description: String,
+)

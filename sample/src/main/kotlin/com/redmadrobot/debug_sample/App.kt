@@ -11,7 +11,6 @@ import com.redmadrobot.debug_sample.debug_data.DebugAccountsProvider
 import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
 import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
-import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.flipper_plugin.plugin.PluginToggle
 import com.redmadrobot.servers_plugin.data.model.DebugServer
