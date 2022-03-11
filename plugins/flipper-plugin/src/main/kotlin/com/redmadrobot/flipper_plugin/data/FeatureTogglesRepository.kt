@@ -3,10 +3,13 @@ package com.redmadrobot.flipper_plugin.data
 import android.content.Context
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper.config.FlipperValue.*
+import com.redmadrobot.flipper_plugin.plugin.PluginToggle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -16,13 +19,16 @@ import java.io.ObjectOutputStream
 
 internal class FeatureTogglesRepository(
     private val context: Context,
-    private val defaultFeatureToggles: Map<String, FlipperValue>,
+    private val defaultToggles: List<PluginToggle>,
 ) {
     companion object {
         private const val TOGGLES_FILE_NAME = "com.redmadrobot.flipper_plugin.toggles"
     }
 
+    private val defaultTogglesState = MutableStateFlow(defaultToggles)
     private val changedTogglesState = MutableStateFlow(emptyMap<String, FlipperValue>())
+
+    private val defaultFeatureToggles = defaultToggles.associate { it.id to it.value }
 
     init {
         CoroutineScope(Dispatchers.IO).launch { restoreTogglesState() }
@@ -30,8 +36,22 @@ internal class FeatureTogglesRepository(
 
     fun observeChangedToggles(): Flow<Map<String, FlipperValue>> = changedTogglesState
 
-    fun getFeatureToggles(): Map<String, FlipperValue> {
-        return defaultFeatureToggles + changedTogglesState.value
+    fun getFeatureToggles(): Flow<List<PluginToggle>> {
+        return combine(
+            defaultTogglesState,
+            changedTogglesState,
+        ) { defaultToggles, changedToggles ->
+            if (changedToggles.isEmpty()) {
+                defaultToggles
+            } else {
+                defaultToggles.map { toggle ->
+                    changedToggles[toggle.id]?.let { changedValue ->
+                        toggle.copy(value = changedValue)
+                    } ?: toggle
+                }
+            }
+        }
+            .flowOn(Dispatchers.Main)
     }
 
     suspend fun saveFeatureState(feature: String, value: FlipperValue) {

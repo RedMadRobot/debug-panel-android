@@ -107,21 +107,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun onFlipperTogglesChanged(changedToggles: Map<String, FlipperValue>) {
         val showFirst = changedToggles.entries
-            .find { (feature) -> feature.contains("Show label 1", true) }
+            .find { (feature) -> feature.contains("id1", true) }
             ?.let { (_, value) ->
                 (value as? FlipperValue.BooleanValue)?.value
             }
             ?: false
 
         val showSecond = changedToggles.entries
-            .find { (feature) -> feature.contains("Show label 2", true) }
+            .find { (feature) -> feature.contains("id2", true) }
             ?.let { (_, value) ->
                 (value as? FlipperValue.BooleanValue)?.value
             }
             ?: true
 
         val showThird = changedToggles.entries
-            .find { (feature) -> feature.contains("Show label 3", true) }
+            .find { (feature) -> feature.contains("id3", true) }
             ?.let { (_, value) ->
                 (value as? FlipperValue.BooleanValue)?.value
             }

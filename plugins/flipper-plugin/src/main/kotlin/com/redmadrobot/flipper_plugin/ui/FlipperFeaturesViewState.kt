@@ -1,7 +1,7 @@
 package com.redmadrobot.flipper_plugin.ui
 
-import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
+import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature
 
 internal data class FlipperFeaturesViewState(
-    val featureItems: List<FlipperFeatureItem> = emptyList(),
+    val featureItems: List<FlipperFeature> = emptyList(),
 )

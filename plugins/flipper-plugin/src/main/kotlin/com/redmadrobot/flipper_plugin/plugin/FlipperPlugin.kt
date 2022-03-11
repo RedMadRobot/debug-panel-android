@@ -7,11 +7,13 @@ import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesFragment
 import kotlinx.coroutines.flow.Flow
+import okhttp3.internal.toImmutableList
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
 public class FlipperPlugin(
-    private val featureStateMap: Map<String, FlipperValue>,
+    private val toggles: List<PluginToggle>,
 ) : Plugin() {
 
     public companion object {
@@ -22,12 +24,24 @@ public class FlipperPlugin(
         }
     }
 
+    @Deprecated(message = "Use primary constructor")
+    public constructor(
+        featureStateMap: Map<String, FlipperValue>,
+    ) : this(featureStateMap.map { (id, value) ->
+        PluginToggle(
+            id = id,
+            group = "",
+            value = value,
+            description = id,
+        )
+    })
+
     override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return FlipperPluginContainer(
             context = commonContainer.context,
-            defaultFeaturesMap = Collections.unmodifiableMap(LinkedHashMap(featureStateMap)),
+            defaultToggles = Collections.unmodifiableList(ArrayList(toggles)),
         )
     }
 
@@ -35,3 +49,10 @@ public class FlipperPlugin(
         return FlipperFeaturesFragment()
     }
 }
+
+public data class PluginToggle(
+    val id: String,
+    val group: String,
+    val value: FlipperValue,
+    val description: String,
+)

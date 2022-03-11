@@ -4,7 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
-import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
+import com.redmadrobot.flipper_plugin.plugin.PluginToggle
+import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,12 +18,34 @@ internal class FlipperFeaturesViewModel(
     val state = _state.asStateFlow()
 
     private val queryState = MutableStateFlow("")
-    private val featureItemsState = MutableStateFlow(emptyList<FlipperFeatureItem>())
+    private val featureItemsState = MutableStateFlow(emptyList<FlipperFeature>())
 
     init {
-        updateAvailableFeatures()
-
         updateShownFeaturesOnQueryChange()
+
+        togglesRepository
+            .getFeatureToggles()
+            .onEach { pluginToggles ->
+                val features = mutableListOf<FlipperFeature>()
+
+                pluginToggles
+                    .groupBy(PluginToggle::group)
+                    .forEach { (groupName, toggles) ->
+                        features += FlipperFeature.Group(name = groupName)
+
+                        toggles.forEach { toggle ->
+                            features += FlipperFeature.Item(
+                                id = toggle.id,
+                                value = toggle.value,
+                                description = toggle.description,
+                            )
+                        }
+                    }
+
+                featureItemsState.emit(features)
+            }
+            .flowOn(Dispatchers.Main)
+            .launchIn(viewModelScope)
     }
 
     fun onQueryChanged(query: String) {
@@ -35,34 +58,11 @@ internal class FlipperFeaturesViewModel(
         viewModelScope.launch {
             togglesRepository.saveFeatureState(feature, value)
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            val updatedFeatureItemsState = featureItemsState.value.map { item ->
-                if (item.featureId == feature) {
-                    item.copy(value = value)
-                } else {
-                    item
-                }
-            }
-
-            featureItemsState.emit(updatedFeatureItemsState)
-        }
     }
 
     fun onResetClicked() {
         viewModelScope.launch {
             togglesRepository.resetAllToDefault()
-
-            updateAvailableFeatures()
-        }
-    }
-
-    private fun updateAvailableFeatures() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val items = togglesRepository.getFeatureToggles().map { (feature, value) ->
-                FlipperFeatureItem(feature, value)
-            }
-
-            featureItemsState.emit(items)
         }
     }
 
@@ -75,7 +75,17 @@ internal class FlipperFeaturesViewModel(
             if (query.isBlank()) {
                 featureItems
             } else {
-                featureItems.filter { query in it.featureId }
+                featureItems.filter { flipperFeature ->
+                    when (flipperFeature) {
+                        is FlipperFeature.Item -> {
+                            flipperFeature.id.contains(query, ignoreCase = true)
+                        }
+
+                        is FlipperFeature.Group -> {
+                            flipperFeature.name.contains(query, ignoreCase = true)
+                        }
+                    }
+                }
             }
         }
             .onEach { featureItems ->

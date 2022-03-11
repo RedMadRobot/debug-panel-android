@@ -6,21 +6,33 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureBooleanBinding
-import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
+import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureGroupBinding
+import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature
+import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature.Group
+import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature.Item
 
 internal class FlipperFeaturesAdapter(
     private val onFeatureValueChanged: (featureId: String, value: FlipperValue) -> Unit,
-) : ListAdapter<FlipperFeatureItem, RecyclerView.ViewHolder>(
+) : ListAdapter<FlipperFeature, RecyclerView.ViewHolder>(
     FlipperFeaturesDiffCallback(),
 ) {
 
     override fun getItemViewType(position: Int): Int {
-        return getItem(position).value::class.hashCode()
+        return when (val item = getItem(position)) {
+            is Group -> ViewType.GROUP.ordinal
+
+            is Item -> {
+                when (item.value) {
+                    is FlipperValue.BooleanValue -> ViewType.BOOLEAN.ordinal
+                    else -> error("FlipperValue ${item.value::class} not supported")
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            FlipperValue.BooleanValue::class.hashCode() -> {
+        return when (ViewType.values()[viewType]) {
+            ViewType.BOOLEAN -> {
                 val featureBinding = ItemFlipperFeatureBooleanBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -33,22 +45,48 @@ internal class FlipperFeaturesAdapter(
                 )
             }
 
+            ViewType.GROUP -> {
+                val binding = ItemFlipperFeatureGroupBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+
+                GroupViewHolder(
+                    itemView = binding.root
+                )
+            }
+
             else -> throw IllegalStateException("Can't create viewHolder for given viewType")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
-        when (item.value) {
-            is FlipperValue.BooleanValue -> {
-                (holder as BooleanFeatureViewHolder).bind(item.featureId, item.value)
+
+        when (ViewType.values()[getItemViewType(position)]) {
+            ViewType.GROUP -> {
+                val group = item as Group
+                val groupHolder = holder as GroupViewHolder
+
+                groupHolder.bind(group.name)
             }
 
-            else -> {
-                throw IllegalStateException(
-                    "Can't bind item with value: ${item.value::class.simpleName}"
+            ViewType.BOOLEAN -> {
+                val booleanItem = item as Item
+                val booleanHolder = holder as BooleanFeatureViewHolder
+
+                booleanHolder.bind(
+                    featureId = booleanItem.id,
+                    value = booleanItem.value as FlipperValue.BooleanValue,
+                    description = booleanItem.description,
                 )
             }
         }
+    }
+
+    private enum class ViewType {
+        GROUP,
+        BOOLEAN,
     }
 }
