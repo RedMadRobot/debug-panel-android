@@ -78,7 +78,7 @@ internal class FlipperFeaturesViewModel(
                 featureItems.filter { flipperFeature ->
                     when (flipperFeature) {
                         is FlipperFeature.Item -> {
-                            flipperFeature.id.contains(query, ignoreCase = true)
+                            flipperFeature.description.contains(query, ignoreCase = true)
                         }
 
                         is FlipperFeature.Group -> {
