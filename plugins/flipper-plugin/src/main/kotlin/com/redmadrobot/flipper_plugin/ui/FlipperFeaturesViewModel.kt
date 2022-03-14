@@ -79,32 +79,7 @@ internal class FlipperFeaturesViewModel(
         togglesRepository
             .getFeatureToggles()
             .map { pluginToggles ->
-                val mappedGroups = mutableMapOf<String, List<FlipperFeature>>()
-
-                pluginToggles
-                    .groupBy(PluginToggle::group)
-                    .forEach { (groupName, toggles) ->
-                        val features = mutableListOf<FlipperFeature>()
-
-                        features += FlipperFeature.Group(
-                            name = groupName,
-                            allEnabled = toggles.all { toggle ->
-                                (toggle.value as? FlipperValue.BooleanValue)?.value ?: true
-                            }
-                        )
-
-                        toggles.forEach { toggle ->
-                            features += FlipperFeature.Item(
-                                id = toggle.id,
-                                value = toggle.value,
-                                description = toggle.description,
-                            )
-                        }
-
-                        mappedGroups[groupName] = features
-                    }
-
-                mappedGroups
+                pluginToggles.groupByGroupName()
             }
             .onEach(groupedFeaturesState::emit)
             .flowOn(Dispatchers.Main)
@@ -158,6 +133,35 @@ internal class FlipperFeaturesViewModel(
             }
             .flowOn(Dispatchers.IO)
             .launchIn(viewModelScope)
+    }
+
+    private fun List<PluginToggle>.groupByGroupName(): MutableMap<String, List<FlipperFeature>> {
+        val mappedGroups = mutableMapOf<String, List<FlipperFeature>>()
+
+        this
+            .groupBy(PluginToggle::group)
+            .forEach { (groupName, toggles) ->
+                val features = mutableListOf<FlipperFeature>()
+
+                features += FlipperFeature.Group(
+                    name = groupName,
+                    allEnabled = toggles.all { toggle ->
+                        (toggle.value as? FlipperValue.BooleanValue)?.value ?: true
+                    }
+                )
+
+                toggles.forEach { toggle ->
+                    features += FlipperFeature.Item(
+                        id = toggle.id,
+                        value = toggle.value,
+                        description = toggle.description,
+                    )
+                }
+
+                mappedGroups[groupName] = features
+            }
+
+        return mappedGroups
     }
 
     internal companion object {
