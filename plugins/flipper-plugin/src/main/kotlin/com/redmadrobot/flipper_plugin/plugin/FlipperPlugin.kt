@@ -2,15 +2,13 @@ package com.redmadrobot.flipper_plugin.plugin
 
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug_panel_core.CommonContainer
+import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesFragment
 import kotlinx.coroutines.flow.Flow
-import okhttp3.internal.toImmutableList
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
 
 public class FlipperPlugin(
     private val toggles: List<PluginToggle>,
@@ -19,8 +17,18 @@ public class FlipperPlugin(
     public companion object {
         private const val NAME = "FLIPPER PLUGIN"
 
+        private val featureTogglesRepository by lazy(LazyThreadSafetyMode.NONE) {
+            getPlugin<FlipperPlugin>()
+                .getContainer<FlipperPluginContainer>()
+                .featureTogglesRepository
+        }
+
         public fun observeChangedToggles(): Flow<Map<String, FlipperValue>> {
-            return FlipperPluginTogglesStateDispatcher.observeChangedToggles()
+            return featureTogglesRepository.observeChangedToggles()
+        }
+
+        public fun addSource(sourceName: String, toggles: Map<String, FlipperValue>) {
+            featureTogglesRepository.addSource(sourceName, toggles)
         }
     }
 
@@ -55,4 +63,5 @@ public data class PluginToggle(
     val group: String,
     val value: FlipperValue,
     val description: String,
+    val editable: Boolean = true,
 )

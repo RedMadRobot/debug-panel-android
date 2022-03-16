@@ -6,10 +6,7 @@ import com.redmadrobot.flipper.config.FlipperValue.*
 import com.redmadrobot.flipper_plugin.plugin.PluginToggle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -28,15 +25,34 @@ internal class FeatureTogglesRepository(
     private val defaultTogglesState = MutableStateFlow(defaultToggles)
     private val changedTogglesState = MutableStateFlow(emptyMap<String, FlipperValue>())
 
+    private val defaultSource = FeatureTogglesSource("Default")
     private val defaultFeatureToggles = defaultToggles.associate { it.id to it.value }
+
+    private val sources = MutableStateFlow(emptyMap<FeatureTogglesSource, Flow<List<PluginToggle>>>())
+    private val selectedSource = MutableStateFlow<FeatureTogglesSource>(defaultSource)
 
     init {
         CoroutineScope(Dispatchers.IO).launch { restoreTogglesState() }
+
+        sources.tryEmit(mapOf(defaultSource to getChangeableFeatureToggles()))
+        selectedSource.tryEmit(defaultSource)
     }
 
-    fun observeChangedToggles(): Flow<Map<String, FlipperValue>> = changedTogglesState
+    fun observeChangedToggles(): Flow<Map<String, FlipperValue>> {
+        return selectedSource
+            .flatMapLatest { selectedSource ->
+                sources.value[selectedSource]
+                    ?.map { toggles ->
+                        toggles.fold(defaultFeatureToggles.toMutableMap()) { acc, toggle ->
+                            acc[toggle.id] = toggle.value
+                            acc
+                        }
+                    }
+                    ?: emptyFlow()
+            }
+    }
 
-    fun getFeatureToggles(): Flow<List<PluginToggle>> {
+    private fun getChangeableFeatureToggles(): Flow<List<PluginToggle>> {
         return combine(
             defaultTogglesState,
             changedTogglesState,
@@ -54,11 +70,44 @@ internal class FeatureTogglesRepository(
             .flowOn(Dispatchers.Main)
     }
 
-    suspend fun saveFeatureState(feature: String, value: FlipperValue) {
-        changedTogglesState.value = if (defaultFeatureToggles[feature] != value) {
-            changedTogglesState.value + (feature to value)
+    fun addSource(sourceName: String, toggles: Map<String, FlipperValue>) {
+        require(sourceName.isNotBlank())
+
+        val togglesFlow = defaultTogglesState.map { defaultToggles ->
+            defaultToggles.mapNotNull { defaultToggle ->
+                if (defaultToggle.id in toggles) {
+                    defaultToggle.copy(
+                        value = toggles[defaultToggle.id]!!,
+                        editable = false,
+                    )
+                } else {
+                    null
+                }
+            }
+        }
+
+        val updatedSources = sources.value + (FeatureTogglesSource(sourceName) to togglesFlow)
+
+        sources.tryEmit(updatedSources)
+    }
+
+    fun setSelectedSource(source: FeatureTogglesSource) {
+        selectedSource.tryEmit(source)
+    }
+
+    fun getSources(): Flow<Map<FeatureTogglesSource, Flow<List<PluginToggle>>>> {
+        return sources
+    }
+
+    fun getSelectedSource(): Flow<FeatureTogglesSource> {
+        return selectedSource
+    }
+
+    suspend fun saveFeatureState(featureId: String, value: FlipperValue) {
+        changedTogglesState.value = if (defaultFeatureToggles[featureId] != value) {
+            changedTogglesState.value + (featureId to value)
         } else {
-            changedTogglesState.value - feature
+            changedTogglesState.value - featureId
         }
 
         withContext(Dispatchers.IO) {

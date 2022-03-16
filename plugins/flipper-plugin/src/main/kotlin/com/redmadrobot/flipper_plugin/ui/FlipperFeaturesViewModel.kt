@@ -76,8 +76,13 @@ internal class FlipperFeaturesViewModel(
     }
 
     private fun upkeepFeatureGroups() {
-        togglesRepository
-            .getFeatureToggles()
+        combine(
+            togglesRepository.getSources(),
+            togglesRepository.getSelectedSource(),
+        ) { sources, selectedSource ->
+            sources[selectedSource]!!
+        }
+            .flatMapLatest { it }
             .map { pluginToggles ->
                 pluginToggles.groupByGroupName()
             }
@@ -145,15 +150,17 @@ internal class FlipperFeaturesViewModel(
 
                 features += FlipperFeature.Group(
                     name = groupName,
+                    editable = toggles.all(PluginToggle::editable),
                     allEnabled = toggles.all { toggle ->
                         (toggle.value as? FlipperValue.BooleanValue)?.value ?: true
-                    }
+                    },
                 )
 
                 toggles.forEach { toggle ->
                     features += FlipperFeature.Item(
                         id = toggle.id,
                         value = toggle.value,
+                        editable = toggle.editable,
                         description = toggle.description,
                     )
                 }

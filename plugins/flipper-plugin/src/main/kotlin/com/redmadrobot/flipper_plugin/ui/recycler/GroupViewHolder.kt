@@ -1,6 +1,7 @@
 package com.redmadrobot.flipper_plugin.ui.recycler
 
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureGroupBinding
 
@@ -12,12 +13,17 @@ internal class GroupViewHolder(
 
     private val binding = ItemFlipperFeatureGroupBinding.bind(itemView)
 
-    fun bind(name: String, allEnabled: Boolean) = with(binding) {
+    fun bind(
+        name: String,
+        editable: Boolean,
+        allEnabled: Boolean,
+    ) = with(binding) {
         root.setOnClickListener(null)
         everyToggleInGroup.setOnCheckedChangeListener(null)
 
         groupName.text = name
         everyToggleInGroup.isChecked = allEnabled
+        everyToggleInGroup.isVisible = editable
 
         root.setOnClickListener {
             onGroupClick.invoke(name)

@@ -96,6 +96,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeFeatureToggles() {
+        FlipperPlugin.addSource(
+            "Test 1",
+            mapOf(
+                "id1" to FlipperValue.BooleanValue(false),
+                "id2" to FlipperValue.BooleanValue(false),
+                "id3" to FlipperValue.BooleanValue(false),
+            )
+        )
+        FlipperPlugin.addSource(
+            "Test 2",
+            mapOf(
+                "id1" to FlipperValue.BooleanValue(true),
+                "id2" to FlipperValue.BooleanValue(false),
+                "id3" to FlipperValue.BooleanValue(true),
+            )
+        )
+
         FlipperPlugin
             .observeChangedToggles()
             .onEach { changedToggles ->

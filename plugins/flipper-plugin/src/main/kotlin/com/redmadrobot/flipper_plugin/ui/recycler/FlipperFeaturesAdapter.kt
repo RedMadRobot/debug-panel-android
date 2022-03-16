@@ -73,7 +73,7 @@ internal class FlipperFeaturesAdapter(
                 val group = item as Group
                 val groupHolder = holder as GroupViewHolder
 
-                groupHolder.bind(group.name, group.allEnabled)
+                groupHolder.bind(group.name, group.editable, group.allEnabled)
             }
 
             ViewType.BOOLEAN -> {
@@ -83,6 +83,7 @@ internal class FlipperFeaturesAdapter(
                 booleanHolder.bind(
                     featureId = booleanItem.id,
                     value = booleanItem.value as FlipperValue.BooleanValue,
+                    editable = booleanItem.editable,
                     description = booleanItem.description,
                 )
             }

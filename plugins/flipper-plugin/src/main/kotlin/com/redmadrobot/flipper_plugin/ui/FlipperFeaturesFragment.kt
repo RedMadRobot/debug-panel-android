@@ -1,6 +1,5 @@
 package com.redmadrobot.flipper_plugin.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
@@ -14,6 +13,7 @@ import com.redmadrobot.flipper_plugin.R
 import com.redmadrobot.flipper_plugin.databinding.FragmentFlipperFeaturesBinding
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.flipper_plugin.plugin.FlipperPluginContainer
+import com.redmadrobot.flipper_plugin.ui.dialog.SourceSelectionDialogFragment
 import com.redmadrobot.flipper_plugin.ui.recycler.FlipperFeaturesAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -49,7 +49,8 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
             viewModel.onQueryChanged(text?.toString().orEmpty())
         }
         binding.resetToDefault.setOnClickListener {
-            showResetConfirmationDialog()
+            SourceSelectionDialogFragment()
+                .show(childFragmentManager, SourceSelectionDialogFragment::class.simpleName)
         }
 
         viewModel.state
@@ -66,18 +67,4 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
         super.onDestroyView()
     }
 
-    private fun showResetConfirmationDialog() {
-        AlertDialog.Builder(requireContext())
-            .setMessage(R.string.flipper_plugin_dialog_title_feature_toggles_reset)
-            .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                viewModel.onResetClicked()
-
-                dialog.dismiss()
-            }
-            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-            .show()
-    }
 }
