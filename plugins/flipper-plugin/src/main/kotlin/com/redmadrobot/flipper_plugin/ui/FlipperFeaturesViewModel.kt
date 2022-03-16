@@ -80,7 +80,7 @@ internal class FlipperFeaturesViewModel(
             togglesRepository.getSources(),
             togglesRepository.getSelectedSource(),
         ) { sources, selectedSource ->
-            sources[selectedSource]!!
+            sources.getValue(selectedSource)
         }
             .flatMapLatest { it }
             .map { pluginToggles ->
