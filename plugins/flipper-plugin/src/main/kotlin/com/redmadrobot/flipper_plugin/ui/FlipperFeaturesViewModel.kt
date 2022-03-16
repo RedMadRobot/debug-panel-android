@@ -5,7 +5,7 @@ import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
 import com.redmadrobot.flipper_plugin.plugin.PluginToggle
-import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature
+import com.redmadrobot.flipper_plugin.ui.data.FlipperItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,8 +18,8 @@ internal class FlipperFeaturesViewModel(
     val state = _state.asStateFlow()
 
     private val queryState = MutableStateFlow("")
-    private val featureItemsState = MutableStateFlow(emptyList<FlipperFeature>())
-    private val groupedFeaturesState = MutableStateFlow(emptyMap<String, List<FlipperFeature>>())
+    private val featureItemsState = MutableStateFlow(emptyList<FlipperItem>())
+    private val groupedFeaturesState = MutableStateFlow(emptyMap<String, List<FlipperItem>>())
     private val collapsedGroupsState = MutableStateFlow(emptySet<String>())
 
     init {
@@ -45,7 +45,7 @@ internal class FlipperFeaturesViewModel(
         val items = groupedFeaturesState.value[groupName] ?: return
         viewModelScope.launch {
             for (item in items) {
-                item as? FlipperFeature.Item ?: continue
+                item as? FlipperItem.Feature ?: continue
 
                 if (item.value is FlipperValue.BooleanValue) {
                     togglesRepository.saveFeatureState(
@@ -121,11 +121,11 @@ internal class FlipperFeaturesViewModel(
             } else {
                 featureItems.filter { flipperFeature ->
                     when (flipperFeature) {
-                        is FlipperFeature.Item -> {
+                        is FlipperItem.Feature -> {
                             flipperFeature.description.contains(query, ignoreCase = true)
                         }
 
-                        is FlipperFeature.Group -> {
+                        is FlipperItem.Group -> {
                             flipperFeature.name.contains(query, ignoreCase = true)
                         }
                     }
@@ -139,15 +139,15 @@ internal class FlipperFeaturesViewModel(
             .launchIn(viewModelScope)
     }
 
-    private fun List<PluginToggle>.groupByGroupName(): MutableMap<String, List<FlipperFeature>> {
-        val mappedGroups = mutableMapOf<String, List<FlipperFeature>>()
+    private fun List<PluginToggle>.groupByGroupName(): MutableMap<String, List<FlipperItem>> {
+        val mappedGroups = mutableMapOf<String, List<FlipperItem>>()
 
         this
             .groupBy(PluginToggle::group)
             .forEach { (groupName, toggles) ->
-                val features = mutableListOf<FlipperFeature>()
+                val features = mutableListOf<FlipperItem>()
 
-                features += FlipperFeature.Group(
+                features += FlipperItem.Group(
                     name = groupName,
                     editable = toggles.all(PluginToggle::editable),
                     allEnabled = toggles.all { toggle ->
@@ -156,7 +156,7 @@ internal class FlipperFeaturesViewModel(
                 )
 
                 toggles.forEach { toggle ->
-                    features += FlipperFeature.Item(
+                    features += FlipperItem.Feature(
                         id = toggle.id,
                         value = toggle.value,
                         editable = toggle.editable,

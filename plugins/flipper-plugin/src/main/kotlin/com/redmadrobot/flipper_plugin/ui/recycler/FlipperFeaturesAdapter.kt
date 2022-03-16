@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureBooleanBinding
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureGroupBinding
-import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature
-import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature.Group
-import com.redmadrobot.flipper_plugin.ui.data.FlipperFeature.Item
+import com.redmadrobot.flipper_plugin.ui.data.FlipperItem
+import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Feature
+import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Group
 
 internal class FlipperFeaturesAdapter(
     private val onGroupClick: (groupName: String) -> Unit,
     private val onFeatureValueChanged: (featureId: String, value: FlipperValue) -> Unit,
     private val onGroupToggleStateChanged: (groupName: String, checked: Boolean) -> Unit,
-) : ListAdapter<FlipperFeature, RecyclerView.ViewHolder>(
+) : ListAdapter<FlipperItem, RecyclerView.ViewHolder>(
     FlipperFeaturesDiffCallback(),
 ) {
 
@@ -23,7 +23,7 @@ internal class FlipperFeaturesAdapter(
         return when (val item = getItem(position)) {
             is Group -> ViewType.GROUP.ordinal
 
-            is Item -> {
+            is Feature -> {
                 when (item.value) {
                     is FlipperValue.BooleanValue -> ViewType.BOOLEAN.ordinal
                     else -> error("FlipperValue ${item.value::class} not supported")
@@ -77,7 +77,7 @@ internal class FlipperFeaturesAdapter(
             }
 
             ViewType.BOOLEAN -> {
-                val booleanItem = item as Item
+                val booleanItem = item as Feature
                 val booleanHolder = holder as BooleanFeatureViewHolder
 
                 booleanHolder.bind(

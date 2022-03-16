@@ -56,7 +56,7 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
             .onEach { state ->
-                featuresAdapter.submitList(state.featureItems)
+                featuresAdapter.submitList(state.items)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
