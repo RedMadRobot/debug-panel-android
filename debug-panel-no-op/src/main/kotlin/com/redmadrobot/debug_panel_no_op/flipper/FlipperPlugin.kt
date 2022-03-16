@@ -5,13 +5,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 public class FlipperPlugin(
-    private val toggles: List<PluginToggle> = emptyList(),
+    private val toggles: List<Any> = emptyList(),
 ) {
 
     public companion object {
         public fun observeChangedToggles(): Flow<Map<String, FlipperValue>> {
             return emptyFlow()
         }
+        public fun addSource(sourceName: String, toggles: Map<String, FlipperValue>) = Unit
     }
 
     @Deprecated(message = "Use primary constructor")
