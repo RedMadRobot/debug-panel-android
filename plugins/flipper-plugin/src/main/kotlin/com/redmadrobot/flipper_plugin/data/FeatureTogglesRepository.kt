@@ -52,24 +52,6 @@ internal class FeatureTogglesRepository(
             }
     }
 
-    private fun getChangeableFeatureToggles(): Flow<List<PluginToggle>> {
-        return combine(
-            defaultTogglesState,
-            changedTogglesState,
-        ) { defaultToggles, changedToggles ->
-            if (changedToggles.isEmpty()) {
-                defaultToggles
-            } else {
-                defaultToggles.map { toggle ->
-                    changedToggles[toggle.id]?.let { changedValue ->
-                        toggle.copy(value = changedValue)
-                    } ?: toggle
-                }
-            }
-        }
-            .flowOn(Dispatchers.Main)
-    }
-
     fun addSource(sourceName: String, toggles: Map<String, FlipperValue>) {
         require(sourceName.isNotBlank())
 
@@ -127,6 +109,24 @@ internal class FeatureTogglesRepository(
         changedTogglesState.value = withContext(Dispatchers.IO) {
             getSavedToggles()
         }
+    }
+
+    private fun getChangeableFeatureToggles(): Flow<List<PluginToggle>> {
+        return combine(
+            defaultTogglesState,
+            changedTogglesState,
+        ) { defaultToggles, changedToggles ->
+            if (changedToggles.isEmpty()) {
+                defaultToggles
+            } else {
+                defaultToggles.map { toggle ->
+                    changedToggles[toggle.id]?.let { changedValue ->
+                        toggle.copy(value = changedValue)
+                    } ?: toggle
+                }
+            }
+        }
+            .flowOn(Dispatchers.Main)
     }
 
     private fun getSavedToggles(): Map<String, FlipperValue> {
