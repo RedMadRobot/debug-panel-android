@@ -97,14 +97,13 @@ internal class FlipperFeaturesViewModel(
             collapsedGroupsState,
         ) { features, collapsedGroups ->
             features
-                .map { (groupName, items) ->
+                .flatMap { (groupName, items) ->
                     if (groupName in collapsedGroups) {
                         listOf(items.first())
                     } else {
                         items
                     }
                 }
-                .flatten()
         }
             .onEach(featureItemsState::emit)
             .flowOn(Dispatchers.Default)
