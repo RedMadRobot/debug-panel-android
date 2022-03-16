@@ -48,7 +48,7 @@ internal class SourceSelectionViewModel(
 
                 _sources.emit(listOf(clearingSource) + selectableSources)
             }
-            .flowOn(Dispatchers.Main)
+            .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
     }
 

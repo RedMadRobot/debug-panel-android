@@ -126,7 +126,7 @@ internal class FeatureTogglesRepository(
                 }
             }
         }
-            .flowOn(Dispatchers.Main)
+            .flowOn(Dispatchers.Default)
     }
 
     private fun getSavedToggles(): Map<String, FlipperValue> {

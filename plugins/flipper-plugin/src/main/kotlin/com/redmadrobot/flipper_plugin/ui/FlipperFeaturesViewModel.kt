@@ -87,7 +87,7 @@ internal class FlipperFeaturesViewModel(
                 pluginToggles.groupByGroupName()
             }
             .onEach(groupedFeaturesState::emit)
-            .flowOn(Dispatchers.Main)
+            .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
     }
 
@@ -107,7 +107,7 @@ internal class FlipperFeaturesViewModel(
                 .flatten()
         }
             .onEach(featureItemsState::emit)
-            .flowOn(Dispatchers.Main)
+            .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
     }
 
