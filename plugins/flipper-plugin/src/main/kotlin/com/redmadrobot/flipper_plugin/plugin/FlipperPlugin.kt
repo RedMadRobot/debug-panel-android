@@ -32,13 +32,13 @@ public class FlipperPlugin(
         }
     }
 
-    @Deprecated(message = "Use primary constructor")
     public constructor(
         featureStateMap: Map<String, FlipperValue>,
+        groupResolver: ((featureId: String) -> String)? = null,
     ) : this(featureStateMap.map { (id, value) ->
         PluginToggle(
             id = id,
-            group = "",
+            group = groupResolver?.invoke(id).orEmpty(),
             value = value,
             description = id,
         )
