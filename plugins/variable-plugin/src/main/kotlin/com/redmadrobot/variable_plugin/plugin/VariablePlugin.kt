@@ -32,7 +32,7 @@ public class VariablePlugin(
     }
 }
 
-public fun <T : Any> T.toDebugVariable(
+public fun <T : Any> T.asDebugVariable(
     name: String,
 ): T {
     return variableRepository.getDebugVariableValue(

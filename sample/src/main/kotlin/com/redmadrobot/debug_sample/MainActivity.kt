@@ -13,7 +13,7 @@ import com.redmadrobot.debugpanel.R
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
-import com.redmadrobot.variable_plugin.plugin.toDebugVariable
+import com.redmadrobot.variable_plugin.plugin.asDebugVariable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -61,22 +61,22 @@ class MainActivity : AppCompatActivity() {
         }
         autofill_sample.setOnClickListener {
             val strings = """
-                    ${"initString".toDebugVariable("filledString")}
-                    ${"".toDebugVariable("initialyEmptyString")}
+                    ${"initString".asDebugVariable("filledString")}
+                    ${"".asDebugVariable("initialyEmptyString")}
                 """.trimIndent()
             val boolean = """
-                ${true.toDebugVariable("initialy true")}
-                ${false.toDebugVariable("initialy false")}
+                ${true.asDebugVariable("initialy true")}
+                ${false.asDebugVariable("initialy false")}
             """.trimIndent()
             val digits = """
-                ${10.toDebugVariable("integer10")}
-                ${100.toDebugVariable("integer100")}
-                ${10F.toDebugVariable("float10")}
-                ${.0.toDebugVariable("double0")}
+                ${10.asDebugVariable("integer10")}
+                ${100.asDebugVariable("integer100")}
+                ${10F.asDebugVariable("float10")}
+                ${.0.asDebugVariable("double0")}
             """.trimIndent()
             val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 LocalDateTime.now()
-                    .toDebugVariable("local_date_time")
+                    .asDebugVariable("local_date_time")
                     .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             } else {
                 ""

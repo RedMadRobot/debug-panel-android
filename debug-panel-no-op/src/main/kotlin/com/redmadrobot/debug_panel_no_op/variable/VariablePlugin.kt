@@ -10,6 +10,6 @@ public abstract class VariableWidget<T : Any>(
     public val kClass: KClass<T>,
 )
 
-public fun <T : Any> T.toDebugVariable(
+public fun <T : Any> T.asDebugVariable(
     name: String,
 ): T = this
