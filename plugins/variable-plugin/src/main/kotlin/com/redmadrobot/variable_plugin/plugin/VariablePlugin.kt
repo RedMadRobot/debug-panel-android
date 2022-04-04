@@ -55,12 +55,14 @@ public abstract class VariableWidget<T : Any>(
 
     public open fun createSettingsViewHolder(
         parent: ViewGroup
-    ): VariableWidgetSettingsViewHolder<T, VariableSettings<T>>? = null
+    ): VariableWidgetSettingsViewHolder<T, VariableWidgetSettings<T>>? = null
 
-    public open fun getSupportedSettings(): VariableSettings<T>? = null
+    public open fun getSupportedSettings(): VariableWidgetSettings<T>? = null
 }
 
-public abstract class VariableSettings<T : Any> {
+// This class provides a way to make your widget customisable on the fly
+// Ex. autoincrement integer, random day of year in date, etc.
+public abstract class VariableWidgetSettings<T : Any> {
 
     public abstract fun apply(item: VariableItem<T>): VariableItem<T>?
 }
@@ -74,7 +76,7 @@ public abstract class VariableWidgetViewHolder<T : Any>(
     )
 }
 
-public abstract class VariableWidgetSettingsViewHolder<T : Any, TSettings : VariableSettings<T>>(
+public abstract class VariableWidgetSettingsViewHolder<T : Any, TSettings : VariableWidgetSettings<T>>(
     public val itemView: View,
 ) {
     public abstract fun bind(

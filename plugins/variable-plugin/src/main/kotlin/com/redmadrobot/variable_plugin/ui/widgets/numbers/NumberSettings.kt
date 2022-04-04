@@ -1,11 +1,11 @@
 package com.redmadrobot.variable_plugin.ui.widgets.numbers
 
 import com.redmadrobot.variable_plugin.plugin.VariableItem
-import com.redmadrobot.variable_plugin.plugin.VariableSettings
+import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
 
 internal open class NumberSettings<T : Number>(
     var incrementStep: Double = .0,
-) : VariableSettings<T>() {
+) : VariableWidgetSettings<T>() {
 
     override fun apply(item: VariableItem<T>): VariableItem<T> {
         val value = item.value

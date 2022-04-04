@@ -2,8 +2,8 @@ package com.redmadrobot.variable_plugin.data
 
 import androidx.collection.ArrayMap
 import com.redmadrobot.variable_plugin.plugin.VariableItem
-import com.redmadrobot.variable_plugin.plugin.VariableSettings
 import com.redmadrobot.variable_plugin.plugin.VariableWidget
+import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,14 +12,14 @@ import kotlin.reflect.KClass
 internal class VariableRepository {
 
     private val supportedClasses = ArrayMap<Int, VariableWidget<Any>>()
-    private val supportedClassesSettings = ArrayMap<Int, VariableSettings<Any>>()
+    private val supportedClassesSettings = ArrayMap<Int, VariableWidgetSettings<Any>>()
 
     private val _savedVariables = MutableStateFlow<MutableMap<String, VariableItem<Any>>>(
         mutableMapOf()
     )
     val savedVariables: StateFlow<Map<String, VariableItem<Any>>> = _savedVariables.asStateFlow()
 
-    private val variableSettings: MutableMap<String, VariableSettings<Any>> = mutableMapOf()
+    private val VariableWidgetSettings: MutableMap<String, VariableWidgetSettings<Any>> = mutableMapOf()
     private val variableEnabledStatus: MutableMap<String, Boolean> = mutableMapOf()
 
     fun <T> updateVariableValue(
@@ -38,15 +38,15 @@ internal class VariableRepository {
 
     fun <T : Any> updateVariableSetting(
         variableName: String,
-        setting: VariableSettings<T>,
+        setting: VariableWidgetSettings<T>,
     ) {
-        require(variableName in variableSettings.keys)
+        require(variableName in VariableWidgetSettings.keys)
 
-        variableSettings[variableName] = setting as VariableSettings<Any>
+        VariableWidgetSettings[variableName] = setting as VariableWidgetSettings<Any>
     }
 
-    fun getVariableSettings(variableName: String): VariableSettings<Any>? {
-        return variableSettings[variableName]
+    fun getVariableWidgetSettings(variableName: String): VariableWidgetSettings<Any>? {
+        return VariableWidgetSettings[variableName]
     }
 
     fun updateEnabledStatus(
@@ -86,7 +86,7 @@ internal class VariableRepository {
         if (!variableEnabledStatus[name]!!) return defaultValue
 
         val variable = variables[name]!!
-        val updatedVariable = variableSettings[name]?.apply(variable) ?: variable
+        val updatedVariable = VariableWidgetSettings[name]?.apply(variable) ?: variable
         if (updatedVariable != variable) {
             updateVariableValue(name, updatedVariable.value)
         }
@@ -109,7 +109,7 @@ internal class VariableRepository {
         getVariableWidget(variableClass.hashCode())!!
             .getSupportedSettings()
             ?.let { supportedSettings ->
-                variableSettings[name] = supportedSettings
+                VariableWidgetSettings[name] = supportedSettings
             }
 
         variableEnabledStatus[name] = true

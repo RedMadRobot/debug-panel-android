@@ -1,6 +1,6 @@
 package com.redmadrobot.variable_plugin.ui.model
 
-import com.redmadrobot.variable_plugin.plugin.VariableSettings
+import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
 
 internal sealed interface VariableEvent {
 
@@ -11,7 +11,7 @@ internal sealed interface VariableEvent {
 
     data class SettingsChanged<T : Any>(
         val variableName: String,
-        val newSettings: VariableSettings<T>,
+        val newSettings: VariableWidgetSettings<T>,
     ) : VariableEvent
 
     data class EnabledStatusChanged(

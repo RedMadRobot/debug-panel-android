@@ -46,13 +46,13 @@ internal class DebugVariableWidgetsProvider : DebugDataProvider<List<VariableWid
                 return getTestWidgetViewHolder(view)
             }
 
-            override fun getSupportedSettings(): VariableSettings<LocalDateTime>? {
+            override fun getSupportedSettings(): VariableWidgetSettings<LocalDateTime>? {
                 return getTestSetting(Year.now().value)
             }
 
             override fun createSettingsViewHolder(
                 parent: ViewGroup
-            ): VariableWidgetSettingsViewHolder<LocalDateTime, VariableSettings<LocalDateTime>>? {
+            ): VariableWidgetSettingsViewHolder<LocalDateTime, VariableWidgetSettings<LocalDateTime>>? {
                 val view = LayoutInflater
                     .from(parent.context)
                     .inflate(
@@ -124,8 +124,8 @@ internal class DebugVariableWidgetsProvider : DebugDataProvider<List<VariableWid
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getTestSetting(year: Int): VariableSettings<LocalDateTime> {
-        return object : VariableSettings<LocalDateTime>() {
+    private fun getTestSetting(year: Int): VariableWidgetSettings<LocalDateTime> {
+        return object : VariableWidgetSettings<LocalDateTime>() {
             override fun apply(item: VariableItem<LocalDateTime>): VariableItem<LocalDateTime>? {
                 return item.copy(
                     value = item.value.withYear(year)
@@ -137,9 +137,9 @@ internal class DebugVariableWidgetsProvider : DebugDataProvider<List<VariableWid
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTestSettingsViewHolder(
         view: View
-    ): VariableWidgetSettingsViewHolder<LocalDateTime, VariableSettings<LocalDateTime>> {
+    ): VariableWidgetSettingsViewHolder<LocalDateTime, VariableWidgetSettings<LocalDateTime>> {
         return object :
-            VariableWidgetSettingsViewHolder<LocalDateTime, VariableSettings<LocalDateTime>>(view) {
+            VariableWidgetSettingsViewHolder<LocalDateTime, VariableWidgetSettings<LocalDateTime>>(view) {
 
             private val editTextYear = itemView.findViewById<EditText>(
                 R.id.item_variable_widget_localdatetime_settings_year
@@ -171,11 +171,11 @@ internal class DebugVariableWidgetsProvider : DebugDataProvider<List<VariableWid
                 }
             }
 
-            private var onSettingsChangedAction: (VariableSettings<LocalDateTime>) -> Unit = {}
+            private var onSettingsChangedAction: (VariableWidgetSettings<LocalDateTime>) -> Unit = {}
 
             override fun bind(
-                settings: VariableSettings<LocalDateTime>,
-                onSettingsChanged: (VariableSettings<LocalDateTime>) -> Unit
+                settings: VariableWidgetSettings<LocalDateTime>,
+                onSettingsChanged: (VariableWidgetSettings<LocalDateTime>) -> Unit
             ) {
                 editTextYear.removeTextChangedListener(textWatcher)
 

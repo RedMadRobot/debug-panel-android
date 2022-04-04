@@ -3,8 +3,8 @@ package com.redmadrobot.variable_plugin.ui
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.variable_plugin.data.VariableRepository
 import com.redmadrobot.variable_plugin.plugin.VariableItem
-import com.redmadrobot.variable_plugin.plugin.VariableSettings
 import com.redmadrobot.variable_plugin.plugin.VariableWidget
+import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
 import com.redmadrobot.variable_plugin.ui.model.VariableEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -45,8 +45,8 @@ internal class VariableViewModel(
         return repository.getVariableEnabledStatus(variableName)
     }
 
-    fun requireVariableSettings(variableName: String): VariableSettings<Any>? {
-        return repository.getVariableSettings(variableName)
+    fun requireVariableWidgetSettings(variableName: String): VariableWidgetSettings<Any>? {
+        return repository.getVariableWidgetSettings(variableName)
     }
 
     fun requireVariableWidget(variableKClassHashCode: Int): VariableWidget<Any> {

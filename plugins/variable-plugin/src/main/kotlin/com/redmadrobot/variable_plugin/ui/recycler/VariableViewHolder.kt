@@ -6,8 +6,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.variable_plugin.databinding.ItemVariableBinding
 import com.redmadrobot.variable_plugin.plugin.VariableItem
-import com.redmadrobot.variable_plugin.plugin.VariableSettings
 import com.redmadrobot.variable_plugin.plugin.VariableWidget
+import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
 import com.redmadrobot.variable_plugin.ui.model.VariableEvent
 
 internal class VariableViewHolder<T : Any>(
@@ -34,7 +34,7 @@ internal class VariableViewHolder<T : Any>(
 
     fun bind(
         item: VariableItem<T>,
-        settings: VariableSettings<T>?,
+        settings: VariableWidgetSettings<T>?,
         enabled: Boolean,
     ) {
         widgetViewHolder.bind(item) { newValue ->

@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.redmadrobot.variable_plugin.databinding.ItemVariableNumberBinding
 import com.redmadrobot.variable_plugin.databinding.ItemVariableNumberSettingsBinding
-import com.redmadrobot.variable_plugin.plugin.VariableSettings
 import com.redmadrobot.variable_plugin.plugin.VariableWidget
+import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
 import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettingsViewHolder
 import com.redmadrobot.variable_plugin.plugin.VariableWidgetViewHolder
 import kotlin.reflect.KClass
@@ -31,7 +31,7 @@ internal abstract class NumberVariableWidget<T : Number>(
 
     override fun createSettingsViewHolder(
         parent: ViewGroup
-    ): VariableWidgetSettingsViewHolder<T, VariableSettings<T>>? {
+    ): VariableWidgetSettingsViewHolder<T, VariableWidgetSettings<T>>? {
         val view = ItemVariableNumberSettingsBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -39,6 +39,6 @@ internal abstract class NumberVariableWidget<T : Number>(
         ).root
 
         return NumbersSettingsViewHolder<T, NumberSettings<T>>(view)
-                as VariableWidgetSettingsViewHolder<T, VariableSettings<T>>
+                as VariableWidgetSettingsViewHolder<T, VariableWidgetSettings<T>>
     }
 }
