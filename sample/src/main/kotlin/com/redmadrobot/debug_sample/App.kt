@@ -38,7 +38,7 @@ class App : Application() {
                     )
                 ),
                 FlipperPlugin(
-                    featureStateMap = DebugFlipperFeaturesProvider().provideData(),
+                    toggles = DebugFlipperFeaturesProvider().provideData(),
                 ),
 //                , FeatureTogglesPlugin(
 //                    featureTogglesConfig = FeatureTogglesConfig(

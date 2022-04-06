@@ -12,11 +12,17 @@ internal class BooleanFeatureViewHolder(
 
     private val binding = ItemFlipperFeatureBooleanBinding.bind(itemView)
 
-    fun bind(featureId: String, value: FlipperValue.BooleanValue) {
+    fun bind(
+        featureId: String,
+        value: FlipperValue.BooleanValue,
+        description: String,
+        editable: Boolean,
+    ) {
         binding.checkbox.apply {
             setOnCheckedChangeListener(null)
 
-            text = featureId
+            text = description
+            isEnabled = editable
             isChecked = value.value
 
             setOnCheckedChangeListener { _, isChecked ->

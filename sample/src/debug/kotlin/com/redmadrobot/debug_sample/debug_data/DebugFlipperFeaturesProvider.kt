@@ -2,27 +2,55 @@ package com.redmadrobot.debug_sample.debug_data
 
 import com.redmadrobot.debug_panel_core.data.DebugDataProvider
 import com.redmadrobot.flipper.config.FlipperValue
+import com.redmadrobot.flipper_plugin.plugin.PluginToggle
 import kotlin.random.Random
 
-internal class DebugFlipperFeaturesProvider : DebugDataProvider<Map<String, FlipperValue>> {
+internal class DebugFlipperFeaturesProvider : DebugDataProvider<List<PluginToggle>> {
 
-    override fun provideData(): Map<String, FlipperValue> {
+    override fun provideData(): List<PluginToggle> {
         return generateTestFeatures()
     }
 
-    private fun generateTestFeatures(): Map<String, FlipperValue> {
-        val map = mutableMapOf<String, FlipperValue>()
+    private fun generateTestFeatures(): List<PluginToggle> {
+        val toggles = mutableListOf<PluginToggle>()
 
-        map["Show label 1"] = FlipperValue.BooleanValue(false)
-        map["Show label 2"] = FlipperValue.BooleanValue(true)
-        map["Show label 3"] = FlipperValue.BooleanValue(false)
+        toggles.add(
+            PluginToggle(
+                id = "id1",
+                group = "True keen",
+                value = FlipperValue.BooleanValue(false),
+                description = "Show label 1",
+            )
+        )
+        toggles.add(
+            PluginToggle(
+                id = "id2",
+                group = "True keen",
+                value = FlipperValue.BooleanValue(true),
+                description = "Show label 2",
+            )
+        )
+        toggles.add(
+            PluginToggle(
+                id = "id3",
+                group = "True keen",
+                value = FlipperValue.BooleanValue(false),
+                description = "Show label 3",
+            )
+        )
 
         val debugRandom = Random(282)
         (4..20).forEach { index ->
-            map["Didn't do nothing toggle $index"] =
-                FlipperValue.BooleanValue(debugRandom.nextBoolean())
+            toggles.add(
+                PluginToggle(
+                    id = "id$index",
+                    group = "Didn't do nothing",
+                    value = FlipperValue.BooleanValue(debugRandom.nextBoolean()),
+                    description = "Didn't do nothing toggle $index",
+                )
+            )
         }
 
-        return map
+        return toggles
     }
 }
