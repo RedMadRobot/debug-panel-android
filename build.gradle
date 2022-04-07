@@ -23,6 +23,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenLocal()
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
