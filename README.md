@@ -63,23 +63,22 @@ dependencies {
     //Плагин для работы с SharedPreferences
     implementation 'com.redmadrobot.debug:app-settings-plugin:${debug_panel_version}'
 
-   //Плагин для работы с Feature Toggle на основе Flipper
-   implementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
-   //Так же необходимо подключить саму библеотеку flipper
-   implementation "com.redmadrobot:flipper:${flipper_version}"
+    //Плагин для работы с Feature Toggle на основе Flipper
+    implementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
+    //Так же необходимо подключить саму библеотеку flipper
+    implementation "com.redmadrobot:flipper:${flipper_version}"
+
+    //Плагин для подмены переменных 
+    implementation 'com.redmadrobot.debug:variable-plugin:0.7.2'
 }
 
 ```
-
-
 
 4. Для того чтобы библиотека не попала в релизную сборку необходимо подключить `no-op` версию библиотеки
 
 ```groovy
    releaseImplementation 'com.redmadrobot.debug:panel-no-op:${debug_panel_version}'
 ```
-
-
 
 ## Использование библиотеки в коде
 
@@ -304,7 +303,7 @@ override fun getValue(feature: Feature): FlipperValue {
 }
 ```
 
-###VariablePlugin
+### VariablePlugin
 
 This plugin aims to help with debugging by allowing you to change some variables without the need of project rebuild/relaunch
 
