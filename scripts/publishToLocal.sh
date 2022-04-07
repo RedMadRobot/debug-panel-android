@@ -2,7 +2,8 @@
 #Bash script for debug panel builds and publishing.
 
 # Navigate up one directory to be outside of the bin directory and into the app's home directory
-cd ..
+DIR="${0%/*}"
+cd "$DIR/.."
 
 # Clean all gradle build folders
 ./gradlew clean
@@ -17,6 +18,7 @@ cd ..
 ./gradlew flipper-plugin:build
 ./gradlew accounts-plugin:build
 ./gradlew app-settings-plugin:build
+./gradlew variable-plugin:build
 
 # Publish all artifacts
 ./gradlew publishToMavenLocal
