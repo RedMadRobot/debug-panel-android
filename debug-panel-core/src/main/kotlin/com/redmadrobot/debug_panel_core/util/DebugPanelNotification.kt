@@ -58,12 +58,19 @@ internal class DebugPanelNotification(private val context: Context) {
         notificationManager?.cancel(NOTIFICATION_ID)
     }
 
+    private val pendingIntentFlag
+        get() = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+
     private fun getSettingActivityPendingIntent(context: Context): PendingIntent? {
         val settingActivityIntent = Intent(context, DebugActivity::class.java)
 
         return TaskStackBuilder.create(context)
             .addNextIntentWithParentStack(settingActivityIntent)
-            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            .getPendingIntent(0, pendingIntentFlag)
     }
 
     private fun getPanelPendingIntent(context: Context): PendingIntent? {
@@ -72,7 +79,7 @@ internal class DebugPanelNotification(private val context: Context) {
             context,
             0,
             openPanelIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            pendingIntentFlag
         )
     }
 }

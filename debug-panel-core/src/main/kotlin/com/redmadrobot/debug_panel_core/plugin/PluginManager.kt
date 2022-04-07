@@ -7,6 +7,7 @@ internal class PluginManager(val plugins: List<Plugin>) {
 
     private val containers = mutableMapOf<String, Plugin>()
 
+    @Suppress("NewApi")
     fun start(commonContainer: CommonContainer) {
         plugins.forEach { plugin ->
             containers[plugin::class.java.name] = plugin.start(commonContainer)

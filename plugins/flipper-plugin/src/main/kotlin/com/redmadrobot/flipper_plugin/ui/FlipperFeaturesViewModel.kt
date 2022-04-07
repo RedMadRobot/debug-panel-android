@@ -4,7 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
-import com.redmadrobot.flipper_plugin.ui.item.FlipperFeatureItem
+import com.redmadrobot.flipper_plugin.plugin.PluginToggle
+import com.redmadrobot.flipper_plugin.ui.data.FlipperItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,12 +18,15 @@ internal class FlipperFeaturesViewModel(
     val state = _state.asStateFlow()
 
     private val queryState = MutableStateFlow("")
-    private val featureItemsState = MutableStateFlow(emptyList<FlipperFeatureItem>())
+    private val featureItemsState = MutableStateFlow(emptyList<FlipperItem>())
+    private val groupedFeaturesState = MutableStateFlow(emptyMap<String, List<FlipperItem>>())
+    private val collapsedGroupsState = MutableStateFlow(emptySet<String>())
 
     init {
-        updateAvailableFeatures()
-
         updateShownFeaturesOnQueryChange()
+
+        upkeepFeatureGroups()
+        upkeepFeatureItems()
     }
 
     fun onQueryChanged(query: String) {
@@ -35,35 +39,75 @@ internal class FlipperFeaturesViewModel(
         viewModelScope.launch {
             togglesRepository.saveFeatureState(feature, value)
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            val updatedFeatureItemsState = featureItemsState.value.map { item ->
-                if (item.featureId == feature) {
-                    item.copy(value = value)
-                } else {
-                    item
+    }
+
+    fun onGroupToggleStateChanged(groupName: String, checked: Boolean) {
+        val items = groupedFeaturesState.value[groupName] ?: return
+        viewModelScope.launch {
+            for (item in items) {
+                item as? FlipperItem.Feature ?: continue
+
+                if (item.value is FlipperValue.BooleanValue) {
+                    togglesRepository.saveFeatureState(
+                        item.id,
+                        FlipperValue.BooleanValue(checked)
+                    )
                 }
             }
-
-            featureItemsState.emit(updatedFeatureItemsState)
         }
+    }
+
+    fun onGroupClick(groupName: String) {
+        val collapsedGroups = collapsedGroupsState.value
+
+        collapsedGroupsState.tryEmit(
+            if (groupName in collapsedGroups) {
+                collapsedGroups - groupName
+            } else {
+                collapsedGroups + groupName
+            }
+        )
     }
 
     fun onResetClicked() {
         viewModelScope.launch {
             togglesRepository.resetAllToDefault()
-
-            updateAvailableFeatures()
         }
     }
 
-    private fun updateAvailableFeatures() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val items = togglesRepository.getFeatureToggles().map { (feature, value) ->
-                FlipperFeatureItem(feature, value)
-            }
-
-            featureItemsState.emit(items)
+    private fun upkeepFeatureGroups() {
+        combine(
+            togglesRepository.getSources(),
+            togglesRepository.getSelectedSource(),
+        ) { sources, selectedSource ->
+            sources.getValue(selectedSource)
         }
+            .flatMapLatest { it }
+            .map { pluginToggles ->
+                pluginToggles.groupByGroupName()
+            }
+            .onEach(groupedFeaturesState::emit)
+            .flowOn(Dispatchers.Default)
+            .launchIn(viewModelScope)
+    }
+
+    private fun upkeepFeatureItems() {
+        combine(
+            groupedFeaturesState,
+            collapsedGroupsState,
+        ) { features, collapsedGroups ->
+            features
+                .flatMap { (groupName, items) ->
+                    if (groupName in collapsedGroups) {
+                        listOf(items.first())
+                    } else {
+                        items
+                    }
+                }
+        }
+            .onEach(featureItemsState::emit)
+            .flowOn(Dispatchers.Default)
+            .launchIn(viewModelScope)
     }
 
     // Функция отвечает за обновление списка фичей с учётом ввода из поисковой строки
@@ -75,7 +119,17 @@ internal class FlipperFeaturesViewModel(
             if (query.isBlank()) {
                 featureItems
             } else {
-                featureItems.filter { query in it.featureId }
+                featureItems.filter { flipperFeature ->
+                    when (flipperFeature) {
+                        is FlipperItem.Feature -> {
+                            flipperFeature.description.contains(query, ignoreCase = true)
+                        }
+
+                        is FlipperItem.Group -> {
+                            flipperFeature.name.contains(query, ignoreCase = true)
+                        }
+                    }
+                }
             }
         }
             .onEach { featureItems ->
@@ -83,6 +137,37 @@ internal class FlipperFeaturesViewModel(
             }
             .flowOn(Dispatchers.IO)
             .launchIn(viewModelScope)
+    }
+
+    private fun List<PluginToggle>.groupByGroupName(): MutableMap<String, List<FlipperItem>> {
+        val mappedGroups = mutableMapOf<String, List<FlipperItem>>()
+
+        this
+            .groupBy(PluginToggle::group)
+            .forEach { (groupName, toggles) ->
+                val features = mutableListOf<FlipperItem>()
+
+                features += FlipperItem.Group(
+                    name = groupName,
+                    editable = toggles.all(PluginToggle::editable),
+                    allEnabled = toggles.all { toggle ->
+                        (toggle.value as? FlipperValue.BooleanValue)?.value ?: true
+                    },
+                )
+
+                toggles.forEach { toggle ->
+                    features += FlipperItem.Feature(
+                        id = toggle.id,
+                        value = toggle.value,
+                        editable = toggle.editable,
+                        description = toggle.description,
+                    )
+                }
+
+                mappedGroups[groupName] = features
+            }
+
+        return mappedGroups
     }
 
     internal companion object {

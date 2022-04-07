@@ -129,6 +129,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeFeatureToggles() {
+        FlipperPlugin.addSource(
+            "Test 1",
+            mapOf(
+                "id1" to FlipperValue.BooleanValue(false),
+                "id2" to FlipperValue.BooleanValue(false),
+                "id3" to FlipperValue.BooleanValue(false),
+            )
+        )
+        FlipperPlugin.addSource(
+            "Test 2",
+            mapOf(
+                "id1" to FlipperValue.BooleanValue(true),
+                "id2" to FlipperValue.BooleanValue(false),
+                "id3" to FlipperValue.BooleanValue(true),
+            )
+        )
+
         FlipperPlugin
             .observeChangedToggles()
             .onEach { changedToggles ->
@@ -140,21 +157,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun onFlipperTogglesChanged(changedToggles: Map<String, FlipperValue>) {
         val showFirst = changedToggles.entries
-            .find { (feature) -> feature.contains("Show label 1", true) }
+            .find { (feature) -> feature == "id1" }
             ?.let { (_, value) ->
                 (value as? FlipperValue.BooleanValue)?.value
             }
             ?: false
 
         val showSecond = changedToggles.entries
-            .find { (feature) -> feature.contains("Show label 2", true) }
+            .find { (feature) -> feature == "id2" }
             ?.let { (_, value) ->
                 (value as? FlipperValue.BooleanValue)?.value
             }
             ?: true
 
         val showThird = changedToggles.entries
-            .find { (feature) -> feature.contains("Show label 3", true) }
+            .find { (feature) -> feature == "id3" }
             ?.let { (_, value) ->
                 (value as? FlipperValue.BooleanValue)?.value
             }

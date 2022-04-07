@@ -18,6 +18,7 @@ internal class ApplicationSettingsViewModel(
         settingsLiveData.value = settingItems
     }
 
+    @Suppress("NewApi")
     private fun mapToItems(settings: List<SharedPreferences>): List<AppSettingItems> {
         val items = mutableListOf<AppSettingItems>()
         settings.forEach { sharedPreferences ->

@@ -40,7 +40,7 @@ class App : Application() {
                     )
                 ),
                 FlipperPlugin(
-                    featureStateMap = DebugFlipperFeaturesProvider().provideData(),
+                    toggles = DebugFlipperFeaturesProvider().provideData(),
                 ),
                 VariablePlugin(
                     customWidgets = DebugVariableWidgetsProvider().provideData()
