@@ -60,8 +60,10 @@ public abstract class VariableWidget<T : Any>(
     public open fun getSupportedSettings(): VariableWidgetSettings<T>? = null
 }
 
-// This class provides a way to make your widget customisable on the fly
-// Ex. autoincrement integer, random day of year in date, etc.
+/**
+ * This class provides a way to make your widget customisable on the fly
+ * Ex. autoincrement integer, random day of year in date, etc.
+ */
 public abstract class VariableWidgetSettings<T : Any> {
 
     public abstract fun apply(item: VariableItem<T>): VariableItem<T>?
