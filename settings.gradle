@@ -6,7 +6,8 @@ include ':sample',
         ':servers-plugin',
         ':feature-toggles-plugin',
         ':app-settings-plugin',
-        ':flipper-plugin'
+        ':flipper-plugin',
+        ':variable-plugin'
 
 /*Plugin aliases*/
 project(':accounts-plugin').projectDir = new File(rootDir, 'plugins/accounts-plugin')
@@ -14,3 +15,4 @@ project(':servers-plugin').projectDir = new File(rootDir, 'plugins/servers-plugi
 project(':feature-toggles-plugin').projectDir = new File(rootDir, 'plugins/feature-toggles-plugin')
 project(':app-settings-plugin').projectDir = new File(rootDir, 'plugins/app-settings-plugin')
 project(':flipper-plugin').projectDir = new File(rootDir, 'plugins/flipper-plugin')
+project(':variable-plugin').projectDir = new File(rootDir, 'plugins/variable-plugin')

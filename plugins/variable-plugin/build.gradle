@@ -25,9 +25,11 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
     kotlinOptions {
         freeCompilerArgs += "-Xexplicit-api=strict"
     }
+
     buildFeatures {
         viewBinding true
     }
@@ -37,6 +39,8 @@ dependencies {
     implementation(
             project(path: ':debug-panel-core'),
             project(path: ':debug-panel-common'),
+            deps.kotlin.stdlib,
             deps.lifecycle.lifecycle_runtime
     )
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

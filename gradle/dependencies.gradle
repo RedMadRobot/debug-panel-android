@@ -80,6 +80,7 @@ deps.firebase = [
 
 //region Lifecycle
 versions.lifecycle = "2.2.0"
+versions.lifecycle_runtime = "2.4.0"
 versions.lifecycle_testing = "2.1.0"
 
 deps.lifecycle = [
@@ -88,6 +89,7 @@ deps.lifecycle = [
         lifecycle_livedata     : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
         lifecycle_livedata_core: "androidx.lifecycle:lifecycle-livedata-core-ktx:$versions.lifecycle",
         lifecycle_view_model   : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
+        lifecycle_runtime      : "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle_runtime",
         testing                : "androidx.arch.core:core-testing:$versions.lifecycle_testing"
 ]
 
