@@ -69,7 +69,7 @@ dependencies {
     implementation "com.redmadrobot:flipper:${flipper_version}"
 
     //Плагин для подмены переменных 
-    implementation 'com.redmadrobot.debug:variable-plugin:0.7.2'
+    implementation 'com.redmadrobot.debug:variable-plugin:${flipper_version}'
 }
 
 ```
