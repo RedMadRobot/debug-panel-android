@@ -77,7 +77,7 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
                         isSelectedIcon.isVisible = item.isSelected && !isEditMode
                         if (!isEditMode) {
                             root.setOnClickListener {
-                                viewModel.selectServerAsCurrent(item.debugServer)
+                                viewModel.onServerSelected(item.debugServer)
                             }
                         }
                     }
@@ -91,7 +91,7 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
                         itemServerDelete.setOnClickListener { viewModel.removeServer(server) }
                         root.setOnClickListener {
                             if (!isEditMode) {
-                                viewModel.selectServerAsCurrent(server)
+                                viewModel.onServerSelected(server)
                             } else {
                                 editServerData(server)
                             }
