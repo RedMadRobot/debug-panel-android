@@ -13,7 +13,7 @@ internal class ApplicationLifecycleHandler(
     private val shakerMode: Boolean
 ) {
 
-    //Счетчик открытых activity
+    // open Activity counter
     private var openActivityCount = 0
 
     private var shakeController: ShakeController? = null
