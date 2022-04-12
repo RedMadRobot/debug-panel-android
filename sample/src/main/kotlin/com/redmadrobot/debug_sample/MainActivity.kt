@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
@@ -47,6 +48,19 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        DebugPanel.observeEvents()
+            .onEach { event ->
+                when (event) {
+                    is AccountSelectedEvent -> {
+                        //Обработка выбора аккаунта
+                    }
+                    is ServerSelectedEvent -> {
+                        //Обработка выбора сервера
+                    }
+                }
+            }
+            .launchIn(lifecycleScope)
     }
 
     private fun setViews() {
