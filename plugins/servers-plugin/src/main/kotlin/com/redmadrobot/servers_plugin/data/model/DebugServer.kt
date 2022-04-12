@@ -16,9 +16,8 @@ public data class DebugServer(
     }
 
     override fun equals(other: Any?): Boolean {
-        return with(other as DebugServer) {
-            this.name == name && this.url == url
-        }
+        val otherServer = other as DebugServer
+        return this.name == otherServer.name && this.url == otherServer.url
     }
 
 }
