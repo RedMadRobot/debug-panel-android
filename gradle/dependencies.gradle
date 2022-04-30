@@ -20,7 +20,7 @@ def versions = [:]
 ext.deps = [:]
 
 //region Gradle
-versions.android_plugin = "4.2.0"
+versions.android_plugin = "7.0.0"
 
 deps.gradle = [
         android_plugin: "com.android.tools.build:gradle:$versions.android_plugin"
