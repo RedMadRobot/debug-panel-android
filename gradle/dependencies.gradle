@@ -28,7 +28,7 @@ deps.gradle = [
 //endregion
 
 //region Kotlin
-versions.kotlin = "1.5.21"
+versions.kotlin = "1.6.10"
 
 deps.kotlin = [
         stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
