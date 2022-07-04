@@ -8,7 +8,6 @@ include(":debug-panel-core")
 include(
     ":plugins:accounts-plugin",
     ":plugins:servers-plugin",
-//    ":plugins:feature-toggles-plugin",
     ":plugins:app-settings-plugin",
     ":plugins:flipper-plugin",
     ":plugins:variable-plugin"
