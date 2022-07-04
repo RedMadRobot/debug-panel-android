@@ -1,5 +1,7 @@
 apply plugin: "maven-publish"
 
+apply from: rootProject.file("gradle/version.gradle")
+
 def publishPropertiesFile = rootProject.file("gradle/publish.properties")
 def publishProperties = new Properties()
 
