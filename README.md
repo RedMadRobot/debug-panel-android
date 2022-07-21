@@ -357,18 +357,21 @@ ServersPlugin(
 
 - [x]  Управление Feature toggle
 - [ ]  Добавить возможность подменять полный путь запроса при использовании Retrofit
+- [ ]  Создание Deep-link
 - [ ]  Логирование
     - [ ]  Логирование запросов
     - [ ]  Логирование аналитики
     - [ ]  Логирование ошибок(под вопросом)
-- [ ]  Изменение настроек(Необходим ресерч)
-    - [ ]  Настройки proxy.
-    - [ ]  включение/отключение режима show layout bounds.
-    - [ ]  включение/отключение профилирования GPU
-- [ ]  Создание Deep-link
 - [ ]  Сброс окружения/настроек/токенов
+
+
+
+## License
+
+[MIT][license]
 
 
 [last-release]:https://git.redmadrobot.com/r.choryev/Debug-panel/-/releases/0.7.3
 [plugin-development-doc]:docs/plugin_development.md
 [changelog]: docs/changelog.md
+[license]: LICENSE
