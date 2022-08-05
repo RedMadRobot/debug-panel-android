@@ -5,8 +5,6 @@ plugins {
     kotlin(Plugins.Kotlin.kapt)
 }
 
-apply(from = rootProject.file("gradle/publish.gradle"))
-
 android {
     compileSdk = Project.COMPILE_SDK
 

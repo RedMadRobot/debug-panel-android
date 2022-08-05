@@ -3,8 +3,6 @@ plugins {
     kotlin(Plugins.Kotlin.androidPlugin)
 }
 
-apply(from = rootProject.file("gradle/publish.gradle"))
-
 android {
     compileSdk = Project.COMPILE_SDK
 
