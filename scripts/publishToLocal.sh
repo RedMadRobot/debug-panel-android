@@ -8,17 +8,14 @@ cd "$DIR/.."
 # Clean all gradle build folders
 ./gradlew clean
 
-# Build Debug Panel artifacts
-./gradlew debug-panel-core:build
-./gradlew debug-panel-no-op:build
-./gradlew debug-panel-common:build
+# Build and publish Debug Panel artifacts
+./gradlew debug-panel-core:publishReleasePublicationToMavenLocalRepository
+./gradlew debug-panel-no-op:publishReleasePublicationToMavenLocalRepository
+./gradlew debug-panel-common:publishReleasePublicationToMavenLocalRepository
 
-# Build plugin artifacts
-./gradlew server-plugin:build
-./gradlew flipper-plugin:build
-./gradlew accounts-plugin:build
-./gradlew app-settings-plugin:build
-./gradlew variable-plugin:build
-
-# Publish all artifacts
-./gradlew publishToMavenLocal
+# Build and publish plugin artifacts
+./gradlew plugins:servers-plugin:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:flipper-plugin:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:accounts-plugin:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:app-settings-plugin:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:variable-plugin:publishReleasePublicationToMavenLocalRepository
