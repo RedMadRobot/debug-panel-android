@@ -3,7 +3,10 @@ plugins {
     kotlin(Plugins.Kotlin.androidPlugin)
     kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
+    id("publishPlugin")
 }
+
+description = "Plugin for flipper library integration"
 
 android {
     compileSdk = Project.COMPILE_SDK

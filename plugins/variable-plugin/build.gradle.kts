@@ -3,7 +3,10 @@ plugins {
     kotlin(Plugins.Kotlin.androidPlugin)
     kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
+    id("publishPlugin")
 }
+
+description = "Plugin allows you to change some variables without rebuilding/restarting the project"
 
 android {
     compileSdk = Project.COMPILE_SDK

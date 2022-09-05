@@ -3,7 +3,10 @@ plugins {
     kotlin(Plugins.Kotlin.androidPlugin)
     kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
+    id("publishPlugin")
 }
+
+description = "Plugin that helps to change the values of shared preferences"
 
 android {
     compileSdk = Project.COMPILE_SDK

@@ -1,7 +1,10 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
+    id("publishPlugin")
 }
+
+description = "Debug panel no-op dependency module"
 
 android {
     compileSdk = Project.COMPILE_SDK
