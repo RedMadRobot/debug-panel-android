@@ -7,16 +7,6 @@ object Project {
     const val TARGET_SDK = 31
     const val COMPILE_SDK = 31
 
-    private val versionProperties = Properties().apply {
-        load(File("gradle/version.properties").inputStream())
-    }
-
-    val versionCod: Int = versionProperties.getProperty("version_code").toInt()
-    val versionName: String = Properties().apply {
-            load(File("gradle/version.properties").inputStream())
-        }.getProperty("version_name")
-
-
     object BuildTypes {
         const val release = "release"
     }
