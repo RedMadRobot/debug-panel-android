@@ -44,7 +44,7 @@ maven {
 
 dependencies {
     //core модуль панели
-    implementation 'com.redmadrobot.debug:panel-core:${debug_panel_version}'
+   debugImplementation 'com.redmadrobot.debug:panel-core:${debug_panel_version}'
 }
 ```
 
@@ -55,21 +55,21 @@ dependencies {
 ```groovy
 dependencies {
     //Плагин для работы с аккаунтами
-    implementation 'com.redmadrobot.debug:accounts-plugin:${debug_panel_version}'
+    debugImplementation 'com.redmadrobot.debug:accounts-plugin:${debug_panel_version}'
     
     //Плагин для работы с серверами
-    implementation 'com.redmadrobot.debug:servers-plugin:${debug_panel_version}'
+    debugImplementation 'com.redmadrobot.debug:servers-plugin:${debug_panel_version}'
     
     //Плагин для работы с SharedPreferences
-    implementation 'com.redmadrobot.debug:app-settings-plugin:${debug_panel_version}'
+    debugImplementation 'com.redmadrobot.debug:app-settings-plugin:${debug_panel_version}'
 
     //Плагин для работы с Feature Toggle на основе Flipper
-    implementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
+    debugImplementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
     //Так же необходимо подключить саму библеотеку flipper
-    implementation "com.redmadrobot:flipper:${flipper_version}"
+    debugImplementation "com.redmadrobot:flipper:${flipper_version}"
 
     //Плагин для подмены переменных 
-    implementation 'com.redmadrobot.debug:variable-plugin:${flipper_version}'
+    debugImplementation 'com.redmadrobot.debug:variable-plugin:${flipper_version}'
 }
 
 ```

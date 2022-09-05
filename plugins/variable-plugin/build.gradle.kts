@@ -3,9 +3,10 @@ plugins {
     kotlin(Plugins.Kotlin.androidPlugin)
     kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
+    id("publishPlugin")
 }
 
-apply(from = rootProject.file("gradle/publish.gradle"))
+description = "Plugin allows you to change some variables without rebuilding/restarting the project"
 
 android {
     compileSdk = Project.COMPILE_SDK

@@ -3,9 +3,10 @@ plugins {
     kotlin(Plugins.Kotlin.androidPlugin)
     kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
+    id("publishPlugin")
 }
 
-apply(from = rootProject.file("gradle/publish.gradle"))
+description = "Debug panel common components"
 
 android {
 
