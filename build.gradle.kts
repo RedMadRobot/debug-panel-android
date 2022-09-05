@@ -13,6 +13,10 @@ buildscript {
 }
 
 subprojects {
+
+    version = getLibVersion()
+    group = "com.redmadrobot.debug"
+
     repositories {
         google()
         jcenter()
