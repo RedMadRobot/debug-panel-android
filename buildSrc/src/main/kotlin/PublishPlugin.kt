@@ -82,11 +82,20 @@ class PublishPlugin : Plugin<Project> {
                                 name.set("Roman Choriev")
                                 email.set("r.choryev@redmadrobot.com")
                             }
+                        }
 
-                            developer {
-                                id.set("osipxd")
+                        contributors {
+                            contributor {
                                 name.set("Osip Fatkullin")
                                 email.set("o.fatkullin@redmadrobot.com")
+                            }
+                            contributor {
+                                name.set("Alexandr Anisimov")
+                                email.set("PilotOfSparrow@gmail.com")
+                            }
+                            contributor {
+                                name.set("Dmitry trabo")
+                                email.set("dtrabo@gmail.com")
                             }
                         }
 
