@@ -21,15 +21,15 @@ android {
         jvmTarget = "1.8"
     }
 
-    sourceSets.getByName("main"){
+    sourceSets.getByName("main") {
         java.srcDir("src/main/kotlin")
     }
 
-    sourceSets.getByName("release"){
+    sourceSets.getByName("release") {
         java.srcDir("src/release/kotlin")
     }
 
-    sourceSets.getByName("debug"){
+    sourceSets.getByName("debug") {
         java.srcDir("src/debug/kotlin")
     }
 
@@ -50,21 +50,23 @@ dependencies {
     implementation(Dependencies.lifecycle.lifecycle_runtime)
 
     // Debug panel dependencies
-    debugImplementation(project(":debug-panel-core"))
-    debugImplementation(project(":plugins:servers-plugin"))
-    debugImplementation(project(":plugins:accounts-plugin"))
-    debugImplementation(project(":plugins:app-settings-plugin"))
-    debugImplementation(project(":plugins:flipper-plugin"))
-    debugImplementation(project(":plugins:variable-plugin"))
+//    debugImplementation(project(":debug-panel-core"))
+//    debugImplementation(project(":plugins:servers-plugin"))
+//    debugImplementation(project(":plugins:accounts-plugin"))
+//    debugImplementation(project(":plugins:app-settings-plugin"))
+//    debugImplementation(project(":plugins:flipper-plugin"))
+//    debugImplementation(project(":plugins:variable-plugin"))
 
-//    debugImplementation("com.redmadrobot.debug:accounts-plugin:0.7.3")
-//    debugImplementation("com.redmadrobot.debug:servers-plugin:0.7.3")
-//    debugImplementation("com.redmadrobot.debug:app-settings-plugin:0.7.3")
-//    debugImplementation("com.redmadrobot.debug:flipper-plugin:0.7.3")
-//    debugImplementation("com.redmadrobot.debug:variable-plugin:0.7.3")
+    debugImplementation("com.redmadrobot.debug:panel-core:0.7.4")
+    debugImplementation("com.redmadrobot.debug:accounts-plugin:0.7.4")
+    debugImplementation("com.redmadrobot.debug:servers-plugin:0.7.4")
+    debugImplementation("com.redmadrobot.debug:app-settings-plugin:0.7.4")
+    debugImplementation("com.redmadrobot.debug:flipper-plugin:0.7.4")
+    debugImplementation("com.redmadrobot.debug:variable-plugin:0.7.4")
 
     //No-op dependency
-    releaseImplementation(project(":debug-panel-no-op"))
+//    releaseImplementation(project(":debug-panel-no-op"))
+    releaseImplementation("com.redmadrobot.debug:panel-no-op:0.7.4")
 
     implementation("com.squareup.retrofit2:retrofit:2.7.1")
 }
