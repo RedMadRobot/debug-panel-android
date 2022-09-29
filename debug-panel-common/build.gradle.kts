@@ -44,35 +44,23 @@ android {
 }
 
 dependencies {
-    api(Dependencies.kotlin.stdlib)
-    api(Dependencies.okhttp)
-    api(Dependencies.androidx.app_compat)
-    api(Dependencies.androidx.design)
-    api(Dependencies.androidx.constraint_layout)
-
-    api(Dependencies.coroutines_android)
-
-    api(Dependencies.lifecycle.runtime)
-    api(Dependencies.lifecycle.extensions)
-    api(Dependencies.lifecycle.lifecycle_livedata)
-    api(Dependencies.lifecycle.lifecycle_livedata_core)
-    api(Dependencies.lifecycle.lifecycle_view_model)
-    api(Dependencies.room.runtime)
-    api(Dependencies.room.ktx)
-
-    api(Dependencies.tools.android_ktx)
-    api(Dependencies.ui.items_adapter)
-
-    api(Dependencies.feature_toggles.flipper)
-
-    api(Dependencies.debugging.timber)
-//    implementation fileTree (dir: 'libs', include: ['*.jar'])
-    kapt(Dependencies.room.compiler)
-}
-
-
-tasks.register("wrapper", Wrapper::class) {
-    setGradleVersion( "7.0.0")
+    api(kotlin("stdlib"))
+    api(stack.okhttp)
+    api(androidx.appcompat)
+    api(stack.material)
+    api(androidx.constraintlayout)
+    api(stack.kotlinx.coroutines.android)
+    api(androidx.lifecycle.runtime)
+    api(androidx.lifecycle.livedata)
+    api(androidx.lifecycle.livedata.core)
+    api(androidx.lifecycle.viewmodel)
+    api(androidx.room.runtime)
+    api(androidx.room)
+    api(androidx.core)
+    api(rmr.itemsadapter.viewbinding)
+    api(rmr.flipper)
+    api(stack.timber)
+    kapt(androidx.room.compiler)
 }
 
 tasks.register("prepareKotlinBuildScriptModel") {}

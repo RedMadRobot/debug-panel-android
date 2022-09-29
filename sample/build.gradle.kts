@@ -27,14 +27,14 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.kotlin.stdlib)
-    implementation(Dependencies.androidx.app_compat)
-    implementation(Dependencies.androidx.design)
-    implementation(Dependencies.androidx.constraint_layout)
-    implementation(Dependencies.feature_toggles.flipper)
-    implementation(Dependencies.debugging.timber)
-    implementation(Dependencies.coroutines_android)
-    implementation(Dependencies.lifecycle.lifecycle_runtime)
+    implementation(kotlin("stdlib"))
+    implementation(androidx.appcompat)
+    implementation(stack.material)
+    implementation(androidx.constraintlayout)
+    implementation(rmr.flipper)
+    implementation(stack.timber)
+    implementation(stack.kotlinx.coroutines.android)
+    implementation(androidx.lifecycle.runtime)
 
     // Debug panel dependencies
     debugImplementation(project(":debug-panel-core"))
@@ -54,5 +54,5 @@ dependencies {
     releaseImplementation(project(":debug-panel-no-op"))
 //    releaseImplementation("com.redmadrobot.debug:panel-no-op:${project.version}")
 
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation(stack.retrofit)
 }

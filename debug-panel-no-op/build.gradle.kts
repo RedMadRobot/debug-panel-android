@@ -39,9 +39,9 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.kotlin.stdlib)
-    implementation(Dependencies.okhttp)
-    implementation(Dependencies.androidx.app_compat)
-    implementation(Dependencies.feature_toggles.flipper)
-    implementation(Dependencies.coroutines_android)
+    implementation(kotlin("stdlib"))
+    implementation(stack.okhttp)
+    implementation(androidx.appcompat)
+    implementation(rmr.flipper)
+    implementation(stack.kotlinx.coroutines.android)
 }
