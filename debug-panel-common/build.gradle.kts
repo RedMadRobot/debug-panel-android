@@ -56,7 +56,6 @@ dependencies {
     api(androidx.constraintlayout)
     api(stack.kotlinx.coroutines.android)
     api(androidx.lifecycle.runtime)
-    api("androidx.lifecycle:lifecycle-extensions:2.2.0")
     api(androidx.lifecycle.livedata)
     api(androidx.lifecycle.livedata.core)
     api(androidx.lifecycle.viewmodel)
