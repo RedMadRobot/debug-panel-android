@@ -35,6 +35,11 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
 }
 
@@ -42,6 +47,7 @@ android {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(androidx.appcompat)
+    implementation(androidx.compose.runtime)
     implementation(stack.material)
     implementation(androidx.constraintlayout)
     implementation(rmr.flipper)
