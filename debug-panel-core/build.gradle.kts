@@ -38,7 +38,9 @@ android {
         freeCompilerArgs += listOf("-Xexplicit-api=strict", "-Xopt-in=kotlin.RequiresOptIn")
     }
 
-    java.sourceSets.create("src.main.kotlin")
+    kotlin.sourceSets.main{
+        kotlin.srcDirs("src/main/kotlin")
+    }
 
     buildFeatures {
         viewBinding = true
@@ -48,5 +50,5 @@ android {
 
 dependencies {
     implementation(project(":debug-panel-common"))
-    kapt(Dependencies.room.compiler)
+    kapt(androidx.room.compiler)
 }
