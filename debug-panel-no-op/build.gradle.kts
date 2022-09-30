@@ -35,13 +35,15 @@ android {
         jvmTarget = "1.8"
     }
 
-    java.sourceSets.create("src.main.kotlin")
+    kotlin.sourceSets.main {
+        kotlin.srcDirs("src/main/kotlin")
+    }
 }
 
 dependencies {
-    implementation(Dependencies.kotlin.stdlib)
-    implementation(Dependencies.okhttp)
-    implementation(Dependencies.androidx.app_compat)
-    implementation(Dependencies.feature_toggles.flipper)
-    implementation(Dependencies.coroutines_android)
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(stack.okhttp)
+    implementation(androidx.appcompat)
+    implementation(rmr.flipper)
+    implementation(stack.kotlinx.coroutines.android)
 }

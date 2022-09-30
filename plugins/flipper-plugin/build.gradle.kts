@@ -38,7 +38,9 @@ android {
         freeCompilerArgs += "-Xexplicit-api=strict"
     }
 
-    java.sourceSets.create("src.main.kotlin")
+    kotlin.sourceSets.main {
+        kotlin.srcDirs("src/main/kotlin")
+    }
 
     buildFeatures {
         viewBinding = true
@@ -48,5 +50,5 @@ android {
 dependencies {
     implementation(project(":debug-panel-core"))
     implementation(project(":debug-panel-common"))
-    implementation(Dependencies.lifecycle.lifecycle_runtime)
+    implementation(androidx.lifecycle.runtime)
 }

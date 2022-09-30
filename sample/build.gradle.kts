@@ -40,33 +40,33 @@ android {
 
 
 dependencies {
-    implementation(Dependencies.kotlin.stdlib)
-    implementation(Dependencies.androidx.app_compat)
-    implementation(Dependencies.androidx.design)
-    implementation(Dependencies.androidx.constraint_layout)
-    implementation(Dependencies.feature_toggles.flipper)
-    implementation(Dependencies.debugging.timber)
-    implementation(Dependencies.coroutines_android)
-    implementation(Dependencies.lifecycle.lifecycle_runtime)
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(androidx.appcompat)
+    implementation(stack.material)
+    implementation(androidx.constraintlayout)
+    implementation(rmr.flipper)
+    implementation(stack.timber)
+    implementation(stack.kotlinx.coroutines.android)
+    implementation(androidx.lifecycle.runtime)
 
     // Debug panel dependencies
-//    debugImplementation(project(":debug-panel-core"))
-//    debugImplementation(project(":plugins:servers-plugin"))
-//    debugImplementation(project(":plugins:accounts-plugin"))
-//    debugImplementation(project(":plugins:app-settings-plugin"))
-//    debugImplementation(project(":plugins:flipper-plugin"))
-//    debugImplementation(project(":plugins:variable-plugin"))
-
-    debugImplementation("com.redmadrobot.debug:panel-core:0.7.4")
-    debugImplementation("com.redmadrobot.debug:accounts-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:servers-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:app-settings-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:flipper-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:variable-plugin:0.7.4")
-
+    debugImplementation(project(":debug-panel-core"))
+    debugImplementation(project(":plugins:servers-plugin"))
+    debugImplementation(project(":plugins:accounts-plugin"))
+    debugImplementation(project(":plugins:app-settings-plugin"))
+    debugImplementation(project(":plugins:flipper-plugin"))
+    debugImplementation(project(":plugins:variable-plugin"))
+//
+//    debugImplementation("com.redmadrobot.debug:panel-core:0.7.4")
+//    debugImplementation("com.redmadrobot.debug:accounts-plugin:0.7.4")
+//    debugImplementation("com.redmadrobot.debug:servers-plugin:0.7.4")
+//    debugImplementation("com.redmadrobot.debug:app-settings-plugin:0.7.4")
+//    debugImplementation("com.redmadrobot.debug:flipper-plugin:0.7.4")
+//    debugImplementation("com.redmadrobot.debug:variable-plugin:0.7.4")
+//
     //No-op dependency
-//    releaseImplementation(project(":debug-panel-no-op"))
-    releaseImplementation("com.redmadrobot.debug:panel-no-op:0.7.4")
+    releaseImplementation(project(":debug-panel-no-op"))
+//    releaseImplementation("com.redmadrobot.debug:panel-no-op:0.7.4")
 
-    implementation("com.squareup.retrofit2:retrofit:2.7.1")
+    implementation(stack.retrofit)
 }
