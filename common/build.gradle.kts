@@ -44,23 +44,31 @@ android {
 }
 
 dependencies {
-    api(kotlin("stdlib"))
-    api(stack.okhttp)
-    api(androidx.appcompat)
-    api(stack.material)
-    api(androidx.constraintlayout)
-    api(stack.kotlinx.coroutines.android)
-    api(androidx.lifecycle.runtime)
-    api(androidx.lifecycle.livedata)
-    api(androidx.lifecycle.livedata.core)
-    api(androidx.lifecycle.viewmodel)
+    api(androidx.compose.animation)
+    api(stack.material.compose.themeAdapter)
+    api(androidx.compose.material)
+    api(androidx.compose.foundation)
+    api(androidx.compose.ui)
+    api(androidx.constraintlayout.compose)
+    api(androidx.activity.compose)
+    api(androidx.compose.ui.tooling.preview)
     api(androidx.room.runtime)
     api(androidx.room)
     api(androidx.core)
+    api(stack.okhttp)
+    api(stack.kotlinx.coroutines.android)
+    api(stack.timber)
     api(rmr.itemsadapter.viewbinding)
     api(rmr.flipper)
-    api(stack.timber)
     kapt(androidx.room.compiler)
+    // legacy
+    api(androidx.appcompat)
+    api(stack.material)
+    api(androidx.constraintlayout)
+    api(androidx.lifecycle.viewmodel)
+    api(androidx.lifecycle.runtime)
+    api(androidx.lifecycle.livedata)
+    api(androidx.lifecycle.livedata.core)
 }
 
 tasks.register("prepareKotlinBuildScriptModel") {}

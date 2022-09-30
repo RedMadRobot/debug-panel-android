@@ -38,6 +38,11 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
     namespace = "com.redmadrobot.debug.plugin.servers"
 }
