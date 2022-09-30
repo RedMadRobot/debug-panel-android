@@ -46,5 +46,5 @@ android {
 dependencies {
     implementation(project(":debug-panel-core"))
     implementation(project(":debug-panel-common"))
-    implementation(Dependencies.lifecycle.lifecycle_runtime)
+    implementation(androidx.lifecycle.runtime)
 }
