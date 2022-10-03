@@ -6,9 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.DebugAccountRepository
 import com.redmadrobot.account_plugin.data.model.DebugAccount
-import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
+import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
+import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.debug_panel_common.base.PluginViewModel
 import com.redmadrobot.debug_panel_common.extension.safeLaunch
+import com.redmadrobot.debug_panel_core.extension.getPlugin
 
 internal class AccountsViewModel(
     private val context: Context,
@@ -30,14 +32,13 @@ internal class AccountsViewModel(
         }
     }
 
-    fun saveAccount(login: String, password: String, pin: String) {
-        val account = DebugAccount(
-            login = login,
-            password = password,
-            pin = pin
-        )
+    fun saveAccount(debugAccount: DebugAccount) {
         viewModelScope.safeLaunch {
-            debugAccountsRepository.addAccount(account)
+            if (debugAccount.id != 0) {
+                debugAccountsRepository.updateAccount(debugAccount)
+            } else {
+                debugAccountsRepository.addAccount(debugAccount)
+            }
             loadAddedAccounts()
         }
     }
@@ -68,14 +69,21 @@ internal class AccountsViewModel(
         }
     }
 
+    fun setAccountAsCurrent(account: DebugAccount) {
+        getPlugin<AccountsPlugin>().apply {
+            debugAuthenticator.onAccountSelected(account)
+            pushEvent(AccountSelectedEvent(account))
+        }
+    }
+
     private suspend fun loadPreInstalledAccounts() {
         val accounts = debugAccountsRepository.getPreInstalledAccounts()
         val preInstalledAccounts = if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
-                DebugAccountItems.PreinstalledAccount(account)
+                DebugAccountItem.PreinstalledAccount(account)
             }
             val header = context.getString(R.string.pre_installed_accounts)
-            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+            listOf(/*Header item*/DebugAccountItem.Header(header)).plus(items)
         } else {
             emptyList()
         }
@@ -86,10 +94,10 @@ internal class AccountsViewModel(
         val accounts = debugAccountsRepository.getAccounts()
         val addedAccountItems = if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
-                DebugAccountItems.AddedAccount(account)
+                DebugAccountItem.AddedAccount(account)
             }
             val header = context.getString(R.string.added_accounts)
-            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+            listOf(/*Header item*/DebugAccountItem.Header(header)).plus(items)
         } else {
             emptyList()
         }
