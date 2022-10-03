@@ -43,8 +43,8 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
@@ -53,8 +53,8 @@ android {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
     implementation(project(":debug-panel-core"))
     implementation(project(":debug-panel-common"))
-    implementation(kotlin("stdlib-jdk8"))
     kapt(androidx.room.compiler)
 }

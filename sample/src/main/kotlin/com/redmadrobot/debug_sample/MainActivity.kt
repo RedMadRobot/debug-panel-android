@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
                 is AccountSelectedEvent -> {
                     //Обработка выбора аккаунта
                 }
+
                 is ServerSelectedEvent -> {
                     //Обработка выбора сервера
                 }
@@ -53,8 +54,9 @@ class MainActivity : AppCompatActivity() {
             .onEach { event ->
                 when (event) {
                     is AccountSelectedEvent -> {
-                        //Обработка выбора аккаунта
+                        showSelectedAccount(event.debugAccount.login)
                     }
+
                     is ServerSelectedEvent -> {
                         //Обработка выбора сервера
                     }
@@ -137,6 +139,15 @@ class MainActivity : AppCompatActivity() {
             Toast.LENGTH_LONG
         ).show()
     }
+
+    private fun showSelectedAccount(account: String) {
+        Toast.makeText(
+            this,
+            "Account $account selected",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
 
     private fun chooseAccount() {
         DebugPanel.showPanel(supportFragmentManager)
