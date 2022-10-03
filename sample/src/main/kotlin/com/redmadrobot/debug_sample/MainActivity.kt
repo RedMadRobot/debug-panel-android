@@ -142,16 +142,17 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
-    private fun chooseAccount() {
-        DebugPanel.showPanel(supportFragmentManager)
-    }
-
     private fun showSelectedAccount(account: String) {
         Toast.makeText(
             this,
             "Account $account selected",
             Toast.LENGTH_LONG
         ).show()
+    }
+
+
+    private fun chooseAccount() {
+        DebugPanel.showPanel(supportFragmentManager)
     }
 
     @OptIn(DelicateCoroutinesApi::class)
