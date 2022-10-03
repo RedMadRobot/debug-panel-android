@@ -1,8 +1,8 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
-import com.redmadrobot.account_plugin.data.model.DebugAccount
-import com.redmadrobot.account_plugin.plugin.AccountsPlugin
+import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.account.plugin.AccountsPlugin
 import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_panel_core.internal.DebugPanelConfig

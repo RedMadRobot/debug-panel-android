@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
+import com.redmadrobot.debug.account.plugin.AccountSelectedEvent
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R

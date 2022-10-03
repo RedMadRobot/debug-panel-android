@@ -1,19 +1,19 @@
-package com.redmadrobot.account_plugin.ui
+package com.redmadrobot.debug.account.ui
 
 import android.os.Bundle
 import android.view.View
+import com.redmadrobot.debug.account.plugin.AccountsPlugin
+import com.redmadrobot.debug.account.plugin.AccountsPluginContainer
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
-import com.redmadrobot.account_plugin.data.model.DebugAccount
 import com.redmadrobot.account_plugin.databinding.FragmentAccountsBinding
 import com.redmadrobot.account_plugin.databinding.ItemAccountBinding
-import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
-import com.redmadrobot.account_plugin.plugin.AccountsPlugin
-import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.account_plugin.ui.add.AddAccountDialog
 import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
+import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.account.plugin.AccountSelectedEvent
 import com.redmadrobot.debug_panel_common.base.PluginFragment
 import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.debug_panel_common.extension.observe
