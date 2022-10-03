@@ -1,4 +1,4 @@
-package com.redmadrobot.account_plugin.ui
+package com.redmadrobot.debug.account.ui
 
 import androidx.compose.runtime.Stable
 

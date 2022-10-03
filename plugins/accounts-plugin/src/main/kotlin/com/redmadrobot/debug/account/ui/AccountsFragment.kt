@@ -1,11 +1,11 @@
-package com.redmadrobot.account_plugin.ui
+package com.redmadrobot.debug.account.ui
 
 import android.os.Bundle
 import android.view.View
-import com.redmadrobot.account_plugin.R
-import com.redmadrobot.account_plugin.databinding.FragmentAccountsComposeBinding
-import com.redmadrobot.account_plugin.plugin.AccountsPlugin
-import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
+import com.redmadrobot.account.R
+import com.redmadrobot.account.databinding.FragmentAccountsComposeBinding
+import com.redmadrobot.debug.account.plugin.AccountsPlugin
+import com.redmadrobot.debug.account.plugin.AccountsPluginContainer
 import com.redmadrobot.debug_panel_common.base.PluginFragment
 import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
