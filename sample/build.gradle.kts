@@ -61,7 +61,7 @@ dependencies {
     debugImplementation(project(":plugins:servers-plugin"))
     debugImplementation(project(":plugins:accounts"))
     debugImplementation(project(":plugins:app-settings"))
-    debugImplementation(project(":plugins:flipper-plugin"))
+    debugImplementation(project(":plugins:flipper"))
     debugImplementation(project(":plugins:variable-plugin"))
     releaseImplementation(project(":no-op"))
 //
