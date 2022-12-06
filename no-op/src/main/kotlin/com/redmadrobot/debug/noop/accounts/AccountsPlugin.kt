@@ -1,6 +1,6 @@
-package com.redmadrobot.debug.account.plugin
+package com.redmadrobot.debug.accounts.plugin
 
-import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import java.util.Collections.emptyList
 

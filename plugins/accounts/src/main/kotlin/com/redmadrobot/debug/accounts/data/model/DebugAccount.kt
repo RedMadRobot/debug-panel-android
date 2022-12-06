@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.account.data.model
+package com.redmadrobot.debug.accounts.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

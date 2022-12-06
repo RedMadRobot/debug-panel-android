@@ -1,11 +1,11 @@
-package com.redmadrobot.debug.account.plugin
+package com.redmadrobot.debug.accounts.plugin
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.redmadrobot.debug.account.authenticator.DebugAuthenticator
-import com.redmadrobot.debug.account.authenticator.DefaultAuthenticator
-import com.redmadrobot.debug.account.data.model.DebugAccount
-import com.redmadrobot.debug.account.ui.AccountsFragment
+import com.redmadrobot.debug.accounts.authenticator.DebugAuthenticator
+import com.redmadrobot.debug.accounts.authenticator.DefaultAuthenticator
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.ui.AccountsFragment
 import com.redmadrobot.debug.core.CommonContainer
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.plugin.Plugin
