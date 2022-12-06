@@ -1,4 +1,4 @@
-package com.redmadrobot.app_settings_plugin.data
+package com.redmadrobot.debug.appsettings.data
 
 import android.content.SharedPreferences
 
