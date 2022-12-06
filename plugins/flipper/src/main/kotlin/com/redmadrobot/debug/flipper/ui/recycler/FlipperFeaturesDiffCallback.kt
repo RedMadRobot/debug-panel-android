@@ -1,9 +1,9 @@
-package com.redmadrobot.flipper_plugin.ui.recycler
+package com.redmadrobot.debug.flipper.ui.recycler
 
 import androidx.recyclerview.widget.DiffUtil
-import com.redmadrobot.flipper_plugin.ui.data.FlipperItem
-import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Feature
-import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Group
+import com.redmadrobot.debug.flipper.ui.data.FlipperItem
+import com.redmadrobot.debug.flipper.ui.data.FlipperItem.Feature
+import com.redmadrobot.debug.flipper.ui.data.FlipperItem.Group
 
 internal class FlipperFeaturesDiffCallback : DiffUtil.ItemCallback<FlipperItem>() {
     override fun areItemsTheSame(

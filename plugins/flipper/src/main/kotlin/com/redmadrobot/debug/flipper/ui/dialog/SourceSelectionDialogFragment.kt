@@ -1,4 +1,4 @@
-package com.redmadrobot.flipper_plugin.ui.dialog
+package com.redmadrobot.debug.flipper.ui.dialog
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -13,9 +13,9 @@ import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.flipper_plugin.R
 import com.redmadrobot.flipper_plugin.databinding.DialogFlipperSourceBinding
-import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
-import com.redmadrobot.flipper_plugin.plugin.FlipperPluginContainer
-import com.redmadrobot.flipper_plugin.ui.dialog.recycler.SourceSelectionAdapter
+import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
+import com.redmadrobot.debug.flipper.plugin.FlipperPluginContainer
+import com.redmadrobot.debug.flipper.ui.dialog.recycler.SourceSelectionAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

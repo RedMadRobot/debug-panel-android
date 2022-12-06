@@ -1,10 +1,10 @@
-package com.redmadrobot.flipper_plugin.plugin
+package com.redmadrobot.debug.flipper.plugin
 
 import android.content.Context
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
-import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
-import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesViewModel
-import com.redmadrobot.flipper_plugin.ui.dialog.SourceSelectionViewModel
+import com.redmadrobot.debug.flipper.data.FeatureTogglesRepository
+import com.redmadrobot.debug.flipper.ui.FlipperFeaturesViewModel
+import com.redmadrobot.debug.flipper.ui.dialog.SourceSelectionViewModel
 
 internal class FlipperPluginContainer(
     private val context: Context,

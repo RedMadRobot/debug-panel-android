@@ -1,7 +1,7 @@
-package com.redmadrobot.flipper_plugin.ui.dialog.recycler
+package com.redmadrobot.debug.flipper.ui.dialog.recycler
 
 import androidx.recyclerview.widget.DiffUtil
-import com.redmadrobot.flipper_plugin.ui.dialog.data.SelectableSource
+import com.redmadrobot.debug.flipper.ui.dialog.data.SelectableSource
 
 internal class SourceDiffCallback : DiffUtil.ItemCallback<SelectableSource>() {
     override fun areItemsTheSame(oldItem: SelectableSource, newItem: SelectableSource): Boolean {

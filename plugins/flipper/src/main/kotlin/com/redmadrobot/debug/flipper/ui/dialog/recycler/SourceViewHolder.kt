@@ -1,10 +1,10 @@
-package com.redmadrobot.flipper_plugin.ui.dialog.recycler
+package com.redmadrobot.debug.flipper.ui.dialog.recycler
 
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperSourceBinding
-import com.redmadrobot.flipper_plugin.ui.dialog.data.SelectableSource
+import com.redmadrobot.debug.flipper.ui.dialog.data.SelectableSource
 
 internal class SourceViewHolder(
     view: View,

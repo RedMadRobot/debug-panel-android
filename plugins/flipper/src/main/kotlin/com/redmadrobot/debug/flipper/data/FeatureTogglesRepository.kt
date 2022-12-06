@@ -1,9 +1,9 @@
-package com.redmadrobot.flipper_plugin.data
+package com.redmadrobot.debug.flipper.data
 
 import android.content.Context
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper.config.FlipperValue.*
-import com.redmadrobot.flipper_plugin.plugin.PluginToggle
+import com.redmadrobot.debug.flipper.plugin.PluginToggle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
