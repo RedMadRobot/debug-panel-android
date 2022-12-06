@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.debug_panel_common.base.PluginFragment
+import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
-import com.redmadrobot.debug_panel_common.extension.observe
-import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
+import com.redmadrobot.debug.common.extension.observe
+import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind

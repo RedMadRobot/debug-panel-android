@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
+import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.flipper_plugin.R
 import com.redmadrobot.flipper_plugin.databinding.DialogFlipperSourceBinding
