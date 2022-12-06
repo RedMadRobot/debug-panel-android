@@ -1,7 +1,7 @@
 package com.redmadrobot.flipper_plugin.ui
 
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.debug_panel_common.base.PluginViewModel
+import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
 import com.redmadrobot.flipper_plugin.plugin.PluginToggle

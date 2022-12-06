@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel_common.base
+package com.redmadrobot.debug.common.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

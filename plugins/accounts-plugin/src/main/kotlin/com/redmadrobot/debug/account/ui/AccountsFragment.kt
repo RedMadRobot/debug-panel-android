@@ -6,8 +6,8 @@ import com.redmadrobot.account.R
 import com.redmadrobot.account.databinding.FragmentAccountsComposeBinding
 import com.redmadrobot.debug.account.plugin.AccountsPlugin
 import com.redmadrobot.debug.account.plugin.AccountsPluginContainer
-import com.redmadrobot.debug_panel_common.base.PluginFragment
-import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
+import com.redmadrobot.debug.common.base.PluginFragment
+import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 
 internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts_compose) {
