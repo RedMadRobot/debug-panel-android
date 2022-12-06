@@ -1,4 +1,4 @@
-package com.redmadrobot.flipper_plugin.plugin
+package com.redmadrobot.debug.flipper.plugin
 
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.core.CommonContainer
@@ -6,7 +6,7 @@ import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesFragment
+import com.redmadrobot.debug.flipper.ui.FlipperFeaturesFragment
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 

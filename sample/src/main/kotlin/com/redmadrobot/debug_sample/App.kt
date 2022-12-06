@@ -12,7 +12,7 @@ import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
 import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
 import com.redmadrobot.debug_sample.debug_data.DebugVariableWidgetsProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
-import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
+import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.variable_plugin.plugin.VariablePlugin

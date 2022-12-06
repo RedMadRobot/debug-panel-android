@@ -1,4 +1,4 @@
-package com.redmadrobot.flipper_plugin.plugin
+package com.redmadrobot.debug.flipper.plugin
 
 import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.flow.Flow
