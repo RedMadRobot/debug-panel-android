@@ -1,5 +1,4 @@
-package com.redmadrobot.app_settings_plugin.plugin
-
+package com.redmadrobot.debug.appsettings.plugin
 
 import android.content.SharedPreferences
 import java.util.Collections.emptyList
