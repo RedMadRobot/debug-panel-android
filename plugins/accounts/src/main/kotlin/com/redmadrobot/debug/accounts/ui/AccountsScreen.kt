@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.account.ui
+package com.redmadrobot.debug.accounts.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -19,7 +19,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.asFlow
 import com.google.android.material.composethemeadapter.MdcTheme
 import com.redmadrobot.account.R
-import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

@@ -1,6 +1,6 @@
-package com.redmadrobot.debug.account.data
+package com.redmadrobot.debug.accounts.data
 
-import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
 
 internal interface DebugAccountRepository {
     suspend fun addAccount(account: DebugAccount)
