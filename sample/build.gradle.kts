@@ -43,15 +43,13 @@ dependencies {
     debugImplementation(project(":plugins:app-settings-plugin"))
     debugImplementation(project(":plugins:flipper-plugin"))
     debugImplementation(project(":plugins:variable-plugin"))
+    releaseImplementation(project(":no-op"))
 //    debugImplementation("com.redmadrobot.debug:panel-core:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:accounts-plugin:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:servers-plugin:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:app-settings-plugin:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:flipper-plugin:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:variable-plugin:${project.version}")
-
-    //No-op dependency
-    releaseImplementation(project(":debug-panel-no-op"))
 //    releaseImplementation("com.redmadrobot.debug:panel-no-op:${project.version}")
 
     implementation(stack.retrofit)
