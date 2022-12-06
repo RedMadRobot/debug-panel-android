@@ -1,6 +1,6 @@
-package com.redmadrobot.servers_plugin.plugin
+package com.redmadrobot.debug.servers.plugin
 
-import com.redmadrobot.debug_panel_core.internal.DebugEvent
-import com.redmadrobot.servers_plugin.data.model.DebugServer
+import com.redmadrobot.debug.core.internal.DebugEvent
+import com.redmadrobot.debug.servers.data.model.DebugServer
 
 data class ServerSelectedEvent(val debugServer: DebugServer) : DebugEvent

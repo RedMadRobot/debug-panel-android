@@ -1,4 +1,4 @@
-package com.redmadrobot.servers_plugin.ui
+package com.redmadrobot.debug.servers.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -7,11 +7,11 @@ import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.common.extension.safeLaunch
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.servers_plugin.R
-import com.redmadrobot.servers_plugin.data.DebugServerRepository
-import com.redmadrobot.servers_plugin.data.model.DebugServer
-import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
-import com.redmadrobot.servers_plugin.plugin.ServersPlugin
-import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
+import com.redmadrobot.debug.servers.data.DebugServerRepository
+import com.redmadrobot.debug.servers.data.model.DebugServer
+import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent
+import com.redmadrobot.debug.servers.plugin.ServersPlugin
+import com.redmadrobot.debug.servers.ui.item.DebugServerItems
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

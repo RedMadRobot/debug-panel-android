@@ -1,6 +1,6 @@
-package com.redmadrobot.servers_plugin.ui
+package com.redmadrobot.debug.servers.ui
 
-import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
+import com.redmadrobot.debug.servers.ui.item.DebugServerItems
 
 internal data class ServersViewState(
     val preInstalledServers: List<DebugServerItems>,
