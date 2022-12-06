@@ -1,4 +1,4 @@
-package com.redmadrobot.servers_plugin.data.model
+package com.redmadrobot.debug.servers.data.model
 
 data class DebugServer(
     val id: Int = 0,

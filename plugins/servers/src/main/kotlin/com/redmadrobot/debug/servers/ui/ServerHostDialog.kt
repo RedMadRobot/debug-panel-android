@@ -1,4 +1,4 @@
-package com.redmadrobot.servers_plugin.ui
+package com.redmadrobot.debug.servers.ui
 
 import android.os.Bundle
 import android.util.Patterns
@@ -11,8 +11,8 @@ import androidx.fragment.app.FragmentManager
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.servers_plugin.R
-import com.redmadrobot.servers_plugin.plugin.ServersPlugin
-import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
+import com.redmadrobot.debug.servers.plugin.ServersPlugin
+import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
 import kotlinx.android.synthetic.main.dialog_server.*
 
 internal class ServerHostDialog : DialogFragment() {

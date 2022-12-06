@@ -1,4 +1,4 @@
-package com.redmadrobot.servers_plugin.ui
+package com.redmadrobot.debug.servers.ui
 
 import android.os.Bundle
 import android.view.View
@@ -13,11 +13,11 @@ import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.servers_plugin.R
-import com.redmadrobot.servers_plugin.data.model.DebugServer
+import com.redmadrobot.debug.servers.data.model.DebugServer
 import com.redmadrobot.servers_plugin.databinding.ItemDebugServerBinding
-import com.redmadrobot.servers_plugin.plugin.ServersPlugin
-import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
-import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
+import com.redmadrobot.debug.servers.plugin.ServersPlugin
+import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
+import com.redmadrobot.debug.servers.ui.item.DebugServerItems
 import kotlinx.android.synthetic.main.fragment_servers.*
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {

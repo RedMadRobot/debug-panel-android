@@ -13,7 +13,7 @@ import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
-import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
+import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent
 import com.redmadrobot.variable_plugin.plugin.asDebugVariable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
