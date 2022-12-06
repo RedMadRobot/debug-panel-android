@@ -1,7 +1,7 @@
 package com.redmadrobot.debug.noop.accounts
 
 import com.redmadrobot.debug.account.data.model.DebugAccount
-import com.redmadrobot.debug_panel_core.data.DebugDataProvider
+import com.redmadrobot.debug.core.data.DebugDataProvider
 import java.util.Collections.emptyList
 
 class AccountsPlugin(

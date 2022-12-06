@@ -24,6 +24,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
 }
 
 dependencies {
