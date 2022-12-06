@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel_core.internal
+package com.redmadrobot.debug.core.internal
 
 import android.app.Application
 import androidx.fragment.app.FragmentManager

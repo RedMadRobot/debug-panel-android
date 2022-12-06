@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel_core.data
+package com.redmadrobot.debug.core.data
 
 interface DebugDataProvider<T> {
     fun provideData(): T
