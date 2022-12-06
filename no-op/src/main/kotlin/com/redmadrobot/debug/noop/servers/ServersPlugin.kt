@@ -1,7 +1,7 @@
-package com.redmadrobot.servers_plugin.plugin
+package com.redmadrobot.debug.servers.plugin
 
+import com.redmadrobot.debug.servers.data.model.DebugServer
 import com.redmadrobot.debug_panel_core.data.DebugDataProvider
-import com.redmadrobot.servers_plugin.data.model.DebugServer
 import java.util.Collections.emptyList
 
 class ServersPlugin(
