@@ -1,5 +1,13 @@
 # Changelog
 
+## In progress
+* Gradle обновлен до 7.5
+* compileSdk и targetSdk повышены до 33
+* Добавлена поддержка Jetpack Compose
+* accounts-plugin переведен на Jetpack Compose
+* Переименованы модули. 
+* Breaking changes - Изменены наименования пакетов во всех модулях. Приведены к общему виду.
+
 ## 0.8.1
 ### Изменения
 * Исправлен краш при остановке активити (#13)
