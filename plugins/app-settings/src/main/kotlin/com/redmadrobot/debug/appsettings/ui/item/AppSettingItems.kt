@@ -1,4 +1,4 @@
-package com.redmadrobot.app_settings_plugin.ui.item
+package com.redmadrobot.debug.appsettings.ui.item
 
 import androidx.core.view.isVisible
 import com.redmadrobot.app_settings_plugin.R
