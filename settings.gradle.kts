@@ -39,7 +39,7 @@ include(
 // Plugins
 include(
     ":plugins:accounts",
-    ":plugins:servers-plugin",
+    ":plugins:servers",
     ":plugins:app-settings",
     ":plugins:flipper",
     ":plugins:variable-plugin"

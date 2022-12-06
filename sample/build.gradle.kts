@@ -42,9 +42,9 @@ dependencies {
     implementation(stack.kotlinx.coroutines.android)
     implementation(androidx.lifecycle.runtime)
     debugImplementation(project(":core"))
+    debugImplementation(project(":plugins:servers"))
 
     // Debug panel dependencies
-    debugImplementation(project(":plugins:servers-plugin"))
     debugImplementation(project(":plugins:accounts"))
     debugImplementation(project(":plugins:app-settings"))
     debugImplementation(project(":plugins:flipper"))
