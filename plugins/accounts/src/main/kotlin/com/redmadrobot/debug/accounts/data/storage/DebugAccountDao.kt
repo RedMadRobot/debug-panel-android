@@ -1,7 +1,7 @@
-package com.redmadrobot.debug.account.data.storage
+package com.redmadrobot.debug.accounts.data.storage
 
 import androidx.room.*
-import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
 
 @Dao
 internal interface DebugAccountDao {

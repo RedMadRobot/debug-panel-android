@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.account.ui
+package com.redmadrobot.debug.accounts.ui
 
 import android.os.Bundle
 import android.view.View

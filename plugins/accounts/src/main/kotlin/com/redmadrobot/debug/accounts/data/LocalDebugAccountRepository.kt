@@ -1,7 +1,7 @@
-package com.redmadrobot.debug.account.data
+package com.redmadrobot.debug.accounts.data
 
-import com.redmadrobot.debug.account.data.model.DebugAccount
-import com.redmadrobot.debug.account.data.storage.DebugAccountDao
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.data.storage.DebugAccountDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

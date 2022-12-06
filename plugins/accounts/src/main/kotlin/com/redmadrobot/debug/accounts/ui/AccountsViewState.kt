@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.account.ui
+package com.redmadrobot.debug.accounts.ui
 
 import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
 

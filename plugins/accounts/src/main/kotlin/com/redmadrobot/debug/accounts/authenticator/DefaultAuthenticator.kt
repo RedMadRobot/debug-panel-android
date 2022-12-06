@@ -1,6 +1,6 @@
-package com.redmadrobot.debug.account.authenticator
+package com.redmadrobot.debug.accounts.authenticator
 
-import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
 
 internal class DefaultAuthenticator : DebugAuthenticator {
     override fun onAccountSelected(account: DebugAccount) = Unit

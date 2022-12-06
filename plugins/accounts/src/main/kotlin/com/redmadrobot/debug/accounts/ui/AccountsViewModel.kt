@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.account.ui
+package com.redmadrobot.debug.accounts.ui
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
