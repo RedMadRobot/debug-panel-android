@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":debug-panel-core"))
-    implementation(project(":debug-panel-common"))
+    implementation(project(":core"))
+    implementation(project(":common"))
     implementation(kotlin("stdlib"))
 }
