@@ -14,7 +14,7 @@ import com.redmadrobot.debugpanel.R
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
 import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent
-import com.redmadrobot.variable_plugin.plugin.asDebugVariable
+import com.redmadrobot.debug.variable.plugin.asDebugVariable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         DebugPanel.observeEvents()
-            .onEach { event ->
+            ?.onEach { event ->
                 when (event) {
                     is AccountSelectedEvent -> {
                         showSelectedAccount(event.debugAccount.login)
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            .launchIn(lifecycleScope)
+            ?.launchIn(lifecycleScope)
     }
 
     private fun setViews() {
