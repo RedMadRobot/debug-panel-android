@@ -24,21 +24,7 @@
 
 Для работы с библиотекой необходимо:
 
-1. Подключить репозиторий в ваш `build.gradle`  файл
-
-```groovy
-maven {
-    credentials {
-        username 'nexus_user_name'
-        password 'nexus_user_password'
-    }
-    url 'https://nexus.redmadrobot.com/repository/android/'
-}
-```
-
-
-
-2. Подключить `Core` модуль для работы самой панели:
+1. Подключить `Core` модуль для работы самой панели:
 
 ```groovy
 
@@ -50,7 +36,7 @@ dependencies {
 
 
 
-3. Подключить плагины для того функционала который вам нужен
+2. Подключить необходимые плагины
 
 ```groovy
 dependencies {
@@ -74,7 +60,7 @@ dependencies {
 
 ```
 
-4. Для того чтобы библиотека не попала в релизную сборку необходимо подключить `no-op` версию библиотеки
+3. Для того чтобы библиотека не попала в релизную сборку необходимо подключить `no-op` версию библиотеки
 
 ```groovy
    releaseImplementation 'com.redmadrobot.debug:panel-no-op:${debug_panel_version}'
