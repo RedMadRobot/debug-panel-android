@@ -1,6 +1,6 @@
-package com.redmadrobot.variable_plugin.ui.model
+package com.redmadrobot.debug.variable.ui.model
 
-import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
+import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
 
 internal sealed interface VariableEvent {
 

@@ -1,9 +1,9 @@
-package com.redmadrobot.variable_plugin.data
+package com.redmadrobot.debug.variable.data
 
 import androidx.collection.ArrayMap
-import com.redmadrobot.variable_plugin.plugin.VariableItem
-import com.redmadrobot.variable_plugin.plugin.VariableWidget
-import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
+import com.redmadrobot.debug.variable.plugin.VariableItem
+import com.redmadrobot.debug.variable.plugin.VariableWidget
+import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
