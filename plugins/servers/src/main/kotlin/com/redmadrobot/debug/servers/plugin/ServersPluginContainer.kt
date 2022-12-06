@@ -1,11 +1,11 @@
-package com.redmadrobot.servers_plugin.plugin
+package com.redmadrobot.debug.servers.plugin
 
 import com.redmadrobot.debug.core.CommonContainer
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
-import com.redmadrobot.servers_plugin.data.LocalDebugServerRepository
-import com.redmadrobot.servers_plugin.data.model.DebugServer
-import com.redmadrobot.servers_plugin.data.storage.ServersPluginDatabase
-import com.redmadrobot.servers_plugin.ui.ServersViewModel
+import com.redmadrobot.debug.servers.data.LocalDebugServerRepository
+import com.redmadrobot.debug.servers.data.model.DebugServer
+import com.redmadrobot.debug.servers.data.storage.ServersPluginDatabase
+import com.redmadrobot.debug.servers.ui.ServersViewModel
 
 internal class ServersPluginContainer(
     private val preInstalledServers: List<DebugServer>,

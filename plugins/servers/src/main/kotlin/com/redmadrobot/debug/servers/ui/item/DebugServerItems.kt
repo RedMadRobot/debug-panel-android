@@ -1,6 +1,6 @@
-package com.redmadrobot.servers_plugin.ui.item
+package com.redmadrobot.debug.servers.ui.item
 
-import com.redmadrobot.servers_plugin.data.model.DebugServer
+import com.redmadrobot.debug.servers.data.model.DebugServer
 
 internal sealed class DebugServerItems {
 

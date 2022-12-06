@@ -1,6 +1,6 @@
-package com.redmadrobot.servers_plugin.data
+package com.redmadrobot.debug.servers.data
 
-import com.redmadrobot.servers_plugin.data.model.DebugServer
+import com.redmadrobot.debug.servers.data.model.DebugServer
 
 internal interface DebugServerRepository {
 
