@@ -57,7 +57,7 @@ dependencies {
 //    debugImplementation("com.redmadrobot.debug:variable-plugin:${project.version}")
 
     //No-op dependency
-    releaseImplementation(project(":debug-panel-no-op"))
+    releaseImplementation(project(":no-op"))
 //    releaseImplementation("com.redmadrobot.debug:panel-no-op:${project.version}")
 
     implementation(stack.retrofit)
