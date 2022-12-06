@@ -1,4 +1,4 @@
-package com.redmadrobot.flipper_plugin.data
+package com.redmadrobot.debug.flipper.data
 
 internal data class FeatureTogglesSource(
     val name: String,

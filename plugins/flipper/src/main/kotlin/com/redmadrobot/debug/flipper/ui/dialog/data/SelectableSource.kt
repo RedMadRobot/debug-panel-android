@@ -1,4 +1,4 @@
-package com.redmadrobot.flipper_plugin.ui.dialog.data
+package com.redmadrobot.debug.flipper.ui.dialog.data
 
 internal data class SelectableSource(
     val name: String,
