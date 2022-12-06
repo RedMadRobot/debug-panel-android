@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.account.plugin.AccountSelectedEvent
-import com.redmadrobot.debug_panel_core.internal.DebugPanel
+import com.redmadrobot.debug.core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
 import com.redmadrobot.debugpanel.databinding.ActivityMainBinding

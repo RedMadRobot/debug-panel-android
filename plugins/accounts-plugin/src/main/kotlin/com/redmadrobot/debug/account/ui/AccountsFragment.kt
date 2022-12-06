@@ -18,7 +18,7 @@ import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter

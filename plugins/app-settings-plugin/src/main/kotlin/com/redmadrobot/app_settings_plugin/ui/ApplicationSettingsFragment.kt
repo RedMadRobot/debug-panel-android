@@ -11,7 +11,7 @@ import com.redmadrobot.app_settings_plugin.ui.item.AppSettingItems
 import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainViewModel
-import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.itemsadapter.itemsAdapter
 
 internal class ApplicationSettingsFragment : PluginFragment(R.layout.fragment_app_settings) {
