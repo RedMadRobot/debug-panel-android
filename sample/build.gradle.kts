@@ -48,7 +48,7 @@ dependencies {
     debugImplementation(project(":plugins:accounts"))
     debugImplementation(project(":plugins:app-settings"))
     debugImplementation(project(":plugins:flipper"))
-    debugImplementation(project(":plugins:variable-plugin"))
+    debugImplementation(project(":plugins:variable"))
 //    debugImplementation("com.redmadrobot.debug:panel-core:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:accounts-plugin:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:servers-plugin:${project.version}")

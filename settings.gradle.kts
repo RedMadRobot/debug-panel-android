@@ -42,7 +42,7 @@ include(
     ":plugins:servers",
     ":plugins:app-settings",
     ":plugins:flipper",
-    ":plugins:variable-plugin"
+    ":plugins:variable"
 )
 
 include(":sample")
