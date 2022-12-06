@@ -1,14 +1,14 @@
-package com.redmadrobot.variable_plugin.ui.recycler
+package com.redmadrobot.debug.variable.ui.recycler
 
 import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.redmadrobot.debug.variable.plugin.VariableItem
+import com.redmadrobot.debug.variable.plugin.VariableWidget
+import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
+import com.redmadrobot.debug.variable.ui.model.VariableEvent
 import com.redmadrobot.variable_plugin.databinding.ItemVariableBinding
-import com.redmadrobot.variable_plugin.plugin.VariableItem
-import com.redmadrobot.variable_plugin.plugin.VariableWidget
-import com.redmadrobot.variable_plugin.plugin.VariableWidgetSettings
-import com.redmadrobot.variable_plugin.ui.model.VariableEvent
 
 internal class VariableViewHolder<T : Any>(
     itemView: View,
