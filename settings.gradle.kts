@@ -35,7 +35,7 @@ dependencyResolutionManagement {
 }
 //Base modules
 include(
-    ":debug-panel-common",
+    ":common",
     ":debug-panel-no-op",
     ":debug-panel-core"
 )

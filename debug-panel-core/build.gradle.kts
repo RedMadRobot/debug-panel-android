@@ -54,6 +54,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":debug-panel-common"))
+    implementation(project(":common"))
     kapt(androidx.room.compiler)
 }

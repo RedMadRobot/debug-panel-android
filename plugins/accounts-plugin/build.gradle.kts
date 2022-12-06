@@ -55,7 +55,7 @@ android {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":debug-panel-core"))
-    implementation(project(":debug-panel-common"))
+    implementation(project(":core"))
+    implementation(project(":common"))
     kapt(androidx.room.compiler)
 }
