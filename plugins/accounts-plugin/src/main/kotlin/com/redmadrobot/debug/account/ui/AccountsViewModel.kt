@@ -7,8 +7,8 @@ import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
 import com.redmadrobot.debug.account.data.DebugAccountRepository
 import com.redmadrobot.debug.account.data.model.DebugAccount
-import com.redmadrobot.debug_panel_common.base.PluginViewModel
-import com.redmadrobot.debug_panel_common.extension.safeLaunch
+import com.redmadrobot.debug.common.base.PluginViewModel
+import com.redmadrobot.debug.common.extension.safeLaunch
 
 internal class AccountsViewModel(
     private val context: Context,

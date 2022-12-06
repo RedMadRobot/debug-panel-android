@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.redmadrobot.app_settings_plugin.data.AppSettingsRepository
 import com.redmadrobot.app_settings_plugin.ui.item.AppSettingItems
-import com.redmadrobot.debug_panel_common.base.PluginViewModel
+import com.redmadrobot.debug.common.base.PluginViewModel
 
 internal class ApplicationSettingsViewModel(
     private val appSettingsRepository: AppSettingsRepository

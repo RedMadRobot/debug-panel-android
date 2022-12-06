@@ -1,6 +1,6 @@
 package com.redmadrobot.variable_plugin.ui
 
-import com.redmadrobot.debug_panel_common.base.PluginViewModel
+import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.variable_plugin.data.VariableRepository
 import com.redmadrobot.variable_plugin.plugin.VariableItem
 import com.redmadrobot.variable_plugin.plugin.VariableWidget
