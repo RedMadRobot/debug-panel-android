@@ -53,8 +53,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":debug-panel-core"))
-    implementation(project(":debug-panel-common"))
     implementation(kotlin("stdlib"))
+    implementation(project(":core"))
+    implementation(project(":common"))
     kapt(androidx.room.compiler)
 }
