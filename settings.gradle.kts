@@ -37,7 +37,7 @@ dependencyResolutionManagement {
 include(
     ":common",
     ":debug-panel-no-op",
-    ":debug-panel-core"
+    ":core"
 )
 //Plugins
 include(
