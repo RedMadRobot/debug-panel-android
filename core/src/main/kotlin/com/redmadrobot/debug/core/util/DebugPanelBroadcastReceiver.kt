@@ -11,8 +11,7 @@ internal class DebugPanelBroadcastReceiver(
 ) : BroadcastReceiver() {
 
     companion object {
-        const val ACTION_OPEN_DEBUG_PANEL =
-            "com.redmadrobot.debug_panel_core.ACTION_OPEN_DEBUG_PANEL"
+        const val ACTION_OPEN_DEBUG_PANEL = "com.redmadrobot.debug.core.ACTION_OPEN_DEBUG_PANEL"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
