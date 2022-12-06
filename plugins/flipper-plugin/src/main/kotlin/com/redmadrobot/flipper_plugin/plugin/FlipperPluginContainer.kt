@@ -1,7 +1,7 @@
 package com.redmadrobot.flipper_plugin.plugin
 
 import android.content.Context
-import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 import com.redmadrobot.flipper_plugin.data.FeatureTogglesRepository
 import com.redmadrobot.flipper_plugin.ui.FlipperFeaturesViewModel
 import com.redmadrobot.flipper_plugin.ui.dialog.SourceSelectionViewModel

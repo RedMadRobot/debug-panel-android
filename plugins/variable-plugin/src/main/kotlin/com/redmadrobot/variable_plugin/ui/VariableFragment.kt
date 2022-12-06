@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.variable_plugin.R
 import com.redmadrobot.variable_plugin.databinding.FragmentVariableBinding
 import com.redmadrobot.variable_plugin.plugin.VariablePlugin

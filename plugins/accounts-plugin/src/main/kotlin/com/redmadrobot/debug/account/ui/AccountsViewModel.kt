@@ -10,7 +10,7 @@ import com.redmadrobot.debug.account.plugin.AccountSelectedEvent
 import com.redmadrobot.debug.account.plugin.AccountsPlugin
 import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.common.extension.safeLaunch
-import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.getPlugin
 
 internal class AccountsViewModel(
     private val context: Context,

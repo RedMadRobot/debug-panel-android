@@ -1,7 +1,7 @@
 package com.redmadrobot.variable_plugin.plugin
 
-import com.redmadrobot.debug_panel_core.CommonContainer
-import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.core.CommonContainer
+import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 import com.redmadrobot.variable_plugin.data.VariableRepository
 import com.redmadrobot.variable_plugin.ui.VariableViewModel
 import com.redmadrobot.variable_plugin.ui.widgets.BooleanVariableWidget

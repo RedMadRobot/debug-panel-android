@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.common.extension.safeLaunch
-import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
 import com.redmadrobot.servers_plugin.data.model.DebugServer
