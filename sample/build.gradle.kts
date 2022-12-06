@@ -63,6 +63,7 @@ dependencies {
     debugImplementation(project(":plugins:app-settings-plugin"))
     debugImplementation(project(":plugins:flipper-plugin"))
     debugImplementation(project(":plugins:variable-plugin"))
+    releaseImplementation(project(":no-op"))
 //
 //    debugImplementation("com.redmadrobot.debug:panel-core:0.7.5")
 //    debugImplementation("com.redmadrobot.debug:accounts-plugin:0.7.5")
@@ -72,8 +73,7 @@ dependencies {
 //    debugImplementation("com.redmadrobot.debug:variable-plugin:0.7.5")
 //
     //No-op dependency
-    releaseImplementation(project(":debug-panel-no-op"))
-//    releaseImplementation("com.redmadrobot.debug:panel-no-op:0.7.5")
+    //    releaseImplementation("com.redmadrobot.debug:panel-no-op:0.7.5")
 
     implementation(stack.retrofit)
 }
