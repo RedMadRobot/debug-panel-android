@@ -1,4 +1,4 @@
-package com.redmadrobot.debug_panel_common.extension
+package com.redmadrobot.debug.common.extension
 
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment

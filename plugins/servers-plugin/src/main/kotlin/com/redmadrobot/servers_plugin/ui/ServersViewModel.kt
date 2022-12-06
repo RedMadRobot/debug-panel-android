@@ -3,8 +3,8 @@ package com.redmadrobot.servers_plugin.ui
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.debug_panel_common.base.PluginViewModel
-import com.redmadrobot.debug_panel_common.extension.safeLaunch
+import com.redmadrobot.debug.common.base.PluginViewModel
+import com.redmadrobot.debug.common.extension.safeLaunch
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.DebugServerRepository
