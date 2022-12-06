@@ -1,4 +1,4 @@
-package com.redmadrobot.flipper_plugin.ui.recycler
+package com.redmadrobot.debug.flipper.ui.recycler
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
