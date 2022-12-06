@@ -1,7 +1,7 @@
 package com.redmadrobot.servers_plugin.util
 
-import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.internal.DebugPanel
+import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.internal.DebugPanel
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer

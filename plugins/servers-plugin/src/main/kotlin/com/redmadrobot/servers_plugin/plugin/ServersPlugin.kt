@@ -2,11 +2,11 @@ package com.redmadrobot.servers_plugin.plugin
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.redmadrobot.debug_panel_core.CommonContainer
-import com.redmadrobot.debug_panel_core.data.DebugDataProvider
-import com.redmadrobot.debug_panel_core.extension.getPlugin
-import com.redmadrobot.debug_panel_core.plugin.Plugin
-import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.core.CommonContainer
+import com.redmadrobot.debug.core.data.DebugDataProvider
+import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.plugin.Plugin
+import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.ui.ServersFragment
 import kotlinx.coroutines.runBlocking

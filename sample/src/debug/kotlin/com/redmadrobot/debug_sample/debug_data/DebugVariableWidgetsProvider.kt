@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.annotation.RequiresApi
-import com.redmadrobot.debug_panel_core.data.DebugDataProvider
+import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debugpanel.R
 import com.redmadrobot.variable_plugin.plugin.*
 import java.time.LocalDateTime
