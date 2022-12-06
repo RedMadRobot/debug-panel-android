@@ -1,4 +1,4 @@
-package com.redmadrobot.variable_plugin.plugin
+package com.redmadrobot.debug.variable.plugin
 
 import kotlin.reflect.KClass
 

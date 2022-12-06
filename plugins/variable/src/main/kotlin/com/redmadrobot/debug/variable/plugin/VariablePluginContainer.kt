@@ -1,12 +1,16 @@
-package com.redmadrobot.variable_plugin.plugin
+package com.redmadrobot.debug.variable.plugin
 
 import com.redmadrobot.debug.core.CommonContainer
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
-import com.redmadrobot.variable_plugin.data.VariableRepository
-import com.redmadrobot.variable_plugin.ui.VariableViewModel
-import com.redmadrobot.variable_plugin.ui.widgets.BooleanVariableWidget
-import com.redmadrobot.variable_plugin.ui.widgets.StringVariableWidget
-import com.redmadrobot.variable_plugin.ui.widgets.numbers.*
+import com.redmadrobot.debug.variable.ui.VariableViewModel
+import com.redmadrobot.debug.variable.ui.widgets.BooleanVariableWidget
+import com.redmadrobot.debug.variable.ui.widgets.StringVariableWidget
+import com.redmadrobot.debug.variable.ui.widgets.numbers.DoubleVariableWidget
+import com.redmadrobot.debug.variable.ui.widgets.numbers.FloatVariableWidget
+import com.redmadrobot.debug.variable.ui.widgets.numbers.IntVariableWidget
+import com.redmadrobot.debug.variable.ui.widgets.numbers.LongVariableWidget
+import com.redmadrobot.debug.variable.ui.widgets.numbers.ShortVariableWidget
+
 
 internal class VariablePluginContainer(
     private val container: CommonContainer,
@@ -14,7 +18,7 @@ internal class VariablePluginContainer(
 ) : PluginDependencyContainer {
 
     val variableRepository by lazy(LazyThreadSafetyMode.NONE) {
-        VariableRepository().apply {
+        com.redmadrobot.debug.variable.data.VariableRepository().apply {
             addWidget(IntVariableWidget())
             addWidget(LongVariableWidget())
             addWidget(ShortVariableWidget())
