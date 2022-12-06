@@ -40,7 +40,7 @@ include(
 include(
     ":plugins:accounts",
     ":plugins:servers-plugin",
-    ":plugins:app-settings-plugin",
+    ":plugins:app-settings",
     ":plugins:flipper-plugin",
     ":plugins:variable-plugin"
 )
