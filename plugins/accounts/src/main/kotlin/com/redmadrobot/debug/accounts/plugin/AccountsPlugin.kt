@@ -1,7 +1,10 @@
 package com.redmadrobot.debug.accounts.plugin
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.redmadrobot.account.databinding.FragmentContainerAccountBinding
 import com.redmadrobot.debug.accounts.authenticator.DebugAuthenticator
 import com.redmadrobot.debug.accounts.authenticator.DefaultAuthenticator
 import com.redmadrobot.debug.accounts.data.model.DebugAccount
@@ -37,6 +40,24 @@ public class AccountsPlugin(
     override fun getFragment(): Fragment {
         return AccountsFragment().apply {
             arguments = bundleOf(AccountsFragment.IS_EDIT_MODE_KEY to false)
+        }
+    }
+
+    @Composable
+    override fun content() {
+        AndroidViewBinding(factory = FragmentContainerAccountBinding::inflate) {
+            fragmentContainer.getFragment<AccountsFragment>().apply {
+                arguments = bundleOf(AccountsFragment.IS_EDIT_MODE_KEY to false)
+            }
+        }
+    }
+
+    @Composable
+    override fun settingsContent() {
+        AndroidViewBinding(factory = FragmentContainerAccountBinding::inflate) {
+            fragmentContainer.getFragment<AccountsFragment>().apply {
+                arguments = bundleOf(AccountsFragment.IS_EDIT_MODE_KEY to true)
+            }
         }
     }
 

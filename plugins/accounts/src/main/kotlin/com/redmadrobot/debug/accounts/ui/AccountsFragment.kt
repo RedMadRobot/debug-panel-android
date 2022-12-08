@@ -1,23 +1,23 @@
 package com.redmadrobot.debug.accounts.ui
 
 import android.os.Bundle
-import android.view.View
-import com.redmadrobot.account.R
-import com.redmadrobot.account.databinding.FragmentAccountsComposeBinding
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.accounts.plugin.AccountsPlugin
 import com.redmadrobot.debug.accounts.plugin.AccountsPluginContainer
-import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
 
-internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts_compose) {
+internal class AccountsFragment : Fragment() {
+
+    private val isSettingMode: Boolean by lazy {
+        activity?.javaClass?.simpleName == "DebugActivity"
+    }
 
     companion object {
         const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
-    }
-
-    private val isEditMode by lazy {
-        requireNotNull(arguments).getBoolean(IS_EDIT_MODE_KEY)
     }
 
     private val viewModel by lazy {
@@ -28,11 +28,13 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts_comp
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentAccountsComposeBinding.bind(view)
-        binding.composeRoot.setContent {
-            AccountsScreen(viewModel, isEditMode)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = ComposeView(inflater.context).apply {
+        setContent {
+            AccountsScreen(viewModel, isSettingMode)
         }
     }
 }
