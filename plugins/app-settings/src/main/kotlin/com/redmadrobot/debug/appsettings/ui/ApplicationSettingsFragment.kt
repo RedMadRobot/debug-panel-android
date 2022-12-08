@@ -24,15 +24,11 @@ internal class ApplicationSettingsFragment : PluginFragment(R.layout.fragment_ap
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        observe(settingsViewModel.settingsLiveData, ::setSettingList)
-        settingsViewModel.loadSettings()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observe(settingsViewModel.settingsLiveData, ::setSettingList)
         setViews()
+        settingsViewModel.loadSettings()
     }
 
     private fun setViews() {
