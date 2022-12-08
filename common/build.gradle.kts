@@ -39,7 +39,7 @@ android {
         freeCompilerArgs += "-Xexplicit-api=strict"
     }
 
-    kotlin.sourceSets.main{
+    kotlin.sourceSets.main {
         kotlin.srcDirs("src/main/kotlin")
     }
 
@@ -55,6 +55,8 @@ dependencies {
     api(androidx.compose.material)
     api(androidx.compose.foundation)
     api(androidx.compose.ui)
+    api(androidx.compose.ui.viewbinding)
+    api(androidx.fragment)
     api(androidx.constraintlayout.compose)
     api(androidx.activity.compose)
     api(androidx.compose.ui.tooling.preview)
