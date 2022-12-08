@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.asFlow
-import com.google.android.material.composethemeadapter.MdcTheme
 import com.redmadrobot.account.R
 import com.redmadrobot.debug.accounts.data.model.DebugAccount
 
@@ -31,40 +30,44 @@ internal fun AccountsScreen(
     var showDialog by remember { mutableStateOf(false) }
     var editableAccount by remember { mutableStateOf<DebugAccount?>(null) }
 
-    MdcTheme {
-        Scaffold(
-            floatingActionButton = {
-                if (isEditMode) {
-                    ExtendedFloatingActionButton(
-                        onClick = { showDialog = true },
-                        text = { Text("Add") },
-                        icon = { Icon(painterResource(R.drawable.icon_add_account), contentDescription = null) }
-                    )
-                }
-            }
-        ) {
-            AccountScreenLayout(
-                state = state,
-                isEditMode = isEditMode,
-                onSelectedClick = viewModel::setAccountAsCurrent,
-                onOpenDialogClick = {
-                    showDialog = true
-                    editableAccount = it
-                },
-                onDeleteClick = viewModel::removeAccount,
-            )
-            if (showDialog) {
-                AccountDetailsDialog(
-                    onDismiss = {
-                        showDialog = false
-                        editableAccount = null
-                    },
-                    onSaveClick = viewModel::saveAccount,
-                    account = editableAccount
+    Scaffold(
+        floatingActionButton = {
+            if (isEditMode) {
+                ExtendedFloatingActionButton(
+                    onClick = { showDialog = true },
+                    text = { Text("Add") },
+                    icon = {
+                        Icon(
+                            painterResource(R.drawable.icon_add_account),
+                            contentDescription = null
+                        )
+                    }
                 )
             }
         }
+    ) {
+        AccountScreenLayout(
+            state = state,
+            isEditMode = isEditMode,
+            onSelectedClick = viewModel::setAccountAsCurrent,
+            onOpenDialogClick = {
+                showDialog = true
+                editableAccount = it
+            },
+            onDeleteClick = viewModel::removeAccount,
+        )
+        if (showDialog) {
+            AccountDetailsDialog(
+                onDismiss = {
+                    showDialog = false
+                    editableAccount = null
+                },
+                onSaveClick = viewModel::saveAccount,
+                account = editableAccount
+            )
+        }
     }
+
     LaunchedEffect(viewModel) {
         viewModel.loadAccounts()
     }
@@ -79,7 +82,9 @@ private fun AccountScreenLayout(
     onOpenDialogClick: (DebugAccount?) -> Unit,
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         state.allItems.forEach { item ->
@@ -88,7 +93,9 @@ private fun AccountScreenLayout(
                     is DebugAccountItem.Header -> {
                         Text(
                             item.header.uppercase(),
-                            modifier = Modifier.fillParentMaxWidth().padding(vertical = 16.dp),
+                            modifier = Modifier
+                                .fillParentMaxWidth()
+                                .padding(vertical = 16.dp),
                             fontSize = 16.sp
                         )
                     }
@@ -105,7 +112,11 @@ private fun AccountScreenLayout(
                         AccountItem(
                             account = item.account,
                             showDelete = isEditMode,
-                            onItemClick = { if (isEditMode) onOpenDialogClick(it) else onSelectedClick(it) },
+                            onItemClick = {
+                                if (isEditMode) onOpenDialogClick(it) else onSelectedClick(
+                                    it
+                                )
+                            },
                             onDeleteClick = onDeleteClick,
                         )
                     }
@@ -123,11 +134,14 @@ private fun AccountItem(
     onDeleteClick: (DebugAccount) -> Unit = {},
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .height(56.dp)
             .clickable { onItemClick(account) }
     ) {
-        Box(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)) {
             Row(
                 modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.spacedBy(32.dp),

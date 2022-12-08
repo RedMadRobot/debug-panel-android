@@ -4,13 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.RoomOpenHelper;
+import androidx.room.RoomOpenHelper.Delegate;
+import androidx.room.RoomOpenHelper.ValidationResult;
 import androidx.room.migration.AutoMigrationSpec;
 import androidx.room.migration.Migration;
 import androidx.room.util.DBUtil;
 import androidx.room.util.TableInfo;
+import androidx.room.util.TableInfo.Column;
+import androidx.room.util.TableInfo.ForeignKey;
+import androidx.room.util.TableInfo.Index;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
-
+import androidx.sqlite.db.SupportSQLiteOpenHelper.Callback;
+import androidx.sqlite.db.SupportSQLiteOpenHelper.Configuration;
 import java.lang.Class;
 import java.lang.Override;
 import java.lang.String;
@@ -87,7 +93,7 @@ public final class AccountsPluginDatabase_Impl extends AccountsPluginDatabase {
         final TableInfo _infoDebugAccount = new TableInfo("debug_account", _columnsDebugAccount, _foreignKeysDebugAccount, _indicesDebugAccount);
         final TableInfo _existingDebugAccount = TableInfo.read(_db, "debug_account");
         if (! _infoDebugAccount.equals(_existingDebugAccount)) {
-          return new RoomOpenHelper.ValidationResult(false, "debug_account(com.redmadrobot.debug.account.data.model.DebugAccount).\n"
+          return new RoomOpenHelper.ValidationResult(false, "debug_account(com.redmadrobot.debug.accounts.data.model.DebugAccount).\n"
                   + " Expected:\n" + _infoDebugAccount + "\n"
                   + " Found:\n" + _existingDebugAccount);
         }
