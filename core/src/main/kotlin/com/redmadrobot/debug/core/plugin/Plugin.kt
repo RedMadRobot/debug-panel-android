@@ -1,5 +1,7 @@
 package com.redmadrobot.debug.core.plugin
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.core.CommonContainer
 import com.redmadrobot.debug.core.DebugPanelInstance
@@ -20,9 +22,25 @@ public abstract class Plugin {
 
     public fun <T> getContainer(): T = pluginContainer as T
 
+    @Deprecated(
+        "You should't use fragments for you plugins. Please use Jetpack Compose",
+        ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
+    )
     public open fun getFragment(): Fragment? = null
 
+    @Deprecated(
+        "You should't use fragments for you plugins. Please use Jetpack Compose",
+        ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
+    )
     public open fun getSettingFragment(): Fragment? = null
+
+    @Composable
+    public open fun content() {
+    }
+
+    @Composable
+    public open fun settingsContent() {
+    }
 
     public abstract fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer
 
