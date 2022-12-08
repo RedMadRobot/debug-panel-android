@@ -10,6 +10,10 @@ import com.redmadrobot.debug_panel_common.R
 
 public open class PluginFragment(private val layoutId: Int) : Fragment() {
 
+    protected val isSettingMode: Boolean by lazy {
+        activity?.javaClass?.simpleName == "DebugActivity"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

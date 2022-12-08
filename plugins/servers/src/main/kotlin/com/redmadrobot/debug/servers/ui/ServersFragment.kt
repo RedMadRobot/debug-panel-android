@@ -5,34 +5,25 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug.common.base.PluginFragment
-import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.servers.data.model.DebugServer
+import com.redmadrobot.debug.servers.plugin.ServersPlugin
+import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
+import com.redmadrobot.debug.servers.ui.item.DebugServerItems
+import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.servers_plugin.R
-import com.redmadrobot.debug.servers.data.model.DebugServer
 import com.redmadrobot.servers_plugin.databinding.FragmentServersBinding
 import com.redmadrobot.servers_plugin.databinding.ItemDebugServerBinding
-import com.redmadrobot.debug.servers.plugin.ServersPlugin
-import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
-import com.redmadrobot.debug.servers.ui.item.DebugServerItems
-import com.redmadrobot.debug_panel_common.R as CommonR
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
 
-    companion object {
-        const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
-    }
-
     private var _binding: FragmentServersBinding? = null
     private val binding get() = checkNotNull(_binding)
-
-    private val isEditMode by lazy {
-        requireNotNull(arguments).getBoolean(IS_EDIT_MODE_KEY)
-    }
 
     private val viewModel by lazy {
         obtainShareViewModel {
@@ -42,16 +33,12 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        observe(viewModel.state, ::render)
-        viewModel.loadServers()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentServersBinding.bind(view)
+        observe(viewModel.state, ::render)
         binding.setViews()
+        viewModel.loadServers()
     }
 
     override fun onDestroyView() {
@@ -64,7 +51,7 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
         addServer.setOnClickListener {
             ServerHostDialog.show(childFragmentManager)
         }
-        addServer.isVisible = isEditMode
+        addServer.isVisible = isSettingMode
     }
 
     private fun render(state: ServersViewState) {
@@ -81,26 +68,28 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
                         itemSectionTitle.text = item.header
                     }
                 }
+
                 is DebugServerItems.PreinstalledServer -> {
                     bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
                         itemServerName.text = item.debugServer.name
-                        isSelectedIcon.isVisible = item.isSelected && !isEditMode
-                        if (!isEditMode) {
+                        isSelectedIcon.isVisible = item.isSelected && !isSettingMode
+                        if (!isSettingMode) {
                             root.setOnClickListener {
                                 viewModel.onServerSelected(item.debugServer)
                             }
                         }
                     }
                 }
+
                 is DebugServerItems.AddedServer -> {
                     bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
                         itemServerName.text = item.debugServer.name
-                        isSelectedIcon.isVisible = item.isSelected && !isEditMode
-                        itemServerDelete.isVisible = isEditMode
+                        isSelectedIcon.isVisible = item.isSelected && !isSettingMode
+                        itemServerDelete.isVisible = isSettingMode
                         val server = item.debugServer
                         itemServerDelete.setOnClickListener { viewModel.removeServer(server) }
                         root.setOnClickListener {
-                            if (!isEditMode) {
+                            if (!isSettingMode) {
                                 viewModel.onServerSelected(server)
                             } else {
                                 editServerData(server)
