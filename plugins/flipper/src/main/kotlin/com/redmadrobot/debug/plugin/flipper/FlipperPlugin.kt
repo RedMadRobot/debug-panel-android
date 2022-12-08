@@ -1,5 +1,7 @@
 package com.redmadrobot.debug.plugin.flipper
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.extension.getPlugin
@@ -8,7 +10,7 @@ import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.debug.plugin.flipper.ui.FlipperFeaturesFragment
 import kotlinx.coroutines.flow.Flow
-import java.util.*
+import java.util.Collections
 
 public class FlipperPlugin(
     private val toggles: List<PluginToggle>,
@@ -53,8 +55,17 @@ public class FlipperPlugin(
         )
     }
 
+    @Deprecated(
+        "You should't use fragments for you plugins. Please use Jetpack Compose",
+        replaceWith = ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
+    )
     override fun getFragment(): Fragment {
         return FlipperFeaturesFragment()
+    }
+
+    @Composable
+    override fun content() {
+        AndroidViewBinding(FragmentContainerFlipperPluginBinding::inflate)
     }
 }
 

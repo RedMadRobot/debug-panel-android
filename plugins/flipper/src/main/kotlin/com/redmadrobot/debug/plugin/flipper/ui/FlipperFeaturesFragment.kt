@@ -1,11 +1,13 @@
 package com.redmadrobot.debug.plugin.flipper.ui
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
@@ -59,6 +61,19 @@ internal class FlipperFeaturesFragment : PluginFragment(R.layout.fragment_flippe
                 featuresAdapter.submitList(state.items)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        // Workaround for nested scroll in compose
+        binding.featureList.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, event: MotionEvent): Boolean {
+                when (event.action) {
+                    MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
+                }
+                return false
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) = Unit
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) = Unit
+        })
     }
 
     override fun onDestroyView() {
