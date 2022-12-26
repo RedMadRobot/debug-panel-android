@@ -153,7 +153,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun chooseAccount() {
-        DebugPanel.showPanel(supportFragmentManager)
+        DebugPanel.showPanel(this)
+//        DebugPanel.showPanel(supportFragmentManager)
     }
 
     @OptIn(DelicateCoroutinesApi::class)

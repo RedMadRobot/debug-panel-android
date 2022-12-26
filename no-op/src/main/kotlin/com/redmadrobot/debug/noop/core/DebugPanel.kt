@@ -1,5 +1,6 @@
 package com.redmadrobot.debug.core.internal
 
+import android.app.Activity
 import android.app.Application
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -18,4 +19,6 @@ object DebugPanel {
     fun observeEvents(): Flow<DebugEvent>? = emptyFlow()
 
     fun showPanel(fragmentManager: FragmentManager) = Unit
+
+    fun showPanel(activity: Activity) = Unit
 }
