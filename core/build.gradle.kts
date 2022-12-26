@@ -38,7 +38,7 @@ android {
         freeCompilerArgs += listOf("-Xexplicit-api=strict", "-Xopt-in=kotlin.RequiresOptIn")
     }
 
-    kotlin.sourceSets.main{
+    kotlin.sourceSets.main {
         kotlin.srcDirs("src/main/kotlin")
     }
 
@@ -55,5 +55,6 @@ android {
 
 dependencies {
     implementation(project(":common"))
+    implementation("com.google.accompanist:accompanist-pager:0.28.0")
     kapt(androidx.room.compiler)
 }

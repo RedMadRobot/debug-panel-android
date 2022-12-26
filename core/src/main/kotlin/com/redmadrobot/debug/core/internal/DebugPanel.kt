@@ -1,11 +1,16 @@
 package com.redmadrobot.debug.core.internal
 
+import android.app.Activity
 import android.app.Application
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.redmadrobot.debug.core.DebugPanelInstance
 import com.redmadrobot.debug.core.inapp.DebugBottomSheet
+import com.redmadrobot.debug.core.inapp.compose.DebugBottomSheet
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.util.ApplicationLifecycleHandler
 import kotlinx.coroutines.flow.Flow
@@ -40,9 +45,21 @@ public object DebugPanel {
         }
     }
 
+    public fun showPanel(activity: Activity) {
+        if (isInitialized) {
+            val contentView = activity.window.decorView
+                .findViewById<ViewGroup>(android.R.id.content) as FrameLayout
+
+            val debugPanelComposeView = ComposeView(contentView.context).apply {
+                setContent {
+                    DebugBottomSheet(onClose = { contentView.removeView(this) })
+                }
+            }
+            contentView.addView(debugPanelComposeView)
+        }
+    }
+
     private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {
         instance = DebugPanelInstance(application, plugins)
     }
-
-
 }
