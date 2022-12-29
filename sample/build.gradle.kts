@@ -56,17 +56,17 @@ dependencies {
 //    debugImplementation(project(":plugins:app-settings-plugin"))
 //    debugImplementation(project(":plugins:flipper-plugin"))
 //    debugImplementation(project(":plugins:variable-plugin"))
-
-    debugImplementation("com.redmadrobot.debug:panel-core:0.7.4")
-    debugImplementation("com.redmadrobot.debug:accounts-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:servers-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:app-settings-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:flipper-plugin:0.7.4")
-    debugImplementation("com.redmadrobot.debug:variable-plugin:0.7.4")
+//
+    debugImplementation("com.redmadrobot.debug:panel-core:0.7.5")
+    debugImplementation("com.redmadrobot.debug:accounts-plugin:0.7.5")
+    debugImplementation("com.redmadrobot.debug:servers-plugin:0.7.5")
+    debugImplementation("com.redmadrobot.debug:app-settings-plugin:0.7.5")
+    debugImplementation("com.redmadrobot.debug:flipper-plugin:0.7.5")
+    debugImplementation("com.redmadrobot.debug:variable-plugin:0.7.5")
 
     //No-op dependency
 //    releaseImplementation(project(":debug-panel-no-op"))
-    releaseImplementation("com.redmadrobot.debug:panel-no-op:0.7.4")
+    releaseImplementation("com.redmadrobot.debug:panel-no-op:0.7.5")
 
     implementation("com.squareup.retrofit2:retrofit:2.7.1")
 }
