@@ -4,7 +4,7 @@
 
 [Документация по разработке плагинов][plugin-development-doc]
 
-### [v 0.7.4][last-release]
+### v 0.7.5
 ### [Changelog][changelog]
 
 ### [!]Важно. Библиотека находится в стадии разработки.
@@ -343,8 +343,6 @@ ServersPlugin(
 
 [MIT][license]
 
-
-[last-release]:https://github.com/RedMadRobot/debug-panel-android/releases/tag/0.7.4
 [plugin-development-doc]:docs/plugin_development.md
 [changelog]: docs/changelog.md
 [license]: LICENSE
