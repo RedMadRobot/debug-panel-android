@@ -39,6 +39,15 @@ internal class DebugFlipperFeaturesProvider : DebugDataProvider<List<PluginToggl
             )
         )
 
+        toggles.add(
+            PluginToggle(
+                id = "id4",
+                group = "True keen",
+                value = FlipperValue.StringValue("Test string"),
+                description = "String toggle",
+            )
+        )
+
         val debugRandom = Random(282)
         (4..20).forEach { index ->
             toggles.add(

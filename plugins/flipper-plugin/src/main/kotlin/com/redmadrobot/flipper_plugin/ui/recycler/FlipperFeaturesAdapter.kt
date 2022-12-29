@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureBooleanBinding
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureGroupBinding
+import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureStringBinding
 import com.redmadrobot.flipper_plugin.ui.data.FlipperItem
 import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Feature
 import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Group
@@ -26,6 +27,7 @@ internal class FlipperFeaturesAdapter(
             is Feature -> {
                 when (item.value) {
                     is FlipperValue.BooleanValue -> ViewType.BOOLEAN.ordinal
+                    is FlipperValue.StringValue -> ViewType.STRING.ordinal
                     else -> error("FlipperValue ${item.value::class} not supported")
                 }
             }
@@ -35,14 +37,14 @@ internal class FlipperFeaturesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (ViewType.values()[viewType]) {
             ViewType.BOOLEAN -> {
-                val featureBinding = ItemFlipperFeatureBooleanBinding.inflate(
+                val binding = ItemFlipperFeatureBooleanBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
 
                 BooleanFeatureViewHolder(
-                    itemView = featureBinding.root,
+                    itemView = binding.root,
                     onFeatureValueChanged = onFeatureValueChanged::invoke,
                 )
             }
@@ -58,6 +60,19 @@ internal class FlipperFeaturesAdapter(
                     itemView = binding.root,
                     onGroupClick = onGroupClick::invoke,
                     onTogglesStateChanged = onGroupToggleStateChanged::invoke,
+                )
+            }
+
+            ViewType.STRING -> {
+                val binding = ItemFlipperFeatureStringBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+
+                StringFeatureViewHolder(
+                    itemView = binding.root,
+                    onFeatureValueChanged = onFeatureValueChanged::invoke,
                 )
             }
 
@@ -87,11 +102,24 @@ internal class FlipperFeaturesAdapter(
                     description = booleanItem.description,
                 )
             }
+
+            ViewType.STRING -> {
+                val booleanItem = item as Feature
+                val stringHolder = holder as StringFeatureViewHolder
+
+                stringHolder.bind(
+                    featureId = booleanItem.id,
+                    value = booleanItem.value as FlipperValue.StringValue,
+                    editable = booleanItem.editable,
+                    description = booleanItem.description,
+                )
+            }
         }
     }
 
     private enum class ViewType {
         GROUP,
         BOOLEAN,
+        STRING
     }
 }
