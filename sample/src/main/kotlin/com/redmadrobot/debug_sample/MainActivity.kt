@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         setViews()
-
         observeFeatureToggles()
 
         DebugPanel.subscribeToEvents(this) { event ->
@@ -157,6 +156,7 @@ class MainActivity : AppCompatActivity() {
                 "id1" to FlipperValue.BooleanValue(true),
                 "id2" to FlipperValue.BooleanValue(false),
                 "id3" to FlipperValue.BooleanValue(true),
+                "id4" to FlipperValue.StringValue("String toggle"),
             )
         )
 
