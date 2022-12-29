@@ -1,4 +1,4 @@
-package com.redmadrobot.flipper_plugin.ui.recycler
+package com.redmadrobot.debug.flipper.ui.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,11 @@ import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureBooleanBinding
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureGroupBinding
 import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureStringBinding
-import com.redmadrobot.flipper_plugin.ui.data.FlipperItem
-import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Feature
-import com.redmadrobot.flipper_plugin.ui.data.FlipperItem.Group
+import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureStringBinding
+import com.redmadrobot.debug.flipper.ui.data.FlipperItem
+import com.redmadrobot.debug.flipper.ui.data.FlipperItem.Feature
+import com.redmadrobot.debug.flipper.ui.data.FlipperItem.Group
+import com.redmadrobot.debug.flipper.ui.recycler.StringFeatureViewHolder
 
 internal class FlipperFeaturesAdapter(
     private val onGroupClick: (groupName: String) -> Unit,
