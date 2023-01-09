@@ -9,13 +9,13 @@ cd "$DIR/.."
 ./gradlew clean
 
 # Build and publish Debug Panel artifacts
-./gradlew debug-panel-core:publishReleasePublicationToOSSRHRepository
-./gradlew debug-panel-no-op:publishReleasePublicationToOSSRHRepository
-./gradlew debug-panel-common:publishReleasePublicationToOSSRHRepository
+./gradlew core:publishReleasePublicationToOSSRHRepository
+./gradlew no-op:publishReleasePublicationToOSSRHRepository
+./gradlew common:publishReleasePublicationToOSSRHRepository
 
 # Build and publish plugin artifacts
-./gradlew plugins:servers-plugin:publishReleasePublicationToOSSRHRepository
-./gradlew plugins:flipper-plugin:publishReleasePublicationToOSSRHRepository
-./gradlew plugins:accounts-plugin:publishReleasePublicationToOSSRHRepository
-./gradlew plugins:app-settings-plugin:publishReleasePublicationToOSSRHRepository
-./gradlew plugins:variable-plugin:publishReleasePublicationToOSSRHRepository
+./gradlew plugins:servers:publishReleasePublicationToOSSRHRepository
+./gradlew plugins:flipper:publishReleasePublicationToOSSRHRepository
+./gradlew plugins:accounts:publishReleasePublicationToOSSRHRepository
+./gradlew plugins:app-settings:publishReleasePublicationToOSSRHRepository
+./gradlew plugins:variable:publishReleasePublicationToOSSRHRepository

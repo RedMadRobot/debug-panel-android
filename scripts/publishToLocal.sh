@@ -9,13 +9,13 @@ cd "$DIR/.."
 ./gradlew clean
 
 # Build and publish Debug Panel artifacts
-./gradlew debug-panel-core:publishReleasePublicationToMavenLocalRepository
-./gradlew debug-panel-no-op:publishReleasePublicationToMavenLocalRepository
-./gradlew debug-panel-common:publishReleasePublicationToMavenLocalRepository
+./gradlew core:publishReleasePublicationToMavenLocalRepository
+./gradlew no-op:publishReleasePublicationToMavenLocalRepository
+./gradlew common:publishReleasePublicationToMavenLocalRepository
 
 # Build and publish plugin artifacts
-./gradlew plugins:servers-plugin:publishReleasePublicationToMavenLocalRepository
-./gradlew plugins:flipper-plugin:publishReleasePublicationToMavenLocalRepository
-./gradlew plugins:accounts-plugin:publishReleasePublicationToMavenLocalRepository
-./gradlew plugins:app-settings-plugin:publishReleasePublicationToMavenLocalRepository
-./gradlew plugins:variable-plugin:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:servers:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:flipper:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:accounts:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:app-settings:publishReleasePublicationToMavenLocalRepository
+./gradlew plugins:variable:publishReleasePublicationToMavenLocalRepository
