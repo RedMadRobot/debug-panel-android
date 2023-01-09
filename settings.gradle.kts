@@ -6,14 +6,9 @@ pluginManagement {
         google()
         mavenCentral()
     }
+    includeBuild("publish")
 }
-dependencyResolutionManagement {
 
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositories {
