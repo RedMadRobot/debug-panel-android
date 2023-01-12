@@ -1,8 +1,9 @@
 package com.redmadrobot.debug.servers.data.model
 
-data class DebugServer(
+
+data class DebugStage(
     val id: Int = 0,
     val name: String,
-    val url: String,
+    val hosts: Map<String, String>,
     val isDefault: Boolean = false
 )
