@@ -55,5 +55,6 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":common"))
     implementation(kotlin("stdlib"))
+    implementation(stack.kotlinx.serialization.json)
     kapt(androidx.room.compiler)
 }

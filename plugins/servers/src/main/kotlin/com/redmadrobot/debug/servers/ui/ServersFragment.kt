@@ -9,6 +9,7 @@ import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.servers.data.model.DebugServer
+import com.redmadrobot.debug.servers.data.model.DebugStage
 import com.redmadrobot.debug.servers.plugin.ServersPlugin
 import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
 import com.redmadrobot.debug.servers.ui.item.DebugServerItems
@@ -19,6 +20,7 @@ import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.databinding.FragmentServersBinding
 import com.redmadrobot.servers_plugin.databinding.ItemDebugServerBinding
+import com.redmadrobot.servers_plugin.databinding.ItemDebugStageBinding
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
 
@@ -54,13 +56,12 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
         addServer.isVisible = isSettingMode
     }
 
-    private fun render(state: ServersViewState) {
+    private fun render(state: List<DebugServerItems>) {
         val adapter = createAdapterByState(state)
         binding.serverList.adapter = adapter
     }
 
-    private fun createAdapterByState(state: ServersViewState): ItemsAdapter {
-        val items = state.preInstalledServers.plus(state.addedServers)
+    private fun createAdapterByState(items: List<DebugServerItems>): ItemsAdapter {
         return itemsAdapter(items) { item ->
             when (item) {
                 is DebugServerItems.Header -> {
@@ -70,29 +71,54 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
                 }
 
                 is DebugServerItems.PreinstalledServer -> {
-                    bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
-                        itemServerName.text = item.debugServer.name
-                        isSelectedIcon.isVisible = item.isSelected && !isSettingMode
-                        if (!isSettingMode) {
-                            root.setOnClickListener {
-                                viewModel.onServerSelected(item.debugServer)
+                    val server = item.debugServer
+                    if (server is DebugServer) {
+                        bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
+                            itemServerName.text = item.debugServer.name
+                            isSelectedIcon.isVisible = item.isSelected && !isSettingMode
+                            if (!isSettingMode) {
+                                root.setOnClickListener {
+                                    viewModel.onServerSelected(server)
+                                }
+                            }
+                        }
+                    } else {
+                        bind<ItemDebugStageBinding>(R.layout.item_debug_stage) {
+                            itemStageName.text = item.debugServer.name
+                            isSelectedIcon.isVisible = item.isSelected && !isSettingMode
+                            if (!isSettingMode && server is DebugStage) {
+                                root.setOnClickListener {
+                                    viewModel.onStageSelected(server)
+                                }
                             }
                         }
                     }
                 }
 
                 is DebugServerItems.AddedServer -> {
-                    bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
-                        itemServerName.text = item.debugServer.name
-                        isSelectedIcon.isVisible = item.isSelected && !isSettingMode
-                        itemServerDelete.isVisible = isSettingMode
-                        val server = item.debugServer
-                        itemServerDelete.setOnClickListener { viewModel.removeServer(server) }
-                        root.setOnClickListener {
-                            if (!isSettingMode) {
-                                viewModel.onServerSelected(server)
-                            } else {
-                                editServerData(server)
+                    val server = item.debugServer
+                    if (server is DebugServer) {
+                        bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
+                            itemServerName.text = item.debugServer.name
+                            isSelectedIcon.isVisible = item.isSelected && !isSettingMode
+                            itemServerDelete.isVisible = isSettingMode
+                            itemServerDelete.setOnClickListener { viewModel.removeServer(server) }
+                            root.setOnClickListener {
+                                if (!isSettingMode) {
+                                    viewModel.onServerSelected(server)
+                                } else {
+                                    editServerData(server)
+                                }
+                            }
+                        }
+                    } else {
+                        bind<ItemDebugServerBinding>(R.layout.item_debug_server) {
+                            itemServerName.text = item.debugServer.name
+                            isSelectedIcon.isVisible = item.isSelected && !isSettingMode
+                            root.setOnClickListener {
+                                if (!isSettingMode && server is DebugStage) {
+                                    viewModel.onStageSelected(server)
+                                }
                             }
                         }
                     }

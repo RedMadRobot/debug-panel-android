@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.servers.util
+package com.redmadrobot.debug.servers.interceptor
 
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.internal.DebugPanel
@@ -23,7 +23,7 @@ public class DebugServerInterceptor : Interceptor {
     }
 
     /**
-     * Дополнительная Модификация запроса
+     * Additional request modification
      * */
     public fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
         this.requestModifier = block
