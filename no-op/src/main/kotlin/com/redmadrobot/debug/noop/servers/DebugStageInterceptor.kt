@@ -1,13 +1,14 @@
 package com.redmadrobot.debug.servers.interceptor
 
-import com.redmadrobot.debug.servers.data.model.DebugServer
+import com.redmadrobot.debug.servers.data.model.DebugStage
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-class DebugServerInterceptor : Interceptor {
 
-    fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
+public class DebugStageInterceptor(private val tag: String) : Interceptor {
+
+    public fun modifyRequest(block: (Request, DebugStage) -> Request): DebugStageInterceptor {
         return this
     }
 
