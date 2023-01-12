@@ -12,12 +12,13 @@ import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
 import com.redmadrobot.debug.plugin.servers.databinding.FragmentContainerServersBinding
 import com.redmadrobot.debug.plugin.servers.ui.ServersFragment
 import kotlinx.coroutines.runBlocking
 
 public class ServersPlugin(
-    private val preInstalledServers: List<DebugServer> = emptyList()
+    private val preInstalledServers: List<DebugServerData> = emptyList(),
 ) : Plugin() {
 
     init {
