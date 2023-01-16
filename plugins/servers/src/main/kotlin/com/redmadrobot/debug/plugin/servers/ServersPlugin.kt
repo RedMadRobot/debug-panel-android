@@ -10,6 +10,7 @@ import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
+import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 import com.redmadrobot.debug.plugin.servers.databinding.FragmentContainerServersBinding
 import com.redmadrobot.debug.plugin.servers.ui.ServersFragment
 import com.redmadrobot.debug.servers.ui.ServersScreen
@@ -40,6 +41,20 @@ public class ServersPlugin(
             return getPlugin<ServersPlugin>()
                 .getContainer<ServersPluginContainer>()
                 .serversRepository
+                .getDefault()
+        }
+
+        public fun getSelectedStage(): DebugStage {
+            return getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .stagesRepository
+                .getSelectedStage()
+        }
+
+        public fun getDefaultStage(): DebugStage {
+            return getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .stagesRepository
                 .getDefault()
         }
     }
