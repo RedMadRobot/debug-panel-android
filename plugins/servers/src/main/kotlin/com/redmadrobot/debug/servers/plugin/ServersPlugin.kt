@@ -1,9 +1,6 @@
 package com.redmadrobot.debug.servers.plugin
 
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.core.CommonContainer
@@ -13,6 +10,7 @@ import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 import com.redmadrobot.debug.servers.data.model.DebugServer
 import com.redmadrobot.debug.servers.data.model.DebugServerData
+import com.redmadrobot.debug.servers.data.model.DebugStage
 import com.redmadrobot.debug.servers.ui.ServersFragment
 import com.redmadrobot.debug.servers.ui.ServersScreen
 import com.redmadrobot.servers_plugin.databinding.FragmentContainerServersBinding
@@ -43,6 +41,20 @@ public class ServersPlugin(
             return getPlugin<ServersPlugin>()
                 .getContainer<ServersPluginContainer>()
                 .serversRepository
+                .getDefault()
+        }
+
+        public fun getSelectedStage(): DebugStage {
+            return getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .stagesRepository
+                .getSelectedStage()
+        }
+
+        public fun getDefaultStage(): DebugStage {
+            return getPlugin<ServersPlugin>()
+                .getContainer<ServersPluginContainer>()
+                .stagesRepository
                 .getDefault()
         }
     }

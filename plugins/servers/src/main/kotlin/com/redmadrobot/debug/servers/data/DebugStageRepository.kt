@@ -48,25 +48,13 @@ internal class DebugStageRepository(
         }
     }
 
-    private fun getDefault(): DebugStage {
+    fun getDefault(): DebugStage {
         return preInstalledStages.first { it.isDefault }
-    }
-
-    suspend fun addStage(server: DebugStage) {
-        withContext(Dispatchers.IO) {
-            debugStagesDao.insert(server)
-        }
     }
 
     suspend fun getStages(): List<DebugStage> {
         return withContext(Dispatchers.IO) {
             debugStagesDao.getAll()
-        }
-    }
-
-    suspend fun removeStage(server: DebugStage) {
-        withContext(Dispatchers.IO) {
-            debugStagesDao.remove(server)
         }
     }
 
