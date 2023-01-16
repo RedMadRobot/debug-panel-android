@@ -54,6 +54,7 @@ dependencies {
     api(androidx.constraintlayout.compose)
     api(androidx.activity.compose)
     api(androidx.compose.ui.tooling.preview)
+    api(androidx.lifecycle.viewmodel.compose)
     api(androidx.room.runtime)
     api(androidx.room)
     api(androidx.core)

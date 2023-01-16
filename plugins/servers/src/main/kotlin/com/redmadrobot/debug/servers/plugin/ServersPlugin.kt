@@ -14,6 +14,7 @@ import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 import com.redmadrobot.debug.servers.data.model.DebugServer
 import com.redmadrobot.debug.servers.data.model.DebugServerData
 import com.redmadrobot.debug.servers.ui.ServersFragment
+import com.redmadrobot.debug.servers.ui.ServersScreen
 import com.redmadrobot.servers_plugin.databinding.FragmentContainerServersBinding
 import kotlinx.coroutines.runBlocking
 
@@ -57,16 +58,16 @@ public class ServersPlugin(
     }
 
     @Deprecated(
-        "You should't use fragments for you plugins. Please use Jetpack Compose",
-        replaceWith = ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
+        "You shouldn't use fragments for you plugins. Please use Jetpack Compose",
+        replaceWith = ReplaceWith("content()")
     )
     override fun getFragment(): Fragment {
         return ServersFragment()
     }
 
     @Deprecated(
-        "You should't use fragments for you plugins. Please use Jetpack Compose",
-        replaceWith = ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
+        "You shouldn't use fragments for you plugins. Please use Jetpack Compose",
+        replaceWith = ReplaceWith("settingsContent()")
     )
     override fun getSettingFragment(): Fragment {
         return ServersFragment()
@@ -74,17 +75,11 @@ public class ServersPlugin(
 
     @Composable
     override fun content() {
-        AndroidViewBinding(
-            FragmentContainerServersBinding::inflate,
-            modifier = Modifier.verticalScroll(rememberScrollState())
-        )
+        ServersScreen(isEditMode = false)
     }
 
     @Composable
     override fun settingsContent() {
-        AndroidViewBinding(
-            FragmentContainerServersBinding::inflate,
-            modifier = Modifier.verticalScroll(rememberScrollState())
-        )
+        AndroidViewBinding(FragmentContainerServersBinding::inflate)
     }
 }
