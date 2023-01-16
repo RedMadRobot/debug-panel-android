@@ -35,7 +35,6 @@ internal class ServersPluginContainer(
 
     fun createServersViewModel(): ServersViewModel {
         return ServersViewModel(
-            container.context,
             serversRepository,
             stagesRepository
         )

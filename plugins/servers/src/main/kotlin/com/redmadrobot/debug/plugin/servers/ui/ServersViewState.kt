@@ -1,10 +1,24 @@
 package com.redmadrobot.debug.plugin.servers.ui
 
-import com.redmadrobot.debug.plugin.servers.ui.item.DebugServerItems
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 
 internal data class ServersViewState(
-    val preInstalledServers: List<DebugServerItems> = emptyList(),
-    val addedServers: List<DebugServerItems> = emptyList(),
-    val preinstalledStages: List<DebugServerItems> = emptyList(),
-    val addedStages: List<DebugServerItems> = emptyList(),
+    val preInstalledServers: List<ServerItemData> = emptyList(),
+    val addedServers: List<ServerItemData> = emptyList(),
+    val preinstalledStages: List<StageItemData> = emptyList(),
+    val addedStages: List<StageItemData> = emptyList(),
+    val serverDialogState: ServerDialogState = ServerDialogState()
 )
+
+internal data class ServerDialogState(
+    val show: Boolean = false,
+    val serverName: String = "",
+    val serverUrl: String = "",
+    val editableServerId: Int? = null,
+    val nameError: Int? = null,
+    val urlError: Int? = null,
+)
+
+internal data class ServerItemData(val server: DebugServer, val isSelected: Boolean)
+internal data class StageItemData(val server: DebugStage, val isSelected: Boolean)
