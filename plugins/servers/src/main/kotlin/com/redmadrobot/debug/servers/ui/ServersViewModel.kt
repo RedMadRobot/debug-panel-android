@@ -1,85 +1,168 @@
 package com.redmadrobot.debug.servers.ui
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
+import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.common.extension.safeLaunch
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.debug.servers.data.DebugServerRepository
 import com.redmadrobot.debug.servers.data.DebugStageRepository
 import com.redmadrobot.debug.servers.data.model.DebugServer
-import com.redmadrobot.debug.servers.data.model.DebugServerData
 import com.redmadrobot.debug.servers.data.model.DebugStage
 import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent
 import com.redmadrobot.debug.servers.plugin.ServersPlugin
 import com.redmadrobot.debug.servers.plugin.StageSelectedEvent
-import com.redmadrobot.debug.servers.ui.item.DebugServerItems
+import com.redmadrobot.servers_plugin.R
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 internal class ServersViewModel(
-    private val context: Context,
     private val serversRepository: DebugServerRepository,
     private val stagesRepository: DebugStageRepository
 ) : PluginViewModel() {
 
-    private val state_ = MutableLiveData(ServersViewState())
-    val state: LiveData<List<DebugServerItems>>
-        get() = state_.map {
-            it.preinstalledStages
-                .plus(it.addedStages)
-                .plus(it.preInstalledServers)
-                .plus(it.addedServers)
-        }
-
+    private val state_ = MutableStateFlow(ServersViewState())
+    val state: StateFlow<ServersViewState> = state_
 
     fun loadServers() {
-        viewModelScope.safeLaunch {
-            withContext(Dispatchers.IO) {
-                loadPreInstalledServers()
-                loadAddedServers()
-                loadPreInstalledStages()
-                loadAddedStages()
+        viewModelScope.launch(Dispatchers.IO) {
+            state_.update {
+                it.copy(
+                    preInstalledServers = serversRepository.getPreInstalledServers()
+                        .mapToServerItems(),
+                    preinstalledStages = stagesRepository.getPreInstalledStages().mapToStageItems(),
+                    addedServers = serversRepository.getServers().mapToServerItems(),
+                    addedStages = stagesRepository.getStages().mapToStageItems()
+                )
             }
         }
     }
 
-    fun addServer(name: String, url: String) {
+    fun onAddClicked() {
+        state_.update {
+            it.copy(serverDialogState = it.serverDialogState.copy(show = true))
+        }
+    }
+
+    fun dismissDialogs() {
+        state_.update {
+            it.copy(serverDialogState = ServerDialogState())
+        }
+    }
+
+    fun onServerNameChanged(name: String) {
+        state_.update {
+            it.copy(serverDialogState = it.serverDialogState.copy(serverName = name))
+        }
+    }
+
+    fun onServerUrlChanged(url: String) {
+        state_.update {
+            it.copy(serverDialogState = it.serverDialogState.copy(serverUrl = url))
+        }
+    }
+
+    fun onSaveServerClicked() {
+        if (allServerFieldValid()) {
+            val dialogState = state_.value.serverDialogState
+
+            if (dialogState.editableServerId == null) {
+                addServer(dialogState.serverName, dialogState.serverUrl)
+            } else {
+                updateServerData(
+                    dialogState.editableServerId,
+                    dialogState.serverName,
+                    dialogState.serverUrl
+                )
+            }
+
+            state_.update {
+                it.copy(serverDialogState = ServerDialogState())
+            }
+        }
+    }
+
+    private fun allServerFieldValid(): Boolean {
+        val dialogState = state_.value.serverDialogState
+        val nameError = if (dialogState.serverName.isEmpty()) {
+            R.string.error_empty_name
+        } else {
+            null
+        }
+        val urlError = if (!Patterns.WEB_URL.matcher(dialogState.serverUrl).matches()) {
+            R.string.error_wrong_host
+        } else {
+            null
+        }
+
+        state_.update {
+            it.copy(
+                serverDialogState = dialogState.copy(
+                    nameError = nameError,
+                    urlError = urlError
+                )
+            )
+        }
+
+        return nameError == null && urlError == null
+    }
+
+    fun onRemoveServerClicked(debugServer: DebugServer) {
+        viewModelScope.safeLaunch {
+            serversRepository.removeServer(debugServer)
+            state_.update {
+                it.copy(
+                    addedServers = serversRepository.getServers().mapToServerItems()
+                )
+            }
+        }
+    }
+
+    private fun addServer(name: String, url: String) {
         val server = DebugServer(name = name, url = url, isDefault = false)
         viewModelScope.safeLaunch {
             serversRepository.addServer(server)
-            loadAddedServers()
-        }
-    }
-
-    fun removeServer(debugServer: DebugServer) {
-        viewModelScope.safeLaunch {
-            serversRepository.removeServer(debugServer)
-            loadAddedServers()
-        }
-    }
-
-    fun updateServerData(id: Int, name: String, url: String) {
-        val itemForUpdate = state_.value?.addedServers
-            ?.find { it is DebugServerItems.AddedServer && it.debugServer.id == id }
-                as? DebugServerItems.AddedServer
-
-        val serverForUpdate = itemForUpdate?.debugServer
-
-        (serverForUpdate as? DebugServer)?.let {
-            val updatedServer = serverForUpdate.copy(name = name, url = url)
-            viewModelScope.safeLaunch {
-                serversRepository.updateServer(updatedServer)
-                loadAddedServers()
+            state_.update {
+                it.copy(
+                    addedServers = serversRepository.getServers().mapToServerItems()
+                )
             }
         }
     }
 
-    fun onServerSelected(debugServer: DebugServer) {
+    private fun updateServerData(id: Int, name: String, url: String) {
+        val serverForUpdate = state_.value.addedServers
+            .find { it.server.id == id }
+            ?.server
+
+        serverForUpdate?.let {
+            val updatedServer = serverForUpdate.copy(name = name, url = url)
+            viewModelScope.safeLaunch {
+                serversRepository.updateServer(updatedServer)
+                state_.update {
+                    it.copy(addedServers = serversRepository.getServers().mapToServerItems())
+                }
+            }
+        }
+    }
+
+    fun onEditServerClicked(debugServer: DebugServer) {
+        state_.update {
+            it.copy(
+                serverDialogState = ServerDialogState(
+                    editableServerId = debugServer.id,
+                    serverName = debugServer.name,
+                    serverUrl = debugServer.url,
+                    show = true
+                )
+            )
+        }
+    }
+
+    fun onServerClicked(debugServer: DebugServer) {
         val selectedServer = serversRepository.getSelectedServer()
         if (debugServer != selectedServer) {
             getPlugin<ServersPlugin>().pushEvent(ServerSelectedEvent(debugServer))
@@ -88,7 +171,7 @@ internal class ServersViewModel(
         }
     }
 
-    fun onStageSelected(debugStage: DebugStage) {
+    fun onStageClicked(debugStage: DebugStage) {
         val selectedStage = stagesRepository.getSelectedStage()
         if (debugStage != selectedStage) {
             stagesRepository.saveSelectedStage(debugStage)
@@ -97,80 +180,19 @@ internal class ServersViewModel(
         }
     }
 
-    @Deprecated("Migration to the stages system. Please use loadPreInstalledStages()")
-    private suspend fun loadPreInstalledServers() {
-        val servers = serversRepository.getPreInstalledServers()
-        val headerText = context.getString(R.string.pre_installed_servers)
-        val serverItems = mapToPreinstalledItems(headerText, servers)
-        withContext(Dispatchers.Main) {
-            state_.value = state_.value?.copy(preInstalledServers = serverItems)
-        }
-    }
-
-    private suspend fun loadPreInstalledStages() {
-        val stages = stagesRepository.getPreInstalledStages()
-        val headerText = context.getString(R.string.pre_installed_stages)
-        val stageItems = mapToPreinstalledItems(headerText, stages)
-        withContext(Dispatchers.Main) {
-            state_.value = state_.value?.copy(preinstalledStages = stageItems)
-        }
-    }
-
-    @Deprecated("Migration to the stages system. Please use loadAddedStages()")
-    private suspend fun loadAddedServers() {
-        val servers = serversRepository.getServers()
-        val headerText = context.getString(R.string.added_servers)
-        val serverItems = mapToAddedItems(headerText, servers)
-        withContext(Dispatchers.Main) {
-            state_.value = state_.value?.copy(addedServers = serverItems)
-        }
-    }
-
-    private suspend fun loadAddedStages() {
-        val stages = stagesRepository.getStages()
-        val headerText = context.getString(R.string.added_servers)
-        val serverItems = mapToAddedItems(headerText, stages)
-        withContext(Dispatchers.Main) {
-            state_.value = state_.value?.copy(addedStages = serverItems)
-        }
-    }
-
-    private fun mapToPreinstalledItems(
-        header: String,
-        servers: List<DebugServerData>
-    ): List<DebugServerItems> {
+    private fun List<DebugServer>.mapToServerItems(): List<ServerItemData> {
         val selectedServer = serversRepository.getSelectedServer()
-        val selectedStage = stagesRepository.getSelectedStage()
-
-        val items = servers.map { debugServer ->
-            val isSelected = when (debugServer) {
-                is DebugServer -> selectedServer.url == debugServer.url
-                is DebugStage -> selectedStage == debugServer
-                else -> false
-            }
-            DebugServerItems.PreinstalledServer(debugServer, isSelected)
+        return map { debugServer ->
+            val isSelected = debugServer == selectedServer
+            ServerItemData(debugServer, isSelected)
         }
-
-        return listOf(DebugServerItems.Header(header)).plus(items)
     }
 
-    private fun mapToAddedItems(
-        header: String,
-        servers: List<DebugServerData>
-    ): List<DebugServerItems> {
-        if (servers.isEmpty()) return emptyList()
-        val selectedServer = serversRepository.getSelectedServer()
+    private fun List<DebugStage>.mapToStageItems(): List<StageItemData> {
         val selectedStage = stagesRepository.getSelectedStage()
-
-        val items = servers.map { debugServer ->
-            val isSelected = when (debugServer) {
-                is DebugServer -> selectedServer.url == debugServer.url
-                is DebugStage -> selectedStage == debugServer
-                else -> false
-            }
-            DebugServerItems.AddedServer(debugServer, isSelected)
+        return map { debugStage ->
+            val isSelected = debugStage == selectedStage
+            StageItemData(debugStage, isSelected)
         }
-
-        return listOf(DebugServerItems.Header(header)).plus(items)
     }
 }
