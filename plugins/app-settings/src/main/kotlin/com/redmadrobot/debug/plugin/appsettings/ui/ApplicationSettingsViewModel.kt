@@ -2,49 +2,47 @@ package com.redmadrobot.debug.plugin.appsettings.ui
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.debug.appsettings.ui.SettingItemUiModel
 import com.redmadrobot.debug.plugin.appsettings.data.AppSettingsRepository
-import com.redmadrobot.debug.plugin.appsettings.ui.item.AppSettingItems
 import com.redmadrobot.debug.common.base.PluginViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 internal class ApplicationSettingsViewModel(
     private val appSettingsRepository: AppSettingsRepository
 ) : PluginViewModel() {
 
-    val settingsLiveData = MutableLiveData<List<AppSettingItems>>()
+    val state = MutableStateFlow<List<SettingItemUiModel>>(emptyList())
 
     fun loadSettings() {
         val settings = appSettingsRepository.getSettings()
-        val settingItems = mapToItems(settings)
-        settingsLiveData.value = settingItems
+        val newSettingItems = mapToItemsNew(settings)
+        state.update { newSettingItems }
     }
 
-    @Suppress("NewApi")
-    private fun mapToItems(settings: List<SharedPreferences>): List<AppSettingItems> {
-        val items = mutableListOf<AppSettingItems>()
+    fun updateSetting(settingKey: String, newValue: Any) {
+        appSettingsRepository.updateSetting(settingKey, newValue)
+        loadSettings()
+    }
+
+    private fun mapToItemsNew(settings: List<SharedPreferences>): MutableList<SettingItemUiModel> {
+        val items = mutableListOf<SettingItemUiModel>()
         settings.forEach { sharedPreferences ->
             /*Settings header*/
             items.add(
-                AppSettingItems.Header(sharedPreferences.toString())
+                SettingItemUiModel.Header(sharedPreferences.toString())
             )
 
             /*Map SharedPreferences to Items*/
             sharedPreferences.all.forEach { (key, value) ->
                 val item = if (value is Boolean) {
-                    AppSettingItems.BooleanValueItem(key, value) { settingKey, newValue ->
-                        updateSetting(settingKey, newValue)
-                    }
+                    SettingItemUiModel.BooleanItem(key, value)
                 } else {
-                    AppSettingItems.ValueItem(key, value) { settingKey, newValue ->
-                        updateSetting(settingKey, newValue)
-                    }
+                    SettingItemUiModel.ValueItem(key, value)
                 }
                 items.add(item)
             }
         }
         return items
-    }
-
-    private fun updateSetting(settingKey: String, newValue: Any) {
-        appSettingsRepository.updateSetting(settingKey, newValue)
     }
 }
