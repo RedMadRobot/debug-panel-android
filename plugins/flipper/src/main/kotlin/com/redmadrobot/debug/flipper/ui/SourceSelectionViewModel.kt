@@ -1,19 +1,22 @@
-package com.redmadrobot.debug.flipper.ui.dialog
+package com.redmadrobot.debug.flipper.ui
 
-import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.common.base.PluginViewModel
-import com.redmadrobot.flipper_plugin.R
 import com.redmadrobot.debug.flipper.data.FeatureTogglesRepository
 import com.redmadrobot.debug.flipper.data.FeatureTogglesSource
-import com.redmadrobot.debug.flipper.ui.dialog.data.SelectableSource
+import com.redmadrobot.debug.flipper.ui.data.SelectableSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 internal class SourceSelectionViewModel(
-    private val context: Context,
     private val repository: FeatureTogglesRepository,
 ) : PluginViewModel() {
 
@@ -25,11 +28,6 @@ internal class SourceSelectionViewModel(
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
     val clearingRequest = _clearingRequest.asSharedFlow()
-
-    private val clearingSource = SelectableSource(
-        name = context.getString(R.string.flipper_plugin_clear_changes),
-        selected = false,
-    )
 
     init {
         combine(
@@ -46,25 +44,13 @@ internal class SourceSelectionViewModel(
                     )
                 }
 
-                _sources.emit(listOf(clearingSource) + selectableSources)
+                _sources.emit(selectableSources)
             }
             .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
     }
 
     fun onSelectSource(sourceName: String) {
-        if (clearingSource.name == sourceName) {
-            _clearingRequest.tryEmit(Unit)
-            return
-        }
-        repository.setSelectedSource(
-            FeatureTogglesSource(sourceName)
-        )
-    }
-
-    fun onClearTogglesConfirm() {
-        viewModelScope.launch {
-            repository.resetAllToDefault()
-        }
+        repository.setSelectedSource(FeatureTogglesSource(sourceName))
     }
 }
