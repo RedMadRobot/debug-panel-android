@@ -52,6 +52,7 @@ dependencies {
     api(androidx.compose.foundation)
     api(androidx.compose.ui)
     api(androidx.compose.ui.viewbinding)
+    api(androidx.compose.ui.tooling)
     api(androidx.fragment)
     api(androidx.constraintlayout.compose)
     api(androidx.activity.compose)

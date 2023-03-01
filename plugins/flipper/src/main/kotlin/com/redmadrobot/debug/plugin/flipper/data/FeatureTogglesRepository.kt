@@ -28,7 +28,8 @@ internal class FeatureTogglesRepository(
     private val defaultSource = FeatureTogglesSource("Default")
     private val defaultFeatureToggles = defaultToggles.associate { it.id to it.value }
 
-    private val sources = MutableStateFlow(emptyMap<FeatureTogglesSource, Flow<List<PluginToggle>>>())
+    private val sources =
+        MutableStateFlow(emptyMap<FeatureTogglesSource, Flow<List<PluginToggle>>>())
     private val selectedSource = MutableStateFlow<FeatureTogglesSource>(defaultSource)
 
     init {
