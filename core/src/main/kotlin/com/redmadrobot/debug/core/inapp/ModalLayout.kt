@@ -18,7 +18,7 @@ internal class ModalLayout @JvmOverloads constructor(
      * Paint для отрисовки "ручки" модального окна
      */
     private val handlePaint = Paint().apply {
-        color = ContextCompat.getColor(context, CommonR.color.gray)
+        color = ContextCompat.getColor(context, CommonR.color.super_light_gray)
         style = Paint.Style.FILL
     }
 

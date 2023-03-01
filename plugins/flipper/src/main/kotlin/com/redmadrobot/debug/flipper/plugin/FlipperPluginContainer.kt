@@ -4,7 +4,7 @@ import android.content.Context
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 import com.redmadrobot.debug.flipper.data.FeatureTogglesRepository
 import com.redmadrobot.debug.flipper.ui.FlipperFeaturesViewModel
-import com.redmadrobot.debug.flipper.ui.dialog.SourceSelectionViewModel
+import com.redmadrobot.debug.flipper.ui.SourceSelectionViewModel
 
 internal class FlipperPluginContainer(
     private val context: Context,
@@ -20,6 +20,6 @@ internal class FlipperPluginContainer(
     }
 
     fun createFlipperSourceSelectionViewModel(): SourceSelectionViewModel {
-        return SourceSelectionViewModel(context, featureTogglesRepository)
+        return SourceSelectionViewModel(featureTogglesRepository)
     }
 }
