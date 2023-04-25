@@ -36,14 +36,15 @@ internal class LocalDebugServerRepository(
         }.apply()
     }
 
-    override fun getSelectedServer(): DebugServer {
+    override suspend fun getSelectedServer(): DebugServer {
         val serverName = sharedPreferences.getString(SELECTED_SERVER_NAME, null)
         val serverUrl = sharedPreferences.getString(SELECTED_SERVER_URL, null)
 
         return if (serverName != null && serverUrl != null) {
             preInstalledServers.find {
                 it.name == serverName && it.url == serverUrl
-            } ?: debugServersDao.getServer(serverName, serverUrl) ?: getDefault()
+            } ?: withContext(Dispatchers.IO) { debugServersDao.getServer(serverName, serverUrl) }
+            ?: getDefault()
         } else {
             getDefault()
         }

@@ -13,6 +13,9 @@ import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal class ServersViewModel(
@@ -20,8 +23,9 @@ internal class ServersViewModel(
     private val serversRepository: DebugServerRepository
 ) : PluginViewModel() {
 
-    val selectedServer: DebugServer
-        get() = serversRepository.getSelectedServer()
+    var selectedServer: DebugServer? = null
+        private set
+    private val selectedServerFlow = flow<DebugServer> { serversRepository.getSelectedServer() }
 
     val state = MutableLiveData<ServersViewState>().apply {
         /*Default state*/
@@ -29,6 +33,14 @@ internal class ServersViewModel(
             preInstalledServers = emptyList(),
             addedServers = emptyList()
         )
+    }
+
+    init {
+        viewModelScope.launch {
+            selectedServerFlow.collect { debugServer ->
+                selectedServer = debugServer
+            }
+        }
     }
 
     fun loadServers() {
@@ -102,7 +114,7 @@ internal class ServersViewModel(
         servers: List<DebugServer>
     ): List<DebugServerItems> {
         val items = servers.map { debugServer ->
-            val isSelected = selectedServer.url == debugServer.url
+            val isSelected = selectedServer?.url == debugServer.url
             DebugServerItems.PreinstalledServer(debugServer, isSelected)
         }
 
@@ -115,7 +127,7 @@ internal class ServersViewModel(
     ): List<DebugServerItems> {
         if (servers.isEmpty()) return emptyList()
         val items = servers.map { debugServer ->
-            val isSelected = selectedServer.url == debugServer.url
+            val isSelected = selectedServer?.url == debugServer.url
             DebugServerItems.AddedServer(debugServer, isSelected)
         }
 

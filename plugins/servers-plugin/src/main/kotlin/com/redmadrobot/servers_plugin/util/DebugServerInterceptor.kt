@@ -5,6 +5,7 @@ import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
+import kotlinx.coroutines.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -32,7 +33,7 @@ public class DebugServerInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         return if (DebugPanel.isInitialized) {
-            val debugServer = serverRepository.getSelectedServer()
+            val debugServer = runBlocking { serverRepository.getSelectedServer() }
             if (debugServer.url.isNotEmpty()) {
                 val newUrl = request.getNewUrl(debugServer.url)
                 request = request.newBuilder()

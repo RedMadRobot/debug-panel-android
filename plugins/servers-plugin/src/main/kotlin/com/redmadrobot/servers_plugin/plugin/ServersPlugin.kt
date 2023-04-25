@@ -9,6 +9,8 @@ import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.ui.ServersFragment
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 public class ServersPlugin(
     private val preInstalledServers: List<DebugServer> = emptyList()
@@ -22,11 +24,15 @@ public class ServersPlugin(
     public companion object {
         internal const val NAME = "SERVERS"
 
-        public fun getSelectedServer(): DebugServer {
-            return getPlugin<ServersPlugin>()
-                .getContainer<ServersPluginContainer>()
-                .serversRepository
-                .getSelectedServer()
+        public fun getSelectedServer(): Flow<DebugServer> {
+            return flow {
+                emit(
+                    getPlugin<ServersPlugin>()
+                        .getContainer<ServersPluginContainer>()
+                        .serversRepository
+                        .getSelectedServer()
+                )
+            }
         }
 
         public fun getDefaultServer(): DebugServer {
