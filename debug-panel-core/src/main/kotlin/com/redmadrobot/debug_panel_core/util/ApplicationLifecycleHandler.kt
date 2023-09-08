@@ -4,13 +4,14 @@ import android.app.Activity
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.IntentFilter
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.redmadrobot.debug_panel_core.inapp.shake.ShakeController
 import timber.log.Timber
 
 internal class ApplicationLifecycleHandler(
     private val application: Application,
-    private val shakerMode: Boolean
+    private val shakerMode: Boolean,
 ) {
 
     // open Activity counter
@@ -44,7 +45,13 @@ internal class ApplicationLifecycleHandler(
                         val filter = IntentFilter(
                             DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL
                         )
-                        activity.registerReceiver(debugPanelBroadcastReceiver, filter)
+
+                        ContextCompat.registerReceiver(
+                            activity.applicationContext,
+                            debugPanelBroadcastReceiver,
+                            filter,
+                            ContextCompat.RECEIVER_NOT_EXPORTED
+                        )
                     }
                 }
 

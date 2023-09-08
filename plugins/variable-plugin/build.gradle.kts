@@ -43,6 +43,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace = "com.redmadrobot.variable_plugin"
 }
 
 dependencies {

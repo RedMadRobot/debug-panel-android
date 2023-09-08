@@ -44,6 +44,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace = "com.redmadrobot.debug_panel_common"
 }
 
 dependencies {
