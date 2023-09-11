@@ -5,8 +5,8 @@ import java.util.*
 
 object Project {
     const val MIN_SDK = 21
-    const val TARGET_SDK = 31
-    const val COMPILE_SDK = 31
+    const val TARGET_SDK = 34
+    const val COMPILE_SDK = 34
 
     object BuildTypes {
         const val release = "release"

@@ -43,6 +43,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace = "com.redmadrobot.app_settings_plugin"
 }
 
 

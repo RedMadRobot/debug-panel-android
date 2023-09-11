@@ -1,6 +1,6 @@
 object Versions {
 
-    const val KOTLIN = "1.6.10"
+    const val KOTLIN = "1.6.20"
 
     const val COROUTINES = "1.3.9"
     const val OKHTTP = "4.9.0"
@@ -25,7 +25,7 @@ object Versions {
     const val GLIDE = "4.11.0"
     const val ITEMS_ADAPTER = "1.1"
 
-    const val ANDROID_KTX = "1.1.0"
+    const val ANDROID_KTX = "1.9.0"
     const val TIMBER = "4.7.1"
     const val FLIPPER = "2.0.0"
 }

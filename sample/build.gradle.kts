@@ -6,6 +6,7 @@ plugins {
 
 android {
     compileSdk = Project.COMPILE_SDK
+    namespace = "com.redmadrobot.debugpanel"
 
     defaultConfig {
         minSdk = Project.MIN_SDK

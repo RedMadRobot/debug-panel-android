@@ -36,6 +36,7 @@ android {
     }
 
     java.sourceSets.create("src.main.kotlin")
+    namespace = "com.redmadrobot.debug_panel_no_op"
 }
 
 dependencies {
