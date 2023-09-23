@@ -33,8 +33,8 @@ import com.redmadrobot.debug.panel.common.R as CommonR
 @Composable
 public fun DebugBottomSheet(onClose: () -> Unit) {
     val state = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = {
+        initialValue = ModalBottomSheetValue.HalfExpanded,
+        confirmValueChange = {
             if (it == ModalBottomSheetValue.Hidden) onClose()
             true
         }
@@ -46,9 +46,6 @@ public fun DebugBottomSheet(onClose: () -> Unit) {
             sheetState = state,
             content = {}
         )
-    }
-    LaunchedEffect(true) {
-        state.animateTo(ModalBottomSheetValue.HalfExpanded)
     }
 }
 
