@@ -1,12 +1,15 @@
 package com.redmadrobot.debug.core.util
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
@@ -51,7 +54,15 @@ internal class DebugPanelNotification(private val context: Context) {
             )
             .build()
 
-        notificationManager?.notify(NOTIFICATION_ID, notification)
+        val canShowNotification = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+
+        if (canShowNotification) {
+            notificationManager?.notify(NOTIFICATION_ID, notification)
+        }
     }
 
     fun hide() {
