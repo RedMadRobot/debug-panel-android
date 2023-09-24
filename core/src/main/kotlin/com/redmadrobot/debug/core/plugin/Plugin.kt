@@ -23,13 +23,13 @@ public abstract class Plugin {
     public fun <T> getContainer(): T = pluginContainer as T
 
     @Deprecated(
-        "You should't use fragments for you plugins. Please use Jetpack Compose",
+        "You shouldn't use fragments for you plugins. Please use Jetpack Compose",
         ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
     )
     public open fun getFragment(): Fragment? = null
 
     @Deprecated(
-        "You should't use fragments for you plugins. Please use Jetpack Compose",
+        "You shouldn't use fragments for you plugins. Please use Jetpack Compose",
         ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
     )
     public open fun getSettingFragment(): Fragment? = null

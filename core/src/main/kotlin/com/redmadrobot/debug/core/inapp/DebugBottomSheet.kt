@@ -40,7 +40,7 @@ internal class DebugBottomSheet : BottomSheetDialogFragment() {
             setBottomSheetSize()
         }
         dialog.setContentView(binding.root)
-        setViews(binding)
+        binding.setViews()
         return dialog
     }
 
@@ -49,12 +49,12 @@ internal class DebugBottomSheet : BottomSheetDialogFragment() {
         _binding = null
     }
 
-    private fun setViews(binding: BottomSheetDebugPanelBinding) {
+    private fun BottomSheetDebugPanelBinding.setViews() {
         val plugins = getAllPlugins()
             /*Only Plugins with Fragment*/
             .filter { it.getFragment() != null }
 
-        binding.debugSheetViewpager.adapter = DebugSheetViewPagerAdapter(
+        debugSheetViewpager.adapter = DebugSheetViewPagerAdapter(
             requireActivity(),
             plugins
         )
@@ -64,13 +64,14 @@ internal class DebugBottomSheet : BottomSheetDialogFragment() {
         }
 
         TabLayoutMediator(
-            binding.debugSheetTabLayout,
-            binding.debugSheetViewpager,
+            debugSheetTabLayout,
+            debugSheetViewpager,
             tabConfigurationStrategy
         ).attach()
     }
 
     private fun setBottomSheetSize() {
+        if (_binding == null) return
         val dialogContainer = binding.root.parent as? FrameLayout
         dialogContainer?.apply {
             layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT

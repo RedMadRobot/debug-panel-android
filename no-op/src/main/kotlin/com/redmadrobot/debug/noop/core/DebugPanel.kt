@@ -16,7 +16,7 @@ object DebugPanel {
 
     fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) = Unit
 
-    fun observeEvents(): Flow<DebugEvent>? = emptyFlow()
+    fun observeEvents(): Flow<DebugEvent> = emptyFlow()
 
     fun showPanel(fragmentManager: FragmentManager) = Unit
 
