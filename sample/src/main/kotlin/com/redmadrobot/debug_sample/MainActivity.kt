@@ -9,13 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.accounts.plugin.AccountSelectedEvent
 import com.redmadrobot.debug.core.internal.DebugPanel
-import com.redmadrobot.debug_sample.network.ApiFactory
-import com.redmadrobot.debugpanel.R
-import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
 import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent
 import com.redmadrobot.debug.variable.plugin.asDebugVariable
-import kotlinx.android.synthetic.main.activity_main.*
+import com.redmadrobot.debug_sample.network.ApiFactory
+import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
+import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOn
@@ -30,10 +29,11 @@ import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setViews()
         observeFeatureToggles()
 
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         DebugPanel.observeEvents()
-            ?.onEach { event ->
+            .onEach { event ->
                 when (event) {
                     is AccountSelectedEvent -> {
                         showSelectedAccount(event.debugAccount.login)
@@ -61,20 +61,20 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            ?.launchIn(lifecycleScope)
+            .launchIn(lifecycleScope)
     }
 
     private fun setViews() {
-        choose_account.setOnClickListener {
+        binding.chooseAccount.setOnClickListener {
             chooseAccount()
         }
-        request_test.setOnClickListener {
+        binding.requestTest.setOnClickListener {
             makeTestRequest()
         }
-        open_second_activity.setOnClickListener {
+        binding.openSecondActivity.setOnClickListener {
             startActivity(Intent(this, SecondActivity::class.java))
         }
-        autofill_sample.setOnClickListener {
+        binding.autofillSample.setOnClickListener {
             val strings = """
                     ${"initString".asDebugVariable("filledString")}
                     ${"".asDebugVariable("initialyEmptyString")}
@@ -203,8 +203,8 @@ class MainActivity : AppCompatActivity() {
             }
             ?: false
 
-        label_feature_toggle_1.visibility = if (showFirst) View.VISIBLE else View.GONE
-        label_feature_toggle_2.visibility = if (showSecond) View.VISIBLE else View.GONE
-        label_feature_toggle_3.visibility = if (showThird) View.VISIBLE else View.GONE
+        binding.labelFeatureToggle1.visibility = if (showFirst) View.VISIBLE else View.GONE
+        binding.labelFeatureToggle2.visibility = if (showSecond) View.VISIBLE else View.GONE
+        binding.labelFeatureToggle3.visibility = if (showThird) View.VISIBLE else View.GONE
     }
 }

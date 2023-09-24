@@ -1,7 +1,6 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
-    kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
     id("publishPlugin")
 }
@@ -55,6 +54,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
+    implementation(rmr.ktx.viewbinding)
     implementation("com.google.accompanist:accompanist-pager:0.28.0")
     kapt(androidx.room.compiler)
 }

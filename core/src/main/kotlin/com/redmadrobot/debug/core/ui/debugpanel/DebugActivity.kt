@@ -13,15 +13,18 @@ import kotlinx.android.synthetic.main.activity_debug.*
 
 internal class DebugActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDebugBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_debug)
+        binding = ActivityDebugBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setViews()
     }
 
     private fun setViews() {
-        debug_feature_list.layoutManager = LinearLayoutManager(this)
-        debug_feature_list.adapter = itemsAdapter(getSettingItems()) { item ->
+        binding.debugFeatureList.layoutManager = LinearLayoutManager(this)
+        binding.debugFeatureList.adapter = itemsAdapter(getSettingItems()) { item ->
             bind<ItemPluginSettingBinding>(R.layout.item_plugin_setting) {
                 itemDebugFeatureLabel.text = item.pluginName
                 root.setOnClickListener { item.onClicked.invoke() }
