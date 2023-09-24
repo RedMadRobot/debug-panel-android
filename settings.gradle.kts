@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        val version = "2022.12.13"
+        val version = "2023.05.18"
         create("rmr") {
             from("com.redmadrobot.versions:versions-redmadrobot:$version")
         }
