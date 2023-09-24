@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         DebugPanel.observeEvents()
-            ?.onEach { event ->
+            .onEach { event ->
                 when (event) {
                     is AccountSelectedEvent -> {
-                        //Обработка выбора аккаунта
+                        showSelectedAccount(event.debugAccount.login)
                     }
 
                     is ServerSelectedEvent -> {
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            ?.launchIn(lifecycleScope)
+            .launchIn(lifecycleScope)
     }
 
     private fun ActivityMainBinding.setViews() {
@@ -144,6 +144,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun chooseAccount() {
         DebugPanel.showPanel(supportFragmentManager)
+    }
+
+    private fun showSelectedAccount(account: String) {
+        Toast.makeText(
+            this,
+            "Account $account selected",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
