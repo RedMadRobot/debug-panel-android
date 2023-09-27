@@ -45,7 +45,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.flipper_plugin"
+    namespace = "com.redmadrobot.debug.flipper"
 }
 
 dependencies {

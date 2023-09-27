@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.asFlow
-import com.redmadrobot.account.R
+import com.redmadrobot.debug.accounts.R
 import com.redmadrobot.debug.accounts.data.model.DebugAccount
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

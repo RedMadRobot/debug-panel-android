@@ -45,7 +45,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.panel_core"
+    namespace = "com.redmadrobot.debug.panel.core"
 }
 
 kotlin {

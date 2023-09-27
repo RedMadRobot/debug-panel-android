@@ -44,7 +44,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.app_settings_plugin"
+    namespace = "com.redmadrobot.debug.app_settings"
 }
 
 kotlin {

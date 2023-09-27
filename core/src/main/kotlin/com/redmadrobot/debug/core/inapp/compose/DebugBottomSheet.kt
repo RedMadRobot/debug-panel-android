@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.panel_core.R
+import com.redmadrobot.debug.panel.core.R
 import kotlinx.coroutines.launch
 import com.redmadrobot.debug.panel.common.R as CommonR
 

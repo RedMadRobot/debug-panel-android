@@ -33,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
-import com.redmadrobot.app_settings_plugin.R
+import com.redmadrobot.debug.app_settings.R
 import com.redmadrobot.debug.appsettings.plugin.AppSettingsPlugin
 import com.redmadrobot.debug.appsettings.plugin.AppSettingsPluginContainer
 import com.redmadrobot.debug.core.extension.OnLifecycleEvent

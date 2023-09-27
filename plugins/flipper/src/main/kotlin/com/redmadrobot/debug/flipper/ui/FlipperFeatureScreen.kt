@@ -56,7 +56,7 @@ import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
 import com.redmadrobot.debug.flipper.plugin.FlipperPluginContainer
 import com.redmadrobot.debug.flipper.ui.data.FlipperItem
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.flipper_plugin.R
+import com.redmadrobot.debug.flipper.R
 import kotlinx.coroutines.launch
 import com.redmadrobot.debug.panel.common.R as CommonR
 

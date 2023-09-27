@@ -44,7 +44,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.servers_plugin"
+    namespace = "com.redmadrobot.debug.servers"
 }
 
 kotlin {

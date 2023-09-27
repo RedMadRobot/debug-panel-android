@@ -50,7 +50,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.account_plugin"
+    namespace = "com.redmadrobot.debug.accounts"
 }
 
 kotlin {

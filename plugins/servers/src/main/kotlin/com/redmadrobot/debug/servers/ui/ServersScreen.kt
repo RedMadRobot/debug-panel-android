@@ -52,7 +52,7 @@ import com.redmadrobot.debug.servers.data.model.DebugServer
 import com.redmadrobot.debug.servers.data.model.DebugStage
 import com.redmadrobot.debug.servers.plugin.ServersPlugin
 import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
-import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.debug.servers.R
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

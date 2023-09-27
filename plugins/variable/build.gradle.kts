@@ -45,7 +45,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.variable_plugin"
+    namespace = "com.redmadrobot.debug.variable"
 }
 
 dependencies {

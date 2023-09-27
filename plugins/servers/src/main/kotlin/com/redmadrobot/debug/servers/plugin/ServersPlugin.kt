@@ -13,7 +13,7 @@ import com.redmadrobot.debug.servers.data.model.DebugServerData
 import com.redmadrobot.debug.servers.data.model.DebugStage
 import com.redmadrobot.debug.servers.ui.ServersFragment
 import com.redmadrobot.debug.servers.ui.ServersScreen
-import com.redmadrobot.servers_plugin.databinding.FragmentContainerServersBinding
+import com.redmadrobot.debug.servers.databinding.FragmentContainerServersBinding
 import kotlinx.coroutines.runBlocking
 
 public class ServersPlugin(
