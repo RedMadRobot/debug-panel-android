@@ -8,7 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import com.redmadrobot.debug.variable.plugin.VariableItem
 import com.redmadrobot.debug.variable.plugin.VariableWidget
 import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
-import com.redmadrobot.variable_plugin.databinding.ItemVariableStringBinding
+import com.redmadrobot.debug.variable.databinding.ItemVariableStringBinding
 
 internal class StringVariableWidget : VariableWidget<String>(String::class) {
 

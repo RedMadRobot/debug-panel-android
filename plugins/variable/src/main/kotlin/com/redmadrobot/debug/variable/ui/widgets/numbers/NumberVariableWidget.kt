@@ -7,8 +7,8 @@ import com.redmadrobot.debug.variable.plugin.VariableWidget
 import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
 import com.redmadrobot.debug.variable.plugin.VariableWidgetSettingsViewHolder
 import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
-import com.redmadrobot.variable_plugin.databinding.ItemVariableNumberBinding
-import com.redmadrobot.variable_plugin.databinding.ItemVariableNumberSettingsBinding
+import com.redmadrobot.debug.variable.databinding.ItemVariableNumberBinding
+import com.redmadrobot.debug.variable.databinding.ItemVariableNumberSettingsBinding
 import kotlin.reflect.KClass
 
 internal abstract class NumberVariableWidget<T : Number>(

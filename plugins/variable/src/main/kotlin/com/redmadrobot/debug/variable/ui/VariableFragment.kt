@@ -9,8 +9,8 @@ import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.variable.plugin.VariablePlugin
 import com.redmadrobot.debug.variable.plugin.VariablePluginContainer
 import com.redmadrobot.debug.variable.ui.recycler.VariableAdapter
-import com.redmadrobot.variable_plugin.R
-import com.redmadrobot.variable_plugin.databinding.FragmentVariableBinding
+import com.redmadrobot.debug.variable.R
+import com.redmadrobot.debug.variable.databinding.FragmentVariableBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

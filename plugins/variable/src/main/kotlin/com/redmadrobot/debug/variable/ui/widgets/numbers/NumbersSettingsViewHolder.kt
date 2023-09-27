@@ -4,7 +4,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import com.redmadrobot.debug.variable.plugin.VariableWidgetSettingsViewHolder
-import com.redmadrobot.variable_plugin.databinding.ItemVariableNumberSettingsBinding
+import com.redmadrobot.debug.variable.databinding.ItemVariableNumberSettingsBinding
 
 internal open class NumbersSettingsViewHolder<T : Number, TSettings : NumberSettings<T>>(
     itemView: View,

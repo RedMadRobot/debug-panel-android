@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
-import com.redmadrobot.debug_panel_common.R
+import com.redmadrobot.debug.panel.common.R
 
 public open class PluginFragment(private val layoutId: Int) : Fragment() {
 

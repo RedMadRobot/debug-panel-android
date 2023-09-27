@@ -9,7 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import com.redmadrobot.debug.variable.extensions.toNumberSafe
 import com.redmadrobot.debug.variable.plugin.VariableItem
 import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
-import com.redmadrobot.variable_plugin.databinding.ItemVariableNumberBinding
+import com.redmadrobot.debug.variable.databinding.ItemVariableNumberBinding
 import java.util.Locale
 import kotlin.reflect.KClass
 

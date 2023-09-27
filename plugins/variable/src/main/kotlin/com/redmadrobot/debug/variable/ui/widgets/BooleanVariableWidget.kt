@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.redmadrobot.debug.variable.plugin.VariableItem
 import com.redmadrobot.debug.variable.plugin.VariableWidget
 import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
-import com.redmadrobot.variable_plugin.databinding.ItemVariableBooleanBinding
+import com.redmadrobot.debug.variable.databinding.ItemVariableBooleanBinding
 
 internal class BooleanVariableWidget : VariableWidget<Boolean>(Boolean::class){
 

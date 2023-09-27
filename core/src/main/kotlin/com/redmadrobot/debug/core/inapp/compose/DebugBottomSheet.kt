@@ -23,7 +23,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.themeadapter.material.MdcTheme
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.panel_core.R
+import com.redmadrobot.debug.panel.core.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)

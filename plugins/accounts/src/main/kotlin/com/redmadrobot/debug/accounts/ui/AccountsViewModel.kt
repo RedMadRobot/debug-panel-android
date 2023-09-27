@@ -3,7 +3,7 @@ package com.redmadrobot.debug.accounts.ui
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.account.R
+import com.redmadrobot.debug.accounts.R
 import com.redmadrobot.debug.accounts.data.DebugAccountRepository
 import com.redmadrobot.debug.accounts.data.model.DebugAccount
 import com.redmadrobot.debug.accounts.plugin.AccountSelectedEvent

@@ -12,7 +12,7 @@ import com.redmadrobot.debug.servers.data.model.DebugStage
 import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent
 import com.redmadrobot.debug.servers.plugin.ServersPlugin
 import com.redmadrobot.debug.servers.plugin.StageSelectedEvent
-import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.debug.servers.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
