@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.flipper_plugin.R
-import com.redmadrobot.flipper_plugin.databinding.DialogFlipperSourceBinding
+import com.redmadrobot.debug.flipper.R
+import com.redmadrobot.debug.flipper.databinding.DialogFlipperSourceBinding
 import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
 import com.redmadrobot.debug.flipper.plugin.FlipperPluginContainer
 import com.redmadrobot.debug.flipper.ui.dialog.recycler.SourceSelectionAdapter

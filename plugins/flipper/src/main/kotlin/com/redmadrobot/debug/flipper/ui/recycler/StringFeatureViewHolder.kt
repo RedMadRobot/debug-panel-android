@@ -1,10 +1,10 @@
-package com.redmadrobot.flipper_plugin.ui.recycler
+package com.redmadrobot.debug.flipper.ui.recycler
 
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.redmadrobot.debug.flipper.databinding.ItemFlipperFeatureStringBinding
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.flipper_plugin.databinding.ItemFlipperFeatureStringBinding
 
 internal class StringFeatureViewHolder(
     itemView: View,

@@ -35,7 +35,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    namespace = "com.redmadrobot.debug_panel_no_op"
+    namespace = "com.redmadrobot.debug.noop"
 }
 
 dependencies {

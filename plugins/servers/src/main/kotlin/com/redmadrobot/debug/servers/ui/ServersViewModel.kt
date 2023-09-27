@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.common.extension.safeLaunch
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.debug.servers.R
 import com.redmadrobot.debug.servers.data.DebugServerRepository
 import com.redmadrobot.debug.servers.data.model.DebugServer
 import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent

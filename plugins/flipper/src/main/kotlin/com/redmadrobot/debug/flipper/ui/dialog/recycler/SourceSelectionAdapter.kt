@@ -3,7 +3,7 @@ package com.redmadrobot.debug.flipper.ui.dialog.recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.redmadrobot.flipper_plugin.databinding.ItemFlipperSourceBinding
+import com.redmadrobot.debug.flipper.databinding.ItemFlipperSourceBinding
 import com.redmadrobot.debug.flipper.ui.dialog.data.SelectableSource
 
 internal class SourceSelectionAdapter(

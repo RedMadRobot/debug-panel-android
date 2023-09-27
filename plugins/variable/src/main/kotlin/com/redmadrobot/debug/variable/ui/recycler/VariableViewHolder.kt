@@ -8,7 +8,7 @@ import com.redmadrobot.debug.variable.plugin.VariableItem
 import com.redmadrobot.debug.variable.plugin.VariableWidget
 import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
 import com.redmadrobot.debug.variable.ui.model.VariableEvent
-import com.redmadrobot.variable_plugin.databinding.ItemVariableBinding
+import com.redmadrobot.debug.variable.databinding.ItemVariableBinding
 
 internal class VariableViewHolder<T : Any>(
     itemView: View,

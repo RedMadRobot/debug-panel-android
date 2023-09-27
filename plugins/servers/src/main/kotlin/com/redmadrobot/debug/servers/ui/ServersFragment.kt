@@ -5,21 +5,21 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug.common.base.PluginFragment
-import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.panel.common.databinding.ItemSectionHeaderBinding
+import com.redmadrobot.debug.servers.R
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
-import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.debug.servers.data.model.DebugServer
-import com.redmadrobot.servers_plugin.databinding.FragmentServersBinding
-import com.redmadrobot.servers_plugin.databinding.ItemDebugServerBinding
+import com.redmadrobot.debug.servers.databinding.FragmentServersBinding
+import com.redmadrobot.debug.servers.databinding.ItemDebugServerBinding
 import com.redmadrobot.debug.servers.plugin.ServersPlugin
 import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
 import com.redmadrobot.debug.servers.ui.item.DebugServerItems
-import com.redmadrobot.debug_panel_common.R as CommonR
+import com.redmadrobot.debug.panel.common.R as CommonR
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
 

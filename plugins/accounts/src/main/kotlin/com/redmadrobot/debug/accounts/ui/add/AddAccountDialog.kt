@@ -1,4 +1,4 @@
-package com.redmadrobot.account_plugin.ui.add
+package com.redmadrobot.debug.accounts.ui.add
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.redmadrobot.account_plugin.R
-import com.redmadrobot.account_plugin.data.model.DebugAccount
-import com.redmadrobot.account_plugin.databinding.DialogAddAccountBinding
-import com.redmadrobot.account_plugin.plugin.AccountsPlugin
-import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
-import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
-import com.redmadrobot.debug_panel_core.extension.getPlugin
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.databinding.DialogAddAccountBinding
+import com.redmadrobot.debug.accounts.plugin.AccountsPlugin
+import com.redmadrobot.debug.accounts.plugin.AccountsPluginContainer
+import com.redmadrobot.debug.common.extension.obtainShareViewModel
+import com.redmadrobot.debug.core.extension.getPlugin
 
 internal class AddAccountDialog : DialogFragment() {
 

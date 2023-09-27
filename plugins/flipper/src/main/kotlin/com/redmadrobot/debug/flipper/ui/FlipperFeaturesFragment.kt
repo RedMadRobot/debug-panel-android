@@ -9,8 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.flipper_plugin.R
-import com.redmadrobot.flipper_plugin.databinding.FragmentFlipperFeaturesBinding
+import com.redmadrobot.debug.flipper.R
+import com.redmadrobot.debug.flipper.databinding.FragmentFlipperFeaturesBinding
 import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
 import com.redmadrobot.debug.flipper.plugin.FlipperPluginContainer
 import com.redmadrobot.debug.flipper.ui.dialog.SourceSelectionDialogFragment

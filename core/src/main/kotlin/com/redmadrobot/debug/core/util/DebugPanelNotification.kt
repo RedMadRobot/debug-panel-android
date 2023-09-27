@@ -14,7 +14,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import com.redmadrobot.debug.core.ui.debugpanel.DebugActivity
-import com.redmadrobot.panel_core.R
+import com.redmadrobot.debug.panel.core.R
 
 internal class DebugPanelNotification(private val context: Context) {
 

@@ -3,7 +3,7 @@ package com.redmadrobot.debug.flipper.ui.dialog
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.common.base.PluginViewModel
-import com.redmadrobot.flipper_plugin.R
+import com.redmadrobot.debug.flipper.R
 import com.redmadrobot.debug.flipper.data.FeatureTogglesRepository
 import com.redmadrobot.debug.flipper.data.FeatureTogglesSource
 import com.redmadrobot.debug.flipper.ui.dialog.data.SelectableSource

@@ -10,8 +10,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.servers_plugin.R
-import com.redmadrobot.servers_plugin.databinding.DialogServerBinding
+import com.redmadrobot.debug.servers.R
+import com.redmadrobot.debug.servers.databinding.DialogServerBinding
 import com.redmadrobot.debug.servers.plugin.ServersPlugin
 import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
 

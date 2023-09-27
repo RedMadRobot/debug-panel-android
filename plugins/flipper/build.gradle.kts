@@ -40,7 +40,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    namespace = "com.redmadrobot.flipper_plugin"
+    namespace = "com.redmadrobot.debug.flipper"
 }
 
 dependencies {

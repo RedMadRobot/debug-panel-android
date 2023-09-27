@@ -3,10 +3,10 @@ package com.redmadrobot.debug.accounts.ui
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.account_plugin.R
-import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
-import com.redmadrobot.debug.account.data.DebugAccountRepository
-import com.redmadrobot.debug.account.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.ui.item.DebugAccountItems
+import com.redmadrobot.debug.accounts.R
+import com.redmadrobot.debug.accounts.data.DebugAccountRepository
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
 import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.common.extension.safeLaunch
 

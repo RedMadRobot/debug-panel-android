@@ -3,8 +3,8 @@ package com.redmadrobot.debug.appsettings.ui
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.app_settings_plugin.R
-import com.redmadrobot.app_settings_plugin.databinding.FragmentAppSettingsBinding
+import com.redmadrobot.debug.app_settings.R
+import com.redmadrobot.debug.app_settings.databinding.FragmentAppSettingsBinding
 import com.redmadrobot.debug.appsettings.plugin.AppSettingsPlugin
 import com.redmadrobot.debug.appsettings.plugin.AppSettingsPluginContainer
 import com.redmadrobot.debug.appsettings.ui.item.AppSettingItems

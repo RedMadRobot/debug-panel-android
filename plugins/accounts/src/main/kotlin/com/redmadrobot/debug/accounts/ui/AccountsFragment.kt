@@ -2,27 +2,27 @@ package com.redmadrobot.debug.accounts.ui
 
 import android.os.Bundle
 import android.view.View
-import com.redmadrobot.debug.account.plugin.AccountsPlugin
-import com.redmadrobot.debug.account.plugin.AccountsPluginContainer
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.account_plugin.R
-import com.redmadrobot.account_plugin.databinding.FragmentAccountsBinding
-import com.redmadrobot.account_plugin.databinding.ItemAccountBinding
-import com.redmadrobot.account_plugin.ui.add.AddAccountDialog
-import com.redmadrobot.account_plugin.ui.item.DebugAccountItems
-import com.redmadrobot.debug.account.data.model.DebugAccount
-import com.redmadrobot.debug.account.plugin.AccountSelectedEvent
-import com.redmadrobot.debug_panel_common.databinding.ItemSectionHeaderBinding
+import com.redmadrobot.debug.accounts.ui.add.AddAccountDialog
+import com.redmadrobot.debug.accounts.ui.item.DebugAccountItems
+import com.redmadrobot.debug.accounts.R
+import com.redmadrobot.debug.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.accounts.databinding.FragmentAccountsBinding
+import com.redmadrobot.debug.accounts.databinding.ItemAccountBinding
+import com.redmadrobot.debug.accounts.plugin.AccountSelectedEvent
+import com.redmadrobot.debug.accounts.plugin.AccountsPlugin
+import com.redmadrobot.debug.accounts.plugin.AccountsPluginContainer
 import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.panel.common.databinding.ItemSectionHeaderBinding
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
-import com.redmadrobot.debug_panel_common.R as CommonR
+import com.redmadrobot.debug.panel.common.R as CommonR
 
 internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
 

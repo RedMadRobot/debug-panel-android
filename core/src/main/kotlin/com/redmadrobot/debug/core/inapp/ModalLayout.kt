@@ -7,8 +7,8 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import com.redmadrobot.panel_core.R
-import com.redmadrobot.debug_panel_common.R as CommonR
+import com.redmadrobot.debug.panel.core.R
+import com.redmadrobot.debug.panel.common.R as CommonR
 
 internal class ModalLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

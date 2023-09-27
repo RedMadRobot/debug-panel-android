@@ -40,7 +40,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    namespace = "com.redmadrobot.panel_core"
+    namespace = "com.redmadrobot.debug.panel.core"
 }
 
 kotlin {

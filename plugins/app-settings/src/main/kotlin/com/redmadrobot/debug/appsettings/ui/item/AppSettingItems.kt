@@ -1,10 +1,10 @@
 package com.redmadrobot.debug.appsettings.ui.item
 
 import androidx.core.view.isVisible
-import com.redmadrobot.app_settings_plugin.R
-import com.redmadrobot.app_settings_plugin.databinding.ItemHeaderBinding
-import com.redmadrobot.app_settings_plugin.databinding.ItemPreferenceBooleanBinding
-import com.redmadrobot.app_settings_plugin.databinding.ItemPreferenceValueBinding
+import com.redmadrobot.debug.app_settings.R
+import com.redmadrobot.debug.app_settings.databinding.ItemHeaderBinding
+import com.redmadrobot.debug.app_settings.databinding.ItemPreferenceBooleanBinding
+import com.redmadrobot.debug.app_settings.databinding.ItemPreferenceValueBinding
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import timber.log.Timber
