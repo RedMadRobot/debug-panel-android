@@ -13,15 +13,13 @@ import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal class ServersViewModel(
     private val context: Context,
     private val serversRepository: DebugServerRepository
 ) : PluginViewModel() {
-
-    val selectedServer: DebugServer
-        get() = serversRepository.getSelectedServer()
 
     val state = MutableLiveData<ServersViewState>().apply {
         /*Default state*/
@@ -72,10 +70,12 @@ internal class ServersViewModel(
     }
 
     fun onServerSelected(debugServer: DebugServer) {
-        if (debugServer != selectedServer) {
-            getPlugin<ServersPlugin>().pushEvent(ServerSelectedEvent(debugServer))
-            serversRepository.saveSelectedServer(debugServer)
-            loadServers()
+        viewModelScope.launch {
+            if (debugServer != getSelectedServer()) {
+                getPlugin<ServersPlugin>().pushEvent(ServerSelectedEvent(debugServer))
+                serversRepository.saveSelectedServer(debugServer)
+                loadServers()
+            }
         }
     }
 
@@ -97,28 +97,33 @@ internal class ServersViewModel(
         }
     }
 
-    private fun mapToPreinstalledItems(
+    private suspend fun mapToPreinstalledItems(
         header: String,
         servers: List<DebugServer>
     ): List<DebugServerItems> {
         val items = servers.map { debugServer ->
-            val isSelected = selectedServer.url == debugServer.url
+            val isSelected = getSelectedServer().url == debugServer.url
             DebugServerItems.PreinstalledServer(debugServer, isSelected)
         }
 
         return listOf(/*Заголовок списка*/DebugServerItems.Header(header)).plus(items)
     }
 
-    private fun mapToAddedItems(
+    private suspend fun mapToAddedItems(
         header: String,
         servers: List<DebugServer>
     ): List<DebugServerItems> {
         if (servers.isEmpty()) return emptyList()
         val items = servers.map { debugServer ->
-            val isSelected = selectedServer.url == debugServer.url
+            val isSelected = getSelectedServer().url == debugServer.url
             DebugServerItems.AddedServer(debugServer, isSelected)
         }
 
         return listOf(/*Заголовок списка*/DebugServerItems.Header(header)).plus(items)
     }
+
+    private suspend fun getSelectedServer(): DebugServer {
+        return serversRepository.getSelectedServer()
+    }
+
 }

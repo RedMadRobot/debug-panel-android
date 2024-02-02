@@ -9,6 +9,7 @@ import com.redmadrobot.debug_panel_core.plugin.Plugin
 import com.redmadrobot.debug_panel_core.plugin.PluginDependencyContainer
 import com.redmadrobot.servers_plugin.data.model.DebugServer
 import com.redmadrobot.servers_plugin.ui.ServersFragment
+import kotlinx.coroutines.runBlocking
 
 public class ServersPlugin(
     private val preInstalledServers: List<DebugServer> = emptyList()
@@ -23,10 +24,12 @@ public class ServersPlugin(
         internal const val NAME = "SERVERS"
 
         public fun getSelectedServer(): DebugServer {
-            return getPlugin<ServersPlugin>()
-                .getContainer<ServersPluginContainer>()
-                .serversRepository
-                .getSelectedServer()
+            return runBlocking {
+                getPlugin<ServersPlugin>()
+                    .getContainer<ServersPluginContainer>()
+                    .serversRepository
+                    .getSelectedServer()
+            }
         }
 
         public fun getDefaultServer(): DebugServer {
