@@ -8,9 +8,10 @@ internal interface DebugServerRepository {
 
     fun saveSelectedServer(selectedServer: DebugServer)
 
-    fun getSelectedServer(): DebugServer
 
     fun getDefault(): DebugServer
+
+    suspend fun getSelectedServer(): DebugServer
 
     suspend fun getServers(): List<DebugServer>
 

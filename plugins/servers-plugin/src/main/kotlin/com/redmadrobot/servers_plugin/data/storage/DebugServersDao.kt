@@ -19,5 +19,5 @@ internal interface DebugServersDao {
     suspend fun update(server: DebugServer)
 
     @Query("SELECT * FROM ${DebugServer.TABLE_NAME} WHERE name = :name AND url =:url")
-    fun getServer(name: String, url: String): DebugServer?
+    suspend fun getServer(name: String, url: String): DebugServer?
 }
