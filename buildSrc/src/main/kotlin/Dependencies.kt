@@ -27,7 +27,7 @@ object Versions {
 
     const val ANDROID_KTX = "1.9.0"
     const val TIMBER = "4.7.1"
-    const val FLIPPER = "2.0.0"
+    const val FLIPPER = "2.0.1"
 }
 
 object Dependencies {

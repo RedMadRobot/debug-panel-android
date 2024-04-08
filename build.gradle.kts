@@ -1,27 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-
-    dependencies {
-        classpath(Plugins.Android.gradlePlugin)
-        classpath(Plugins.Kotlin.plugin)
-    }
-}
-
 subprojects {
-
     version = getLibVersion()
     group = "com.redmadrobot.debug"
-
-    repositories {
-        google()
-        jcenter()
-        mavenLocal()
-    }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         kotlinOptions.freeCompilerArgs += listOf(
