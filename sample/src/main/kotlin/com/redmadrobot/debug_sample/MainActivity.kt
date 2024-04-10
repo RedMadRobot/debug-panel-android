@@ -11,11 +11,11 @@ import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.debug_panel_core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.R
+import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import com.redmadrobot.variable_plugin.plugin.asDebugVariable
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOn
@@ -30,11 +30,13 @@ import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
-        setViews()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.setViews()
         observeFeatureToggles()
 
         DebugPanel.subscribeToEvents(this) { event ->
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                 is AccountSelectedEvent -> {
                     //Обработка выбора аккаунта
                 }
+
                 is ServerSelectedEvent -> {
                     //Обработка выбора сервера
                 }
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                     is AccountSelectedEvent -> {
                         //Обработка выбора аккаунта
                     }
+
                     is ServerSelectedEvent -> {
                         //Обработка выбора сервера
                     }
@@ -62,17 +66,17 @@ class MainActivity : AppCompatActivity() {
             .launchIn(lifecycleScope)
     }
 
-    private fun setViews() {
-        choose_account.setOnClickListener {
+    private fun ActivityMainBinding.setViews() {
+        chooseAccount.setOnClickListener {
             chooseAccount()
         }
-        request_test.setOnClickListener {
+        requestTest.setOnClickListener {
             makeTestRequest()
         }
-        open_second_activity.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
+        openSecondActivity.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SecondActivity::class.java))
         }
-        autofill_sample.setOnClickListener {
+        autofillSample.setOnClickListener {
             val strings = """
                     ${"initString".asDebugVariable("filledString")}
                     ${"".asDebugVariable("initialyEmptyString")}
@@ -191,8 +195,8 @@ class MainActivity : AppCompatActivity() {
             }
             ?: false
 
-        label_feature_toggle_1.visibility = if (showFirst) View.VISIBLE else View.GONE
-        label_feature_toggle_2.visibility = if (showSecond) View.VISIBLE else View.GONE
-        label_feature_toggle_3.visibility = if (showThird) View.VISIBLE else View.GONE
+        binding.labelFeatureToggle1.visibility = if (showFirst) View.VISIBLE else View.GONE
+        binding.labelFeatureToggle2.visibility = if (showSecond) View.VISIBLE else View.GONE
+        binding.labelFeatureToggle3.visibility = if (showThird) View.VISIBLE else View.GONE
     }
 }

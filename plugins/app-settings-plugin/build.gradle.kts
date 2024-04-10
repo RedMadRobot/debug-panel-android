@@ -1,7 +1,6 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
-    kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
     id("publishPlugin")
 }
@@ -35,7 +34,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += "-Xexplicit-api=strict"
     }
 
     buildFeatures {
@@ -44,6 +42,9 @@ android {
     namespace = "com.redmadrobot.app_settings_plugin"
 }
 
+kotlin {
+    explicitApi()
+}
 
 dependencies {
     implementation(project(":debug-panel-core"))

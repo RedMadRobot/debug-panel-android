@@ -10,11 +10,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.model.DebugAccount
+import com.redmadrobot.account_plugin.databinding.DialogAddAccountBinding
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 import com.redmadrobot.account_plugin.plugin.AccountsPluginContainer
 import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
-import kotlinx.android.synthetic.main.dialog_add_account.*
 
 internal class AddAccountDialog : DialogFragment() {
 
@@ -43,6 +43,9 @@ internal class AddAccountDialog : DialogFragment() {
         }
     }
 
+    private var _binding: DialogAddAccountBinding? = null
+    private val binding get() = checkNotNull(_binding)
+
     private val id by lazy { arguments?.getInt(KEY_ID) }
     private val login by lazy { arguments?.getString(KEY_LOGIN) }
     private val password by lazy { arguments?.getString(KEY_PASSWORD) }
@@ -64,7 +67,8 @@ internal class AddAccountDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_add_account, container, false)
+        _binding = DialogAddAccountBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onStart() {
@@ -77,29 +81,34 @@ internal class AddAccountDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setView()
-        setData()
-        account_login.requestFocus()
+        binding.setView()
+        binding.setData()
+        binding.accountLogin.requestFocus()
     }
 
-    private fun setData() {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun DialogAddAccountBinding.setData() {
         if (!login.isNullOrEmpty() && password != null) {
-            account_login.setText(login)
-            account_password.setText(password)
-            account_pin.setText(pin)
+            accountLogin.setText(login)
+            accountPassword.setText(password)
+            accountPin.setText(pin)
         }
     }
 
-    private fun setView() {
-        save_account_button.setOnClickListener {
+    private fun DialogAddAccountBinding.setView() {
+        saveAccountButton.setOnClickListener {
             if (dataIsValid()) save()
         }
     }
 
     private fun save() {
-        val login = account_login.text.toString()
-        val password = account_password.text.toString()
-        val pin = account_pin.text.toString()
+        val login = binding.accountLogin.text.toString()
+        val password = binding.accountPassword.text.toString()
+        val pin = binding.accountPin.text.toString()
         if (isEditMode) {
             id?.let { id ->
                 sharedViewModel.updateAccount(id, login, password, pin)

@@ -14,11 +14,11 @@ import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.servers_plugin.R
 import com.redmadrobot.servers_plugin.data.model.DebugServer
+import com.redmadrobot.servers_plugin.databinding.FragmentServersBinding
 import com.redmadrobot.servers_plugin.databinding.ItemDebugServerBinding
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
-import kotlinx.android.synthetic.main.fragment_servers.*
 import com.redmadrobot.debug_panel_common.R as CommonR
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
@@ -26,6 +26,9 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
     companion object {
         const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
     }
+
+    private var _binding: FragmentServersBinding? = null
+    private val binding get() = checkNotNull(_binding)
 
     private val isEditMode by lazy {
         requireNotNull(arguments).getBoolean(IS_EDIT_MODE_KEY)
@@ -47,20 +50,26 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setViews()
+        _binding = FragmentServersBinding.bind(view)
+        binding.setViews()
     }
 
-    private fun setViews() {
-        server_list.layoutManager = LinearLayoutManager(requireContext())
-        add_server.setOnClickListener {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun FragmentServersBinding.setViews() {
+        serverList.layoutManager = LinearLayoutManager(requireContext())
+        addServer.setOnClickListener {
             ServerHostDialog.show(childFragmentManager)
         }
-        add_server.isVisible = isEditMode
+        addServer.isVisible = isEditMode
     }
 
     private fun render(state: ServersViewState) {
         val adapter = createAdapterByState(state)
-        server_list.adapter = adapter
+        binding.serverList.adapter = adapter
     }
 
     private fun createAdapterByState(state: ServersViewState): ItemsAdapter {

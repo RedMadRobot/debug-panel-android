@@ -1,8 +1,8 @@
 object Versions {
 
-    const val KOTLIN = "1.6.20"
+    const val KOTLIN = "1.9.23"
 
-    const val COROUTINES = "1.3.9"
+    const val COROUTINES = "1.8.0"
     const val OKHTTP = "4.9.0"
 
     const val APP_COMPAT = "1.1.0"
@@ -19,7 +19,7 @@ object Versions {
     const val LIFECYCLE_RUNTIME = "2.4.0"
     const val LIFECYCLE_TESTING = "2.1.0"
 
-    const val ROOM = "2.4.0"
+    const val ROOM = "2.6.1"
     const val NAVIGATION = "2.2.0"
 
     const val GLIDE = "4.11.0"
@@ -32,7 +32,7 @@ object Versions {
 
 object Dependencies {
     object kotlin {
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.KOTLIN}"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
         const val test = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}"
     }
 

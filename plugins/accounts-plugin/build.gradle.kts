@@ -1,7 +1,6 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
-    kotlin(Plugins.Kotlin.androidExtensions)
     kotlin(Plugins.Kotlin.kapt)
     id("publishPlugin")
 }
@@ -35,13 +34,16 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += "-Xexplicit-api=strict"
     }
 
     buildFeatures {
         viewBinding = true
     }
     namespace = "com.redmadrobot.account_plugin"
+}
+
+kotlin {
+    explicitApi()
 }
 
 dependencies {

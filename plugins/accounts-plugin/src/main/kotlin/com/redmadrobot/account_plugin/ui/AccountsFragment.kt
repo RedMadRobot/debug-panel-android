@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.account_plugin.R
 import com.redmadrobot.account_plugin.data.model.DebugAccount
+import com.redmadrobot.account_plugin.databinding.FragmentAccountsBinding
 import com.redmadrobot.account_plugin.databinding.ItemAccountBinding
 import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
 import com.redmadrobot.account_plugin.plugin.AccountsPlugin
@@ -21,7 +22,6 @@ import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
-import kotlinx.android.synthetic.main.fragment_accounts.*
 import com.redmadrobot.debug_panel_common.R as CommonR
 
 internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
@@ -29,6 +29,9 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
     companion object {
         const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
     }
+
+    private var _binding: FragmentAccountsBinding? = null
+    private val binding get() = checkNotNull(_binding)
 
     private val isEditMode by lazy {
         requireNotNull(arguments).getBoolean(IS_EDIT_MODE_KEY)
@@ -50,22 +53,28 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setView()
+        _binding = FragmentAccountsBinding.bind(view)
+        binding.setView()
     }
 
-    private fun setView() {
-        account_list.layoutManager = LinearLayoutManager(requireContext())
-        add_account.setOnClickListener {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun FragmentAccountsBinding.setView() {
+        accountList.layoutManager = LinearLayoutManager(requireContext())
+        addAccount.setOnClickListener {
             AddAccountDialog.show(
                 requireActivity().supportFragmentManager
             )
         }
-        add_account.isVisible = isEditMode
+        addAccount.isVisible = isEditMode
     }
 
     private fun render(state: AccountsViewState) {
         val adapter = createAdapterByState(state)
-        account_list.adapter = adapter
+        binding.accountList.adapter = adapter
     }
 
     private fun createAdapterByState(state: AccountsViewState): ItemsAdapter {
