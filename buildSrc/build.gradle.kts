@@ -9,15 +9,6 @@ repositories {
     mavenCentral()
 }
 
-gradlePlugin {
-    plugins {
-        create("PublishPlugin") {
-            id = "publishPlugin"
-            implementationClass = "com.redmadrobot.build.PublishPlugin"
-        }
-    }
-}
-
 dependencies {
     implementation(kotlin("gradle-plugin", version = "1.9.23"))
     implementation("com.android.tools.build:gradle:8.3.2")
