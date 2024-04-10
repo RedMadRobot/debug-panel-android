@@ -10,10 +10,10 @@ description = "Plugin that helps to change the values of shared preferences"
 
 android {
     compileSdk = Project.COMPILE_SDK
+    lint.targetSdk = Project.TARGET_SDK
 
     defaultConfig {
         minSdk = Project.MIN_SDK
-        targetSdk = Project.TARGET_SDK
 
         consumerProguardFile("consumer-rules.pro")
     }
@@ -37,8 +37,6 @@ android {
         jvmTarget = "1.8"
         freeCompilerArgs += "-Xexplicit-api=strict"
     }
-
-    java.sourceSets.create("src.main.kotlin")
 
     buildFeatures {
         viewBinding = true
