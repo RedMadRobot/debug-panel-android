@@ -17,7 +17,3 @@ object Project {
         const val projectRules = "proguard-rules.pro"
     }
 }
-
-fun Project.getLibVersion(): String = Properties().apply {
-    load(File("$rootDir/gradle/publish.properties").inputStream())
-}.getProperty("lib_version")

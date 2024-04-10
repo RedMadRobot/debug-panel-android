@@ -2,7 +2,7 @@ plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
     kotlin(Plugins.Kotlin.kapt)
-    id("publishPlugin")
+    id("convention-publish")
 }
 
 description = "Debug panel common components"

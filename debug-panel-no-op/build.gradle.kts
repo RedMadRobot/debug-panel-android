@@ -1,7 +1,7 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
-    id("publishPlugin")
+    id("convention-publish")
 }
 
 description = "Debug panel no-op dependency module"
