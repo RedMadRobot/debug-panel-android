@@ -1,4 +1,13 @@
 rootProject.name = "Debug panel"
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        google()
+    }
+}
+
 include(":debug-panel-common")
 include(":debug-panel-no-op")
 include(":sample")

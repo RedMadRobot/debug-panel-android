@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.redmadrobot.panel_core.R
+import com.redmadrobot.debug_panel_common.R as CommonR
 
 internal class ModalLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -15,15 +16,15 @@ internal class ModalLayout @JvmOverloads constructor(
 
     /**
      * Paint для отрисовки "ручки" модального окна
-     * */
+     */
     private val handlePaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.gray)
+        color = ContextCompat.getColor(context, CommonR.color.gray)
         style = Paint.Style.FILL
     }
 
     /**
      * Координаты для отрисовки "ручки" модального окна
-     * */
+     */
     private val handleRect by lazy {
         val height = resources.getDimensionPixelSize(R.dimen.debug_panel_handle_height).toFloat()
         val width = resources.getDimensionPixelSize(R.dimen.debug_panel_handle_width).toFloat()
@@ -55,5 +56,4 @@ internal class ModalLayout @JvmOverloads constructor(
         )
         super.dispatchDraw(canvas)
     }
-
 }

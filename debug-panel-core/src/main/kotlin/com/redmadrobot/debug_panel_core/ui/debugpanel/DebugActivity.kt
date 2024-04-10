@@ -8,20 +8,21 @@ import com.redmadrobot.debug_panel_core.extension.getAllPlugins
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.panel_core.R
+import com.redmadrobot.panel_core.databinding.ActivityDebugBinding
 import com.redmadrobot.panel_core.databinding.ItemPluginSettingBinding
-import kotlinx.android.synthetic.main.activity_debug.*
 
 internal class DebugActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_debug)
-        setViews()
+        val binding = ActivityDebugBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.setViews()
     }
 
-    private fun setViews() {
-        debug_feature_list.layoutManager = LinearLayoutManager(this)
-        debug_feature_list.adapter = itemsAdapter(getSettingItems()) { item ->
+    private fun ActivityDebugBinding.setViews() {
+        debugFeatureList.layoutManager = LinearLayoutManager(root.context)
+        debugFeatureList.adapter = itemsAdapter(getSettingItems()) { item ->
             bind<ItemPluginSettingBinding>(R.layout.item_plugin_setting) {
                 itemDebugFeatureLabel.text = item.pluginName
                 root.setOnClickListener { item.onClicked.invoke() }

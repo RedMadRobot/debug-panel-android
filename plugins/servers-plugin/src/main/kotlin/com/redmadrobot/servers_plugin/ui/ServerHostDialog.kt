@@ -11,9 +11,9 @@ import androidx.fragment.app.FragmentManager
 import com.redmadrobot.debug_panel_common.extension.obtainShareViewModel
 import com.redmadrobot.debug_panel_core.extension.getPlugin
 import com.redmadrobot.servers_plugin.R
+import com.redmadrobot.servers_plugin.databinding.DialogServerBinding
 import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
-import kotlinx.android.synthetic.main.dialog_server.*
 
 internal class ServerHostDialog : DialogFragment() {
 
@@ -30,6 +30,9 @@ internal class ServerHostDialog : DialogFragment() {
         }
     }
 
+    private var _binding: DialogServerBinding? = null
+    private val binding get() = checkNotNull(_binding)
+
     private val shareViewModel by lazy {
         obtainShareViewModel {
             getPlugin<ServersPlugin>()
@@ -45,7 +48,8 @@ internal class ServerHostDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_server, container, false)
+        _binding = DialogServerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onStart() {
@@ -58,31 +62,36 @@ internal class ServerHostDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setView()
+        binding.setViews()
         obtainArguments()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun obtainArguments() {
         val name = arguments?.getString(KEY_NAME)
         val url = arguments?.getString(KEY_URL)
         if (!name.isNullOrEmpty() && !url.isNullOrEmpty()) {
-            server_name.setText(name)
-            server_host.setText(url)
+            binding.serverName.setText(name)
+            binding.serverHost.setText(url)
             isEditMode = true
         }
     }
 
-    private fun setView() {
-        save_server_button.setOnClickListener {
-            val name = server_name.text.toString()
-            val url = server_host.text.toString()
+    private fun DialogServerBinding.setViews() {
+        saveServerButton.setOnClickListener {
+            val name = serverName.text.toString()
+            val url = serverHost.text.toString()
             if (isDataValid(name, url)) {
                 save(name, url)
             } else {
                 showWrongHostError()
             }
         }
-        server_name.requestFocus()
+        serverName.requestFocus()
     }
 
     private fun save(name: String, url: String) {
@@ -123,10 +132,10 @@ internal class ServerHostDialog : DialogFragment() {
     }
 
     private fun showEmptyNameError() {
-        server_name_input_layout.error = getString(R.string.error_empty_name)
+        binding.serverNameInputLayout.error = getString(R.string.error_empty_name)
     }
 
     private fun showWrongHostError() {
-        server_host_input_layout.error = getString(R.string.error_wrong_host)
+        binding.serverNameInputLayout.error = getString(R.string.error_wrong_host)
     }
 }
