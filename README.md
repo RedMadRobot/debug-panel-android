@@ -1,13 +1,16 @@
 # Debug-panel
 
-#### Бибилиотека для отладки приложений.
+[![Maven Central Version](https://img.shields.io/maven-central/v/com.redmadrobot.debug/panel-core?style=flat-square)](https://central.sonatype.com/search?namespace=com.redmadrobot.debug)
 
-[Документация по разработке плагинов][plugin-development-doc]
+Бибилиотека для отладки приложений.
 
-### v 0.7.5
-### [Changelog][changelog]
+> [!WARNING]
+>
+> Библиотека находится в стадии разработки.
 
-### [!]Важно. Библиотека находится в стадии разработки.
+---
+
+**[Changelog][changelog]** | **[Документация по разработке плагинов][plugin-development-doc]**
 
 Тебе надоело каждый раз вручную вбивать логин и пароль тестового пользователя или пересобирать приложение для того чтобы поменять сервер в настройках? Эта библиотека разрабатывается с идеей решить эти и другие проблемы, и сделать процесс отладки приложения более удобным. 
 
