@@ -22,6 +22,7 @@ import com.redmadrobot.itemsadapter.ItemsAdapter
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
 import kotlinx.android.synthetic.main.fragment_accounts.*
+import com.redmadrobot.debug_panel_common.R as CommonR
 
 internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
 
@@ -71,7 +72,7 @@ internal class AccountsFragment : PluginFragment(R.layout.fragment_accounts) {
         return itemsAdapter(state.preInstalledAccounts.plus(state.addedAccounts)) { item ->
             when (item) {
                 is DebugAccountItems.Header -> {
-                    bind<ItemSectionHeaderBinding>(R.layout.item_section_header) {
+                    bind<ItemSectionHeaderBinding>(CommonR.layout.item_section_header) {
                         itemSectionTitle.text = item.header
                     }
                 }

@@ -19,6 +19,7 @@ import com.redmadrobot.servers_plugin.plugin.ServersPlugin
 import com.redmadrobot.servers_plugin.plugin.ServersPluginContainer
 import com.redmadrobot.servers_plugin.ui.item.DebugServerItems
 import kotlinx.android.synthetic.main.fragment_servers.*
+import com.redmadrobot.debug_panel_common.R as CommonR
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
 
@@ -67,7 +68,7 @@ internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {
         return itemsAdapter(items) { item ->
             when (item) {
                 is DebugServerItems.Header -> {
-                    bind<ItemSectionHeaderBinding>(R.layout.item_section_header) {
+                    bind<ItemSectionHeaderBinding>(CommonR.layout.item_section_header) {
                         itemSectionTitle.text = item.header
                     }
                 }

@@ -15,7 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.redmadrobot.debug_panel_core.extension.getAllPlugins
 import com.redmadrobot.panel_core.R
 import kotlinx.android.synthetic.main.bottom_sheet_debug_panel.view.*
-
+import com.redmadrobot.debug_panel_common.R as CommonR
 
 internal class DebugBottomSheet : BottomSheetDialogFragment() {
 
@@ -31,11 +31,10 @@ internal class DebugBottomSheet : BottomSheetDialogFragment() {
 
     private var dialogView: View? = null
 
-    @NonNull
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         /*set DebugPanelTheme*/
         val dialog = super.onCreateDialog(savedInstanceState)
-        val contextThemeWrapper = ContextThemeWrapper(activity, R.style.DebugPanelTheme)
+        val contextThemeWrapper = ContextThemeWrapper(activity, CommonR.style.DebugPanelTheme)
         val localInflater = dialog.layoutInflater.cloneInContext(contextThemeWrapper)
 
         dialogView = localInflater.inflate(R.layout.bottom_sheet_debug_panel, null)
