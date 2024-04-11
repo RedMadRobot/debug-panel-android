@@ -47,7 +47,7 @@ internal class ApplicationLifecycleHandler(
                         )
 
                         ContextCompat.registerReceiver(
-                            activity.applicationContext,
+                            activity,
                             debugPanelBroadcastReceiver,
                             filter,
                             ContextCompat.RECEIVER_NOT_EXPORTED
