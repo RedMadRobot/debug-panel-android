@@ -47,9 +47,9 @@
             android:padding="4dp"
             android:src="@drawable/icon_delete"
             android:visibility="gone"
-            android:tint="?attr/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorPrimaryDark" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -18,6 +18,7 @@ import java.time.format.DateTimeParseException
 
 internal class DebugVariableWidgetsProvider : DebugDataProvider<List<VariableWidget<Any>>> {
 
+    @Suppress("UNCHECKED_CAST")
     override fun provideData(): List<VariableWidget<Any>> {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             listOf(

@@ -36,6 +36,12 @@ android {
         jvmTarget = "1.8"
     }
 
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
+
     buildFeatures {
         viewBinding = true
     }
