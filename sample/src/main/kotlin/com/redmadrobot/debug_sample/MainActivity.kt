@@ -16,6 +16,7 @@ import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
 import com.redmadrobot.variable_plugin.plugin.asDebugVariable
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOn
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         DebugPanel.observeEvents()
-            .onEach { event ->
+            ?.onEach { event ->
                 when (event) {
                     is AccountSelectedEvent -> {
                         //Обработка выбора аккаунта
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            .launchIn(lifecycleScope)
+            ?.launchIn(lifecycleScope)
     }
 
     private fun ActivityMainBinding.setViews() {
@@ -146,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         DebugPanel.showPanel(supportFragmentManager)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun observeFeatureToggles() {
         FlipperPlugin.addSource(
             "Test 1",
