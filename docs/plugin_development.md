@@ -114,7 +114,7 @@ public class YourPlugin(
 Вместо этого, в библиотеке используется подход с **Service Locator**. 
 Для этого необходимо создать свой класс-контейнер, унаследовать его от **PluginDependencyContainer** и внутри него инициировать необходимые зависимости.
 Если вам для этого понадобится **Context**, его можно получить из **CommonContainer** который прилетает в качестве аргумента в методе `getPluginContainer()` при инициализации плагина.
-Пример реализации можно [посмотреть тут](../plugins/accounts-plugin/src/main/kotlin/com/redmadrobot/account_plugin/plugin/AccountsPluginContainer.kt)
+Пример реализации можно [посмотреть тут](../plugins/accounts-plugin/src/main/kotlin/com/redmadrobot/account/plugin/AccountsPluginContainer.kt)
 
 ## Работа с классом плагина
 

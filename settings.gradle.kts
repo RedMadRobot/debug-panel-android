@@ -31,18 +31,18 @@ dependencyResolutionManagement {
 
 // Base modules
 include(
-    ":debug-panel-common",
-    ":debug-panel-no-op",
-    ":debug-panel-core"
+    ":common",
+    ":no-op",
+    ":core"
 )
 
 // Plugins
 include(
-    ":plugins:accounts-plugin",
-    ":plugins:servers-plugin",
-    ":plugins:app-settings-plugin",
-    ":plugins:flipper-plugin",
-    ":plugins:variable-plugin"
+    ":plugins:accounts",
+    ":plugins:servers",
+    ":plugins:app-settings",
+    ":plugins:flipper",
+    ":plugins:variable"
 )
 
 include(":sample")
