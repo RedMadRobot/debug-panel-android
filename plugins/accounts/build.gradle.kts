@@ -45,7 +45,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    namespace = "com.redmadrobot.debug.accounts"
+    namespace = "com.redmadrobot.debug.plugin.accounts"
 }
 
 kotlin {

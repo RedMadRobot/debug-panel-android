@@ -1,10 +1,10 @@
-package com.redmadrobot.debug.accounts.data.storage
+package com.redmadrobot.debug.plugin.accounts.data.storage
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.redmadrobot.debug.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
 
 @Database(
     entities = [DebugAccount::class],

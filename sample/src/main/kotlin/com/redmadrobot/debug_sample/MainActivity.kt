@@ -7,10 +7,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.redmadrobot.debug.accounts.plugin.AccountSelectedEvent
+import com.redmadrobot.debug.plugin.accounts.AccountSelectedEvent
 import com.redmadrobot.debug.core.internal.DebugPanel
 import com.redmadrobot.debug_sample.network.ApiFactory
-import com.redmadrobot.debugpanel.R
 import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.debug.flipper.plugin.FlipperPlugin

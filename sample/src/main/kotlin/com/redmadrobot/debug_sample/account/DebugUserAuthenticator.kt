@@ -1,7 +1,7 @@
 package com.redmadrobot.debug_sample.account
 
-import com.redmadrobot.debug.accounts.authenticator.DebugAuthenticator
-import com.redmadrobot.debug.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.plugin.accounts.authenticator.DebugAuthenticator
+import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
 import timber.log.Timber
 
 class DebugUserAuthenticator : DebugAuthenticator {

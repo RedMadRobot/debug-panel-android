@@ -1,9 +1,9 @@
-package com.redmadrobot.debug.accounts.plugin
+package com.redmadrobot.debug.plugin.accounts
 
-import com.redmadrobot.debug.accounts.data.LocalDebugAccountRepository
-import com.redmadrobot.debug.accounts.data.model.DebugAccount
-import com.redmadrobot.debug.accounts.data.storage.AccountsPluginDatabase
-import com.redmadrobot.debug.accounts.ui.AccountsViewModel
+import com.redmadrobot.debug.plugin.accounts.data.LocalDebugAccountRepository
+import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.plugin.accounts.data.storage.AccountsPluginDatabase
+import com.redmadrobot.debug.plugin.accounts.ui.AccountsViewModel
 import com.redmadrobot.debug.core.CommonContainer
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 

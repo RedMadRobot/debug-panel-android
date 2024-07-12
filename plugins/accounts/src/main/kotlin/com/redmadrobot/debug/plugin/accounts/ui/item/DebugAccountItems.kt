@@ -1,7 +1,6 @@
-package com.redmadrobot.account_plugin.ui.item
+package com.redmadrobot.debug.plugin.accounts.ui.item
 
-import com.redmadrobot.account_plugin.data.model.DebugAccount
-
+import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
 
 internal sealed class DebugAccountItems {
     internal data class Header(val header: String) : DebugAccountItems()
