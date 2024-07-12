@@ -11,9 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.redmadrobot.debug.core.extension.getAllPlugins
-import com.redmadrobot.debug.panel.core.databinding.BottomSheetDebugPanelBinding
+import com.redmadrobot.debug.core.databinding.BottomSheetDebugPanelBinding
 import com.redmadrobot.debug.panel.common.R as CommonR
-
 
 internal class DebugBottomSheet : BottomSheetDialogFragment() {
 

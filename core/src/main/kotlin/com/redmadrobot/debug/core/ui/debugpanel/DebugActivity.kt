@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
-import com.redmadrobot.debug.panel.core.R
-import com.redmadrobot.debug.panel.core.databinding.ActivityDebugBinding
-import com.redmadrobot.debug.panel.core.databinding.ItemPluginSettingBinding
+import com.redmadrobot.debug.core.R
+import com.redmadrobot.debug.core.databinding.ActivityDebugBinding
+import com.redmadrobot.debug.core.databinding.ItemPluginSettingBinding
 
 internal class DebugActivity : AppCompatActivity() {
 

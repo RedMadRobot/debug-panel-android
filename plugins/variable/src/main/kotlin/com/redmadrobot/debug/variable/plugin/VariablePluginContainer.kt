@@ -2,6 +2,7 @@ package com.redmadrobot.debug.variable.plugin
 
 import com.redmadrobot.debug.core.CommonContainer
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.variable.data.VariableRepository
 import com.redmadrobot.debug.variable.ui.VariableViewModel
 import com.redmadrobot.debug.variable.ui.widgets.BooleanVariableWidget
 import com.redmadrobot.debug.variable.ui.widgets.StringVariableWidget
@@ -18,7 +19,7 @@ internal class VariablePluginContainer(
 ) : PluginDependencyContainer {
 
     val variableRepository by lazy(LazyThreadSafetyMode.NONE) {
-        com.redmadrobot.debug.variable.data.VariableRepository().apply {
+        VariableRepository().apply {
             addWidget(IntVariableWidget())
             addWidget(LongVariableWidget())
             addWidget(ShortVariableWidget())
