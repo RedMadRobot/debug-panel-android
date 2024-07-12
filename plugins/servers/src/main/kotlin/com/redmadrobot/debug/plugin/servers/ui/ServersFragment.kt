@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.servers.ui
+package com.redmadrobot.debug.plugin.servers.ui
 
 import android.os.Bundle
 import android.view.View
@@ -9,16 +9,16 @@ import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.panel.common.databinding.ItemSectionHeaderBinding
-import com.redmadrobot.debug.servers.R
+import com.redmadrobot.debug.plugin.servers.R
 import com.redmadrobot.itemsadapter.ItemsAdapter
-import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.itemsadapter.itemsAdapter
-import com.redmadrobot.debug.servers.data.model.DebugServer
-import com.redmadrobot.debug.servers.databinding.FragmentServersBinding
-import com.redmadrobot.debug.servers.databinding.ItemDebugServerBinding
-import com.redmadrobot.debug.servers.plugin.ServersPlugin
-import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
-import com.redmadrobot.debug.servers.ui.item.DebugServerItems
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.databinding.FragmentServersBinding
+import com.redmadrobot.debug.plugin.servers.databinding.ItemDebugServerBinding
+import com.redmadrobot.debug.plugin.servers.ServersPlugin
+import com.redmadrobot.debug.plugin.servers.ServersPluginContainer
+import com.redmadrobot.debug.plugin.servers.ui.item.DebugServerItems
+import com.redmadrobot.itemsadapter.bind
 import com.redmadrobot.debug.panel.common.R as CommonR
 
 internal class ServersFragment : PluginFragment(R.layout.fragment_servers) {

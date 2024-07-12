@@ -1,7 +1,7 @@
-package com.redmadrobot.debug.servers.data.storage
+package com.redmadrobot.debug.plugin.servers.data.storage
 
 import androidx.room.*
-import com.redmadrobot.debug.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 
 @Dao
 internal interface DebugServersDao {

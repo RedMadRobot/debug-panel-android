@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.servers.data.model
+package com.redmadrobot.debug.plugin.servers.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

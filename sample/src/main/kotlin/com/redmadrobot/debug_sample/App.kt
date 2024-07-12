@@ -13,8 +13,8 @@ import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
 import com.redmadrobot.debug_sample.debug_data.DebugVariableWidgetsProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
-import com.redmadrobot.debug.servers.data.model.DebugServer
-import com.redmadrobot.debug.servers.plugin.ServersPlugin
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.variable.plugin.VariablePlugin
 
 class App : Application() {

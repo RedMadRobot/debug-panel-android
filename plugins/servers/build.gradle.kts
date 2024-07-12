@@ -39,7 +39,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    namespace = "com.redmadrobot.debug.servers"
+    namespace = "com.redmadrobot.debug.plugin.servers"
 }
 
 kotlin {

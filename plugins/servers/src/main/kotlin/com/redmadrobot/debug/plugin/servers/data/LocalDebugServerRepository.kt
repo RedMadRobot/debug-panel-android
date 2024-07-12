@@ -1,8 +1,8 @@
-package com.redmadrobot.debug.servers.data
+package com.redmadrobot.debug.plugin.servers.data
 
 import android.content.Context
-import com.redmadrobot.debug.servers.data.model.DebugServer
-import com.redmadrobot.debug.servers.data.storage.DebugServersDao
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.data.storage.DebugServersDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

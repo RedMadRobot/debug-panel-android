@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.servers.plugin
+package com.redmadrobot.debug.plugin.servers
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -7,8 +7,8 @@ import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
-import com.redmadrobot.debug.servers.data.model.DebugServer
-import com.redmadrobot.debug.servers.ui.ServersFragment
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.ui.ServersFragment
 import kotlinx.coroutines.runBlocking
 
 public class ServersPlugin(

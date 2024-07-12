@@ -1,10 +1,10 @@
-package com.redmadrobot.debug.servers.util
+package com.redmadrobot.debug.plugin.servers.util
 
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.internal.DebugPanel
-import com.redmadrobot.debug.servers.data.model.DebugServer
-import com.redmadrobot.debug.servers.plugin.ServersPlugin
-import com.redmadrobot.debug.servers.plugin.ServersPluginContainer
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.ServersPlugin
+import com.redmadrobot.debug.plugin.servers.ServersPluginContainer
 import kotlinx.coroutines.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
