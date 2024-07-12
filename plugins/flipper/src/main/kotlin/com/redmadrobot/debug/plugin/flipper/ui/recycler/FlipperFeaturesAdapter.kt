@@ -1,15 +1,15 @@
-package com.redmadrobot.debug.flipper.ui.recycler
+package com.redmadrobot.debug.plugin.flipper.ui.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.redmadrobot.debug.flipper.databinding.ItemFlipperFeatureBooleanBinding
-import com.redmadrobot.debug.flipper.databinding.ItemFlipperFeatureGroupBinding
-import com.redmadrobot.debug.flipper.databinding.ItemFlipperFeatureStringBinding
-import com.redmadrobot.debug.flipper.ui.data.FlipperItem
-import com.redmadrobot.debug.flipper.ui.data.FlipperItem.Feature
-import com.redmadrobot.debug.flipper.ui.data.FlipperItem.Group
+import com.redmadrobot.debug.plugin.flipper.databinding.ItemFlipperFeatureBooleanBinding
+import com.redmadrobot.debug.plugin.flipper.databinding.ItemFlipperFeatureGroupBinding
+import com.redmadrobot.debug.plugin.flipper.databinding.ItemFlipperFeatureStringBinding
+import com.redmadrobot.debug.plugin.flipper.ui.data.FlipperItem
+import com.redmadrobot.debug.plugin.flipper.ui.data.FlipperItem.Feature
+import com.redmadrobot.debug.plugin.flipper.ui.data.FlipperItem.Group
 import com.redmadrobot.flipper.config.FlipperValue
 
 internal class FlipperFeaturesAdapter(

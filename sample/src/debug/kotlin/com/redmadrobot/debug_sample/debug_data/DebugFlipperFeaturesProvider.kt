@@ -2,7 +2,7 @@ package com.redmadrobot.debug_sample.debug_data
 
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.debug.flipper.plugin.PluginToggle
+import com.redmadrobot.debug.plugin.flipper.PluginToggle
 import kotlin.random.Random
 
 internal class DebugFlipperFeaturesProvider : DebugDataProvider<List<PluginToggle>> {

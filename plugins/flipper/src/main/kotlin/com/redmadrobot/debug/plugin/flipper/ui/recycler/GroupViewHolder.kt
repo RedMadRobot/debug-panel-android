@@ -1,9 +1,9 @@
-package com.redmadrobot.debug.flipper.ui.recycler
+package com.redmadrobot.debug.plugin.flipper.ui.recycler
 
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.redmadrobot.debug.flipper.databinding.ItemFlipperFeatureGroupBinding
+import com.redmadrobot.debug.plugin.flipper.databinding.ItemFlipperFeatureGroupBinding
 
 internal class GroupViewHolder(
     itemView: View,

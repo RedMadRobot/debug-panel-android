@@ -1,10 +1,10 @@
-package com.redmadrobot.debug.flipper.ui.dialog.recycler
+package com.redmadrobot.debug.plugin.flipper.ui.dialog.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.redmadrobot.debug.flipper.databinding.ItemFlipperSourceBinding
-import com.redmadrobot.debug.flipper.ui.dialog.data.SelectableSource
+import com.redmadrobot.debug.plugin.flipper.databinding.ItemFlipperSourceBinding
+import com.redmadrobot.debug.plugin.flipper.ui.dialog.data.SelectableSource
 
 internal class SourceSelectionAdapter(
     private val onSourceClick: (name: String) -> Unit,

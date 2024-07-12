@@ -1,8 +1,8 @@
-package com.redmadrobot.debug.flipper.ui.recycler
+package com.redmadrobot.debug.plugin.flipper.ui.recycler
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.redmadrobot.debug.flipper.databinding.ItemFlipperFeatureBooleanBinding
+import com.redmadrobot.debug.plugin.flipper.databinding.ItemFlipperFeatureBooleanBinding
 import com.redmadrobot.flipper.config.FlipperValue
 
 internal class BooleanFeatureViewHolder(

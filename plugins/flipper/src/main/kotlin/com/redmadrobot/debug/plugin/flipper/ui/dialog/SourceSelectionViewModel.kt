@@ -1,12 +1,12 @@
-package com.redmadrobot.debug.flipper.ui.dialog
+package com.redmadrobot.debug.plugin.flipper.ui.dialog
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.common.base.PluginViewModel
-import com.redmadrobot.debug.flipper.R
-import com.redmadrobot.debug.flipper.data.FeatureTogglesRepository
-import com.redmadrobot.debug.flipper.data.FeatureTogglesSource
-import com.redmadrobot.debug.flipper.ui.dialog.data.SelectableSource
+import com.redmadrobot.debug.plugin.flipper.R
+import com.redmadrobot.debug.plugin.flipper.data.FeatureTogglesRepository
+import com.redmadrobot.debug.plugin.flipper.data.FeatureTogglesSource
+import com.redmadrobot.debug.plugin.flipper.ui.dialog.data.SelectableSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*

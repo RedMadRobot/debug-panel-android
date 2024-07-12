@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.flipper.ui.data
+package com.redmadrobot.debug.plugin.flipper.ui.data
 
 import com.redmadrobot.flipper.config.FlipperValue
 

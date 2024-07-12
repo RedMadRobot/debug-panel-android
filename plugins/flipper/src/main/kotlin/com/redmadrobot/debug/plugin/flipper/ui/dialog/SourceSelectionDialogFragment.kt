@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.flipper.ui.dialog
+package com.redmadrobot.debug.plugin.flipper.ui.dialog
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -11,11 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.debug.flipper.R
-import com.redmadrobot.debug.flipper.databinding.DialogFlipperSourceBinding
-import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
-import com.redmadrobot.debug.flipper.plugin.FlipperPluginContainer
-import com.redmadrobot.debug.flipper.ui.dialog.recycler.SourceSelectionAdapter
+import com.redmadrobot.debug.plugin.flipper.R
+import com.redmadrobot.debug.plugin.flipper.databinding.DialogFlipperSourceBinding
+import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
+import com.redmadrobot.debug.plugin.flipper.FlipperPluginContainer
+import com.redmadrobot.debug.plugin.flipper.ui.dialog.recycler.SourceSelectionAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

@@ -1,11 +1,11 @@
-package com.redmadrobot.debug.flipper.ui
+package com.redmadrobot.debug.plugin.flipper.ui
 
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.debug.flipper.data.FeatureTogglesRepository
-import com.redmadrobot.debug.flipper.plugin.PluginToggle
-import com.redmadrobot.debug.flipper.ui.data.FlipperItem
+import com.redmadrobot.debug.plugin.flipper.data.FeatureTogglesRepository
+import com.redmadrobot.debug.plugin.flipper.PluginToggle
+import com.redmadrobot.debug.plugin.flipper.ui.data.FlipperItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.flipper.ui
+package com.redmadrobot.debug.plugin.flipper.ui
 
 import android.os.Bundle
 import android.view.View
@@ -9,12 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.debug.flipper.R
-import com.redmadrobot.debug.flipper.databinding.FragmentFlipperFeaturesBinding
-import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
-import com.redmadrobot.debug.flipper.plugin.FlipperPluginContainer
-import com.redmadrobot.debug.flipper.ui.dialog.SourceSelectionDialogFragment
-import com.redmadrobot.debug.flipper.ui.recycler.FlipperFeaturesAdapter
+import com.redmadrobot.debug.plugin.flipper.R
+import com.redmadrobot.debug.plugin.flipper.databinding.FragmentFlipperFeaturesBinding
+import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
+import com.redmadrobot.debug.plugin.flipper.FlipperPluginContainer
+import com.redmadrobot.debug.plugin.flipper.ui.dialog.SourceSelectionDialogFragment
+import com.redmadrobot.debug.plugin.flipper.ui.recycler.FlipperFeaturesAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
