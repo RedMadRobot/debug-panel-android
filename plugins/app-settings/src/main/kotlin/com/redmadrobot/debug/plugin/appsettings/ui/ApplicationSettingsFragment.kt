@@ -1,13 +1,13 @@
-package com.redmadrobot.debug.appsettings.ui
+package com.redmadrobot.debug.plugin.appsettings.ui
 
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.debug.app_settings.R
-import com.redmadrobot.debug.app_settings.databinding.FragmentAppSettingsBinding
-import com.redmadrobot.debug.appsettings.plugin.AppSettingsPlugin
-import com.redmadrobot.debug.appsettings.plugin.AppSettingsPluginContainer
-import com.redmadrobot.debug.appsettings.ui.item.AppSettingItems
+import com.redmadrobot.debug.plugin.appsettings.R
+import com.redmadrobot.debug.plugin.appsettings.databinding.FragmentAppSettingsBinding
+import com.redmadrobot.debug.plugin.appsettings.AppSettingsPlugin
+import com.redmadrobot.debug.plugin.appsettings.AppSettingsPluginContainer
+import com.redmadrobot.debug.plugin.appsettings.ui.item.AppSettingItems
 import com.redmadrobot.debug.common.base.PluginFragment
 import com.redmadrobot.debug.common.extension.observe
 import com.redmadrobot.debug.common.extension.obtainViewModel

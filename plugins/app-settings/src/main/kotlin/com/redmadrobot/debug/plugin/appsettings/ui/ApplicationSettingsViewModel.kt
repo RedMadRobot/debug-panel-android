@@ -1,9 +1,9 @@
-package com.redmadrobot.debug.appsettings.ui
+package com.redmadrobot.debug.plugin.appsettings.ui
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug.appsettings.data.AppSettingsRepository
-import com.redmadrobot.debug.appsettings.ui.item.AppSettingItems
+import com.redmadrobot.debug.plugin.appsettings.data.AppSettingsRepository
+import com.redmadrobot.debug.plugin.appsettings.ui.item.AppSettingItems
 import com.redmadrobot.debug.common.base.PluginViewModel
 
 internal class ApplicationSettingsViewModel(

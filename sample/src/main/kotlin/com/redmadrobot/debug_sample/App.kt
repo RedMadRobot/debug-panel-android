@@ -3,7 +3,7 @@ package com.redmadrobot.debug_sample
 import android.app.Application
 import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
 import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
-import com.redmadrobot.debug.appsettings.plugin.AppSettingsPlugin
+import com.redmadrobot.debug.plugin.appsettings.AppSettingsPlugin
 import com.redmadrobot.debug.core.internal.DebugPanel
 import com.redmadrobot.debug.core.internal.DebugPanelConfig
 import com.redmadrobot.debug_sample.account.DebugUserAuthenticator

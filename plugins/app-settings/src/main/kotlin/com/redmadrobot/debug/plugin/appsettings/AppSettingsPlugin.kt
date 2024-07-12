@@ -1,9 +1,9 @@
-package com.redmadrobot.debug.appsettings.plugin
+package com.redmadrobot.debug.plugin.appsettings
 
 import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
-import com.redmadrobot.debug.appsettings.data.DefaultSharedPreferences
-import com.redmadrobot.debug.appsettings.ui.ApplicationSettingsFragment
+import com.redmadrobot.debug.plugin.appsettings.data.DefaultSharedPreferences
+import com.redmadrobot.debug.plugin.appsettings.ui.ApplicationSettingsFragment
 import com.redmadrobot.debug.core.CommonContainer
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer

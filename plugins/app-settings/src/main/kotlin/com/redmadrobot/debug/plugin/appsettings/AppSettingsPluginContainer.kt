@@ -1,8 +1,8 @@
-package com.redmadrobot.debug.appsettings.plugin
+package com.redmadrobot.debug.plugin.appsettings
 
 import android.content.SharedPreferences
-import com.redmadrobot.debug.appsettings.data.AppSettingsRepositoryImpl
-import com.redmadrobot.debug.appsettings.ui.ApplicationSettingsViewModel
+import com.redmadrobot.debug.plugin.appsettings.data.AppSettingsRepositoryImpl
+import com.redmadrobot.debug.plugin.appsettings.ui.ApplicationSettingsViewModel
 import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
 
 internal class AppSettingsPluginContainer(
