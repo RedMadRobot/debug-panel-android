@@ -1,3 +1,3 @@
-package com.redmadrobot.debug.variable.ui.widgets.numbers
+package com.redmadrobot.debug.plugin.variable.ui.widgets.numbers
 
 internal class DoubleVariableWidget : NumberVariableWidget<Double>(Double::class)

@@ -1,12 +1,12 @@
-package com.redmadrobot.debug.variable.ui.widgets
+package com.redmadrobot.debug.plugin.variable.ui.widgets
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.redmadrobot.debug.variable.plugin.VariableItem
-import com.redmadrobot.debug.variable.plugin.VariableWidget
-import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
-import com.redmadrobot.debug.variable.databinding.ItemVariableBooleanBinding
+import com.redmadrobot.debug.plugin.variable.VariableItem
+import com.redmadrobot.debug.plugin.variable.VariableWidget
+import com.redmadrobot.debug.plugin.variable.VariableWidgetViewHolder
+import com.redmadrobot.debug.plugin.variable.databinding.ItemVariableBooleanBinding
 
 internal class BooleanVariableWidget : VariableWidget<Boolean>(Boolean::class){
 

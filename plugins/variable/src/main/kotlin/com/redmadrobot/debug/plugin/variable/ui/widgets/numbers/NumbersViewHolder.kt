@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.variable.ui.widgets.numbers
+package com.redmadrobot.debug.plugin.variable.ui.widgets.numbers
 
 import android.os.Build
 import android.text.InputFilter
@@ -6,10 +6,10 @@ import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.View
 import androidx.core.widget.addTextChangedListener
-import com.redmadrobot.debug.variable.extensions.toNumberSafe
-import com.redmadrobot.debug.variable.plugin.VariableItem
-import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
-import com.redmadrobot.debug.variable.databinding.ItemVariableNumberBinding
+import com.redmadrobot.debug.plugin.variable.extensions.toNumberSafe
+import com.redmadrobot.debug.plugin.variable.VariableItem
+import com.redmadrobot.debug.plugin.variable.VariableWidgetViewHolder
+import com.redmadrobot.debug.plugin.variable.databinding.ItemVariableNumberBinding
 import java.util.Locale
 import kotlin.reflect.KClass
 

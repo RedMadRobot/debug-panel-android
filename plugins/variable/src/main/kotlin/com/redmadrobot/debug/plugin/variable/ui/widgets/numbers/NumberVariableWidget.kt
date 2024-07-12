@@ -1,14 +1,14 @@
-package com.redmadrobot.debug.variable.ui.widgets.numbers
+package com.redmadrobot.debug.plugin.variable.ui.widgets.numbers
 
 import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.redmadrobot.debug.variable.plugin.VariableWidget
-import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
-import com.redmadrobot.debug.variable.plugin.VariableWidgetSettingsViewHolder
-import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
-import com.redmadrobot.debug.variable.databinding.ItemVariableNumberBinding
-import com.redmadrobot.debug.variable.databinding.ItemVariableNumberSettingsBinding
+import com.redmadrobot.debug.plugin.variable.VariableWidget
+import com.redmadrobot.debug.plugin.variable.VariableWidgetSettings
+import com.redmadrobot.debug.plugin.variable.VariableWidgetSettingsViewHolder
+import com.redmadrobot.debug.plugin.variable.VariableWidgetViewHolder
+import com.redmadrobot.debug.plugin.variable.databinding.ItemVariableNumberBinding
+import com.redmadrobot.debug.plugin.variable.databinding.ItemVariableNumberSettingsBinding
 import kotlin.reflect.KClass
 
 internal abstract class NumberVariableWidget<T : Number>(

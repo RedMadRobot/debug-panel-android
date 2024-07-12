@@ -1,10 +1,10 @@
-package com.redmadrobot.debug.variable.ui.widgets.numbers
+package com.redmadrobot.debug.plugin.variable.ui.widgets.numbers
 
 import android.text.TextWatcher
 import android.view.View
 import androidx.core.widget.addTextChangedListener
-import com.redmadrobot.debug.variable.plugin.VariableWidgetSettingsViewHolder
-import com.redmadrobot.debug.variable.databinding.ItemVariableNumberSettingsBinding
+import com.redmadrobot.debug.plugin.variable.VariableWidgetSettingsViewHolder
+import com.redmadrobot.debug.plugin.variable.databinding.ItemVariableNumberSettingsBinding
 
 internal open class NumbersSettingsViewHolder<T : Number, TSettings : NumberSettings<T>>(
     itemView: View,

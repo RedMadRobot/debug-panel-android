@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.variable.ui
+package com.redmadrobot.debug.plugin.variable.ui
 
 import android.os.Bundle
 import android.view.View
@@ -6,11 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.debug.variable.plugin.VariablePlugin
-import com.redmadrobot.debug.variable.plugin.VariablePluginContainer
-import com.redmadrobot.debug.variable.ui.recycler.VariableAdapter
-import com.redmadrobot.debug.variable.R
-import com.redmadrobot.debug.variable.databinding.FragmentVariableBinding
+import com.redmadrobot.debug.plugin.variable.VariablePlugin
+import com.redmadrobot.debug.plugin.variable.VariablePluginContainer
+import com.redmadrobot.debug.plugin.variable.ui.recycler.VariableAdapter
+import com.redmadrobot.debug.plugin.variable.R
+import com.redmadrobot.debug.plugin.variable.databinding.FragmentVariableBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

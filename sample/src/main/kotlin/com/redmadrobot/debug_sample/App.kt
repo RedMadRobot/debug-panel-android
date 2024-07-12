@@ -15,7 +15,7 @@ import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.ServersPlugin
-import com.redmadrobot.debug.variable.plugin.VariablePlugin
+import com.redmadrobot.debug.plugin.variable.VariablePlugin
 
 class App : Application() {
     override fun onCreate() {

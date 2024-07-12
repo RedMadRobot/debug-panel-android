@@ -40,7 +40,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    namespace = "com.redmadrobot.debug.variable"
+    namespace = "com.redmadrobot.debug.plugin.variable"
 }
 
 dependencies {

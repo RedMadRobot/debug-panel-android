@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import com.redmadrobot.debug.core.data.DebugDataProvider
-import com.redmadrobot.debug.variable.plugin.VariableItem
-import com.redmadrobot.debug.variable.plugin.VariableWidget
-import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
-import com.redmadrobot.debug.variable.plugin.VariableWidgetSettingsViewHolder
-import com.redmadrobot.debug.variable.plugin.VariableWidgetViewHolder
+import com.redmadrobot.debug.plugin.variable.VariableItem
+import com.redmadrobot.debug.plugin.variable.VariableWidget
+import com.redmadrobot.debug.plugin.variable.VariableWidgetSettings
+import com.redmadrobot.debug.plugin.variable.VariableWidgetSettingsViewHolder
+import com.redmadrobot.debug.plugin.variable.VariableWidgetViewHolder
 import com.redmadrobot.debugpanel.R
 import java.time.LocalDateTime
 import java.time.Year

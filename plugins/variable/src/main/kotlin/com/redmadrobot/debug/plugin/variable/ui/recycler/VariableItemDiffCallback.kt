@@ -1,7 +1,7 @@
-package com.redmadrobot.debug.variable.ui.recycler
+package com.redmadrobot.debug.plugin.variable.ui.recycler
 
 import androidx.recyclerview.widget.DiffUtil
-import com.redmadrobot.debug.variable.plugin.VariableItem
+import com.redmadrobot.debug.plugin.variable.VariableItem
 
 internal class VariableItemDiffCallback : DiffUtil.ItemCallback<VariableItem<Any>>() {
 

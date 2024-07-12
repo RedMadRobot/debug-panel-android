@@ -1,7 +1,7 @@
-package com.redmadrobot.debug.variable.ui.widgets.numbers
+package com.redmadrobot.debug.plugin.variable.ui.widgets.numbers
 
-import com.redmadrobot.debug.variable.plugin.VariableItem
-import com.redmadrobot.debug.variable.plugin.VariableWidgetSettings
+import com.redmadrobot.debug.plugin.variable.VariableItem
+import com.redmadrobot.debug.plugin.variable.VariableWidgetSettings
 
 internal open class NumberSettings<T : Number>(
     var incrementStep: Double = .0,

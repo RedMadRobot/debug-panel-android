@@ -14,7 +14,7 @@ import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
 import com.redmadrobot.flipper.config.FlipperValue
 import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
 import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent
-import com.redmadrobot.debug.variable.plugin.asDebugVariable
+import com.redmadrobot.debug.plugin.variable.asDebugVariable
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
