@@ -23,26 +23,37 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
+    }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(androidx.appcompat)
+    implementation(androidx.compose.runtime)
     implementation(stack.material)
     implementation(androidx.constraintlayout)
     implementation(rmr.flipper)
     implementation(stack.timber)
     implementation(stack.kotlinx.coroutines.android)
     implementation(androidx.lifecycle.runtime)
+    debugImplementation(project(":core"))
+    debugImplementation(project(":plugins:servers"))
 
     // Debug panel dependencies
-    debugImplementation(project(":debug-panel-core"))
-    debugImplementation(project(":plugins:servers-plugin"))
-    debugImplementation(project(":plugins:accounts-plugin"))
-    debugImplementation(project(":plugins:app-settings-plugin"))
-    debugImplementation(project(":plugins:flipper-plugin"))
-    debugImplementation(project(":plugins:variable-plugin"))
+    debugImplementation(project(":plugins:accounts"))
+    debugImplementation(project(":plugins:app-settings"))
+    debugImplementation(project(":plugins:flipper"))
+    debugImplementation(project(":plugins:variable"))
 //    debugImplementation("com.redmadrobot.debug:panel-core:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:accounts-plugin:${project.version}")
 //    debugImplementation("com.redmadrobot.debug:servers-plugin:${project.version}")
@@ -51,7 +62,7 @@ dependencies {
 //    debugImplementation("com.redmadrobot.debug:variable-plugin:${project.version}")
 
     //No-op dependency
-    releaseImplementation(project(":debug-panel-no-op"))
+    releaseImplementation(project(":no-op"))
 //    releaseImplementation("com.redmadrobot.debug:panel-no-op:${project.version}")
 
     implementation(stack.retrofit)

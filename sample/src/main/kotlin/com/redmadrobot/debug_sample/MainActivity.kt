@@ -7,15 +7,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.redmadrobot.account_plugin.plugin.AccountSelectedEvent
-import com.redmadrobot.debug_panel_core.internal.DebugPanel
+import com.redmadrobot.debug.accounts.plugin.AccountSelectedEvent
+import com.redmadrobot.debug.core.internal.DebugPanel
+import com.redmadrobot.debug.flipper.plugin.FlipperPlugin
+import com.redmadrobot.debug.servers.plugin.ServerSelectedEvent
+import com.redmadrobot.debug.variable.plugin.asDebugVariable
 import com.redmadrobot.debug_sample.network.ApiFactory
-import com.redmadrobot.debugpanel.R
 import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
 import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
-import com.redmadrobot.servers_plugin.plugin.ServerSelectedEvent
-import com.redmadrobot.variable_plugin.plugin.asDebugVariable
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -54,10 +53,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         DebugPanel.observeEvents()
-            ?.onEach { event ->
+            .onEach { event ->
                 when (event) {
                     is AccountSelectedEvent -> {
-                        //Обработка выбора аккаунта
+                        showSelectedAccount(event.debugAccount.login)
                     }
 
                     is ServerSelectedEvent -> {
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            ?.launchIn(lifecycleScope)
+            .launchIn(lifecycleScope)
     }
 
     private fun ActivityMainBinding.setViews() {
@@ -143,8 +142,18 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
+    private fun showSelectedAccount(account: String) {
+        Toast.makeText(
+            this,
+            "Account $account selected",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+
     private fun chooseAccount() {
-        DebugPanel.showPanel(supportFragmentManager)
+        DebugPanel.showPanel(this)
+//        DebugPanel.showPanel(supportFragmentManager)
     }
 
     @OptIn(DelicateCoroutinesApi::class)
