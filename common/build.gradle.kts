@@ -45,7 +45,9 @@ android {
 
 dependencies {
     api(androidx.compose.animation)
-    api(stack.material.compose.themeAdapter)
+    api(androidx.compose.material)
+    api(stack.accompanist.themeadapter.core)
+    api(stack.accompanist.themeadapter.material)
     api(androidx.compose.material)
     api(androidx.compose.foundation)
     api(androidx.compose.ui)
