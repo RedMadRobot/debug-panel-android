@@ -5,15 +5,27 @@ package com.redmadrobot.debug.core.inapp.compose
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -33,10 +45,11 @@ import com.redmadrobot.debug.panel.common.R as CommonR
 public fun DebugBottomSheet(onClose: () -> Unit) {
     val state = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = {
+        confirmValueChange = {
             if (it == ModalBottomSheetValue.Hidden) onClose()
             true
-        }
+        },
+        skipHalfExpanded = true
     )
 
     MdcTheme(context = ContextThemeWrapper(LocalContext.current, CommonR.style.DebugPanelTheme)) {
@@ -45,9 +58,6 @@ public fun DebugBottomSheet(onClose: () -> Unit) {
             sheetState = state,
             content = {}
         )
-    }
-    LaunchedEffect(true) {
-        state.animateTo(target = ModalBottomSheetValue.HalfExpanded)
     }
 }
 
