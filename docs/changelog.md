@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.0
+### Изменения
+* Переименованы модули.
+* Gradle обновлен до 8.7
+* compileSdk и targetSdk повышены до 34
+* Добавлена возможность открыть DebugPanel без FragmentManager
+* Добавлена поддержка Jetpack Compose
+* accounts-plugin переведен на Jetpack Compose
+* app-settings-plugin переведен на Jetpack Compose
+* flipper-plugin переведен на Jetpack Compose
+* servers-plugin переведен на Jetpack Compose
+* Breaking changes - Изменены наименования пакетов во всех модулях. Приведены к общему виду.
+
 ## 0.8.1
 ### Изменения
 * Исправлен краш при остановке активити (#13)
