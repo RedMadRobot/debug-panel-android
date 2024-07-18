@@ -8,12 +8,12 @@ import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
-import com.redmadrobot.debug.plugin.accounts.databinding.DialogAddAccountBinding
-import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
-import com.redmadrobot.debug.plugin.accounts.AccountsPluginContainer
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
+import com.redmadrobot.debug.plugin.accounts.AccountsPluginContainer
+import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.plugin.accounts.databinding.DialogAddAccountBinding
 
 internal class AddAccountDialog : DialogFragment() {
 
@@ -108,12 +108,21 @@ internal class AddAccountDialog : DialogFragment() {
         val login = binding.accountLogin.text.toString()
         val password = binding.accountPassword.text.toString()
         val pin = binding.accountPin.text.toString()
-        if (isEditMode) {
-            id?.let { id ->
+
+        id?.let { id ->
+            if (isEditMode) {
                 sharedViewModel.updateAccount(id, login, password, pin)
+            } else {
+                val debugAccount = DebugAccount(
+                    id = id,
+                    login = login,
+                    password = password,
+                    pin = pin
+                )
+
+                sharedViewModel.saveAccount(debugAccount)
+
             }
-        } else {
-            sharedViewModel.saveAccount(login, password, pin)
         }
         dialog?.dismiss()
     }
