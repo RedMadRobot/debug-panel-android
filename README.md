@@ -10,7 +10,7 @@
 
 ---
 
-**[Changelog][changelog]** | **[Документация по разработке плагинов][plugin-development-doc]**
+**[Changelog][changelog]** | **[Документация по разработке плагинов][plugin-development-doc]** | **[Миграция не новые версии][migration-guide]**
 
 Тебе надоело каждый раз вручную вбивать логин и пароль тестового пользователя или пересобирать приложение для того чтобы поменять сервер в настройках? Эта библиотека разрабатывается с идеей решить эти и другие проблемы, и сделать процесс отладки приложения более удобным. 
 
@@ -348,4 +348,5 @@ ServersPlugin(
 
 [plugin-development-doc]:docs/plugin_development.md
 [changelog]: docs/changelog.md
+[migration-guide]: docs/migration_guide.md
 [license]: LICENSE
