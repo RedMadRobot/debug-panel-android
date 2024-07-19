@@ -11,7 +11,7 @@
 * app-settings-plugin переведен на Jetpack Compose
 * flipper-plugin переведен на Jetpack Compose
 * servers-plugin переведен на Jetpack Compose
-* Breaking changes - Изменены наименования пакетов во всех модулях. Приведены к общему виду.
+* [Breaking changes][migration-guide] - Изменены наименования пакетов во всех модулях. Приведены к общему виду.
 
 ## 0.8.1
 ### Изменения
@@ -72,3 +72,4 @@
 * Исправлена проблема с задвоением логов при использовании Timber.
 * Исправлены мелкие баги.
 
+[migration-guide]: migration_guide.md

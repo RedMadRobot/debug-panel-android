@@ -2,66 +2,50 @@
 
 ## Миграция на версию 0.9.0
 
-### Изменения нейминга и структуры пакетов:
+### Изменения нейминга и структуры пакетов
 
 ```diff
 - import com.redmadrobot.account_plugin.plugin.AccountsPlugin
 + import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
-```
 
-```diff
 - import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
 + import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
-```
 
-```diff
 - import com.redmadrobot.debug.appsettings.plugin.AppSettingsPlugin
 + import com.redmadrobot.debug.plugin.appsettings.AppSettingsPlugin
-```
 
-```diff
 - import com.redmadrobot.debug.servers.data.model.DebugServer
 + import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-```
 
-```diff
 - import com.redmadrobot.debug.servers.plugin.ServersPlugin
 + import com.redmadrobot.debug.plugin.servers.ServersPlugin
-```
 
-```diff
 - import com.redmadrobot.debug.variable.plugin.VariablePlugin
 + import com.redmadrobot.debug.plugin.variable.VariablePlugin
-```
 
-```diff
 - import com.redmadrobot.debug_panel_core.internal.DebugPanel
 + import com.redmadrobot.debug.core.internal.DebugPanel
 ```
 
-### Возможность отображения DebugPanel без использования FragmentManager:
+### Возможность отображения DebugPanel без использования FragmentManager
 
-> Для оботражения необходимо вызвать метод `showPanel` у объекта `DebugPanel`
->
-> ```kotlin
-> public fun showPanel(activity: Activity)
-> ```
->
-> При этом можно использовать старый метод через `FragmentManager`
->
-> ```kotlin
-> public fun showPanel(fragmentManager: FragmentManager)
-> ```
->
+Вместо метода `DebugPanel.showPanel(FragmentManager)` следует использовать `DebugPanel.showPanel(Activity)`
 
-### Изменены идентификаторы конфигурации Maven:
+### Изменения Maven-координатов библиотек
 
-`accounts-plugin` -> `plugin-accounts`
+```diff
+- debugImplementation("com.redmadrobot.debug:accounts-plugin:<version>")
++ debugImplementation("com.redmadrobot.debug:plugin-accounts:<version>")
 
-`app-settings-plugin` -> `plugin-app-settings`
+- debugImplementation("com.redmadrobot.debug:app-settings-plugin:<version>")
++ debugImplementation("com.redmadrobot.debug:plugin-app-settings:<version>")
 
-`flipper-plugin` -> `plugin-flipper`
+- debugImplementation("com.redmadrobot.debug:flipper-plugin:<version>")
++ debugImplementation("com.redmadrobot.debug:plugin-flipper:<version>")
 
-`servers-plugin` -> `plugin-servers`
+- debugImplementation("com.redmadrobot.debug:servers-plugin:<version>")
++ debugImplementation("com.redmadrobot.debug:plugin-servers:<version>")
 
-`variable-plugin` -> `plugin-variable`
+- debugImplementation("com.redmadrobot.debug:variable-plugin:<version>")
++ debugImplementation("com.redmadrobot.debug:plugin-variable:<version>")
+```

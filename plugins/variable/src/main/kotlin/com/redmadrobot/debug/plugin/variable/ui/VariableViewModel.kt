@@ -4,12 +4,13 @@ import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.plugin.variable.VariableItem
 import com.redmadrobot.debug.plugin.variable.VariableWidget
 import com.redmadrobot.debug.plugin.variable.VariableWidgetSettings
+import com.redmadrobot.debug.plugin.variable.data.VariableRepository
 import com.redmadrobot.debug.plugin.variable.ui.model.VariableEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class VariableViewModel(
-    private val repository: com.redmadrobot.debug.plugin.variable.data.VariableRepository,
+    private val repository: VariableRepository,
 ) : PluginViewModel() {
 
     val modifiers: Flow<List<VariableItem<Any>>>
