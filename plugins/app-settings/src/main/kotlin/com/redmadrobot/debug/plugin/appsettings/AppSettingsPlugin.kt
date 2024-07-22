@@ -4,9 +4,9 @@ import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.plugin.appsettings.data.DefaultSharedPreferences
 import com.redmadrobot.debug.plugin.appsettings.ui.ApplicationSettingsFragment
-import com.redmadrobot.debug.core.CommonContainer
+import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 
 public class AppSettingsPlugin(
     private val sharedPreferences: List<SharedPreferences> = listOf(DefaultSharedPreferences())

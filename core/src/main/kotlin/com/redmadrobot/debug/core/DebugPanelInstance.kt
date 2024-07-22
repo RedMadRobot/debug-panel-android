@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug.core.internal.DebugEvent
+import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.plugin.PluginManager
 import kotlinx.coroutines.channels.BufferOverflow

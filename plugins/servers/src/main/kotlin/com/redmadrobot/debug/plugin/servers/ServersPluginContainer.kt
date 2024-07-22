@@ -1,7 +1,7 @@
 package com.redmadrobot.debug.plugin.servers
 
-import com.redmadrobot.debug.core.CommonContainer
-import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.core.internal.CommonContainer
+import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.plugin.servers.data.LocalDebugServerRepository
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.storage.ServersPluginDatabase

@@ -11,7 +11,7 @@
 * app-settings-plugin переведен на Jetpack Compose
 * flipper-plugin переведен на Jetpack Compose
 * servers-plugin переведен на Jetpack Compose
-* [Breaking changes][migration-guide] - Изменены наименования пакетов во всех модулях. Приведены к общему виду.
+* **Breaking changes:** Изменены Maven-координаты библиотек. Наименования пакетов во всех модулях приведены к общему виду. См. [гайд по миграции][migration-guide].
 
 ## 0.8.1
 ### Изменения

@@ -1,6 +1,6 @@
 package com.redmadrobot.debug.core.plugin
 
-import com.redmadrobot.debug.core.CommonContainer
+import com.redmadrobot.debug.core.internal.CommonContainer
 
 
 internal class PluginManager(val plugins: List<Plugin>) {

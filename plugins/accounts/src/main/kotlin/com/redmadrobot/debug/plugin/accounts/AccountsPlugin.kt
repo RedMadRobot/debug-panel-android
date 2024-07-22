@@ -6,10 +6,10 @@ import com.redmadrobot.debug.plugin.accounts.authenticator.DebugAuthenticator
 import com.redmadrobot.debug.plugin.accounts.authenticator.DefaultAuthenticator
 import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
 import com.redmadrobot.debug.plugin.accounts.ui.AccountsFragment
-import com.redmadrobot.debug.core.CommonContainer
+import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 
 public class AccountsPlugin(
     private val preInstalledAccounts: List<DebugAccount> = emptyList(),

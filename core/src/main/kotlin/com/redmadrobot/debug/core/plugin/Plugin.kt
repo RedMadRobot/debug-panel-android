@@ -1,9 +1,10 @@
 package com.redmadrobot.debug.core.plugin
 
 import androidx.fragment.app.Fragment
-import com.redmadrobot.debug.core.CommonContainer
+import com.redmadrobot.debug.core.DebugEvent
 import com.redmadrobot.debug.core.DebugPanelInstance
-import com.redmadrobot.debug.core.internal.DebugEvent
+import com.redmadrobot.debug.core.internal.CommonContainer
+import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 
 public abstract class Plugin {
 

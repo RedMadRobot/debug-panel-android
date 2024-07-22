@@ -3,10 +3,10 @@ package com.redmadrobot.debug.plugin.variable
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.redmadrobot.debug.core.CommonContainer
+import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.debug.core.plugin.PluginDependencyContainer
+import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.plugin.variable.ui.VariableFragment
 import kotlin.reflect.KClass
 
