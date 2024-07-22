@@ -1,18 +1,18 @@
-package com.redmadrobot.debug.core.internal
+package com.redmadrobot.debug.core
 
 import android.app.Application
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.redmadrobot.debug.core.DebugPanelInstance
 import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import com.redmadrobot.debug.core.inapp.DebugBottomSheet
+import com.redmadrobot.debug.core.internal.DebugEvent
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.util.ApplicationLifecycleHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-@DebugPanelInternal
+@OptIn(DebugPanelInternal::class)
 public object DebugPanel {
 
     private var instance: DebugPanelInstance? = null
@@ -45,6 +45,4 @@ public object DebugPanel {
     private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {
         instance = DebugPanelInstance(application, plugins)
     }
-
-
 }

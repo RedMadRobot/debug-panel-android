@@ -1,8 +1,9 @@
-package com.redmadrobot.debug.core.internal
+package com.redmadrobot.debug.core
 
 import android.app.Application
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import com.redmadrobot.debug.core.internal.DebugEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

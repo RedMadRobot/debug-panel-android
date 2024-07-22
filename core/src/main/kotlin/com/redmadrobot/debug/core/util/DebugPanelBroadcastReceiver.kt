@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.FragmentManager
-import com.redmadrobot.debug.core.internal.DebugPanel
+import com.redmadrobot.debug.core.DebugPanel
 
 internal class DebugPanelBroadcastReceiver(
     private val supportFragmentManager: FragmentManager
