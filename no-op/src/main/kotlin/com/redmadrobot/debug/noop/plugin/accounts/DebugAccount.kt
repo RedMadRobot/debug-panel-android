@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.accounts.data.model
+package com.redmadrobot.debug.plugin.accounts.data.model
 
 data class DebugAccount(
     val id: Int = 0,

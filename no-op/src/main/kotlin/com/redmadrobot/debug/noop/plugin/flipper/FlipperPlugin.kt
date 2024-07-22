@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.flipper.plugin
+package com.redmadrobot.debug.plugin.flipper
 
 import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +12,7 @@ public class FlipperPlugin(
         public fun observeChangedToggles(): Flow<Map<String, FlipperValue>> {
             return emptyFlow()
         }
+
         public fun addSource(sourceName: String, toggles: Map<String, FlipperValue>) = Unit
     }
 

@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.variable.plugin
+package com.redmadrobot.debug.plugin.variable
 
 import kotlin.reflect.KClass
 
@@ -7,9 +7,7 @@ public class VariablePlugin(
 )
 
 public abstract class VariableWidget<T : Any>(
-    public val kClass: KClass<T>,
+    public val kClass: KClass<T>
 )
 
-public fun <T : Any> T.asDebugVariable(
-    name: String,
-): T = this
+public fun <T : Any> T.asDebugVariable(name: String): T = this

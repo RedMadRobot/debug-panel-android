@@ -1,6 +1,6 @@
-package com.redmadrobot.debug.servers.util
+package com.redmadrobot.debug.plugin.servers.util
 
-import com.redmadrobot.debug.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
