@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.0
+### Изменения
+* Переименованы модули.
+* Gradle обновлен до 8.7
+* compileSdk и targetSdk повышены до 34
+* Добавлена возможность открыть DebugPanel без FragmentManager
+* Добавлена поддержка Jetpack Compose
+* accounts-plugin переведен на Jetpack Compose
+* app-settings-plugin переведен на Jetpack Compose
+* flipper-plugin переведен на Jetpack Compose
+* servers-plugin переведен на Jetpack Compose
+* **Breaking changes:** Изменены Maven-координаты библиотек. Наименования пакетов во всех модулях приведены к общему виду. См. [гайд по миграции][migration-guide].
+
 ## 0.8.1
 ### Изменения
 * Исправлен краш при остановке активити (#13)
@@ -59,3 +72,4 @@
 * Исправлена проблема с задвоением логов при использовании Timber.
 * Исправлены мелкие баги.
 
+[migration-guide]: migration_guide.md

@@ -1,21 +1,21 @@
 package com.redmadrobot.debug_sample
 
 import android.app.Application
-import com.redmadrobot.account_plugin.data.model.DebugAccount
-import com.redmadrobot.account_plugin.plugin.AccountsPlugin
-import com.redmadrobot.app_settings_plugin.plugin.AppSettingsPlugin
-import com.redmadrobot.debug_panel_core.internal.DebugPanel
-import com.redmadrobot.debug_panel_core.internal.DebugPanelConfig
+import com.redmadrobot.debug.core.DebugPanel
+import com.redmadrobot.debug.core.DebugPanelConfig
+import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
+import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
+import com.redmadrobot.debug.plugin.appsettings.AppSettingsPlugin
+import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
+import com.redmadrobot.debug.plugin.servers.ServersPlugin
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import com.redmadrobot.debug.plugin.variable.VariablePlugin
 import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
 import com.redmadrobot.debug_sample.debug_data.DebugAccountsProvider
 import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
 import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
 import com.redmadrobot.debug_sample.debug_data.DebugVariableWidgetsProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
-import com.redmadrobot.flipper_plugin.plugin.FlipperPlugin
-import com.redmadrobot.servers_plugin.data.model.DebugServer
-import com.redmadrobot.servers_plugin.plugin.ServersPlugin
-import com.redmadrobot.variable_plugin.plugin.VariablePlugin
 
 class App : Application() {
     override fun onCreate() {
