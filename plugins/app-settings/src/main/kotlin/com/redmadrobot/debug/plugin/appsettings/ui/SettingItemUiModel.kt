@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.appsettings.ui
+package com.redmadrobot.debug.plugin.appsettings.ui
 
 internal sealed class SettingItemUiModel {
 

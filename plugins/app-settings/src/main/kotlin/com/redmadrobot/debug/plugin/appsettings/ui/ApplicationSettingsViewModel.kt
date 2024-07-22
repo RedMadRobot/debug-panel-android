@@ -1,8 +1,6 @@
 package com.redmadrobot.debug.plugin.appsettings.ui
 
 import android.content.SharedPreferences
-import androidx.lifecycle.MutableLiveData
-import com.redmadrobot.debug.appsettings.ui.SettingItemUiModel
 import com.redmadrobot.debug.plugin.appsettings.data.AppSettingsRepository
 import com.redmadrobot.debug.common.base.PluginViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

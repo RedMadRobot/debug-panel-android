@@ -12,6 +12,7 @@ import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
+import com.redmadrobot.debug.plugin.variable.databinding.FragmentContainerVariableBinding
 import com.redmadrobot.debug.plugin.variable.ui.VariableFragment
 import kotlin.reflect.KClass
 

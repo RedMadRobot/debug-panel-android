@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.servers.interceptor
+package com.redmadrobot.debug.plugin.servers.interceptor
 
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import okhttp3.Interceptor

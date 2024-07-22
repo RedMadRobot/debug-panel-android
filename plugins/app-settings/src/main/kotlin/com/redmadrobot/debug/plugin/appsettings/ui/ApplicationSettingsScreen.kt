@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.appsettings.ui
+package com.redmadrobot.debug.plugin.appsettings.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +37,6 @@ import com.redmadrobot.debug.core.extension.provideViewModel
 import com.redmadrobot.debug.plugin.appsettings.AppSettingsPlugin
 import com.redmadrobot.debug.plugin.appsettings.AppSettingsPluginContainer
 import com.redmadrobot.debug.plugin.appsettings.R
-import com.redmadrobot.debug.plugin.appsettings.ui.ApplicationSettingsViewModel
 
 @Composable
 internal fun ApplicationSettingsScreen(

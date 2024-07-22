@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.servers.ui
+package com.redmadrobot.debug.plugin.servers.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -50,9 +50,6 @@ import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.plugin.servers.ServersPluginContainer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
-import com.redmadrobot.debug.plugin.servers.ui.ServerDialogState
-import com.redmadrobot.debug.plugin.servers.ui.ServersViewModel
-import com.redmadrobot.debug.plugin.servers.ui.ServersViewState
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

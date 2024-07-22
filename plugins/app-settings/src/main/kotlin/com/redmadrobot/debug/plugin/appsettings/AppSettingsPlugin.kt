@@ -2,7 +2,7 @@ package com.redmadrobot.debug.plugin.appsettings
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
-import com.redmadrobot.debug.appsettings.ui.ApplicationSettingsScreen
+import com.redmadrobot.debug.plugin.appsettings.ui.ApplicationSettingsScreen
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
