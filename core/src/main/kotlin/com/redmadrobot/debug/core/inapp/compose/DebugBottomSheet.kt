@@ -44,12 +44,12 @@ import com.redmadrobot.debug.panel.common.R as CommonR
 @Composable
 public fun DebugBottomSheet(onClose: () -> Unit) {
     val state = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmValueChange = {
-            if (it == ModalBottomSheetValue.Hidden) onClose()
+        initialValue = ModalBottomSheetValue.HalfExpanded,
+        confirmValueChange = { sheetState ->
+            if (sheetState == ModalBottomSheetValue.Hidden) onClose()
             true
         },
-        skipHalfExpanded = true
+        skipHalfExpanded = false
     )
 
     MdcTheme(context = ContextThemeWrapper(LocalContext.current, CommonR.style.DebugPanelTheme)) {
