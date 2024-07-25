@@ -1,30 +1,30 @@
 package com.redmadrobot.debug.plugin.accounts.ui
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.account_plugin.ui.DebugAccountItem
-import com.redmadrobot.debug.plugin.accounts.data.DebugAccountRepository
-import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
 import com.redmadrobot.debug.common.base.PluginViewModel
 import com.redmadrobot.debug.common.extension.safeLaunch
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.plugin.accounts.AccountSelectedEvent
 import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
 import com.redmadrobot.debug.plugin.accounts.R
+import com.redmadrobot.debug.plugin.accounts.data.DebugAccountRepository
+import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 internal class AccountsViewModel(
     private val context: Context,
     private val debugAccountsRepository: DebugAccountRepository
 ) : PluginViewModel() {
 
-    val state = MutableLiveData<AccountsViewState>().apply {
-        /*Default state*/
+    val state = MutableStateFlow<AccountsViewState>(
         value = AccountsViewState(
             preInstalledAccounts = emptyList(),
             addedAccounts = emptyList()
         )
-    }
+    )
 
     fun loadAccounts() {
         viewModelScope.safeLaunch {
@@ -88,7 +88,8 @@ internal class AccountsViewModel(
         } else {
             emptyList()
         }
-        state.value = state.value?.copy(preInstalledAccounts = preInstalledAccounts)
+
+        state.update { state.value.copy(preInstalledAccounts = preInstalledAccounts) }
     }
 
     private suspend fun loadAddedAccounts() {
@@ -102,6 +103,7 @@ internal class AccountsViewModel(
         } else {
             emptyList()
         }
-        state.value = state.value?.copy(addedAccounts = addedAccountItems)
+
+        state.update { state.value.copy(addedAccounts = addedAccountItems) }
     }
 }

@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/label_feature_toggle_2" />
 
     <Button
-        android:id="@+id/choose_account"
+        android:id="@+id/open_debug_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Open debug panel"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_account" />
+        app:layout_constraintTop_toBottomOf="@+id/open_debug_panel" />
 
     <Button
         android:id="@+id/open_second_activity"

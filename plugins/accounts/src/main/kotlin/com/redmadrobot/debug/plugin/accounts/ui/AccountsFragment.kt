@@ -8,15 +8,11 @@ import androidx.fragment.app.Fragment
 import com.redmadrobot.account_plugin.ui.AccountsScreen
 import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.isSettingMode
 import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
 import com.redmadrobot.debug.plugin.accounts.AccountsPluginContainer
 
 internal class AccountsFragment : Fragment() {
-
-    private val isSettingMode: Boolean by lazy {
-        activity?.javaClass?.simpleName == "DebugActivity"
-    }
-
     companion object {
         const val IS_EDIT_MODE_KEY = "IS_EDIT_MODE_KEY"
     }
@@ -35,7 +31,10 @@ internal class AccountsFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = ComposeView(inflater.context).apply {
         setContent {
-            AccountsScreen(viewModel, isSettingMode)
+            AccountsScreen(
+                viewModel = viewModel,
+                isEditMode = this@AccountsFragment.isSettingMode()
+            )
         }
     }
 }

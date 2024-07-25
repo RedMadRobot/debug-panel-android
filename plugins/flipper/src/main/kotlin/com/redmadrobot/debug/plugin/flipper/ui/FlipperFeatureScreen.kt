@@ -84,9 +84,9 @@ internal fun FlipperFeatureScreen(
         content = {
             FlipperFeatureLayout(
                 state,
-                onQueryChanged = viewModel::onQueryChanged,
-                onValueChanged = viewModel::onFeatureValueChanged,
-                onGroupToggleStateChanged = viewModel::onGroupToggleStateChanged,
+                onQueryChange = viewModel::onQueryChanged,
+                onValueChange = viewModel::onFeatureValueChanged,
+                onGroupToggleStateChange = viewModel::onGroupToggleStateChanged,
                 onGroupClick = viewModel::onGroupClick,
                 onChangeSourceClick = { coroutineScope.launch { bottomSheetState.show() } },
                 onResetClick = { showResetConfirmationDialog = true }
@@ -117,33 +117,33 @@ internal fun FlipperFeatureScreen(
 @Composable
 internal fun FlipperFeatureLayout(
     state: FlipperFeaturesViewState,
-    onQueryChanged: (String) -> Unit,
-    onValueChanged: (String, FlipperValue) -> Unit,
-    onGroupToggleStateChanged: (String, Boolean) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onValueChange: (String, FlipperValue) -> Unit,
+    onGroupToggleStateChange: (String, Boolean) -> Unit,
     onGroupClick: (String) -> Unit,
     onChangeSourceClick: () -> Unit,
     onResetClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Filter(onQueryChanged = onQueryChanged)
+            Filter(onQueryChanged = onQueryChange)
             LazyColumn(contentPadding = PaddingValues(bottom = 60.dp)) {
                 items(state.items) { item ->
                     when {
                         item is FlipperItem.Group -> {
                             GroupItem(
                                 group = item,
-                                onGroupToggleStateChanged = onGroupToggleStateChanged,
+                                onGroupToggleStateChange = onGroupToggleStateChange,
                                 onGroupClick = onGroupClick
                             )
                         }
 
                         item is FlipperItem.Feature && item.value is FlipperValue.BooleanValue -> {
-                            BooleanValueItem(feature = item, onValueChanged = onValueChanged)
+                            BooleanValueItem(feature = item, onValueChange = onValueChange)
                         }
 
                         item is FlipperItem.Feature && item.value is FlipperValue.StringValue -> {
-                            StringValueItem(feature = item, onValueChanged = onValueChanged)
+                            StringValueItem(feature = item, onValueChange = onValueChange)
                         }
                     }
                     Divider()
@@ -151,14 +151,18 @@ internal fun FlipperFeatureLayout(
             }
         }
         Box(
-            Modifier
+            modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
         ) {
-            Button(modifier = Modifier.height(44.dp), onClick = onChangeSourceClick) {
+            Button(
+                modifier = Modifier.height(44.dp),
+                onClick = onChangeSourceClick
+            ) {
                 Text(text = stringResource(id = R.string.flipper_plugin_button_switch_source).uppercase())
             }
+
             Button(
                 modifier = Modifier
                     .height(44.dp)
@@ -188,9 +192,7 @@ private fun Filter(onQueryChanged: (String) -> Unit) {
             filterValue = it
             onQueryChanged(it)
         },
-        placeholder = {
-            Text(text = stringResource(id = R.string.flipper_plugin_filter))
-        },
+        placeholder = { Text(text = stringResource(id = R.string.flipper_plugin_filter)) },
         trailingIcon = {
             if (!hasFocus) {
                 IconButton(onClick = { focusRequester.requestFocus() }) {
@@ -200,11 +202,13 @@ private fun Filter(onQueryChanged: (String) -> Unit) {
                     )
                 }
             } else {
-                IconButton(onClick = {
-                    filterValue = ""
-                    onQueryChanged("")
-                    focusManager.clearFocus(true)
-                }) {
+                IconButton(
+                    onClick = {
+                        filterValue = ""
+                        onQueryChanged("")
+                        focusManager.clearFocus(true)
+                    }
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.icon_clear),
                         contentDescription = null
@@ -218,7 +222,7 @@ private fun Filter(onQueryChanged: (String) -> Unit) {
 @Composable
 private fun GroupItem(
     group: FlipperItem.Group,
-    onGroupToggleStateChanged: (String, Boolean) -> Unit,
+    onGroupToggleStateChange: (String, Boolean) -> Unit,
     onGroupClick: (String) -> Unit,
 ) {
     Box(
@@ -237,7 +241,7 @@ private fun GroupItem(
         Switch(
             modifier = Modifier.align(Alignment.CenterEnd),
             checked = group.allEnabled,
-            onCheckedChange = { onGroupToggleStateChanged(group.name, it) },
+            onCheckedChange = { onGroupToggleStateChange(group.name, it) },
             enabled = group.editable,
             colors = SwitchDefaults.colors(checkedThumbColor = MaterialTheme.colors.secondary)
         )
@@ -248,13 +252,14 @@ private fun GroupItem(
 @Composable
 private fun StringValueItem(
     feature: FlipperItem.Feature,
-    onValueChanged: (String, FlipperValue) -> Unit
+    onValueChange: (String, FlipperValue) -> Unit
 ) {
     var value by remember { mutableStateOf((feature.value as FlipperValue.StringValue).value) }
     var hasFocus by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
                 text = feature.description,
@@ -264,15 +269,19 @@ private fun StringValueItem(
                 color = if (feature.editable) Color.Black else Color.Gray
             )
             if (hasFocus) {
-                Button(onClick = {
-                    onValueChanged(feature.id, FlipperValue.StringValue(value))
-                    focusManager.clearFocus(force = true)
-                }) {
+                Button(
+                    onClick = {
+                        onValueChange(feature.id, FlipperValue.StringValue(value))
+                        focusManager.clearFocus(force = true)
+                    }
+                ) {
                     Text(text = stringResource(id = R.string.flipper_plugin_update))
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(8.dp))
+
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -288,7 +297,7 @@ private fun StringValueItem(
 @Composable
 private fun BooleanValueItem(
     feature: FlipperItem.Feature,
-    onValueChanged: (String, FlipperValue) -> Unit
+    onValueChange: (String, FlipperValue) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -298,7 +307,7 @@ private fun BooleanValueItem(
     ) {
         Checkbox(
             checked = (feature.value as FlipperValue.BooleanValue).value,
-            onCheckedChange = { onValueChanged(feature.id, FlipperValue.BooleanValue(it)) },
+            onCheckedChange = { onValueChange(feature.id, FlipperValue.BooleanValue(it)) },
             enabled = feature.editable
         )
         Text(
@@ -321,6 +330,7 @@ private fun SourceSelectionDialog(
         sheetShape = MaterialTheme.shapes.small,
         sheetContent = {
             Spacer(modifier = Modifier.height(1.dp))
+
             LazyColumn {
                 items(data) { source ->
                     Column {
@@ -353,7 +363,7 @@ private fun GroupItemPreview() {
             allEnabled = true,
             editable = false
         ),
-        onGroupToggleStateChanged = { _: String, _: Boolean -> },
+        onGroupToggleStateChange = { _: String, _: Boolean -> },
         onGroupClick = {},
     )
 }
@@ -368,7 +378,7 @@ private fun BooleanItemPreview() {
             description = "Boolean",
             editable = false
         ),
-        onValueChanged = { _: String, _: FlipperValue -> }
+        onValueChange = { _: String, _: FlipperValue -> }
     )
 }
 
@@ -382,7 +392,7 @@ private fun StringItemPreview() {
             description = "StringToggle",
             editable = false,
         ),
-        onValueChanged = { _: String, _: FlipperValue -> }
+        onValueChange = { _: String, _: FlipperValue -> }
     )
 }
 

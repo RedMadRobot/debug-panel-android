@@ -62,6 +62,7 @@ internal fun ServersScreen(
     isEditMode: Boolean
 ) {
     val state by viewModel.state.collectAsState()
+
     Scaffold(
         floatingActionButton = {
             if (isEditMode) {
@@ -111,12 +112,11 @@ private fun ServersScreenLayout(
     onStageClick: (DebugStage) -> Unit,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 64.dp),
     ) {
-        if (state.preinstalledStages.isNotEmpty()) {
+        if (state.preInstalledStages.isNotEmpty()) {
             item {
                 Text(
                     stringResource(id = R.string.pre_installed_stages).uppercase(),
@@ -126,7 +126,7 @@ private fun ServersScreenLayout(
                     fontSize = 16.sp
                 )
             }
-            items(state.preinstalledStages) { item ->
+            items(state.preInstalledStages) { item ->
                 StageItem(
                     stage = item.server,
                     selected = item.isSelected && !isEditMode,

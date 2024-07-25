@@ -6,7 +6,7 @@ import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 internal data class ServersViewState(
     val preInstalledServers: List<ServerItemData> = emptyList(),
     val addedServers: List<ServerItemData> = emptyList(),
-    val preinstalledStages: List<StageItemData> = emptyList(),
+    val preInstalledStages: List<StageItemData> = emptyList(),
     val addedStages: List<StageItemData> = emptyList(),
     val serverDialogState: ServerDialogState = ServerDialogState()
 )

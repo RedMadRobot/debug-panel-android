@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.redmadrobot.debug.core.extension.getAllPlugins
-import com.redmadrobot.itemsadapter.bind
-import com.redmadrobot.itemsadapter.itemsAdapter
 import com.redmadrobot.debug.core.R
 import com.redmadrobot.debug.core.databinding.ActivityDebugBinding
 import com.redmadrobot.debug.core.databinding.ItemPluginSettingBinding
+import com.redmadrobot.debug.core.extension.getAllPlugins
+import com.redmadrobot.itemsadapter.bind
+import com.redmadrobot.itemsadapter.itemsAdapter
 
 internal class DebugActivity : AppCompatActivity() {
 

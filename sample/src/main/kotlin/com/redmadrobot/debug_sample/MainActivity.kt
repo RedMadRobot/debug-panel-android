@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun ActivityMainBinding.setViews() {
-        chooseAccount.setOnClickListener {
-            chooseAccount()
+        openDebugPanel.setOnClickListener {
+            openDebugPanel()
         }
         requestTest.setOnClickListener {
             makeTestRequest()
@@ -150,10 +150,8 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
-
-    private fun chooseAccount() {
+    private fun openDebugPanel() {
         DebugPanel.showPanel(this)
-//        DebugPanel.showPanel(supportFragmentManager)
     }
 
     @OptIn(DelicateCoroutinesApi::class)

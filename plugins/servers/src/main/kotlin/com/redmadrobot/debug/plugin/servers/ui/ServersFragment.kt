@@ -5,20 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import com.redmadrobot.debug.core.extension.isSettingMode
 
 internal class ServersFragment : Fragment() {
-
-    private val isSettingMode: Boolean by lazy {
-        activity?.javaClass?.simpleName == "DebugActivity"
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = ComposeView(inflater.context).apply {
         setContent {
-            ServersScreen(isEditMode = isSettingMode)
+            ServersScreen(isEditMode = this@ServersFragment.isSettingMode())
         }
     }
 }

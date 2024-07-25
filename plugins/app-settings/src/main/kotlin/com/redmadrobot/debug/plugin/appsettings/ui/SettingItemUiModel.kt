@@ -1,7 +1,6 @@
 package com.redmadrobot.debug.plugin.appsettings.ui
 
 internal sealed class SettingItemUiModel {
-
     data class Header(val header: String) : SettingItemUiModel()
     data class ValueItem(
         val key: String,

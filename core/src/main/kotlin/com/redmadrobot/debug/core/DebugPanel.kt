@@ -40,6 +40,7 @@ public object DebugPanel {
         return instance?.getEventFlow() ?: emptyFlow()
     }
 
+    // Убрать после переписывания
     public fun showPanel(fragmentManager: FragmentManager) {
         if (isInitialized) {
             DebugBottomSheet.show(fragmentManager)
@@ -53,7 +54,11 @@ public object DebugPanel {
 
             val debugPanelComposeView = ComposeView(contentView.context).apply {
                 setContent {
-                    DebugBottomSheet(onClose = { contentView.removeView(this) })
+                    DebugBottomSheet(
+                        onClose = {
+                            contentView.removeView(this)
+                        }
+                    )
                 }
             }
             contentView.addView(debugPanelComposeView)

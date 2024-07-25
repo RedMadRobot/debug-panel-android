@@ -26,6 +26,8 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -51,8 +53,14 @@ public fun DebugBottomSheet(onClose: () -> Unit) {
         },
         skipHalfExpanded = false
     )
+    val context = LocalContext.current
+    val themeWrapper by remember {
+        mutableStateOf(
+            value = ContextThemeWrapper(context, CommonR.style.DebugPanelTheme)
+        )
+    }
 
-    MdcTheme(context = ContextThemeWrapper(LocalContext.current, CommonR.style.DebugPanelTheme)) {
+    MdcTheme(context = themeWrapper) {
         ModalBottomSheetLayout(
             sheetContent = { BottomSheetContent() },
             sheetState = state,
@@ -68,8 +76,9 @@ private fun BottomSheetContent() {
     val pluginsName = remember { plugins.map { it.getName() } }
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { plugins.size })
     Column(modifier = Modifier.fillMaxSize()) {
+
         Spacer(modifier = Modifier.height(8.dp))
-        // Handle
+
         Box(
             modifier = Modifier
                 .height(4.dp)
@@ -78,8 +87,11 @@ private fun BottomSheetContent() {
                 .background(Color.Gray)
                 .align(Alignment.CenterHorizontally)
         )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         PluginsTabLayout(pluginsName, pagerState = pagerState)
+
         PluginsPager(plugins, pagerState = pagerState)
     }
 }

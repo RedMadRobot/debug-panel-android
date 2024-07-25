@@ -12,14 +12,13 @@ import com.redmadrobot.debug.plugin.servers.StageSelectedEvent
 import com.redmadrobot.debug.plugin.servers.data.DebugServerRepository
 import com.redmadrobot.debug.plugin.servers.data.DebugStageRepository
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
 import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 internal class ServersViewModel(
     private val serversRepository: DebugServerRepository,
@@ -27,7 +26,7 @@ internal class ServersViewModel(
 ) : PluginViewModel() {
 
     private val _state = MutableStateFlow(ServersViewState())
-    val state: StateFlow<ServersViewState> = _state
+    val state: StateFlow<ServersViewState> = _state.asStateFlow()
 
     fun loadServers() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -35,7 +34,7 @@ internal class ServersViewModel(
                 it.copy(
                     preInstalledServers = serversRepository.getPreInstalledServers()
                         .mapToServerItems(),
-                    preinstalledStages = stagesRepository.getPreInstalledStages().mapToStageItems(),
+                    preInstalledStages = stagesRepository.getPreInstalledStages().mapToStageItems(),
                     addedServers = serversRepository.getServers().mapToServerItems(),
                     addedStages = stagesRepository.getStages().mapToStageItems()
                 )
