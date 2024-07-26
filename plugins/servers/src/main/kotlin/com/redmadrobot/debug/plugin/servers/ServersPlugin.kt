@@ -2,7 +2,6 @@ package com.redmadrobot.debug.plugin.servers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidViewBinding
-import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.data.DebugDataProvider
@@ -13,7 +12,6 @@ import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
 import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 import com.redmadrobot.debug.plugin.servers.databinding.FragmentContainerServersBinding
-import com.redmadrobot.debug.plugin.servers.ui.ServersFragment
 import com.redmadrobot.debug.plugin.servers.ui.ServersScreen
 import kotlinx.coroutines.runBlocking
 
@@ -69,22 +67,6 @@ public class ServersPlugin(
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return ServersPluginContainer(preInstalledServers, commonContainer)
-    }
-
-    @Deprecated(
-        "You shouldn't use fragments for you plugins. Please use Jetpack Compose",
-        replaceWith = ReplaceWith("content()")
-    )
-    override fun getFragment(): Fragment {
-        return ServersFragment()
-    }
-
-    @Deprecated(
-        "You shouldn't use fragments for you plugins. Please use Jetpack Compose",
-        replaceWith = ReplaceWith("settingsContent()")
-    )
-    override fun getSettingFragment(): Fragment {
-        return ServersFragment()
     }
 
     @Composable

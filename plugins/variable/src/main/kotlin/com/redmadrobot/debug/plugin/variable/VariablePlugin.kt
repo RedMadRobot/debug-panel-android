@@ -7,13 +7,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidViewBinding
-import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.plugin.variable.databinding.FragmentContainerVariableBinding
-import com.redmadrobot.debug.plugin.variable.ui.VariableFragment
 import kotlin.reflect.KClass
 
 public class VariablePlugin(
@@ -31,14 +29,6 @@ public class VariablePlugin(
             container = commonContainer,
             customWidgets = customWidgets,
         )
-    }
-
-    @Deprecated(
-        "You should't use fragments for you plugins. Please use Jetpack Compose",
-        replaceWith = ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin")
-    )
-    override fun getFragment(): Fragment {
-        return VariableFragment()
     }
 
     @Composable
