@@ -27,13 +27,6 @@ public abstract class Plugin {
         replaceWith = ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin"),
         level = DeprecationLevel.WARNING,
     )
-    public open fun getFragment(): Fragment? = null
-
-    @Deprecated(
-        message = "You shouldn't use fragments for you plugins. Please use Jetpack Compose",
-        replaceWith = ReplaceWith("content()", "com.redmadrobot.debug.core.plugin.Plugin"),
-        level = DeprecationLevel.WARNING,
-    )
     public open fun getSettingFragment(): Fragment? = null
 
     @Composable
