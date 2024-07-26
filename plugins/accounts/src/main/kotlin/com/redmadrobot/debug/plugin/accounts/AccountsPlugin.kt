@@ -37,4 +37,9 @@ public class AccountsPlugin(
     override fun content() {
         AccountsScreen(isEditMode = false)
     }
+
+    @Composable
+    override fun settingsContent() {
+        AccountsScreen(isEditMode = true)
+    }
 }
