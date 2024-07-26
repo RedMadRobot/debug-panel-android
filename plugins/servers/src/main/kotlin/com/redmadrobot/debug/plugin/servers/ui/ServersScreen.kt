@@ -1,6 +1,7 @@
 package com.redmadrobot.debug.plugin.servers.ui
 
 import android.annotation.SuppressLint
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -31,7 +33,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -116,86 +117,86 @@ private fun ServersScreenLayout(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 64.dp),
     ) {
-        if (state.preInstalledStages.isNotEmpty()) {
-            item {
-                Text(
-                    stringResource(id = R.string.pre_installed_stages).uppercase(),
-                    modifier = Modifier
-                        .fillParentMaxWidth()
-                        .padding(vertical = 16.dp),
-                    fontSize = 16.sp
-                )
-            }
-            items(state.preInstalledStages) { item ->
-                StageItem(
-                    stage = item.server,
-                    selected = item.isSelected && !isEditMode,
-                    showDelete = false,
-                    onItemClick = onStageClick.takeIf { !isEditMode },
-                )
-            }
-        }
+        StageItems(
+            items = state.preInstalledStages,
+            titleRes = R.string.pre_installed_stages,
+            isSelectable = !isEditMode,
+            onItemClick = onStageClick.takeIf { !isEditMode },
+        )
+        ServerItems(
+            items = state.preInstalledServers,
+            titleRes = R.string.pre_installed_servers,
+            isSelectable = !isEditMode,
+            showDelete = false,
+            onItemClick = onServerClick.takeIf { !isEditMode },
+            onDeleteClick = onServerDeleteClick,
+        )
+        StageItems(
+            items = state.addedStages,
+            titleRes = R.string.added_stages,
+            isSelectable = !isEditMode,
+            onItemClick = onStageClick,
+        )
+        ServerItems(
+            items = state.addedServers,
+            titleRes = R.string.added_servers,
+            isSelectable = !isEditMode,
+            showDelete = isEditMode,
+            onItemClick = onServerClick,
+            onDeleteClick = onServerDeleteClick,
+        )
+    }
+}
 
-        if (state.preInstalledServers.isNotEmpty()) {
-            item {
-                Text(
-                    stringResource(id = R.string.pre_installed_servers).uppercase(),
-                    modifier = Modifier
-                        .fillParentMaxWidth()
-                        .padding(vertical = 16.dp),
-                    fontSize = 16.sp
-                )
-            }
-            items(state.preInstalledServers) { item ->
-                ServerItem(
-                    server = item.server,
-                    selected = item.isSelected && !isEditMode,
-                    showDelete = false,
-                    onItemClick = onServerClick.takeIf { !isEditMode },
-                    onDeleteClick = onServerDeleteClick,
-                )
-            }
-        }
-        if (state.addedStages.isNotEmpty()) {
-            item {
-                Text(
-                    stringResource(id = R.string.added_stages).uppercase(),
-                    modifier = Modifier
-                        .fillParentMaxWidth()
-                        .padding(vertical = 16.dp),
-                    fontSize = 16.sp
-                )
-            }
-            items(state.addedStages) { item ->
-                StageItem(
-                    stage = item.server,
-                    selected = item.isSelected && !isEditMode,
-                    showDelete = isEditMode,
-                    onItemClick = onStageClick,
-                )
-            }
-        }
+private fun LazyListScope.ServerItems(
+    items: List<ServerItemData>,
+    @StringRes titleRes: Int,
+    isSelectable: Boolean,
+    showDelete: Boolean,
+    onDeleteClick: (DebugServer) -> Unit,
+    onItemClick: ((DebugServer) -> Unit)? = null,
+) {
+    if (items.isEmpty()) return
 
-        if (state.addedServers.isNotEmpty()) {
-            item {
-                Text(
-                    stringResource(id = R.string.added_servers).uppercase(),
-                    modifier = Modifier
-                        .fillParentMaxWidth()
-                        .padding(vertical = 16.dp),
-                    fontSize = 16.sp
-                )
-            }
-            items(state.addedServers) { item ->
-                ServerItem(
-                    server = item.server,
-                    selected = item.isSelected && !isEditMode,
-                    showDelete = isEditMode,
-                    onItemClick = onServerClick,
-                    onDeleteClick = onServerDeleteClick,
-                )
-            }
-        }
+    TitleItem(titleRes)
+    items(items) { item ->
+        ServerItem(
+            server = item.server,
+            selected = item.isSelected && isSelectable,
+            showDelete = showDelete,
+            onItemClick = onItemClick,
+            onDeleteClick = onDeleteClick,
+        )
+    }
+}
+
+private fun LazyListScope.StageItems(
+    items: List<StageItemData>,
+    @StringRes titleRes: Int,
+    isSelectable: Boolean,
+    onItemClick: ((DebugStage) -> Unit)? = null,
+) {
+    if (items.isEmpty()) return
+
+    TitleItem(titleRes)
+    items(items) { item ->
+        StageItem(
+            stage = item.server,
+            selected = item.isSelected && isSelectable,
+            onItemClick = onItemClick,
+        )
+    }
+}
+
+private fun LazyListScope.TitleItem(@StringRes titleRes: Int) {
+    item {
+        Text(
+            text = stringResource(id = titleRes).uppercase(),
+            modifier = Modifier
+                .fillParentMaxWidth()
+                .padding(vertical = 16.dp),
+            fontSize = 16.sp,
+        )
     }
 }
 
@@ -259,10 +260,8 @@ private fun ServerItem(
 @Composable
 private fun StageItem(
     stage: DebugStage,
-    showDelete: Boolean,
     selected: Boolean,
     onItemClick: ((DebugStage) -> Unit)? = null,
-    onDeleteClick: (DebugStage) -> Unit = {},
 ) {
     Card(
         modifier = Modifier
@@ -293,17 +292,6 @@ private fun StageItem(
                             contentDescription = null,
                             modifier = Modifier.align(Alignment.CenterEnd)
                         )
-                    } else if (showDelete) {
-                        IconButton(
-                            modifier = Modifier.align(Alignment.CenterEnd),
-                            onClick = { onDeleteClick(stage) },
-                        ) {
-                            Icon(
-                                painterResource(R.drawable.icon_delete),
-                                contentDescription = null,
-                                tint = Color.Red
-                            )
-                        }
                     }
                 }
             }
@@ -317,7 +305,6 @@ private fun StageItem(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ServerDialog(
     state: ServerDialogState,
@@ -326,7 +313,6 @@ private fun ServerDialog(
     onDismiss: () -> Unit,
     onSaveClick: () -> Unit,
 ) {
-
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -366,6 +352,5 @@ private fun ServerDialog(
                 }
             }
         }
-
     }
 }
