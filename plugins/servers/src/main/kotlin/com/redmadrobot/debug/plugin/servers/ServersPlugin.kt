@@ -1,7 +1,6 @@
 package com.redmadrobot.debug.plugin.servers
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.extension.getPlugin
@@ -11,7 +10,6 @@ import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
 import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
-import com.redmadrobot.debug.plugin.servers.databinding.FragmentContainerServersBinding
 import com.redmadrobot.debug.plugin.servers.ui.ServersScreen
 import kotlinx.coroutines.runBlocking
 
@@ -64,6 +62,6 @@ public class ServersPlugin(
 
     @Composable
     override fun settingsContent() {
-        AndroidViewBinding(FragmentContainerServersBinding::inflate)
+        ServersScreen(isEditMode = true)
     }
 }
