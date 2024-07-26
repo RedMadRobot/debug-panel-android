@@ -9,6 +9,13 @@
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
             android:theme="@style/DebugPanelTheme" />
 
+        <activity
+            android:name=".ui.debugpanel.DebugBottomSheetActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/DebugBottomSheetTheme"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity-alias
             android:name="com.redmadrobot.debug_panel.DebugLauncherActivity"
             android:enabled="true"

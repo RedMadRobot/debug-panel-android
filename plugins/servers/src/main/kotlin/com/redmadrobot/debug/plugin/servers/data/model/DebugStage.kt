@@ -3,7 +3,6 @@ package com.redmadrobot.debug.plugin.servers.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 @Entity(tableName = DebugStage.TABLE_NAME)
 public data class DebugStage(
     @PrimaryKey(autoGenerate = true)

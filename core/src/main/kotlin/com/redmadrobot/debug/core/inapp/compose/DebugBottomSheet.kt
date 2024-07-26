@@ -37,10 +37,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.themeadapter.material.MdcTheme
+import com.redmadrobot.debug.core.R
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.plugin.Plugin
 import kotlinx.coroutines.launch
-import com.redmadrobot.debug.panel.common.R as CommonR
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -56,7 +56,7 @@ public fun DebugBottomSheet(onClose: () -> Unit) {
     val context = LocalContext.current
     val themeWrapper by remember {
         mutableStateOf(
-            value = ContextThemeWrapper(context, CommonR.style.DebugPanelTheme)
+            value = ContextThemeWrapper(context, R.style.DebugPanelTheme)
         )
     }
 
@@ -64,6 +64,7 @@ public fun DebugBottomSheet(onClose: () -> Unit) {
         ModalBottomSheetLayout(
             sheetContent = { BottomSheetContent() },
             sheetState = state,
+            scrimColor = Color.Transparent,
             content = {}
         )
     }
@@ -76,7 +77,6 @@ private fun BottomSheetContent() {
     val pluginsName = remember { plugins.map { it.getName() } }
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { plugins.size })
     Column(modifier = Modifier.fillMaxSize()) {
-
         Spacer(modifier = Modifier.height(8.dp))
 
         Box(

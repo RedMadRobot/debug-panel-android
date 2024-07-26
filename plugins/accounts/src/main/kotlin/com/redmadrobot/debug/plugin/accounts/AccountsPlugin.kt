@@ -1,8 +1,6 @@
 package com.redmadrobot.debug.plugin.accounts
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.viewinterop.AndroidViewBinding
-import androidx.core.os.bundleOf
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
@@ -10,8 +8,7 @@ import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.plugin.accounts.authenticator.DebugAuthenticator
 import com.redmadrobot.debug.plugin.accounts.authenticator.DefaultAuthenticator
 import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
-import com.redmadrobot.debug.plugin.accounts.databinding.FragmentContainerAccountBinding
-import com.redmadrobot.debug.plugin.accounts.ui.AccountsFragment
+import com.redmadrobot.debug.plugin.accounts.ui.AccountsScreen
 
 public class AccountsPlugin(
     private val preInstalledAccounts: List<DebugAccount> = emptyList(),
@@ -38,19 +35,6 @@ public class AccountsPlugin(
 
     @Composable
     override fun content() {
-        AndroidViewBinding(factory = FragmentContainerAccountBinding::inflate) {
-            fragmentContainer.getFragment<AccountsFragment>().apply {
-                arguments = bundleOf(AccountsFragment.IS_EDIT_MODE_KEY to false)
-            }
-        }
-    }
-
-    @Composable
-    override fun settingsContent() {
-        AndroidViewBinding(factory = FragmentContainerAccountBinding::inflate) {
-            fragmentContainer.getFragment<AccountsFragment>().apply {
-                arguments = bundleOf(AccountsFragment.IS_EDIT_MODE_KEY to true)
-            }
-        }
+        AccountsScreen(isEditMode = false)
     }
 }

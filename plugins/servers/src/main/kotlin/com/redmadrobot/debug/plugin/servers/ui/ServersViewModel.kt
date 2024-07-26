@@ -2,8 +2,8 @@ package com.redmadrobot.debug.plugin.servers.ui
 
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.debug.common.base.PluginViewModel
-import com.redmadrobot.debug.common.extension.safeLaunch
+import com.redmadrobot.debug.core.internal.PluginViewModel
+import com.redmadrobot.debug.core.extension.safeLaunch
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.plugin.servers.R
 import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent

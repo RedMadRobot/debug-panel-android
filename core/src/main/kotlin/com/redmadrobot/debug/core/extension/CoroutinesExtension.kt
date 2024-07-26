@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.common.extension
+package com.redmadrobot.debug.core.extension
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope

@@ -2,7 +2,7 @@ package com.redmadrobot.debug.plugin.appsettings.ui
 
 import android.content.SharedPreferences
 import com.redmadrobot.debug.plugin.appsettings.data.AppSettingsRepository
-import com.redmadrobot.debug.common.base.PluginViewModel
+import com.redmadrobot.debug.core.internal.PluginViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 

@@ -35,24 +35,18 @@ internal class ApplicationLifecycleHandler(
                     if (openActivityCount == 0) onAppResumed()
                     ++openActivityCount
 
-                    (activity as? FragmentActivity)?.let { fragmentActivity ->
-                        shakeController?.register(fragmentActivity.supportFragmentManager)
+                    shakeController?.register(activity)
 
-                        /*register BroadcastReceiver for debug panel inner actions*/
-                        debugPanelBroadcastReceiver = DebugPanelBroadcastReceiver(
-                            fragmentActivity.supportFragmentManager
-                        )
-                        val filter = IntentFilter(
-                            DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL
-                        )
+                    /*register BroadcastReceiver for debug panel inner actions*/
+                    debugPanelBroadcastReceiver = DebugPanelBroadcastReceiver(activity)
+                    val filter = IntentFilter(DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL)
 
-                        ContextCompat.registerReceiver(
-                            activity,
-                            debugPanelBroadcastReceiver,
-                            filter,
-                            ContextCompat.RECEIVER_NOT_EXPORTED
-                        )
-                    }
+                    ContextCompat.registerReceiver(
+                        activity,
+                        debugPanelBroadcastReceiver,
+                        filter,
+                        ContextCompat.RECEIVER_NOT_EXPORTED
+                    )
                 }
 
                 override fun onActivityPaused(activity: Activity) {

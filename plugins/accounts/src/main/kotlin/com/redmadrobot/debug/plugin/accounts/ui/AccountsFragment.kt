@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.redmadrobot.account_plugin.ui.AccountsScreen
-import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.extension.isSettingMode
+import com.redmadrobot.debug.core.extension.obtainShareViewModel
 import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
 import com.redmadrobot.debug.plugin.accounts.AccountsPluginContainer
 

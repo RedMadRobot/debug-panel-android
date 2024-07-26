@@ -2,16 +2,12 @@ package com.redmadrobot.debug.core
 
 import android.app.Activity
 import android.app.Application
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.FragmentManager
+import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.redmadrobot.debug.core.annotation.DebugPanelInternal
-import com.redmadrobot.debug.core.inapp.DebugBottomSheet
-import com.redmadrobot.debug.core.inapp.compose.DebugBottomSheet
 import com.redmadrobot.debug.core.plugin.Plugin
+import com.redmadrobot.debug.core.ui.debugpanel.DebugBottomSheetActivity
 import com.redmadrobot.debug.core.util.ApplicationLifecycleHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -40,29 +36,15 @@ public object DebugPanel {
         return instance?.getEventFlow() ?: emptyFlow()
     }
 
-    // Убрать после переписывания
-    public fun showPanel(fragmentManager: FragmentManager) {
+    public fun showPanel(activity: Activity) {
         if (isInitialized) {
-            DebugBottomSheet.show(fragmentManager)
+            openDebugBottomSheet(activity)
         }
     }
 
-    public fun showPanel(activity: Activity) {
-        if (isInitialized) {
-            val contentView = activity.window.decorView
-                .findViewById<ViewGroup>(android.R.id.content) as FrameLayout
-
-            val debugPanelComposeView = ComposeView(contentView.context).apply {
-                setContent {
-                    DebugBottomSheet(
-                        onClose = {
-                            contentView.removeView(this)
-                        }
-                    )
-                }
-            }
-            contentView.addView(debugPanelComposeView)
-        }
+    private fun openDebugBottomSheet(activity: Activity) {
+        val intent = Intent(activity, DebugBottomSheetActivity::class.java)
+        activity.startActivity(intent)
     }
 
     private fun createDebugPanelInstance(application: Application, plugins: List<Plugin>) {

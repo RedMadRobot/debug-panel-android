@@ -1,7 +1,6 @@
 package com.redmadrobot.debug.plugin.accounts.ui
 
 import androidx.compose.runtime.Stable
-import com.redmadrobot.account_plugin.ui.DebugAccountItem
 
 @Stable
 internal data class AccountsViewState(

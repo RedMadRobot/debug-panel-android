@@ -1,4 +1,4 @@
-package com.redmadrobot.account_plugin.ui
+package com.redmadrobot.debug.plugin.accounts.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -39,15 +39,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.provideViewModel
+import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
+import com.redmadrobot.debug.plugin.accounts.AccountsPluginContainer
 import com.redmadrobot.debug.plugin.accounts.R
 import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
-import com.redmadrobot.debug.plugin.accounts.ui.AccountsViewModel
-import com.redmadrobot.debug.plugin.accounts.ui.AccountsViewState
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 internal fun AccountsScreen(
-    viewModel: AccountsViewModel,
+    viewModel: AccountsViewModel = provideViewModel {
+        getPlugin<AccountsPlugin>()
+            .getContainer<AccountsPluginContainer>()
+            .createAccountsViewModel()
+    },
     isEditMode: Boolean
 ) {
     val state by viewModel.state.collectAsState()
@@ -231,13 +237,13 @@ private fun AccountDetailsDialog(
                     Spacer(modifier = Modifier.height(24.dp))
                     Button(
                         onClick = {
-                            val account = DebugAccount(
+                            val debugAccount = DebugAccount(
                                 id = account?.id ?: 0,
                                 login = login,
                                 password = password,
                                 pin = pin
                             )
-                            onSaveClick(account)
+                            onSaveClick(debugAccount)
                             onDismiss()
                         },
                         modifier = Modifier.align(Alignment.End)

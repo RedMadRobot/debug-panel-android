@@ -2,10 +2,9 @@ package com.redmadrobot.debug.plugin.accounts.ui
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.account_plugin.ui.DebugAccountItem
-import com.redmadrobot.debug.common.base.PluginViewModel
-import com.redmadrobot.debug.common.extension.safeLaunch
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.safeLaunch
+import com.redmadrobot.debug.core.internal.PluginViewModel
 import com.redmadrobot.debug.plugin.accounts.AccountSelectedEvent
 import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
 import com.redmadrobot.debug.plugin.accounts.R

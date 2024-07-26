@@ -45,13 +45,6 @@ class App : Application() {
                 VariablePlugin(
                     customWidgets = DebugVariableWidgetsProvider().provideData()
                 ),
-//                , FeatureTogglesPlugin(
-//                    featureTogglesConfig = FeatureTogglesConfig(
-//                        FeatureToggleWrapperImpl.toggleNames,
-//                        FeatureToggleWrapperImpl(),
-//                        this
-//                    )
-//                )
             )
         )
     }

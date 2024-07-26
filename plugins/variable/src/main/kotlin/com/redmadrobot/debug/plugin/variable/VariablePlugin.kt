@@ -7,11 +7,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidViewBinding
-import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.debug.core.plugin.Plugin
+import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
-import com.redmadrobot.debug.plugin.variable.databinding.FragmentContainerVariableBinding
+import com.redmadrobot.debug.core.plugin.Plugin
+import com.redmadrobot.debug.plugin.variable.databinding.FragmentVariableBinding
 import kotlin.reflect.KClass
 
 public class VariablePlugin(
@@ -34,7 +34,7 @@ public class VariablePlugin(
     @Composable
     override fun content() {
         AndroidViewBinding(
-            FragmentContainerVariableBinding::inflate,
+            factory = FragmentVariableBinding::inflate,
             modifier = Modifier.verticalScroll(rememberScrollState())
         )
     }

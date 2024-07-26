@@ -58,7 +58,7 @@ import com.redmadrobot.debug.plugin.flipper.R
 import com.redmadrobot.debug.plugin.flipper.ui.data.FlipperItem
 import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.launch
-import com.redmadrobot.debug.panel.common.R as CommonR
+import com.redmadrobot.debug.core.R as CoreR
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -228,7 +228,7 @@ private fun GroupItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id = CommonR.color.super_light_gray))
+            .background(colorResource(id = CoreR.color.super_light_gray))
             .clickable { onGroupClick(group.name) }
             .padding(8.dp)
     ) {
