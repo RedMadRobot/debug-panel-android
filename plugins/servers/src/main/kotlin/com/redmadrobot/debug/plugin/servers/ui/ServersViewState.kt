@@ -16,8 +16,12 @@ internal data class ServerDialogState(
     val serverName: String = "",
     val serverUrl: String = "",
     val editableServerId: Int? = null,
-    val nameError: Int? = null,
-    val urlError: Int? = null,
+    val inputErrors: ServerDialogErrors? = null
+)
+
+internal data class ServerDialogErrors(
+    val nameError: Int?,
+    val urlError: Int?
 )
 
 internal data class ServerItemData(val server: DebugServer, val isSelected: Boolean)

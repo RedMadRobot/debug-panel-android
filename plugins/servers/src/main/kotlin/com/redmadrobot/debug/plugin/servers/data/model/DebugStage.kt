@@ -18,7 +18,6 @@ public data class DebugStage(
 
     override fun equals(other: Any?): Boolean {
         val otherServer = other as DebugStage
-        return this.name == otherServer.name
-                && this.hosts.hashCode() == otherServer.hosts.hashCode()
+        return this.hosts.size == otherServer.hosts.size && this.hosts == otherServer.hosts
     }
 }

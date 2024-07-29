@@ -329,20 +329,20 @@ private fun ServerDialog(
                     value = state.serverName,
                     onValueChange = onNameChange,
                     label = { Text(stringResource(R.string.name)) },
-                    isError = state.nameError != null
+                    isError = state.inputErrors?.nameError != null
                 )
-                if (state.nameError != null) {
-                    Text(text = stringResource(id = state.nameError), color = Color.Red)
+                if (state.inputErrors?.nameError != null) {
+                    Text(text = stringResource(id = state.inputErrors.nameError), color = Color.Red)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     value = state.serverUrl,
                     onValueChange = onUrlChange,
                     label = { Text(stringResource(R.string.server_host_hint)) },
-                    isError = state.urlError != null
+                    isError = state.inputErrors?.urlError != null
                 )
-                if (state.urlError != null) {
-                    Text(text = stringResource(id = state.urlError), color = Color.Red)
+                if (state.inputErrors?.urlError != null) {
+                    Text(text = stringResource(id = state.inputErrors.urlError), color = Color.Red)
                 }
                 Button(
                     onClick = onSaveClick,

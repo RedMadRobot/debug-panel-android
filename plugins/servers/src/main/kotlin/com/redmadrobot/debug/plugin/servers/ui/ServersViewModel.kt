@@ -2,9 +2,9 @@ package com.redmadrobot.debug.plugin.servers.ui
 
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.debug.core.internal.PluginViewModel
-import com.redmadrobot.debug.core.extension.safeLaunch
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.safeLaunch
+import com.redmadrobot.debug.core.internal.PluginViewModel
 import com.redmadrobot.debug.plugin.servers.R
 import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent
 import com.redmadrobot.debug.plugin.servers.ServersPlugin
@@ -30,8 +30,8 @@ internal class ServersViewModel(
 
     fun loadServers() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update {
-                it.copy(
+            _state.update { serversState ->
+                serversState.copy(
                     preInstalledServers = serversRepository.getPreInstalledServers()
                         .mapToServerItems(),
                     preInstalledStages = stagesRepository.getPreInstalledStages().mapToStageItems(),
@@ -43,79 +43,78 @@ internal class ServersViewModel(
     }
 
     fun onAddClicked() {
-        _state.update {
-            it.copy(serverDialogState = it.serverDialogState.copy(show = true))
+        _state.update { serversState ->
+            serversState.copy(serverDialogState = serversState.serverDialogState.copy(show = true))
         }
     }
 
     fun dismissDialogs() {
-        _state.update {
-            it.copy(serverDialogState = ServerDialogState())
+        _state.update { serversState ->
+            serversState.copy(serverDialogState = ServerDialogState())
         }
     }
 
     fun onServerNameChanged(name: String) {
-        _state.update {
-            it.copy(serverDialogState = it.serverDialogState.copy(serverName = name))
+        _state.update { serversState ->
+            serversState.copy(serverDialogState = serversState.serverDialogState.copy(serverName = name))
         }
     }
 
     fun onServerUrlChanged(url: String) {
-        _state.update {
-            it.copy(serverDialogState = it.serverDialogState.copy(serverUrl = url))
+        _state.update { serversState ->
+            serversState.copy(serverDialogState = serversState.serverDialogState.copy(serverUrl = url))
         }
     }
 
     fun onSaveServerClicked() {
-        if (allServerFieldValid()) {
-            val dialogState = _state.value.serverDialogState
-
-            if (dialogState.editableServerId == null) {
-                addServer(dialogState.serverName, dialogState.serverUrl)
-            } else {
-                updateServerData(
-                    dialogState.editableServerId,
-                    dialogState.serverName,
-                    dialogState.serverUrl
-                )
-            }
-
-            _state.update {
-                it.copy(serverDialogState = ServerDialogState())
-            }
-        }
-    }
-
-    private fun allServerFieldValid(): Boolean {
         val dialogState = _state.value.serverDialogState
-        val nameError = if (dialogState.serverName.isEmpty()) {
-            R.string.error_empty_name
-        } else {
-            null
-        }
-        val urlError = if (!Patterns.WEB_URL.matcher(dialogState.serverUrl).matches()) {
-            R.string.error_wrong_host
-        } else {
-            null
+        val inputErrors = checkInputErrors(dialogState)
+
+        if (inputErrors != null) {
+            _state.update { serversState ->
+                serversState.copy(
+                    serverDialogState = dialogState.copy(
+                        inputErrors = inputErrors
+                    )
+                )
+            }
+
+            return
         }
 
-        _state.update {
-            it.copy(
-                serverDialogState = dialogState.copy(
-                    nameError = nameError,
-                    urlError = urlError
-                )
+        if (dialogState.editableServerId == null) {
+            addServer(dialogState.serverName, dialogState.serverUrl)
+        } else {
+            updateServerData(
+                dialogState.editableServerId,
+                dialogState.serverName,
+                dialogState.serverUrl
             )
         }
 
-        return nameError == null && urlError == null
+        _state.update { serversState ->
+            serversState.copy(serverDialogState = ServerDialogState())
+        }
+    }
+
+    private fun checkInputErrors(dialogState: ServerDialogState): ServerDialogErrors? {
+        val nameError = R.string.error_empty_name.takeIf { dialogState.serverName.isEmpty() }
+        val urlError = R.string.error_wrong_host.takeIf {
+            !Patterns.WEB_URL.matcher(dialogState.serverUrl).matches()
+        }
+
+        return if (nameError != null || urlError != null) {
+            ServerDialogErrors(nameError = nameError, urlError = urlError)
+        } else {
+            null
+        }
     }
 
     fun onRemoveServerClicked(debugServer: DebugServer) {
         viewModelScope.safeLaunch {
             serversRepository.removeServer(debugServer)
-            _state.update {
-                it.copy(
+            _state.update { serversState ->
+                serversState.copy(
                     addedServers = serversRepository.getServers().mapToServerItems()
                 )
             }
@@ -126,8 +125,8 @@ internal class ServersViewModel(
         val server = DebugServer(name = name, url = url, isDefault = false)
         viewModelScope.safeLaunch {
             serversRepository.addServer(server)
-            _state.update {
-                it.copy(
+            _state.update { serversState ->
+                serversState.copy(
                     addedServers = serversRepository.getServers().mapToServerItems()
                 )
             }
@@ -143,16 +142,18 @@ internal class ServersViewModel(
             val updatedServer = serverForUpdate.copy(name = name, url = url)
             viewModelScope.safeLaunch {
                 serversRepository.updateServer(updatedServer)
-                _state.update {
-                    it.copy(addedServers = serversRepository.getServers().mapToServerItems())
+                _state.update { serversState ->
+                    serversState.copy(
+                        addedServers = serversRepository.getServers().mapToServerItems()
+                    )
                 }
             }
         }
     }
 
     fun onEditServerClicked(debugServer: DebugServer) {
-        _state.update {
-            it.copy(
+        _state.update { serversState ->
+            serversState.copy(
                 serverDialogState = ServerDialogState(
                     editableServerId = debugServer.id,
                     serverName = debugServer.name,

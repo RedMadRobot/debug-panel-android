@@ -1,6 +1,7 @@
 package com.redmadrobot.debug.plugin.servers.data
 
 import android.content.Context
+import androidx.core.content.edit
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.storage.DebugServersDao
 import com.redmadrobot.debug.plugin.servers.data.storage.SharedPreferencesProvider
@@ -27,10 +28,10 @@ internal class DebugServerRepository(
     }
 
     fun saveSelectedServer(selectedServer: DebugServer) {
-        sharedPreferences.edit().apply {
+        sharedPreferences.edit {
             putString(SELECTED_SERVER_NAME, selectedServer.name)
             putString(SELECTED_SERVER_URL, selectedServer.url)
-        }.apply()
+        }
     }
 
     suspend fun getSelectedServer(): DebugServer {
