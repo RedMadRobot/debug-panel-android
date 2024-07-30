@@ -1,27 +1,29 @@
 package com.redmadrobot.debug.plugin.accounts.ui
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.debug.plugin.accounts.ui.item.DebugAccountItems
+import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.safeLaunch
+import com.redmadrobot.debug.core.internal.PluginViewModel
+import com.redmadrobot.debug.plugin.accounts.AccountSelectedEvent
+import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
 import com.redmadrobot.debug.plugin.accounts.R
 import com.redmadrobot.debug.plugin.accounts.data.DebugAccountRepository
 import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
-import com.redmadrobot.debug.common.base.PluginViewModel
-import com.redmadrobot.debug.common.extension.safeLaunch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 internal class AccountsViewModel(
     private val context: Context,
     private val debugAccountsRepository: DebugAccountRepository
 ) : PluginViewModel() {
 
-    val state = MutableLiveData<AccountsViewState>().apply {
-        /*Default state*/
+    val state = MutableStateFlow<AccountsViewState>(
         value = AccountsViewState(
             preInstalledAccounts = emptyList(),
             addedAccounts = emptyList()
         )
-    }
+    )
 
     fun loadAccounts() {
         viewModelScope.safeLaunch {
@@ -30,14 +32,13 @@ internal class AccountsViewModel(
         }
     }
 
-    fun saveAccount(login: String, password: String, pin: String) {
-        val account = DebugAccount(
-            login = login,
-            password = password,
-            pin = pin
-        )
+    fun saveAccount(debugAccount: DebugAccount) {
         viewModelScope.safeLaunch {
-            debugAccountsRepository.addAccount(account)
+            if (debugAccount.id != 0) {
+                debugAccountsRepository.updateAccount(debugAccount)
+            } else {
+                debugAccountsRepository.addAccount(debugAccount)
+            }
             loadAddedAccounts()
         }
     }
@@ -68,31 +69,40 @@ internal class AccountsViewModel(
         }
     }
 
+    fun setAccountAsCurrent(account: DebugAccount) {
+        getPlugin<AccountsPlugin>().apply {
+            debugAuthenticator.onAccountSelected(account)
+            pushEvent(AccountSelectedEvent(account))
+        }
+    }
+
     private suspend fun loadPreInstalledAccounts() {
         val accounts = debugAccountsRepository.getPreInstalledAccounts()
         val preInstalledAccounts = if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
-                DebugAccountItems.PreinstalledAccount(account)
+                DebugAccountItem.PreinstalledAccount(account)
             }
             val header = context.getString(R.string.pre_installed_accounts)
-            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+            listOf(/*Header item*/DebugAccountItem.Header(header)).plus(items)
         } else {
             emptyList()
         }
-        state.value = state.value?.copy(preInstalledAccounts = preInstalledAccounts)
+
+        state.update { state.value.copy(preInstalledAccounts = preInstalledAccounts) }
     }
 
     private suspend fun loadAddedAccounts() {
         val accounts = debugAccountsRepository.getAccounts()
         val addedAccountItems = if (accounts.isNotEmpty()) {
             val items = accounts.map { account ->
-                DebugAccountItems.AddedAccount(account)
+                DebugAccountItem.AddedAccount(account)
             }
             val header = context.getString(R.string.added_accounts)
-            listOf(/*Header item*/DebugAccountItems.Header(header)).plus(items)
+            listOf(/*Header item*/DebugAccountItem.Header(header)).plus(items)
         } else {
             emptyList()
         }
-        state.value = state.value?.copy(addedAccounts = addedAccountItems)
+
+        state.update { state.value.copy(addedAccounts = addedAccountItems) }
     }
 }

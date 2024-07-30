@@ -1,10 +1,10 @@
 package com.redmadrobot.debug.core.inapp.shake
 
+import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
-import androidx.fragment.app.FragmentManager
-import com.redmadrobot.debug.core.inapp.DebugBottomSheet
+import com.redmadrobot.debug.core.DebugPanel
 
 internal class ShakeController(context: Context) {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -13,9 +13,9 @@ internal class ShakeController(context: Context) {
 
     private var openDebugPanelAction: (() -> Unit)? = null
 
-    fun register(fragmentManager: FragmentManager) {
+    fun register(activity: Activity) {
         unregister()
-        openDebugPanelAction = { DebugBottomSheet.show(fragmentManager) }
+        openDebugPanelAction = { DebugPanel.showPanel(activity) }
         sensorManager.registerListener(shakeDetector, accelerometer, SensorManager.SENSOR_DELAY_UI)
     }
 

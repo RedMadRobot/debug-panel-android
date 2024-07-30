@@ -1,13 +1,22 @@
 package com.redmadrobot.debug.plugin.flipper.ui
 
 import androidx.lifecycle.viewModelScope
-import com.redmadrobot.debug.common.base.PluginViewModel
-import com.redmadrobot.flipper.config.FlipperValue
-import com.redmadrobot.debug.plugin.flipper.data.FeatureTogglesRepository
+import com.redmadrobot.debug.core.internal.PluginViewModel
 import com.redmadrobot.debug.plugin.flipper.PluginToggle
+import com.redmadrobot.debug.plugin.flipper.data.FeatureTogglesRepository
 import com.redmadrobot.debug.plugin.flipper.ui.data.FlipperItem
+import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 internal class FlipperFeaturesViewModel(
@@ -174,3 +183,5 @@ internal class FlipperFeaturesViewModel(
         private const val QUERY_DEBOUNCE_MS = 450L
     }
 }
+
+internal data class FlipperFeaturesViewState(val items: List<FlipperItem> = emptyList())

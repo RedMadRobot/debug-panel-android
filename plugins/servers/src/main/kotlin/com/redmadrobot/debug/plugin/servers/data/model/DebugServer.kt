@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = DebugServer.TABLE_NAME)
 public data class DebugServer(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val name: String,
+    override val id: Int = 0,
+    override val name: String,
     val url: String,
-    val isDefault: Boolean = false
-) {
+    override val isDefault: Boolean = false
+) : DebugServerData {
     internal companion object {
         const val TABLE_NAME = "debug_server"
     }
@@ -19,5 +19,4 @@ public data class DebugServer(
         val otherServer = other as DebugServer
         return this.name == otherServer.name && this.url == otherServer.url
     }
-
 }

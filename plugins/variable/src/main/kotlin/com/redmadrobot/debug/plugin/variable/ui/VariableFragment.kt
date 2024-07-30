@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.redmadrobot.debug.common.extension.obtainShareViewModel
 import com.redmadrobot.debug.core.extension.getPlugin
+import com.redmadrobot.debug.core.extension.obtainShareViewModel
+import com.redmadrobot.debug.plugin.variable.R
 import com.redmadrobot.debug.plugin.variable.VariablePlugin
 import com.redmadrobot.debug.plugin.variable.VariablePluginContainer
-import com.redmadrobot.debug.plugin.variable.ui.recycler.VariableAdapter
-import com.redmadrobot.debug.plugin.variable.R
 import com.redmadrobot.debug.plugin.variable.databinding.FragmentVariableBinding
+import com.redmadrobot.debug.plugin.variable.ui.recycler.VariableAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

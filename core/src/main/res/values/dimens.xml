@@ -3,4 +3,5 @@
     <dimen name="debug_panel_handle_top_margin">8dp</dimen>
     <dimen name="debug_panel_handle_height">2dp</dimen>
     <dimen name="debug_panel_handle_width">48dp</dimen>
+    <dimen name="material_list_item_height">56dp</dimen>
 </resources>

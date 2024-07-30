@@ -1,23 +1,26 @@
 package com.redmadrobot.debug.plugin.servers
 
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import com.redmadrobot.debug.core.internal.CommonContainer
+import androidx.compose.runtime.Composable
+import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.extension.getPlugin
-import com.redmadrobot.debug.core.plugin.Plugin
+import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
+import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.servers.ui.ServersFragment
+import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
+import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
+import com.redmadrobot.debug.plugin.servers.ui.ServersScreen
 import kotlinx.coroutines.runBlocking
 
+@OptIn(DebugPanelInternal::class)
 public class ServersPlugin(
-    private val preInstalledServers: List<DebugServer> = emptyList()
+    private val preInstalledServers: List<DebugServerData> = emptyList(),
 ) : Plugin() {
 
     init {
         preInstalledServers.find { it.isDefault }
-            ?: throw IllegalStateException("DebugPanel - ServersPlugin can't be initialized. At least one server must be default")
+            ?: error("ServersPlugin can't be initialized. At least one server must be default")
     }
 
     public companion object {
@@ -25,18 +28,20 @@ public class ServersPlugin(
 
         public fun getSelectedServer(): DebugServer {
             return runBlocking {
-                getPlugin<ServersPlugin>()
-                    .getContainer<ServersPluginContainer>()
-                    .serversRepository
-                    .getSelectedServer()
+                getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getSelectedServer()
             }
         }
 
         public fun getDefaultServer(): DebugServer {
-            return getPlugin<ServersPlugin>()
-                .getContainer<ServersPluginContainer>()
-                .serversRepository
-                .getDefault()
+            return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getDefault()
+        }
+
+        public fun getSelectedStage(): DebugStage {
+            return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().stagesRepository.getSelectedStage()
+        }
+
+        public fun getDefaultStage(): DebugStage {
+            return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().stagesRepository.getDefault()
         }
     }
 
@@ -50,15 +55,13 @@ public class ServersPlugin(
         return ServersPluginContainer(preInstalledServers, commonContainer)
     }
 
-    override fun getFragment(): Fragment {
-        return ServersFragment().apply {
-            arguments = bundleOf(ServersFragment.IS_EDIT_MODE_KEY to false)
-        }
+    @Composable
+    override fun content() {
+        ServersScreen(isEditMode = false)
     }
 
-    override fun getSettingFragment(): Fragment {
-        return ServersFragment().apply {
-            arguments = bundleOf(ServersFragment.IS_EDIT_MODE_KEY to true)
-        }
+    @Composable
+    override fun settingsContent() {
+        ServersScreen(isEditMode = true)
     }
 }

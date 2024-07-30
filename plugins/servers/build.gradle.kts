@@ -37,7 +37,11 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
     namespace = "com.redmadrobot.debug.plugin.servers"
 }
@@ -50,5 +54,6 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":common"))
     implementation(kotlin("stdlib"))
+    implementation(stack.kotlinx.serialization.json)
     kapt(androidx.room.compiler)
 }
