@@ -1,0 +1,5 @@
+[versions]
+konfeature = "0.1.0"
+
+[libraries]
+konfeature = { module = "com.redmadrobot.konfeature:konfeature", version.ref = "konfeature" }

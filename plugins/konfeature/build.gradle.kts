@@ -1,10 +1,11 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
+    kotlin(Plugins.Kotlin.kapt)
     id("convention-publish")
 }
 
-description = "Debug panel no-op dependency module"
+description = "Plugin for konfeature library integration"
 
 android {
     compileSdk = Project.COMPILE_SDK
@@ -20,8 +21,8 @@ android {
         getByName(Project.BuildTypes.release) {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile(Project.Proguard.androidOptimizedRules),
-                Project.Proguard.projectRules
+                    getDefaultProguardFile(Project.Proguard.androidOptimizedRules),
+                    Project.Proguard.projectRules
             )
         }
     }
@@ -33,16 +34,21 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += "-Xexplicit-api=strict"
     }
 
-    namespace = "com.redmadrobot.debug.noop"
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
+    }
+    namespace = "com.redmadrobot.debug.plugin.konfeature"
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation(stack.okhttp)
-    implementation(androidx.appcompat)
-    implementation(rmr.flipper)
-    implementation(libs.konfeature)
-    implementation(stack.kotlinx.coroutines.android)
+    implementation(project(":core"))
+    implementation(project(":common"))
+    implementation(androidx.lifecycle.runtime)
 }
