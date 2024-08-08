@@ -1,10 +1,8 @@
 package com.redmadrobot.debug.core.extension
 
-import androidx.fragment.app.Fragment
 import com.redmadrobot.debug.core.DebugPanelInstance
 import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.debug.core.ui.debugpanel.DebugActivity
 
 @PublishedApi
 internal fun getPlugin(pluginName: String): Plugin {
@@ -20,9 +18,4 @@ internal fun getAllPlugins(): List<Plugin> {
 public inline fun <reified T : Plugin> getPlugin(): T {
     val plugin = getPlugin(T::class.java.name)
     return plugin as T
-}
-
-@DebugPanelInternal
-public fun Fragment.isSettingMode(): Boolean {
-    return activity?.javaClass == DebugActivity::class.java
 }

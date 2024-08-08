@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
+import com.redmadrobot.debug.core.internal.EditablePlugin
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.plugin.accounts.authenticator.DebugAuthenticator
 import com.redmadrobot.debug.plugin.accounts.authenticator.DefaultAuthenticator
@@ -13,7 +14,7 @@ import com.redmadrobot.debug.plugin.accounts.ui.AccountsScreen
 public class AccountsPlugin(
     private val preInstalledAccounts: List<DebugAccount> = emptyList(),
     public val debugAuthenticator: DebugAuthenticator = DefaultAuthenticator()
-) : Plugin() {
+) : Plugin(), EditablePlugin {
 
     internal companion object {
         const val NAME = "ACCOUNTS"

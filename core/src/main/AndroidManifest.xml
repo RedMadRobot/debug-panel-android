@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".ui.debugpanel.DebugActivity"
+            android:name=".ui.settings.DebugSettingsActivity"
             android:exported="false"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
             android:theme="@style/DebugPanelTheme" />
@@ -21,7 +21,7 @@
             android:enabled="true"
             android:exported="true"
             android:label="@string/debug_panel"
-            android:targetActivity=".ui.debugpanel.DebugActivity"
+            android:targetActivity=".ui.settings.DebugSettingsActivity"
             android:taskAffinity="com.redmadrobot.debug_panel.DebugActivity"
             android:theme="@style/DebugPanelTheme">
             <intent-filter>

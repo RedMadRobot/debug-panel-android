@@ -13,8 +13,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
-import com.redmadrobot.debug.core.ui.debugpanel.DebugActivity
 import com.redmadrobot.debug.core.R
+import com.redmadrobot.debug.core.ui.settings.DebugSettingsActivity
 
 internal class DebugPanelNotification(private val context: Context) {
 
@@ -74,7 +74,7 @@ internal class DebugPanelNotification(private val context: Context) {
         }
 
     private fun getSettingActivityPendingIntent(context: Context): PendingIntent? {
-        val settingActivityIntent = Intent(context, DebugActivity::class.java)
+        val settingActivityIntent = Intent(context, DebugSettingsActivity::class.java)
 
         return TaskStackBuilder.create(context)
             .addNextIntentWithParentStack(settingActivityIntent)
