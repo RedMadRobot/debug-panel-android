@@ -1,5 +1,6 @@
 package com.redmadrobot.debug.plugin.konfeaure.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -22,20 +22,18 @@ import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.extension.provideViewModel
 import com.redmadrobot.debug.plugin.konfeature.KonfeaturePlugin
 import com.redmadrobot.debug.plugin.konfeature.KonfeaturePluginContainer
+import com.redmadrobot.debug.plugin.konfeature.R
 import com.redmadrobot.debug.plugin.konfeature.ui.EditConfigValueDialog
 import com.redmadrobot.debug.plugin.konfeature.ui.KonfeatureViewModel
-import com.redmadrobot.debug.plugin.konfeature.ui.data.EditDialogState
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureItem
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureViewState
 import com.redmadrobot.debug.core.R as CoreR
@@ -51,73 +49,69 @@ internal fun KonfeatureScreen(
 ) {
     val state by viewModel.state.collectAsState(KonfeatureViewState())
 
-    var editDialogState: EditDialogState? by remember { mutableStateOf(null) }
-
     KonfeatureLayout(
         state = state,
-        onRefreshClicked = viewModel::onRefreshClicked,
-        onResetAllClicked = viewModel::onResetClicked,
-        onCollapseAllClicked = viewModel::onCollapseAllClicked,
-        onHeaderClicked = viewModel::onHeaderClicked,
-        onEditClciked = { key, value, isDebugSource ->
-            editDialogState = EditDialogState(key, value, isDebugSource)
-        }
+        onRefreshClick = viewModel::onRefreshClick,
+        onResetAllClick = viewModel::onResetAllClick,
+        onCollapseAllClick = viewModel::onCollapseAllClick,
+        onHeaderClick = viewModel::onConfigHeaderClick,
+        onEditClick = viewModel::onEditClick
     )
 
-    editDialogState?.let {
+    state.editDialogState?.let { dialogState ->
         EditConfigValueDialog(
-            state = it,
-            onValueChanged = viewModel::onValueChanged,
+            state = dialogState,
+            onValueChange = viewModel::onValueChanged,
             onValueReset = viewModel::onValueReset,
-            onDismissRequest = { editDialogState = null }
+            onDismissRequest = viewModel::onEditDialogCloseClik
         )
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun KonfeatureLayout(
     state: KonfeatureViewState,
-    onEditClciked: (String, Any, Boolean) -> Unit,
-    onRefreshClicked: () -> Unit,
-    onCollapseAllClicked: () -> Unit,
-    onResetAllClicked: () -> Unit,
-    onHeaderClicked: (String) -> Unit,
+    onEditClick: (String, Any, Boolean) -> Unit,
+    onRefreshClick: () -> Unit,
+    onCollapseAllClick: () -> Unit,
+    onResetAllClick: () -> Unit,
+    onHeaderClick: (String) -> Unit,
 ) {
     LazyColumn {
-        item {
+        stickyHeader {
             Row(
                 modifier = Modifier
                     .background(colorResource(id = CoreR.color.super_light_gray))
                     .padding(horizontal = 16.dp, vertical = 4.dp)
             ) {
-                Button(onClick = onRefreshClicked) {
-                    Text(text = "Refresh")
+                Button(onClick = onRefreshClick) {
+                    Text(text = stringResource(id = R.string.konfeature_plugin_refresh))
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Button(onClick = onCollapseAllClicked) {
-                    Text(text = "Collapse All")
+                Button(onClick = onCollapseAllClick) {
+                    Text(text = stringResource(id = R.string.konfeature_plugin_collapse_all))
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Button(onClick = onResetAllClicked) {
-                    Text(text = "Reset All")
+                Button(onClick = onResetAllClick) {
+                    Text(text = stringResource(id = R.string.konfeature_plugin_reset_all))
                 }
             }
         }
 
-        for (item in state.items) {
+        state.items.forEach { item ->
             if (item is KonfeatureItem.Config) {
-                item(item.name)
-                {
+                item(item.name) {
                     ConfigItem(
                         item = item,
                         isCollapsed = item.name in state.collapsedConfigs,
-                        onHeaderClicked = onHeaderClicked
+                        onHeaderClick = onHeaderClick
                     )
                 }
             }
 
             if (item is KonfeatureItem.Value && item.configName !in state.collapsedConfigs) {
-                item(item.key) { ValueItem(item = item, onEditClciked) }
+                item(item.key) { ValueItem(item = item, onEditClick) }
                 item { Divider(modifier = Modifier.fillMaxWidth()) }
             }
         }
@@ -129,18 +123,18 @@ internal fun KonfeatureLayout(
 private fun ConfigItem(
     isCollapsed: Boolean,
     item: KonfeatureItem.Config,
-    onHeaderClicked: (String) -> Unit
+    onHeaderClick: (String) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onHeaderClicked.invoke(item.name) }
+            .clickable { onHeaderClick.invoke(item.name) }
             .background(colorResource(id = CoreR.color.super_light_gray))
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = item.description
+            text = item.description.takeIf { it.isNotEmpty() } ?: item.name
         )
         val icon = if (isCollapsed) Icons.Outlined.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown
 
@@ -153,7 +147,7 @@ private fun ConfigItem(
 }
 
 @Composable
-internal fun ValueItem(item: KonfeatureItem.Value, onEditClciked: (String, Any, Boolean) -> Unit) {
+internal fun ValueItem(item: KonfeatureItem.Value, onEditClick: (String, Any, Boolean) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -161,18 +155,18 @@ internal fun ValueItem(item: KonfeatureItem.Value, onEditClciked: (String, Any, 
     ) {
         Column(Modifier.weight(1f)) {
             Text(text = item.description)
-            Text(text = "key: ${item.key}")
-            Text(text = "value: ${item.value}")
+            Text(text = stringResource(id = R.string.konfeature_plugin_item_key, item.key))
+            Text(text = stringResource(id = R.string.konfeature_plugin_item_value, item.value.toString()))
             Text(
                 color = item.sourceColor,
-                text = "source: ${item.sourceName}"
+                text = stringResource(id = R.string.konfeature_plugin_item_source, item.sourceName)
             )
         }
 
         if (item.editAvailable) {
             IconButton(
                 modifier = Modifier.align(alignment = Alignment.CenterVertically),
-                onClick = { onEditClciked.invoke(item.key, item.value, item.isDebugSource) }) {
+                onClick = { onEditClick.invoke(item.key, item.value, item.isDebugSource) }) {
                 Icon(Icons.Outlined.Edit, contentDescription = null)
             }
         }

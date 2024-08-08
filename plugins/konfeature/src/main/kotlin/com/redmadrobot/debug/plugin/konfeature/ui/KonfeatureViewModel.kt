@@ -4,8 +4,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.redmadrobot.debug.core.internal.PluginViewModel
 import com.redmadrobot.debug.plugin.konfeature.KonfeatureDebugPanelInterceptor
+import com.redmadrobot.debug.plugin.konfeature.ui.data.EditDialogState
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureItem
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureViewState
+import com.redmadrobot.konfeature.FeatureConfigSpec
+import com.redmadrobot.konfeature.FeatureValueSpec
 import com.redmadrobot.konfeature.Konfeature
 import com.redmadrobot.konfeature.source.FeatureValueSource
 import kotlinx.coroutines.Dispatchers
@@ -30,10 +33,7 @@ internal class KonfeatureViewModel(
     init {
         debugPanelInterceptor
             .valuesFlow
-            .onEach {
-                val items = withContext(Dispatchers.Default) { konfeature.getItems() }
-                _state.update { it.copy(items = items) }
-            }
+            .onEach { updateItems() }
             .launchIn(viewModelScope)
     }
 
@@ -49,80 +49,99 @@ internal class KonfeatureViewModel(
         }
     }
 
-    fun onHeaderClicked(configName: String) {
-        _state.update {
-            val newCollapsedConfigs = if (configName in it.collapsedConfigs) {
-                it.collapsedConfigs - configName
+    fun onConfigHeaderClick(configName: String) {
+        _state.update { state ->
+            val newCollapsedConfigs = if (configName in state.collapsedConfigs) {
+                state.collapsedConfigs - configName
             } else {
-                it.collapsedConfigs + configName
+                state.collapsedConfigs + configName
             }
-            it.copy(collapsedConfigs = newCollapsedConfigs)
+            state.copy(collapsedConfigs = newCollapsedConfigs)
         }
     }
 
-    fun onRefreshClicked() {
+    fun onRefreshClick() {
+        viewModelScope.launch { updateItems() }
+    }
+
+    fun onResetAllClick() {
         viewModelScope.launch {
-            val items = withContext(Dispatchers.Default) { konfeature.getItems() }
-            _state.update { it.copy(items = items) }
+            debugPanelInterceptor.resetAllValues()
         }
     }
 
-    fun onResetClicked() {
-        viewModelScope.launch {
-            debugPanelInterceptor.resetAll()
-        }
-    }
-
-    fun onCollapseAllClicked() {
-        _state.update {
-            val collapsedConfigs = it.items
+    fun onCollapseAllClick() {
+        _state.update { state ->
+            val collapsedConfigs = state.items
                 .asSequence()
                 .filterIsInstance(KonfeatureItem.Config::class.java)
                 .map { it.name }
                 .toSet()
-            it.copy(collapsedConfigs = collapsedConfigs)
+            state.copy(collapsedConfigs = collapsedConfigs)
         }
     }
 
-    private fun Konfeature.getItems(): List<KonfeatureItem> {
-        val items = mutableListOf<KonfeatureItem>()
+    fun onEditClick(key: String, value: Any, isDebugSource: Boolean) {
+        _state.update { it.copy(editDialogState = EditDialogState(key, value, isDebugSource)) }
+    }
 
-        spec.forEach { config ->
-            items.add(
-                KonfeatureItem.Config(
-                    name = config.name,
-                    description = config.description
-                )
-            )
+    fun onEditDialogCloseClik() {
+        _state.update { it.copy(editDialogState = null) }
+    }
 
-            config.values.forEach { value ->
-                val configValue = getValue(value)
+    private suspend fun updateItems() {
+        val items = withContext(Dispatchers.IO) { getItems(konfeature) }
+        _state.update { it.copy(items = items) }
+    }
 
-                val sourceColor = when (configValue.source) {
-                    FeatureValueSource.Default -> Color.Gray
-                    is FeatureValueSource.Interceptor -> Color.Red
-                    is FeatureValueSource.Source -> Color.Green
-                }
-
-                items.add(
-                    KonfeatureItem.Value(
-                        key = value.key,
-                        value = configValue.value,
-                        configName = config.name,
-                        sourceName = getSourceName(configValue.source),
-                        sourceColor = sourceColor,
-                        description = value.description,
-                        isDebugSource = configValue.source.isDebugSource(),
+    private fun getItems(konfeature: Konfeature): List<KonfeatureItem> {
+        return konfeature.spec.fold(mutableListOf<KonfeatureItem>()) { acc, configSpec ->
+            acc.apply {
+                add(createConfigItem(configSpec))
+                addAll(configSpec.values.map { valueSpec ->
+                    createConfigValueItem(
+                        configName = configSpec.name,
+                        valueSpec = valueSpec,
+                        konfeature = konfeature
                     )
-                )
+                })
             }
         }
-
-        return items
     }
 
-    private fun FeatureValueSource.isDebugSource(): Boolean {
-        return (this as? FeatureValueSource.Interceptor)?.name == debugPanelInterceptor.name
+    private fun createConfigItem(config: FeatureConfigSpec): KonfeatureItem.Config {
+        return KonfeatureItem.Config(
+            name = config.name,
+            description = config.description
+        )
+    }
+
+    private fun createConfigValueItem(
+        configName: String,
+        valueSpec: FeatureValueSpec<out Any>,
+        konfeature: Konfeature,
+    ): KonfeatureItem.Value {
+        val configValue = konfeature.getValue(valueSpec)
+
+        val sourceColor = when (configValue.source) {
+            FeatureValueSource.Default -> Color.Gray
+            is FeatureValueSource.Interceptor -> Color.Red
+            is FeatureValueSource.Source -> Color.Green
+        }
+
+        return KonfeatureItem.Value(
+            key = valueSpec.key,
+            value = configValue.value,
+            configName = configName,
+            sourceName = getSourceName(configValue.source),
+            sourceColor = sourceColor,
+            description = valueSpec.description,
+            isDebugSource = isDebugSource(configValue.source),
+        )
+    }
+
+    private fun isDebugSource(source: FeatureValueSource): Boolean {
+        return (source as? FeatureValueSource.Interceptor)?.name == debugPanelInterceptor.name
     }
 
     private fun getSourceName(source: FeatureValueSource): String {

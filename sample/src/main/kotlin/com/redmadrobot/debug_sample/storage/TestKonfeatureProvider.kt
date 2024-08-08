@@ -15,6 +15,7 @@ internal object TestKonfeatureProvider {
         return konfeature {
             register(FeatureConfig1())
             register(FeatureConfig2())
+            register(FeatureConfig3())
             addInterceptor(debugPanelInterceptor)
             addSource(object : FeatureSource {
                 override val name: String = "SampleFeatureSource"
@@ -84,6 +85,53 @@ internal object TestKonfeatureProvider {
             key = "long_feature_1",
             description = "long feature one",
             defaultValue = 100,
+        )
+    }
+
+    class FeatureConfig3 : FeatureConfig(
+        name = "FeatureConfig3",
+        description = "feature config number three"
+    ) {
+        val booleanFeature5 by toggle(
+            key = "boolean_feature_5",
+            description = "boolean feature five",
+            defaultValue = false,
+        )
+
+        val booleanFeature6 by toggle(
+            key = "boolean_feature_6",
+            description = "boolean feature six",
+            defaultValue = false,
+        )
+
+        val booleanFeature7 by toggle(
+            key = "boolean_feature_7",
+            description = "boolean feature seven",
+            defaultValue = false,
+        )
+
+        val booleanFeature8 by toggle(
+            key = "boolean_feature_8",
+            description = "boolean feature eight",
+            defaultValue = false,
+        )
+
+        val booleanFeature9 by toggle(
+            key = "boolean_feature_9",
+            description = "boolean feature nine",
+            defaultValue = false,
+        )
+
+        val booleanFeature10 by toggle(
+            key = "boolean_feature_10",
+            description = "boolean feature ten",
+            defaultValue = false,
+        )
+
+        val booleanFeature11 by toggle(
+            key = "boolean_feature_11",
+            description = "boolean feature eleven",
+            defaultValue = false,
         )
     }
 

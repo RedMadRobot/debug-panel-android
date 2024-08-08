@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -34,7 +33,9 @@ public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
     override val name: String = "DebugPanelInterceptor"
 
     init {
-        CoroutineScope(Dispatchers.IO).launch { fetchValues() }
+        CoroutineScope(Dispatchers.IO).launch {
+            _valuesFlow.value = mutex.withLock { fetchValues(preferences) }
+        }
     }
 
     override fun intercept(valueSource: FeatureValueSource, key: String, value: Any): Any? {
@@ -43,12 +44,11 @@ public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
             ?.takeIf { it != value }
     }
 
-    private suspend fun fetchValues() {
-        _valuesFlow.value = withContext(Dispatchers.IO) {
-            mutex.withLock { preferences.fetchValues() }
-        }
-    }
-
+    /*
+     * map debugValue from Int to Long,
+     *                from Float to Double,
+     *                from Long to Double if value is Double
+     */
     private fun convertTypeIfNeeded(debugValue: Any, value: Any): Any {
         var result = when {
             debugValue is Int -> debugValue.toLong()
@@ -71,7 +71,7 @@ public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
         updateValues(_valuesFlow.value)
     }
 
-    internal suspend fun resetAll() {
+    internal suspend fun resetAllValues() {
         _valuesFlow.value = emptyMap<String, Any>()
         updateValues(_valuesFlow.value)
     }
@@ -79,12 +79,12 @@ public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
     private suspend fun updateValues(map: Map<String, Any>) {
         coroutineScope {
             launch(Dispatchers.IO) {
-                mutex.withLock { preferences.updateValues(map) }
+                mutex.withLock { updateValues(preferences, map) }
             }
         }
     }
 
-    private fun SharedPreferences.fetchValues(): Map<String, Any> {
+    private fun fetchValues(preferences: SharedPreferences): Map<String, Any> {
         return try {
             val jsonValues = preferences.getString(KEY, EMPTY_MAP) ?: EMPTY_MAP
             JsonConverter.toMap(JSONObject(jsonValues))
@@ -95,7 +95,7 @@ public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
         }
     }
 
-    private fun SharedPreferences.updateValues(map: Map<String, Any>) {
+    private fun updateValues(preferences: SharedPreferences, map: Map<String, Any>) {
         try {
             val jsonValues = JSONObject(map).toString()
             preferences.edit(commit = true) {

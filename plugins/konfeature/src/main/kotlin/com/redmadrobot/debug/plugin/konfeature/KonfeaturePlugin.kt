@@ -12,7 +12,7 @@ public class KonfeaturePlugin(
     private val konfeature: Konfeature,
 ) : Plugin() {
 
-    public companion object {
+    private companion object {
         private const val NAME = "KONFEATURE"
     }
 
