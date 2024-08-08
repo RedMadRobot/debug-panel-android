@@ -42,7 +42,8 @@ include(
     ":plugins:servers",
     ":plugins:app-settings",
     ":plugins:flipper",
-    ":plugins:variable"
+    ":plugins:variable",
+    ":plugins:konfeature",
 )
 
 include(":sample")

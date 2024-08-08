@@ -7,6 +7,8 @@ import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
 import com.redmadrobot.debug.plugin.accounts.data.model.DebugAccount
 import com.redmadrobot.debug.plugin.appsettings.AppSettingsPlugin
 import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
+import com.redmadrobot.debug.plugin.konfeature.KonfeatureDebugPanelInterceptor
+import com.redmadrobot.debug.plugin.konfeature.KonfeaturePlugin
 import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.variable.VariablePlugin
@@ -16,10 +18,13 @@ import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
 import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
 import com.redmadrobot.debug_sample.debug_data.DebugVariableWidgetsProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
+import com.redmadrobot.debug_sample.storage.TestKonfeatureProvider
 
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        val debugPanelInterceptor = KonfeatureDebugPanelInterceptor(this)
 
         DebugPanel.initialize(
             application = this,
@@ -44,6 +49,10 @@ class App : Application() {
                 ),
                 VariablePlugin(
                     customWidgets = DebugVariableWidgetsProvider().provideData()
+                ),
+                KonfeaturePlugin(
+                    debugPanelInterceptor = debugPanelInterceptor,
+                    konfeature = TestKonfeatureProvider.create(debugPanelInterceptor),
                 ),
             )
         )

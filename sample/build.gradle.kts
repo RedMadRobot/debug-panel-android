@@ -43,6 +43,7 @@ dependencies {
     implementation(stack.material)
     implementation(androidx.constraintlayout)
     implementation(rmr.flipper)
+    implementation(libs.konfeature)
     implementation(stack.timber)
     implementation(stack.kotlinx.coroutines.android)
     implementation(androidx.lifecycle.runtime)
@@ -54,14 +55,8 @@ dependencies {
     debugImplementation(project(":plugins:app-settings"))
     debugImplementation(project(":plugins:flipper"))
     debugImplementation(project(":plugins:variable"))
+    debugImplementation(project(":plugins:konfeature"))
     releaseImplementation(project(":no-op"))
-//    debugImplementation("com.redmadrobot.debug:panel-core:${project.version}")
-//    debugImplementation("com.redmadrobot.debug:accounts-plugin:${project.version}")
-//    debugImplementation("com.redmadrobot.debug:servers-plugin:${project.version}")
-//    debugImplementation("com.redmadrobot.debug:app-settings-plugin:${project.version}")
-//    debugImplementation("com.redmadrobot.debug:flipper-plugin:${project.version}")
-//    debugImplementation("com.redmadrobot.debug:variable-plugin:${project.version}")
-//    releaseImplementation("com.redmadrobot.debug:panel-no-op:${project.version}")
 
     implementation(stack.retrofit)
 }
