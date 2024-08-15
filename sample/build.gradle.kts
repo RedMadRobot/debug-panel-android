@@ -54,7 +54,6 @@ dependencies {
     debugImplementation(project(":plugins:accounts"))
     debugImplementation(project(":plugins:app-settings"))
     debugImplementation(project(":plugins:flipper"))
-    debugImplementation(project(":plugins:variable"))
     debugImplementation(project(":plugins:konfeature"))
     releaseImplementation(project(":no-op"))
 

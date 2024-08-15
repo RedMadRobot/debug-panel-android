@@ -49,3 +49,7 @@
 ### Возможность отображения DebugPanel без использования FragmentManager
 
 Вместо метода `DebugPanel.showPanel(FragmentManager)` следует использовать `DebugPanel.showPanel(Activity)`
+
+### Миграция с VariablePlugin на KonfeaturePlugin
+
+TODO: Написать гид миграции

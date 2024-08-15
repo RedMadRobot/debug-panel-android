@@ -73,16 +73,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/request_test" />
 
-    <Button
-        android:id="@+id/autofill_sample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Toast some variables"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/open_second_activity" />
-
     <TextView
         android:id="@+id/account_data"
         android:layout_width="wrap_content"

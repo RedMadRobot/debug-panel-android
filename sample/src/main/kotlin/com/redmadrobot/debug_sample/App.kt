@@ -11,12 +11,10 @@ import com.redmadrobot.debug.plugin.konfeature.KonfeatureDebugPanelInterceptor
 import com.redmadrobot.debug.plugin.konfeature.KonfeaturePlugin
 import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.variable.VariablePlugin
 import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
 import com.redmadrobot.debug_sample.debug_data.DebugAccountsProvider
 import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
 import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
-import com.redmadrobot.debug_sample.debug_data.DebugVariableWidgetsProvider
 import com.redmadrobot.debug_sample.storage.AppTestSettings
 import com.redmadrobot.debug_sample.storage.TestKonfeatureProvider
 
@@ -46,9 +44,6 @@ class App : Application() {
                 ),
                 FlipperPlugin(
                     toggles = DebugFlipperFeaturesProvider().provideData(),
-                ),
-                VariablePlugin(
-                    customWidgets = DebugVariableWidgetsProvider().provideData()
                 ),
                 KonfeaturePlugin(
                     debugPanelInterceptor = debugPanelInterceptor,
