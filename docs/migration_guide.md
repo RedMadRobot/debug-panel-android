@@ -16,9 +16,6 @@
 
 - debugImplementation("com.redmadrobot.debug:servers-plugin:<version>")
 + debugImplementation("com.redmadrobot.debug:plugin-servers:<version>")
-
-- debugImplementation("com.redmadrobot.debug:variable-plugin:<version>")
-+ debugImplementation("com.redmadrobot.debug:plugin-variable:<version>")
 ```
 
 ### Изменения нейминга и структуры пакетов
@@ -39,9 +36,6 @@
 - import com.redmadrobot.debug.servers.plugin.ServersPlugin
 + import com.redmadrobot.debug.plugin.servers.ServersPlugin
 
-- import com.redmadrobot.debug.variable.plugin.VariablePlugin
-+ import com.redmadrobot.debug.plugin.variable.VariablePlugin
-
 - import com.redmadrobot.debug_panel_core.internal.DebugPanel
 + import com.redmadrobot.debug.core.DebugPanel
 ```
@@ -52,4 +46,16 @@
 
 ### Миграция с VariablePlugin на KonfeaturePlugin
 
-TODO: Написать гид миграции
+VariablePlugin полностью убран из дебаг панели, тк функционал нового KonfeaturePlugin практически полностью его заменяет и предоставляет новые возможности.
+Документацию по настройке KonfeaturePlugin можно посмотреть в [README][readme].
+
+VariablePlugin позволял изменять значения переменных типа Int и Float, которые пока не поддерживаются в KonfeaturePlugin.
+Вместо них, необходимо использовать Long и Double соответственно.
+
+Также в VariablePlugin была возможность настроить использование значений переменных любого типа, в KonfeaturePlugin данной возможности нет.
+В качестве временного решения можно использовать тип String и на стороне приложение приводить его к нужному типу.
+
+Планируется развивать и улучшать KonfeaturePlugin, так что следите за обновлениями.
+
+
+[readme]: /README.md
