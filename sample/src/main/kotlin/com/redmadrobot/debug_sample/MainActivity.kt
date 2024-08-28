@@ -1,7 +1,6 @@
 package com.redmadrobot.debug_sample
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,7 +10,6 @@ import com.redmadrobot.debug.core.DebugPanel
 import com.redmadrobot.debug.plugin.accounts.AccountSelectedEvent
 import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
 import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent
-import com.redmadrobot.debug.plugin.variable.asDebugVariable
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
 import com.redmadrobot.flipper.config.FlipperValue
@@ -25,8 +23,6 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,35 +72,6 @@ class MainActivity : AppCompatActivity() {
         }
         openSecondActivity.setOnClickListener {
             startActivity(Intent(this@MainActivity, SecondActivity::class.java))
-        }
-        autofillSample.setOnClickListener {
-            val strings = """
-                    ${"initString".asDebugVariable("filledString")}
-                    ${"".asDebugVariable("initialyEmptyString")}
-                """.trimIndent()
-            val boolean = """
-                ${true.asDebugVariable("initialy true")}
-                ${false.asDebugVariable("initialy false")}
-            """.trimIndent()
-            val digits = """
-                ${10.asDebugVariable("integer10")}
-                ${100.asDebugVariable("integer100")}
-                ${10F.asDebugVariable("float10")}
-                ${.0.asDebugVariable("double0")}
-            """.trimIndent()
-            val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                LocalDateTime.now()
-                    .asDebugVariable("local_date_time")
-                    .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-            } else {
-                ""
-            }
-
-            Toast.makeText(
-                applicationContext,
-                strings + "\n" + boolean + "\n" + digits + "\n" + date,
-                Toast.LENGTH_LONG
-            ).show()
         }
     }
 
