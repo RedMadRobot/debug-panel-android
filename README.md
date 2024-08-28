@@ -20,6 +20,7 @@
 2. **Добавление, редактирование и выбор сервера.**
 3. **Просмотр и редактирование SharedPreferences.**
 4. **Управление Feature toggle на основе Flipper.**
+5. **Управление remote config на основе Konfeature.**
 
 Библиотека разрабатывается используя подход работы с плагинами, когда каждый функционал подключается отдельным модулем в зависимостях.
 
@@ -57,6 +58,11 @@ dependencies {
     //Так же необходимо подключить саму библеотеку flipper
     debugImplementation "com.redmadrobot:flipper:${flipper_version}"
 
+    //Плагин для работы с remote config на основе Konfeature
+    debugImplementation 'com.redmadrobot.debug:konfeature-plugin:${debug_panel_version}'
+    //Так же необходимо подключить саму библеотеку konfeature
+    debugImplementation "com.redmadrobot.konfeature:konfeature:${konfeature_version}"
+
     //Плагин для подмены переменных 
     debugImplementation 'com.redmadrobot.debug:variable-plugin:${flipper_version}'
 }
@@ -85,7 +91,9 @@ class App : Application() {
             plugins = listOf(
                 AccountsPlugin(/*arguments*/),
                 ServersPlugin(/*arguments*/),
-                AppSettingsPlugin(/*arguments*/)
+                AppSettingsPlugin(/*arguments*/),
+                FlipperPlugin(/*arguments*/),
+                KonfeaturePlugin(/*arguments*/),
             )
         )
     }
@@ -292,6 +300,36 @@ override fun getValue(feature: Feature): FlipperValue {
 }
 ```
 
+### Konfeature Plugin
+
+В основе плагина лежит библиотека [Konfeature][konfeature], которая позволяет:
+
+- отображать конфигурации feature, которые используются в konfeature
+- видеть источник каждого элемента конфигурации (Default, Firebase, AppGallery и т.д.)
+- переопределять значение элементов конфигурации с типом Boolean, String, Long, Double
+
+Для подключения плагина, необходимо передать в него объект класса `KonfeatureDebugPanelInterceptor` и `Konfeature`
+
+```kotlin
+val debugPanelInterceptor = KonfeatureDebugPanelInterceptor(context)
+
+val konfeatureInstance = konfeature {
+    if (isDebug) {
+        addIntercepot(debugPanelInterceptor)
+    }
+}
+
+KonfeaturePlugin(
+    debugPanelInterceptor = debugPanelInterceptor,
+    konfeature = konfeatureInstance,
+)
+```
+
+В builder konfeture можно настроить следующее:
+
+- добавить config конкретной фичи - `register(FeatureConfigN())`
+- настроить работу с remote config через реализацию интерфейса `FeatureSource` - `addSource(featureSource)`
+- настроить логирование - `setLogger(logger)`
 
 # Безопасность!
 Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
@@ -333,4 +371,5 @@ ServersPlugin(
 [plugin-development-doc]:docs/plugin_development.md
 [changelog]: docs/changelog.md
 [migration-guide]: docs/migration_guide.md
+[konfeature]: https://github.com/RedMadRobot/Konfeature
 [license]: LICENSE
