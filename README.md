@@ -62,9 +62,6 @@ dependencies {
     debugImplementation 'com.redmadrobot.debug:konfeature-plugin:${debug_panel_version}'
     //Так же необходимо подключить саму библеотеку konfeature
     debugImplementation "com.redmadrobot.konfeature:konfeature:${konfeature_version}"
-
-    //Плагин для подмены переменных 
-    debugImplementation 'com.redmadrobot.debug:variable-plugin:${flipper_version}'
 }
 
 ```
