@@ -4,12 +4,22 @@ plugins {
 
 group = "com.redmadrobot.build"
 
-repositories {
-    google()
-    mavenCentral()
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+}
+
+java {
+    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 dependencies {
-    implementation(kotlin("gradle-plugin", version = "1.9.23"))
-    implementation("com.android.tools.build:gradle:8.3.2")
+    implementation(libs.infrastructure.publish)
+    implementation(libs.infrastructure.android)
+    implementation(libs.publish.gradlePlugin)
+    implementation(libs.gradle.android.cacheFixGradlePlugin)
+    implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.detekt.gradlePlugin)
+    implementation(libs.android.gradlePlugin)
 }

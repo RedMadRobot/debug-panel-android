@@ -5,7 +5,7 @@ plugins {
     id("convention-publish")
 }
 
-description = "Debug panel core library"
+description = "Plugin that helps to change the values of shared preferences"
 
 android {
     compileSdk = Project.COMPILE_SDK
@@ -21,8 +21,8 @@ android {
         getByName(Project.BuildTypes.release) {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile(Project.Proguard.androidOptimizedRules),
-                Project.Proguard.projectRules
+                    getDefaultProguardFile(Project.Proguard.androidOptimizedRules),
+                    Project.Proguard.projectRules
             )
         }
     }
@@ -34,7 +34,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
     }
 
     buildFeatures {
@@ -44,7 +43,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.debug.core"
+    namespace = "com.redmadrobot.debug.plugin.appsettings"
 }
 
 kotlin {
@@ -52,6 +51,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(":panel-core"))
+    implementation(project(":panel-common"))
+    implementation(kotlin("stdlib"))
     kapt(androidx.room.compiler)
 }

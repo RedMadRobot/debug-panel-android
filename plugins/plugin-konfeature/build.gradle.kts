@@ -5,7 +5,7 @@ plugins {
     id("convention-publish")
 }
 
-description = "Plugin that helps to change the values of shared preferences"
+description = "Plugin for konfeature library integration"
 
 android {
     compileSdk = Project.COMPILE_SDK
@@ -34,6 +34,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += "-Xexplicit-api=strict"
     }
 
     buildFeatures {
@@ -43,16 +44,11 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.debug.plugin.appsettings"
-}
-
-kotlin {
-    explicitApi()
+    namespace = "com.redmadrobot.debug.plugin.konfeature"
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":common"))
-    implementation(kotlin("stdlib"))
-    kapt(androidx.room.compiler)
+    implementation(project(":panel-core"))
+    implementation(project(":panel-common"))
+    implementation(androidx.lifecycle.runtime)
 }
