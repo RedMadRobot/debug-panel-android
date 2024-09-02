@@ -366,7 +366,7 @@ ServersPlugin(
 [MIT][license]
 
 [plugin-development-doc]:docs/plugin_development.md
-[changelog]: changelog.md
+[changelog]: ./CHANGELOG.md
 [migration-guide]: docs/migration_guide.md
 [konfeature]: https://github.com/RedMadRobot/Konfeature
 [license]: LICENSE
