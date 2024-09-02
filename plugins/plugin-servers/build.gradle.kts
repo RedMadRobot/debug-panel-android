@@ -5,7 +5,7 @@ plugins {
     id("convention-publish")
 }
 
-description = "Plugin for switching user accounts"
+description = "Plugin for switching server hosts"
 
 android {
     compileSdk = Project.COMPILE_SDK
@@ -36,12 +36,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    kapt {
-        arguments {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
-    }
-
     buildFeatures {
         compose = true
     }
@@ -49,7 +43,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.debug.plugin.accounts"
+    namespace = "com.redmadrobot.debug.plugin.servers"
 }
 
 kotlin {
@@ -57,8 +51,9 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":panel-core"))
+    implementation(project(":panel-common"))
     implementation(kotlin("stdlib"))
-    implementation(project(":core"))
-    implementation(project(":common"))
+    implementation(stack.kotlinx.serialization.json)
     kapt(androidx.room.compiler)
 }

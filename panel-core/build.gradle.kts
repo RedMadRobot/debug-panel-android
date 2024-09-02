@@ -5,7 +5,7 @@ plugins {
     id("convention-publish")
 }
 
-description = "Plugin for konfeature library integration"
+description = "Debug panel core library"
 
 android {
     compileSdk = Project.COMPILE_SDK
@@ -21,8 +21,8 @@ android {
         getByName(Project.BuildTypes.release) {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile(Project.Proguard.androidOptimizedRules),
-                    Project.Proguard.projectRules
+                getDefaultProguardFile(Project.Proguard.androidOptimizedRules),
+                Project.Proguard.projectRules
             )
         }
     }
@@ -34,7 +34,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += "-Xexplicit-api=strict"
+        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
     }
 
     buildFeatures {
@@ -44,11 +44,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
     }
-    namespace = "com.redmadrobot.debug.plugin.konfeature"
+    namespace = "com.redmadrobot.debug.core"
+}
+
+kotlin {
+    explicitApi()
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":common"))
-    implementation(androidx.lifecycle.runtime)
+    implementation(project(":panel-common"))
+    kapt(androidx.room.compiler)
 }

@@ -48,7 +48,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":common"))
+    implementation(project(":panel-core"))
+    implementation(project(":panel-common"))
     implementation(androidx.lifecycle.runtime)
 }
