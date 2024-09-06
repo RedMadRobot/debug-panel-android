@@ -30,6 +30,16 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
+        val version = "2024.09.04" // Keep it in sync with root settings.gradle.kts
+        create("rmr") {
+            from("com.redmadrobot.versions:versions-redmadrobot:$version")
+        }
+        create("androidx") {
+            from("com.redmadrobot.versions:versions-androidx:$version")
+        }
+        create("stack") {
+            from("com.redmadrobot.versions:versions-stack:$version")
+        }
         create("libs") {
             from(files("../gradle/libs.versions.toml"))
         }

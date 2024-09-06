@@ -1,6 +1,7 @@
 plugins {
     id(Plugins.Android.applicationPlugin)
     kotlin(Plugins.Kotlin.androidPlugin)
+    alias(stack.plugins.kotlin.compose)
 }
 
 android {
@@ -23,12 +24,8 @@ android {
 
     buildFeatures {
         viewBinding = true
-        compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
-    }
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("debug")
@@ -43,7 +40,7 @@ dependencies {
     implementation(stack.material)
     implementation(androidx.constraintlayout)
     implementation(rmr.flipper)
-    implementation(libs.konfeature)
+    implementation(rmr.konfeature)
     implementation(stack.timber)
     implementation(stack.kotlinx.coroutines.android)
     implementation(androidx.lifecycle.runtime)

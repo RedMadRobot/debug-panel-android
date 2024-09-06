@@ -2,6 +2,7 @@ plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
     kotlin(Plugins.Kotlin.kapt)
+    alias(stack.plugins.kotlin.compose)
     id("convention-publish")
 }
 
@@ -37,13 +38,6 @@ android {
         freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = androidx.versions.compose.compiler.get()
-    }
     namespace = "com.redmadrobot.debug.core"
 }
 
