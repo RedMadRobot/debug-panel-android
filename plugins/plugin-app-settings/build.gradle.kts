@@ -1,7 +1,6 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
-    kotlin(Plugins.Kotlin.kapt)
     alias(stack.plugins.kotlin.compose)
     id("convention-publish")
 }
@@ -48,5 +47,4 @@ dependencies {
     implementation(project(":panel-core"))
     implementation(project(":panel-common"))
     implementation(kotlin("stdlib"))
-    kapt(androidx.room.compiler)
 }

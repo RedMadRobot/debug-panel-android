@@ -2,7 +2,6 @@ object Plugins {
 
     object Kotlin {
         const val androidPlugin = "android"
-        const val kapt = "kapt"
     }
 
     object Android {

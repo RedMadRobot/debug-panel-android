@@ -1,7 +1,7 @@
 plugins {
     id(Plugins.Android.libraryPlagin)
     kotlin(Plugins.Kotlin.androidPlugin)
-    kotlin(Plugins.Kotlin.kapt)
+    alias(stack.plugins.ksp)
     alias(stack.plugins.kotlin.compose)
     id("convention-publish")
 }
@@ -37,10 +37,8 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
-    kapt {
-        arguments {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
 
     namespace = "com.redmadrobot.debug.plugin.accounts"
@@ -54,5 +52,5 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":panel-core"))
     implementation(project(":panel-common"))
-    kapt(androidx.room.compiler)
+    ksp(androidx.room.compiler)
 }
