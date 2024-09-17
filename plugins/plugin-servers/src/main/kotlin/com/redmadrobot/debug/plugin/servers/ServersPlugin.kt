@@ -1,12 +1,11 @@
 package com.redmadrobot.debug.plugin.servers
 
 import androidx.compose.runtime.Composable
-import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import com.redmadrobot.debug.core.data.DebugDataProvider
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.internal.CommonContainer
-import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.core.internal.EditablePlugin
+import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
@@ -14,7 +13,6 @@ import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 import com.redmadrobot.debug.plugin.servers.ui.ServersScreen
 import kotlinx.coroutines.runBlocking
 
-@OptIn(DebugPanelInternal::class)
 public class ServersPlugin(
     private val preInstalledServers: List<DebugServerData> = emptyList(),
 ) : Plugin(), EditablePlugin {

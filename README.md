@@ -45,22 +45,22 @@ dependencies {
 ```groovy
 dependencies {
     //Плагин для работы с аккаунтами
-    debugImplementation 'com.redmadrobot.debug:accounts-plugin:${debug_panel_version}'
-    
+    debugImplementation 'com.redmadrobot.debug:plugin-accounts:${debug_panel_version}'
+
     //Плагин для работы с серверами
-    debugImplementation 'com.redmadrobot.debug:servers-plugin:${debug_panel_version}'
-    
+    debugImplementation 'com.redmadrobot.debug:plugin-servers:${debug_panel_version}'
+
     //Плагин для работы с SharedPreferences
-    debugImplementation 'com.redmadrobot.debug:app-settings-plugin:${debug_panel_version}'
+    debugImplementation 'com.redmadrobot.debug:plugin-app-settings:${debug_panel_version}'
 
     //Плагин для работы с Feature Toggle на основе Flipper
-    debugImplementation 'com.redmadrobot.debug:flipper-plugin:${debug_panel_version}'
+    debugImplementation 'com.redmadrobot.debug:plugin-flipper:${debug_panel_version}'
     //Так же необходимо подключить саму библеотеку flipper
     debugImplementation "com.redmadrobot:flipper:${flipper_version}"
 
     //Плагин для работы с remote config на основе Konfeature
-    debugImplementation 'com.redmadrobot.debug:konfeature-plugin:${debug_panel_version}'
-    //Так же необходимо подключить саму библеотеку konfeature
+    debugImplementation 'com.redmadrobot.debug:plugin-konfeature:${debug_panel_version}'
+    //Так же необходимо подключить саму библиотеку konfeature
     debugImplementation "com.redmadrobot.konfeature:konfeature:${konfeature_version}"
 }
 
