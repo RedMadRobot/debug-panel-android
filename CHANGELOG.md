@@ -2,7 +2,7 @@
 
 ### Changed
 
-- no changes
+* ServersPlugin больше не помечен аннотацией @DebugPanelInternal (#34)
 
 ## 0.9.0
 ### Изменения
