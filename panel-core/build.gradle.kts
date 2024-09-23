@@ -38,6 +38,10 @@ android {
         freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
     }
 
+    lint {
+        disable += "CoroutineCreationDuringComposition"
+    }
+
     namespace = "com.redmadrobot.debug.core"
 }
 
