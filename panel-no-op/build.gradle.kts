@@ -43,6 +43,6 @@ dependencies {
     implementation(stack.okhttp)
     implementation(androidx.appcompat)
     implementation(rmr.flipper)
-    implementation(libs.konfeature)
+    implementation(rmr.konfeature)
     implementation(stack.kotlinx.coroutines.android)
 }

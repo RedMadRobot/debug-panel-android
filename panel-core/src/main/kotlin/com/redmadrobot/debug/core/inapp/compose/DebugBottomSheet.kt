@@ -2,7 +2,6 @@
 
 package com.redmadrobot.debug.core.inapp.compose
 
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,18 +25,13 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.themeadapter.material.MdcTheme
-import com.redmadrobot.debug.core.R
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.plugin.Plugin
 import kotlinx.coroutines.launch
@@ -53,24 +47,15 @@ public fun DebugBottomSheet(onClose: () -> Unit) {
         },
         skipHalfExpanded = false
     )
-    val context = LocalContext.current
-    val themeWrapper by remember {
-        mutableStateOf(
-            value = ContextThemeWrapper(context, R.style.DebugPanelTheme)
-        )
-    }
 
-    MdcTheme(context = themeWrapper) {
-        ModalBottomSheetLayout(
-            sheetContent = { BottomSheetContent() },
-            sheetState = state,
-            scrimColor = Color.Transparent,
-            content = {}
-        )
-    }
+    ModalBottomSheetLayout(
+        sheetContent = { BottomSheetContent() },
+        sheetState = state,
+        scrimColor = Color.Transparent,
+        content = {},
+    )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BottomSheetContent() {
     val plugins = remember { getAllPlugins() }

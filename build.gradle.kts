@@ -2,9 +2,9 @@
 
 subprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions.freeCompilerArgs += listOf(
-            "-opt-in=com.redmadrobot.debug.core.annotation.DebugPanelInternal"
-        )
+        compilerOptions {
+            freeCompilerArgs.add("-opt-in=com.redmadrobot.debug.core.annotation.DebugPanelInternal")
+        }
     }
 }
 

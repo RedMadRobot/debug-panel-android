@@ -63,7 +63,7 @@ dependencies {
     api(androidx.room.runtime)
     api(rmr.flipper)
     api(rmr.itemsadapter.viewbinding)
-    api(libs.konfeature)
+    api(rmr.konfeature)
     api(stack.accompanist.themeadapter.core)
     api(stack.accompanist.themeadapter.material)
     api(stack.kotlinx.coroutines.android)
