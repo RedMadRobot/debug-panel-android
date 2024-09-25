@@ -1,7 +1,6 @@
 plugins {
-    id(Plugins.Android.libraryPlagin)
-    kotlin(Plugins.Kotlin.androidPlugin)
-    kotlin(Plugins.Kotlin.kapt)
+    id("com.android.library")
+    kotlin("android")
     id("convention-publish")
 }
 
@@ -69,7 +68,6 @@ dependencies {
     api(stack.kotlinx.coroutines.android)
     api(stack.okhttp)
     api(stack.timber)
-    kapt(androidx.room.compiler)
     // legacy
     api(androidx.appcompat)
     api(androidx.constraintlayout)

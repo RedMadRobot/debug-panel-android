@@ -1,6 +1,6 @@
 plugins {
-    id(Plugins.Android.applicationPlugin)
-    kotlin(Plugins.Kotlin.androidPlugin)
+    id("com.android.application")
+    kotlin("android")
     alias(stack.plugins.kotlin.compose)
 }
 
