@@ -21,8 +21,8 @@
 * app-settings-plugin переведен на Jetpack Compose
 * flipper-plugin переведен на Jetpack Compose
 * servers-plugin переведен на Jetpack Compose
-* **Breaking changes:** Изменены Maven-координаты библиотек. Наименования пакетов во всех модулях приведены к общему виду. См. [гайд по миграции][docs\migration-guide].
-* **Breaking changes:** Удален плагин Variable. Вместо него используйте плагин Konfeature. См. [гайд по миграции][docs\migration-guide].
+* **Breaking changes:** Изменены Maven-координаты библиотек. Наименования пакетов во всех модулях приведены к общему виду. См. [гайд по миграции][docs\migration_guide].
+* **Breaking changes:** Удален плагин Variable. Вместо него используйте плагин Konfeature. См. [гайд по миграции][docs\migration_guide].
 
 ## 0.8.1
 ### Изменения
