@@ -1,6 +1,6 @@
 plugins {
-    id(Plugins.Android.libraryPlagin)
-    kotlin(Plugins.Kotlin.androidPlugin)
+    id("com.android.library")
+    kotlin("android")
     alias(stack.plugins.kotlin.compose)
     id("convention-publish")
 }

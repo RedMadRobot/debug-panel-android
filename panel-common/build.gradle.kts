@@ -1,6 +1,6 @@
 plugins {
-    id(Plugins.Android.libraryPlagin)
-    kotlin(Plugins.Kotlin.androidPlugin)
+    id("com.android.library")
+    kotlin("android")
     id("convention-publish")
 }
 

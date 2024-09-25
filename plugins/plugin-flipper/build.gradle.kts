@@ -1,5 +1,5 @@
 plugins {
-    id("convention.plugin")
+    id("convention.debug.panel.plugin")
     alias(stack.plugins.kotlin.compose)
 }
 
@@ -10,7 +10,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":panel-core"))
-    implementation(project(":panel-common"))
     implementation(androidx.lifecycle.runtime)
 }

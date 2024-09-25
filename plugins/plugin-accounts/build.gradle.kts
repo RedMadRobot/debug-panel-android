@@ -1,5 +1,5 @@
 plugins {
-    id("convention.plugin")
+    id("convention.debug.panel.plugin")
     alias(stack.plugins.ksp)
     alias(stack.plugins.kotlin.compose)
 }
