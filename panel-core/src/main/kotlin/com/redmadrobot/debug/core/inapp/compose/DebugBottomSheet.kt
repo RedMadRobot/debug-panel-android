@@ -14,7 +14,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
@@ -36,7 +35,6 @@ import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.plugin.Plugin
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 public fun DebugBottomSheet(onClose: () -> Unit) {
     val state = rememberModalBottomSheetState(
@@ -109,8 +107,7 @@ private fun PluginsTabLayout(pluginsName: List<String>, pagerState: PagerState) 
 
 @Composable
 private fun PluginsPager(plugins: List<Plugin>, pagerState: PagerState) {
-    plugins[pagerState.currentPage].content()
-    HorizontalPager(state = pagerState) {
-        // no impl. Temporary solution
+    HorizontalPager(state = pagerState) { page ->
+        plugins[page].content()
     }
 }
