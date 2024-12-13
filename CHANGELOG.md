@@ -2,7 +2,9 @@
 
 ### Changes
 
-- *No changes*
+* Gradle обновлен до 8.9
+* compileSdk и targetSdk повышены до 35
+* Обновлены зависимости (полный список обновлений смотрите [тут](https://github.com/RedMadRobot/gradle-version-catalogs/releases/tag/2024.12.12))
 
 ## [0.9.1] (2024-09-18)
 
