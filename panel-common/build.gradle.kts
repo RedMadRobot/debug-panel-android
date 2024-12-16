@@ -48,6 +48,7 @@ dependencies {
     api(androidx.compose.animation)
     api(androidx.compose.foundation)
     api(androidx.compose.material)
+    api(androidx.compose.material.icons.core)
     api(androidx.compose.runtime.livedata)
     api(androidx.compose.ui)
     api(androidx.compose.ui.tooling)

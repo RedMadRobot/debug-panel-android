@@ -31,7 +31,7 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        val version = "2024.09.04" // Keep it in sync with buildSrc/settings.gradle.kts
+        val version = "2024.12.12" // Keep it in sync with buildSrc/settings.gradle.kts
         create("rmr") {
             from("com.redmadrobot.versions:versions-redmadrobot:$version")
         }
