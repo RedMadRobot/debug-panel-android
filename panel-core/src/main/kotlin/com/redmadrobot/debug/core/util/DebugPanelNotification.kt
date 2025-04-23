@@ -82,7 +82,9 @@ internal class DebugPanelNotification(private val context: Context) {
     }
 
     private fun getPanelPendingIntent(context: Context): PendingIntent? {
-        val openPanelIntent = Intent(DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL)
+        val openPanelIntent = Intent(DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL).apply {
+            setPackage(context.packageName)
+        }
         return PendingIntent.getBroadcast(
             context,
             0,
