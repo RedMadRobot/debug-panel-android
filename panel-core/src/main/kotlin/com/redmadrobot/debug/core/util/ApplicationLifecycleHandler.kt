@@ -4,8 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.IntentFilter
+import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import com.redmadrobot.debug.core.inapp.shake.ShakeController
 import timber.log.Timber
 
@@ -51,8 +51,7 @@ internal class ApplicationLifecycleHandler(
 
                 override fun onActivityPaused(activity: Activity) {
                     --openActivityCount
-
-                    (activity as? FragmentActivity)?.let {
+                    (activity as? ComponentActivity)?.let {
                         activity.unregisterReceiver(debugPanelBroadcastReceiver)
                     }
                     if (openActivityCount == 0) onAppPaused()
