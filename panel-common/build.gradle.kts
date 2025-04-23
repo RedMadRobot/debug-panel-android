@@ -64,8 +64,6 @@ dependencies {
     api(rmr.flipper)
     api(rmr.itemsadapter.viewbinding)
     api(rmr.konfeature)
-    api(stack.accompanist.themeadapter.core)
-    api(stack.accompanist.themeadapter.material)
     api(stack.kotlinx.coroutines.android)
     api(stack.okhttp)
     api(stack.timber)
