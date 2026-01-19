@@ -34,7 +34,7 @@ internal class DebugStageRepository(
         }
     }
 
-    fun getSelectedStage(): DebugStage {
+    fun getSelectedStage(): DebugStage? {
         val stageName = sharedPreferences.getString(SELECTED_STAGE_NAME, null)
         val hostsHash = sharedPreferences.getInt(SELECTED_STAGE_HOSTS_HASH, -1)
 
@@ -48,8 +48,8 @@ internal class DebugStageRepository(
         }
     }
 
-    fun getDefault(): DebugStage {
-        return preInstalledStages.first { it.isDefault }
+    fun getDefault(): DebugStage? {
+        return preInstalledStages.firstOrNull { it.isDefault }
     }
 
     suspend fun getStages(): List<DebugStage> {

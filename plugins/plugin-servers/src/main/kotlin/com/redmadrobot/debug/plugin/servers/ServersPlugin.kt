@@ -35,11 +35,11 @@ public class ServersPlugin(
             return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getDefault()
         }
 
-        public fun getSelectedStage(): DebugStage {
+        public fun getSelectedStage(): DebugStage? {
             return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().stagesRepository.getSelectedStage()
         }
 
-        public fun getDefaultStage(): DebugStage {
+        public fun getDefaultStage(): DebugStage? {
             return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().stagesRepository.getDefault()
         }
     }

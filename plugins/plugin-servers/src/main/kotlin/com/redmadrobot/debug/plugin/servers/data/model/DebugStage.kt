@@ -17,7 +17,22 @@ public data class DebugStage(
     }
 
     override fun equals(other: Any?): Boolean {
-        val otherServer = other as DebugStage
-        return this.hosts.size == otherServer.hosts.size && this.hosts == otherServer.hosts
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DebugStage
+
+        if (name != other.name) return false
+        if (hosts != other.hosts) return false
+        if (isDefault != other.isDefault) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + hosts.hashCode()
+        result = 31 * result + isDefault.hashCode()
+        return result
     }
 }
