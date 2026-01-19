@@ -33,14 +33,19 @@ public class DebugStageInterceptor(private val hostName: String) : Interceptor {
         var request = chain.request()
         return if (DebugPanel.isInitialized) {
             val debugStage = stageRepository.getSelectedStage()
-            val host = debugStage.hosts[hostName]
-            if (host != null) {
-                val newUrl = request.getNewUrl(host)
-                request = request.newBuilder()
-                    .url(newUrl)
-                    .build()
-            }
-            chain.proceed(requestModifier?.invoke(request, debugStage) ?: request)
+            val modifiedRequest = debugStage?.let { stage ->
+                val host = stage.hosts[hostName]
+                if (host != null) {
+                    val newUrl = request.getNewUrl(host)
+                    request = request.newBuilder()
+                        .url(newUrl)
+                        .build()
+                }
+
+                requestModifier?.invoke(request, stage)
+            } ?: request
+
+            chain.proceed(modifiedRequest)
         } else {
             chain.proceed(request)
         }
