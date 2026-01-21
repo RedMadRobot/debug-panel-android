@@ -2,6 +2,7 @@ package com.redmadrobot.debug_sample.debug_data
 
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
+import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 
 class DebugServersProvider {
 
@@ -20,6 +21,15 @@ class DebugServersProvider {
             ),
             DebugServer(
                 name = "debug 4", url = "https://testserver4.com"
+            ),
+            DebugStage(
+                name = "debug stage 1",
+                hosts = mapOf(
+                    "main" to "https://testserver1main.com",
+                    "s3" to "https://testserver1s3.com",
+                    "wss" to "https://testserver1wss.com"
+                ),
+                isDefault = true
             ),
         )
     }
