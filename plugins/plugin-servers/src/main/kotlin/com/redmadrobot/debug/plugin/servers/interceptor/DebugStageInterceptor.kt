@@ -30,25 +30,28 @@ public class DebugStageInterceptor(private val hostName: String) : Interceptor {
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        var request = chain.request()
-        return if (DebugPanel.isInitialized) {
-            val debugStage = stageRepository.getSelectedStage()
-            val modifiedRequest = debugStage?.let { stage ->
-                val host = stage.hosts[hostName]
-                if (host != null) {
-                    val newUrl = request.getNewUrl(host)
-                    request = request.newBuilder()
-                        .url(newUrl)
-                        .build()
-                }
+        val originalRequest = chain.request()
 
-                requestModifier?.invoke(request, stage)
-            } ?: request
-
-            chain.proceed(modifiedRequest)
-        } else {
-            chain.proceed(request)
+        if (!DebugPanel.isInitialized) {
+            return chain.proceed(originalRequest)
         }
+
+        val debugStage = stageRepository.getSelectedStage()
+        val host = debugStage?.hosts?.get(hostName)
+        var currentRequest = originalRequest
+
+        if (host != null) {
+            val newUrl = originalRequest.getNewUrl(host)
+            if (newUrl != originalRequest.url) {
+                currentRequest = originalRequest.newBuilder().url(newUrl).build()
+            }
+        }
+
+        val modifiedRequest = debugStage?.let { stage ->
+            requestModifier?.invoke(currentRequest, stage)
+        }
+
+        return chain.proceed(modifiedRequest ?: currentRequest)
     }
 
 
