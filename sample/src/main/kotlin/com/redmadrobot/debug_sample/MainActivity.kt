@@ -14,9 +14,6 @@ import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
 import com.redmadrobot.flipper.config.FlipperValue
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import okhttp3.ResponseBody
@@ -146,8 +143,7 @@ class MainActivity : AppCompatActivity() {
             .onEach { changedToggles ->
                 onFlipperTogglesChanged(changedToggles)
             }
-            .flowOn(Dispatchers.Main)
-            .launchIn(GlobalScope)
+            .launchIn(lifecycleScope)
     }
 
     private fun onFlipperTogglesChanged(changedToggles: Map<String, FlipperValue>) {
