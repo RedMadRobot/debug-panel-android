@@ -11,7 +11,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-internal class DebugPanelInstance constructor(
+internal class DebugPanelInstance(
     application: Application,
     plugins: List<Plugin> = emptyList()
 ) {
