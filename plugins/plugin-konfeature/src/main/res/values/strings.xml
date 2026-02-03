@@ -18,4 +18,8 @@
     <string name="konfeature_plugin_refresh">Refresh</string>
     <string name="konfeature_plugin_collapse_all">Collapse All</string>
     <string name="konfeature_plugin_reset_all">Reset All</string>
+
+    <string name="konfeature_plugin_search_hint">Search by key…</string>
+    <string name="konfeature_plugin_search_clear">Clear search</string>
+    <string name="konfeature_plugin_search_empty">No toggles found</string>
 </resources>

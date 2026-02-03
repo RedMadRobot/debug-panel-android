@@ -25,7 +25,6 @@ internal class KonfeatureViewModel(
     private val konfeature: Konfeature,
     private val debugPanelInterceptor: KonfeatureDebugPanelInterceptor,
 ) : PluginViewModel() {
-
     private val _state = MutableStateFlow(KonfeatureViewState())
 
     val state: Flow<KonfeatureViewState> = _state.asStateFlow()
@@ -85,13 +84,23 @@ internal class KonfeatureViewModel(
         _state.update { it.copy(editDialogState = EditDialogState(key, value, isDebugSource)) }
     }
 
-    fun onEditDialogCloseClik() {
+    fun onEditDialogCloseClicked() {
         _state.update { it.copy(editDialogState = null) }
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _state.update { state ->
+            val filteredItems = filterItems(state.items, query)
+            state.copy(searchQuery = query, filteredItems = filteredItems)
+        }
     }
 
     private suspend fun updateItems() {
         val items = withContext(Dispatchers.IO) { getItems(konfeature) }
-        _state.update { it.copy(items = items) }
+        _state.update { state ->
+            val filteredItems = filterItems(items, state.searchQuery)
+            state.copy(items = items, filteredItems = filteredItems)
+        }
     }
 
     private fun getItems(konfeature: Konfeature): List<KonfeatureItem> {
@@ -150,6 +159,23 @@ internal class KonfeatureViewModel(
             is FeatureValueSource.Interceptor -> source.name
             is FeatureValueSource.Source -> source.name
             else -> "Unknown"
+        }
+    }
+
+    private fun filterItems(items: List<KonfeatureItem>, query: String): List<KonfeatureItem> {
+        if (query.isBlank()) return items
+
+        val formattedQuery = query.lowercase()
+        val matchingItems = items
+            .filterIsInstance<KonfeatureItem.Value>()
+            .filter { it.key.lowercase().contains(formattedQuery) }
+        val matchingConfigNames = matchingItems.map { it.configName }.toSet()
+
+        return items.filter { item ->
+            when (item) {
+                is KonfeatureItem.Config -> item.name in matchingConfigNames
+                is KonfeatureItem.Value -> item.key.lowercase().contains(formattedQuery)
+            }
         }
     }
 }
