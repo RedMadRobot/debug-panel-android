@@ -12,28 +12,31 @@ import com.redmadrobot.konfeature.FeatureValueSpec
 import com.redmadrobot.konfeature.Konfeature
 import com.redmadrobot.konfeature.source.FeatureValueSource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+private const val SEARCH_QUERY_DELAY_MILLIS = 500L
+
 internal class KonfeatureViewModel(
     private val konfeature: Konfeature,
     private val debugPanelInterceptor: KonfeatureDebugPanelInterceptor,
 ) : PluginViewModel() {
     private val _state = MutableStateFlow(KonfeatureViewState())
+    private val _searchQueryFlow = MutableStateFlow("")
 
     val state: Flow<KonfeatureViewState> = _state.asStateFlow()
 
     init {
-        debugPanelInterceptor
-            .valuesFlow
-            .onEach { updateItems() }
-            .launchIn(viewModelScope)
+        observeKonfeatureValues()
+        observeSearchQuery()
     }
 
     fun onValueChanged(key: String, value: Any) {
@@ -70,14 +73,7 @@ internal class KonfeatureViewModel(
     }
 
     fun onCollapseAllClick() {
-        _state.update { state ->
-            val collapsedConfigs = state.items
-                .asSequence()
-                .filterIsInstance(KonfeatureItem.Config::class.java)
-                .map { it.name }
-                .toSet()
-            state.copy(collapsedConfigs = collapsedConfigs)
-        }
+        _state.update { state -> state.copy(collapsedConfigs = state.configs.keys) }
     }
 
     fun onEditClick(key: String, value: Any, isDebugSource: Boolean) {
@@ -89,33 +85,56 @@ internal class KonfeatureViewModel(
     }
 
     fun onSearchQueryChanged(query: String) {
-        _state.update { state ->
-            val filteredItems = filterItems(state.items, query)
-            state.copy(searchQuery = query, filteredItems = filteredItems)
-        }
+        _state.update { state -> state.copy(searchQuery = query) }
+        _searchQueryFlow.update { query }
+    }
+
+    private fun observeKonfeatureValues() {
+        debugPanelInterceptor.valuesFlow
+            .onEach { updateItems() }
+            .launchIn(viewModelScope)
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun observeSearchQuery() {
+        _searchQueryFlow
+            .debounce(timeoutMillis = SEARCH_QUERY_DELAY_MILLIS)
+            .onEach { query ->
+                _state.update { state ->
+                    state.copy(filteredItems = filterItems(state.configs, state.values, query))
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     private suspend fun updateItems() {
-        val items = withContext(Dispatchers.IO) { getItems(konfeature) }
+        val (configs, values) = withContext(Dispatchers.IO) { getItems(konfeature) }
+        val searchQuery = _searchQueryFlow.value
+        val filteredItems = filterItems(configs, values, searchQuery)
+
         _state.update { state ->
-            val filteredItems = filterItems(items, state.searchQuery)
-            state.copy(items = items, filteredItems = filteredItems)
+            state.copy(configs = configs, values = values, filteredItems = filteredItems)
         }
     }
 
-    private fun getItems(konfeature: Konfeature): List<KonfeatureItem> {
-        return konfeature.spec.fold(mutableListOf<KonfeatureItem>()) { acc, configSpec ->
+    private fun getItems(konfeature: Konfeature): Pair<Map<String, KonfeatureItem.Config>, List<KonfeatureItem.Value>> {
+        val configs = mutableMapOf<String, KonfeatureItem.Config>()
+        val values = mutableListOf<KonfeatureItem.Value>()
+
+        konfeature.spec.fold(configs to values) { acc, configSpec ->
             acc.apply {
-                add(createConfigItem(configSpec))
-                addAll(configSpec.values.map { valueSpec ->
+                configs[configSpec.name] = createConfigItem(configSpec)
+                configSpec.values.mapTo(values) { valueSpec ->
                     createConfigValueItem(
                         configName = configSpec.name,
                         valueSpec = valueSpec,
                         konfeature = konfeature
                     )
-                })
+                }
             }
         }
+
+        return configs to values
     }
 
     private fun createConfigItem(config: FeatureConfigSpec): KonfeatureItem.Config {
@@ -162,19 +181,24 @@ internal class KonfeatureViewModel(
         }
     }
 
-    private fun filterItems(items: List<KonfeatureItem>, query: String): List<KonfeatureItem> {
-        if (query.isBlank()) return items
+    private suspend fun filterItems(
+        configs: Map<String, KonfeatureItem.Config>,
+        values: List<KonfeatureItem.Value>,
+        query: String
+    ): List<KonfeatureItem> {
+        return withContext(Dispatchers.Default) {
+            buildList {
+                var previousValue: KonfeatureItem.Value? = null
 
-        val formattedQuery = query.lowercase()
-        val matchingItems = items
-            .filterIsInstance<KonfeatureItem.Value>()
-            .filter { it.key.lowercase().contains(formattedQuery) }
-        val matchingConfigNames = matchingItems.map { it.configName }.toSet()
-
-        return items.filter { item ->
-            when (item) {
-                is KonfeatureItem.Config -> item.name in matchingConfigNames
-                is KonfeatureItem.Value -> item.key.lowercase().contains(formattedQuery)
+                for (value in values) {
+                    if (value.key.contains(query, ignoreCase = true)) {
+                        if (previousValue?.configName != value.configName) {
+                            configs[value.configName]?.let { config -> add(config) }
+                        }
+                        add(value)
+                        previousValue = value
+                    }
+                }
             }
         }
     }

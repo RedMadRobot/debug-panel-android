@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
@@ -141,13 +140,11 @@ private fun KonfeatureHeader(
             .background(colorResource(id = CoreR.color.super_light_gray))
             .padding(horizontal = 16.dp)
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
         KonfeatureSearchBar(
             query = searchQuery,
             onQueryChange = onSearchQueryChange,
-            modifier = Modifier
+            modifier = Modifier.padding(vertical = 8.dp)
         )
-        Spacer(modifier = Modifier.height(8.dp))
         Row {
             Button(onClick = onRefreshClick) {
                 Text(text = stringResource(id = R.string.konfeature_plugin_refresh))
