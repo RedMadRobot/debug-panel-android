@@ -1,13 +1,10 @@
 package com.redmadrobot.debug.plugin.servers.ui
 
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 
 internal data class ServersViewState(
     val preInstalledServers: List<ServerItemData> = emptyList(),
     val addedServers: List<ServerItemData> = emptyList(),
-    val preInstalledStages: List<StageItemData> = emptyList(),
-    val addedStages: List<StageItemData> = emptyList(),
     val serverDialogState: ServerDialogState = ServerDialogState()
 )
 
@@ -25,4 +22,3 @@ internal data class ServerDialogErrors(
 )
 
 internal data class ServerItemData(val server: DebugServer, val isSelected: Boolean)
-internal data class StageItemData(val server: DebugStage, val isSelected: Boolean)

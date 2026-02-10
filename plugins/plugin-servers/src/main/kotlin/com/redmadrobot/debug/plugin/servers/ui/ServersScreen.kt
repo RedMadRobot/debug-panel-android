@@ -50,7 +50,6 @@ import com.redmadrobot.debug.plugin.servers.R
 import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.plugin.servers.ServersPluginContainer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -84,7 +83,6 @@ internal fun ServersScreen(
             state = state,
             isEditMode = isEditMode,
             onServerClick = if (!isEditMode) viewModel::onServerClicked else viewModel::onEditServerClicked,
-            onStageClick = viewModel::onStageClicked,
             onServerDeleteClick = viewModel::onRemoveServerClicked
         )
     }
@@ -110,19 +108,12 @@ private fun ServersScreenLayout(
     isEditMode: Boolean,
     onServerClick: (DebugServer) -> Unit,
     onServerDeleteClick: (DebugServer) -> Unit,
-    onStageClick: (DebugStage) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 64.dp),
     ) {
-        StageItems(
-            items = state.preInstalledStages,
-            titleRes = R.string.pre_installed_stages,
-            isSelectable = !isEditMode,
-            onItemClick = onStageClick.takeIf { !isEditMode },
-        )
         ServerItems(
             items = state.preInstalledServers,
             titleRes = R.string.pre_installed_servers,
@@ -130,12 +121,6 @@ private fun ServersScreenLayout(
             showDelete = false,
             onItemClick = onServerClick.takeIf { !isEditMode },
             onDeleteClick = onServerDeleteClick,
-        )
-        StageItems(
-            items = state.addedStages,
-            titleRes = R.string.added_stages,
-            isSelectable = !isEditMode,
-            onItemClick = onStageClick,
         )
         ServerItems(
             items = state.addedServers,
@@ -166,24 +151,6 @@ private fun LazyListScope.ServerItems(
             showDelete = showDelete,
             onItemClick = onItemClick,
             onDeleteClick = onDeleteClick,
-        )
-    }
-}
-
-private fun LazyListScope.StageItems(
-    items: List<StageItemData>,
-    @StringRes titleRes: Int,
-    isSelectable: Boolean,
-    onItemClick: ((DebugStage) -> Unit)? = null,
-) {
-    if (items.isEmpty()) return
-
-    TitleItem(titleRes)
-    items(items) { item ->
-        StageItem(
-            stage = item.server,
-            selected = item.isSelected && isSelectable,
-            onItemClick = onItemClick,
         )
     }
 }
@@ -253,54 +220,6 @@ private fun ServerItem(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "url: ${server.url}", color = Color.Gray, fontSize = 12.sp)
-        }
-    }
-}
-
-@Composable
-private fun StageItem(
-    stage: DebugStage,
-    selected: Boolean,
-    onItemClick: ((DebugStage) -> Unit)? = null,
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .defaultMinSize(minHeight = 56.dp)
-            .clickable { onItemClick?.invoke(stage) }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.spacedBy(32.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.icon_stage),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.primary
-                )
-                Text(stage.name, fontWeight = FontWeight.SemiBold)
-                Box(modifier = Modifier.weight(1f)) {
-                    if (selected) {
-                        Icon(
-                            painterResource(R.drawable.icon_selected),
-                            contentDescription = null,
-                            modifier = Modifier.align(Alignment.CenterEnd)
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Column {
-                stage.hosts.forEach { (key, value) ->
-                    Text(text = "$key: $value", color = Color.Gray, fontSize = 12.sp)
-                }
-            }
         }
     }
 }

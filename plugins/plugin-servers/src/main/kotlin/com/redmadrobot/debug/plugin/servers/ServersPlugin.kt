@@ -8,13 +8,11 @@ import com.redmadrobot.debug.core.internal.EditablePlugin
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.servers.data.model.DebugServerData
-import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 import com.redmadrobot.debug.plugin.servers.ui.ServersScreen
 import kotlinx.coroutines.runBlocking
 
 public class ServersPlugin(
-    private val preInstalledServers: List<DebugServerData> = emptyList(),
+    private val preInstalledServers: List<DebugServer> = emptyList(),
 ) : Plugin(), EditablePlugin {
 
     init {
@@ -33,14 +31,6 @@ public class ServersPlugin(
 
         public fun getDefaultServer(): DebugServer {
             return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getDefault()
-        }
-
-        public fun getSelectedStage(): DebugStage? {
-            return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().stagesRepository.getSelectedStage()
-        }
-
-        public fun getDefaultStage(): DebugStage? {
-            return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().stagesRepository.getDefault()
         }
     }
 
