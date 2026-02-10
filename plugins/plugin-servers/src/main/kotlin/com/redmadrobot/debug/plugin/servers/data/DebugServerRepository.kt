@@ -13,7 +13,6 @@ internal class DebugServerRepository(
     private val debugServersDao: DebugServersDao,
     private val preInstalledServers: List<DebugServer>
 ) {
-
     companion object {
         private const val SELECTED_SERVER_URL = "SELECTED_SERVER_URL"
         private const val SELECTED_SERVER_NAME = "SELECTED_SERVER_NAME"

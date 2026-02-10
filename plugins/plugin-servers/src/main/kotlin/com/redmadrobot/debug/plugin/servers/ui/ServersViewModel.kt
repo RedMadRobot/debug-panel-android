@@ -8,11 +8,8 @@ import com.redmadrobot.debug.core.internal.PluginViewModel
 import com.redmadrobot.debug.plugin.servers.R
 import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent
 import com.redmadrobot.debug.plugin.servers.ServersPlugin
-import com.redmadrobot.debug.plugin.servers.StageSelectedEvent
 import com.redmadrobot.debug.plugin.servers.data.DebugServerRepository
-import com.redmadrobot.debug.plugin.servers.data.DebugStageRepository
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.servers.data.model.DebugStage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +19,6 @@ import kotlinx.coroutines.launch
 
 internal class ServersViewModel(
     private val serversRepository: DebugServerRepository,
-    private val stagesRepository: DebugStageRepository
 ) : PluginViewModel() {
 
     private val _state = MutableStateFlow(ServersViewState())
@@ -34,9 +30,7 @@ internal class ServersViewModel(
                 serversState.copy(
                     preInstalledServers = serversRepository.getPreInstalledServers()
                         .mapToServerItems(),
-                    preInstalledStages = stagesRepository.getPreInstalledStages().mapToStageItems(),
                     addedServers = serversRepository.getServers().mapToServerItems(),
-                    addedStages = stagesRepository.getStages().mapToStageItems()
                 )
             }
         }
@@ -175,30 +169,11 @@ internal class ServersViewModel(
         }
     }
 
-    fun onStageClicked(debugStage: DebugStage) {
-        viewModelScope.launch {
-            val selectedStage = stagesRepository.getSelectedStage()
-            if (debugStage != selectedStage) {
-                stagesRepository.saveSelectedStage(debugStage)
-                getPlugin<ServersPlugin>().pushEvent(StageSelectedEvent(debugStage))
-                loadServers()
-            }
-        }
-    }
-
     private suspend fun List<DebugServer>.mapToServerItems(): List<ServerItemData> {
         val selectedServer = serversRepository.getSelectedServer()
         return map { debugServer ->
             val isSelected = debugServer == selectedServer
             ServerItemData(debugServer, isSelected)
-        }
-    }
-
-    private fun List<DebugStage>.mapToStageItems(): List<StageItemData> {
-        val selectedStage = stagesRepository.getSelectedStage()
-        return map { debugStage ->
-            val isSelected = debugStage == selectedStage
-            StageItemData(debugStage, isSelected)
         }
     }
 }
