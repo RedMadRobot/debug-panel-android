@@ -62,6 +62,9 @@ dependencies {
     debugImplementation 'com.redmadrobot.debug:plugin-konfeature:${debug_panel_version}'
     //Так же необходимо подключить саму библиотеку konfeature
     debugImplementation "com.redmadrobot.konfeature:konfeature:${konfeature_version}"
+
+    //Плагин для отображения информации о приложении
+    debugImplementation 'com.redmadrobot.debug:plugin-about-app:${debug_panel_version}'
 }
 
 ```
@@ -327,6 +330,31 @@ KonfeaturePlugin(
 - добавить config конкретной фичи - `register(FeatureConfigN())`
 - настроить работу с remote config через реализацию интерфейса `FeatureSource` - `addSource(featureSource)`
 - настроить логирование - `setLogger(logger)`
+
+### AboutApp Plugin
+
+Используется для отображения информации о приложении: версии, номера билда и других произвольных данных.
+
+Для подключения плагина необходимо передать список `AboutAppInfo`. Требуется хотя бы один элемент:
+
+```kotlin
+AboutAppPlugin(
+    aboutAppInfo = listOf(
+        AboutAppInfo(
+            title = "Версия",
+            content = BuildConfig.VERSION_NAME
+        ),
+        AboutAppInfo(
+            title = "Номер билда",
+            content = BuildConfig.VERSION_CODE.toString()
+        )
+    )
+)
+```
+
+Каждый `AboutAppInfo` содержит:
+- `title` — название поля (например, «Версия»)
+- `content` — значение поля (например, «1.0.0»)
 
 # Безопасность!
 Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
