@@ -3,6 +3,7 @@ package com.redmadrobot.debug_sample
 import android.app.Application
 import com.redmadrobot.debug.core.DebugPanel
 import com.redmadrobot.debug.core.DebugPanelConfig
+import com.redmadrobot.debug.plugin.aboutapp.AboutAppPlugin
 import com.redmadrobot.debug.plugin.accounts.AccountsPlugin
 import com.redmadrobot.debug.plugin.appsettings.AppSettingsPlugin
 import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
@@ -10,6 +11,7 @@ import com.redmadrobot.debug.plugin.konfeature.KonfeatureDebugPanelInterceptor
 import com.redmadrobot.debug.plugin.konfeature.KonfeaturePlugin
 import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug_sample.account.DebugUserAuthenticator
+import com.redmadrobot.debug_sample.debug_data.DebugAboutAppInfoProvider
 import com.redmadrobot.debug_sample.debug_data.DebugAccountsProvider
 import com.redmadrobot.debug_sample.debug_data.DebugFlipperFeaturesProvider
 import com.redmadrobot.debug_sample.debug_data.DebugServersProvider
@@ -47,6 +49,9 @@ class App : Application() {
                     debugPanelInterceptor = debugPanelInterceptor,
                     konfeature = TestKonfeatureProvider.create(debugPanelInterceptor),
                 ),
+                AboutAppPlugin(
+                    aboutAppInfo = DebugAboutAppInfoProvider.provideData()
+                )
             )
         )
     }

@@ -58,6 +58,7 @@ include(
     ":plugins:plugin-app-settings",
     ":plugins:plugin-flipper",
     ":plugins:plugin-konfeature",
+    ":plugins:plugin-about-app",
 )
 
 include(":sample")
