@@ -1,6 +1,6 @@
-package com.redmadrobot.debug.noop.plugin.aboutapp
+package com.redmadrobot.debug.plugin.aboutapp
 
 data class AboutAppInfo(
     val title: String,
-    val content: String
+    val value: String
 )

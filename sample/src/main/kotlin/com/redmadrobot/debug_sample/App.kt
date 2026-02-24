@@ -50,7 +50,7 @@ class App : Application() {
                     konfeature = TestKonfeatureProvider.create(debugPanelInterceptor),
                 ),
                 AboutAppPlugin(
-                    aboutAppInfo = DebugAboutAppInfoProvider.provideData()
+                    appInfoList = DebugAboutAppInfoProvider.provideData()
                 )
             )
         )

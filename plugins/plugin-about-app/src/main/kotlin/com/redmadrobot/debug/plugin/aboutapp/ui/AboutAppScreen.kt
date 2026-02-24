@@ -44,10 +44,10 @@ internal fun AboutAppScreen(
 private fun AboutAppLayout(state: AboutAppViewState) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        contentPadding = PaddingValues(all = 16.dp),
     ) {
-        items(items = state.aboutAppInfo, key = { it.title }) { item ->
+        items(items = state.appInfoList, key = { it.id }) { item ->
             AboutAppItem(item = item)
         }
     }
@@ -74,7 +74,7 @@ private fun AboutAppItem(item: AboutAppInfo, modifier: Modifier = Modifier) {
                 color = MaterialTheme.colors.primary,
             )
             Text(
-                text = item.content,
+                text = item.value,
                 style = MaterialTheme.typography.body1,
                 color = MaterialTheme.colors.onSurface,
                 maxLines = 2,
@@ -89,19 +89,19 @@ private fun AboutAppItem(item: AboutAppInfo, modifier: Modifier = Modifier) {
 private fun Preview() {
     val state = remember {
         AboutAppViewState(
-            aboutAppInfo = listOf(
-                AboutAppInfo(title = "Версия", content = "3,14"),
+            appInfoList = listOf(
+                AboutAppInfo(title = "Версия", value = "3,14"),
                 AboutAppInfo(
                     title = "Номер билда",
-                    content = "fgkdfjgkdfgjdfkgjdfkjgkdfjgkdfjgkdfjgkdjgskdjgkdgfjdsfgjdsfgdsfgjdsfgdskjfgdsjkfgdjfgdsfg"
+                    value = "fgkdfjgkdfgjdfkgjdfkjgkdfjgkdfjgkdfjgkdjgskdjgkdgfjdsfgjdsfgdsfgjdsfgdskjfgdsjkfgdjfgdsfg"
                 ),
-                AboutAppInfo(title = "Версия1", content = "3,14"),
-                AboutAppInfo(title = "Версия2", content = "3,14"),
-                AboutAppInfo(title = "Версия3", content = "3,14"),
-                AboutAppInfo(title = "Версия4", content = "3,14"),
-                AboutAppInfo(title = "Версия5", content = "3,14"),
-                AboutAppInfo(title = "Версия6", content = "3,14"),
-                AboutAppInfo(title = "Версия7", content = "3,14"),
+                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = "Версия", value = "3,14"),
             )
         )
     }

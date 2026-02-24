@@ -342,11 +342,11 @@ AboutAppPlugin(
     aboutAppInfo = listOf(
         AboutAppInfo(
             title = "Версия",
-            content = BuildConfig.VERSION_NAME
+            value = BuildConfig.VERSION_NAME
         ),
         AboutAppInfo(
             title = "Номер билда",
-            content = BuildConfig.VERSION_CODE.toString()
+            value = BuildConfig.VERSION_CODE.toString()
         )
     )
 )
@@ -354,7 +354,7 @@ AboutAppPlugin(
 
 Каждый `AboutAppInfo` содержит:
 - `title` — название поля (например, «Версия»)
-- `content` — значение поля (например, «1.0.0»)
+- `value` — значение поля (например, «1.0.0»)
 
 # Безопасность!
 Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
