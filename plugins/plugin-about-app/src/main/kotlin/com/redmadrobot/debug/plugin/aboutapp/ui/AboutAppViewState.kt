@@ -5,5 +5,5 @@ import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppInfo
 
 @Immutable
 internal data class AboutAppViewState(
-    val aboutAppInfo: List<AboutAppInfo>
+    val appInfoList: List<AboutAppInfo>
 )

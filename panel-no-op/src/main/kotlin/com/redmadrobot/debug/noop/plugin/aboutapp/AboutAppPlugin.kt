@@ -1,5 +1,5 @@
-package com.redmadrobot.debug.noop.plugin.aboutapp
+package com.redmadrobot.debug.plugin.aboutapp
 
 class AboutAppPlugin(
-    private val aboutAppInfo: List<AboutAppInfo> = emptyList()
+    private val appInfoList: List<AboutAppInfo> = emptyList()
 )

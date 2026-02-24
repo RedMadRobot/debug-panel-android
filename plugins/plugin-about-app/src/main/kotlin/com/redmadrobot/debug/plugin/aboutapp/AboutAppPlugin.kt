@@ -9,10 +9,10 @@ import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppInfo
 import com.redmadrobot.debug.plugin.aboutapp.ui.AboutAppScreen
 
 public class AboutAppPlugin(
-    private val aboutAppInfo: List<AboutAppInfo>
+    private val appInfoList: List<AboutAppInfo>
 ) : Plugin(), EditablePlugin {
     init {
-        aboutAppInfo.firstOrNull()
+        appInfoList.firstOrNull()
             ?: error("AboutAppPlugin can't be initialized. At least one information block must be set.")
     }
 
@@ -21,7 +21,7 @@ public class AboutAppPlugin(
     }
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return AboutAppPluginContainer(aboutAppInfo = aboutAppInfo)
+        return AboutAppPluginContainer(appInfoList = appInfoList)
     }
 
     override fun getName(): String = NAME

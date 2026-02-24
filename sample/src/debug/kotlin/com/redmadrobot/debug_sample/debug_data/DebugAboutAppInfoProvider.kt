@@ -8,19 +8,19 @@ class DebugAboutAppInfoProvider {
             return listOf(
                 AboutAppInfo(
                     title = "Версия",
-                    content = "3.14"
+                    value = "3.14"
                 ),
                 AboutAppInfo(
                     title = "Номер билда",
-                    content = "101"
+                    value = "101"
                 ),
                 AboutAppInfo(
-                    title = "Номер билда1",
-                    content = "fgkdfjgkdfgjdfkgjdfkjgkdfjgkdfjgkdfjgkdjgskdjgkdgfjdsfgjdsfgdsfgjdsfgdskjfgdsjkfgdjfgdsfg"
+                    title = "Номер билда",
+                    value = "fgkdfjgkdfgjdfkgjdfkjgkdfjgkdfjgkdfjgkdjgskdjgkdgfjdsfgjdsfgdsfgjdsfgdskjfgdsjkfgdjfgdsfg"
                 ),
                 AboutAppInfo(
-                    title = "Версия2",
-                    content = "3,14"
+                    title = "Версия",
+                    value = "3,145"
                 ),
             )
         }
