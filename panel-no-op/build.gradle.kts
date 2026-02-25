@@ -42,7 +42,6 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(stack.okhttp)
     implementation(androidx.appcompat)
-    implementation(rmr.flipper)
     implementation(rmr.konfeature)
     implementation(stack.kotlinx.coroutines.android)
 }

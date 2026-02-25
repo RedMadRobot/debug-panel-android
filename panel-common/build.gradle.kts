@@ -61,7 +61,6 @@ dependencies {
     api(androidx.lifecycle.viewmodel.compose)
     api(androidx.room)
     api(androidx.room.runtime)
-    api(rmr.flipper)
     api(rmr.itemsadapter.viewbinding)
     api(rmr.konfeature)
     api(stack.kotlinx.coroutines.android)

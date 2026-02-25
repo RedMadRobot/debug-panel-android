@@ -12,7 +12,7 @@
 
 **[Changelog][changelog]** | **[Документация по разработке плагинов][plugin-development-doc]** | **[Миграция на новые версии][migration-guide]**
 
-Тебе надоело каждый раз вручную вбивать логин и пароль тестового пользователя или пересобирать приложение для того чтобы поменять сервер в настройках? Эта библиотека разрабатывается с идеей решить эти и другие проблемы, и сделать процесс отладки приложения более удобным. 
+Тебе надоело каждый раз вручную вбивать логин и пароль тестового пользователя или пересобирать приложение для того чтобы поменять сервер в настройках? Эта библиотека разрабатывается с идеей решить эти и другие проблемы, и сделать процесс отладки приложения более удобным.
 
 В данный момент библиотека предоставляет следующий функционал:
 
@@ -62,9 +62,6 @@ dependencies {
     debugImplementation 'com.redmadrobot.debug:plugin-konfeature:${debug_panel_version}'
     //Так же необходимо подключить саму библиотеку konfeature
     debugImplementation "com.redmadrobot.konfeature:konfeature:${konfeature_version}"
-
-    //Плагин для отображения информации о приложении
-    debugImplementation 'com.redmadrobot.debug:plugin-about-app:${debug_panel_version}'
 }
 
 ```
@@ -124,13 +121,13 @@ fun openDebugPanel() {
 )
 ```
 
-### Доступные возможности для конфигурации 
+### Доступные возможности для конфигурации
 
 `shakerMode: Boolean` - Открытие **DebugPanel** при встряхивании устройства.
 
 ## Работа с плагинами
 
-### AccountsPlugin 
+### AccountsPlugin
 Используется для работы тестовыми аккаунтами.
 
 Можно задать список предустановленных аккаунтов
@@ -147,7 +144,7 @@ AccountsPlugin(
 )
 ```
 
-Чтобы реагировать на смену пользователя вы можете подписаться на события `DebugPanel` внутри любого `LifecycleOwner` 
+Чтобы реагировать на смену пользователя вы можете подписаться на события `DebugPanel` внутри любого `LifecycleOwner`
 
 ```kotlin
 DebugPanel.subscribeToEvents(lifecycleOwner = this) { event ->
@@ -196,7 +193,7 @@ ServersPlugin(
 )
 ```
 
-И подписаться на событие смены сервера	
+И подписаться на событие смены сервера
 
 ```kotlin
 DebugPanel.subscribeToEvents(lifecycleOwner = this) { event ->
@@ -249,7 +246,7 @@ val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
 
 
 
-### AppSettingsPlugin 
+### AppSettingsPlugin
 
 Используется для просмотра и редактирования `SharedPreferences` в проекте
 
@@ -331,31 +328,6 @@ KonfeaturePlugin(
 - настроить работу с remote config через реализацию интерфейса `FeatureSource` - `addSource(featureSource)`
 - настроить логирование - `setLogger(logger)`
 
-### AboutApp Plugin
-
-Используется для отображения информации о приложении: версии, номера билда и других произвольных данных.
-
-Для подключения плагина необходимо передать список `AboutAppInfo`. Требуется хотя бы один элемент:
-
-```kotlin
-AboutAppPlugin(
-    aboutAppInfo = listOf(
-        AboutAppInfo(
-            title = "Версия",
-            value = BuildConfig.VERSION_NAME
-        ),
-        AboutAppInfo(
-            title = "Номер билда",
-            value = BuildConfig.VERSION_CODE.toString()
-        )
-    )
-)
-```
-
-Каждый `AboutAppInfo` содержит:
-- `title` — название поля (например, «Версия»)
-- `value` — значение поля (например, «1.0.0»)
-
 # Безопасность!
 Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
 
@@ -363,7 +335,7 @@ AboutAppPlugin(
 
 ```kotlin
 class DebugServersProvider : DebugDataProvider<List<DebugServer>> {
-   
+
     override fun provideData(): List<DebugServer> {
         return listOf(
             DebugServer(name = "debug 1", url = "https://testserver1.com")
