@@ -56,7 +56,6 @@ include(
     ":plugins:plugin-accounts",
     ":plugins:plugin-servers",
     ":plugins:plugin-app-settings",
-    ":plugins:plugin-flipper",
     ":plugins:plugin-konfeature",
     ":plugins:plugin-about-app",
 )

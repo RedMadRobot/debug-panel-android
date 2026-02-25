@@ -2,18 +2,14 @@ package com.redmadrobot.debug_sample
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.core.DebugPanel
 import com.redmadrobot.debug.plugin.accounts.AccountSelectedEvent
-import com.redmadrobot.debug.plugin.flipper.FlipperPlugin
 import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
-import com.redmadrobot.flipper.config.FlipperValue
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import okhttp3.ResponseBody
@@ -31,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.setViews()
-        observeFeatureToggles()
 
         DebugPanel.subscribeToEvents(this) { event ->
             when (event) {
@@ -118,58 +113,4 @@ class MainActivity : AppCompatActivity() {
         DebugPanel.showPanel(this)
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun observeFeatureToggles() {
-        FlipperPlugin.addSource(
-            "Test 1",
-            mapOf(
-                "id1" to FlipperValue.BooleanValue(false),
-                "id2" to FlipperValue.BooleanValue(false),
-                "id3" to FlipperValue.BooleanValue(false),
-            )
-        )
-        FlipperPlugin.addSource(
-            "Test 2",
-            mapOf(
-                "id1" to FlipperValue.BooleanValue(true),
-                "id2" to FlipperValue.BooleanValue(false),
-                "id3" to FlipperValue.BooleanValue(true),
-                "id4" to FlipperValue.StringValue("String toggle"),
-            )
-        )
-
-        FlipperPlugin
-            .observeChangedToggles()
-            .onEach { changedToggles ->
-                onFlipperTogglesChanged(changedToggles)
-            }
-            .launchIn(lifecycleScope)
-    }
-
-    private fun onFlipperTogglesChanged(changedToggles: Map<String, FlipperValue>) {
-        val showFirst = changedToggles.entries
-            .find { (feature) -> feature == "id1" }
-            ?.let { (_, value) ->
-                (value as? FlipperValue.BooleanValue)?.value
-            }
-            ?: false
-
-        val showSecond = changedToggles.entries
-            .find { (feature) -> feature == "id2" }
-            ?.let { (_, value) ->
-                (value as? FlipperValue.BooleanValue)?.value
-            }
-            ?: true
-
-        val showThird = changedToggles.entries
-            .find { (feature) -> feature == "id3" }
-            ?.let { (_, value) ->
-                (value as? FlipperValue.BooleanValue)?.value
-            }
-            ?: false
-
-        binding.labelFeatureToggle1.visibility = if (showFirst) View.VISIBLE else View.GONE
-        binding.labelFeatureToggle2.visibility = if (showSecond) View.VISIBLE else View.GONE
-        binding.labelFeatureToggle3.visibility = if (showThird) View.VISIBLE else View.GONE
-    }
 }

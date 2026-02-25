@@ -39,7 +39,6 @@ dependencies {
     implementation(androidx.compose.runtime)
     implementation(stack.material)
     implementation(androidx.constraintlayout)
-    implementation(rmr.flipper)
     implementation(rmr.konfeature)
     implementation(stack.timber)
     implementation(stack.kotlinx.coroutines.android)
@@ -51,7 +50,6 @@ dependencies {
     debugImplementation(project(":plugins:plugin-about-app"))
 
     // Debug panel dependencies
-    debugImplementation(project(":plugins:plugin-flipper"))
     debugImplementation(project(":plugins:plugin-konfeature"))
     releaseImplementation(project(":panel-no-op"))
 
