@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!--Используется для скрытия ресурсов библиотеки. При пустом тэге public
-    все ресурсы становятся скрытыми для клиента. https://developer.android.com/studio/projects/android-library#PrivateResources-->
-    <public />
-</resources>
