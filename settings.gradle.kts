@@ -53,7 +53,6 @@ include(
 
 // Plugins
 include(
-    ":plugins:plugin-accounts",
     ":plugins:plugin-servers",
     ":plugins:plugin-app-settings",
     ":plugins:plugin-konfeature",

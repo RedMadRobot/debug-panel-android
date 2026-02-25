@@ -45,7 +45,6 @@ dependencies {
     implementation(androidx.lifecycle.runtime)
     debugImplementation(project(":panel-core"))
     debugImplementation(project(":plugins:plugin-servers"))
-    debugImplementation(project(":plugins:plugin-accounts"))
     debugImplementation(project(":plugins:plugin-app-settings"))
     debugImplementation(project(":plugins:plugin-about-app"))
 

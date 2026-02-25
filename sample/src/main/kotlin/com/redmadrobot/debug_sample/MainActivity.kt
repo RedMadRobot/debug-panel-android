@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.core.DebugPanel
-import com.redmadrobot.debug.plugin.accounts.AccountSelectedEvent
 import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent
 import com.redmadrobot.debug_sample.network.ApiFactory
 import com.redmadrobot.debugpanel.databinding.ActivityMainBinding
@@ -30,10 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         DebugPanel.subscribeToEvents(this) { event ->
             when (event) {
-                is AccountSelectedEvent -> {
-                    //Обработка выбора аккаунта
-                }
-
                 is ServerSelectedEvent -> {
                     //Обработка выбора сервера
                 }
@@ -43,10 +38,6 @@ class MainActivity : AppCompatActivity() {
         DebugPanel.observeEvents()
             .onEach { event ->
                 when (event) {
-                    is AccountSelectedEvent -> {
-                        showSelectedAccount(event.debugAccount.login)
-                    }
-
                     is ServerSelectedEvent -> {
                         //Обработка выбора сервера
                     }
@@ -97,14 +88,6 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(
             this,
             "Request to: $requestEndPoint",
-            Toast.LENGTH_LONG
-        ).show()
-    }
-
-    private fun showSelectedAccount(account: String) {
-        Toast.makeText(
-            this,
-            "Account $account selected",
             Toast.LENGTH_LONG
         ).show()
     }
