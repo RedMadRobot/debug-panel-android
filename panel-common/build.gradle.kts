@@ -36,10 +36,6 @@ android {
         freeCompilerArgs += "-Xexplicit-api=strict"
     }
 
-
-    buildFeatures {
-        viewBinding = true
-    }
     namespace = "com.redmadrobot.debug.panel.common"
 }
 
@@ -53,7 +49,6 @@ dependencies {
     api(androidx.compose.ui)
     api(androidx.compose.ui.tooling)
     api(androidx.compose.ui.tooling.preview)
-    api(androidx.compose.ui.viewbinding)
     api(androidx.constraintlayout.compose)
     api(androidx.navigation.compose)
     api(androidx.core)
@@ -61,7 +56,6 @@ dependencies {
     api(androidx.lifecycle.viewmodel.compose)
     api(androidx.room)
     api(androidx.room.runtime)
-    api(rmr.itemsadapter.viewbinding)
     api(rmr.konfeature)
     api(stack.kotlinx.coroutines.android)
     api(stack.okhttp)
