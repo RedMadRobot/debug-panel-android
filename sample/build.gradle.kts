@@ -22,10 +22,6 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
-    buildFeatures {
-        viewBinding = true
-    }
-
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("debug")
@@ -36,9 +32,11 @@ android {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(androidx.appcompat)
+    implementation(androidx.compose.foundation)
+    implementation(androidx.compose.material)
     implementation(androidx.compose.runtime)
     implementation(stack.material)
-    implementation(androidx.constraintlayout)
+    implementation(androidx.activity.compose)
     implementation(rmr.konfeature)
     implementation(stack.timber)
     implementation(stack.kotlinx.coroutines.android)
