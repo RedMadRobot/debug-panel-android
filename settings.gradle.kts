@@ -54,7 +54,6 @@ include(
 // Plugins
 include(
     ":plugins:plugin-servers",
-    ":plugins:plugin-app-settings",
     ":plugins:plugin-konfeature",
     ":plugins:plugin-about-app",
 )
