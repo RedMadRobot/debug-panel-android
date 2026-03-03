@@ -1,5 +1,4 @@
 plugins {
-    kotlin("android")
     id("com.android.library")
     id("convention.compose")
     id("convention-publish")
@@ -29,13 +28,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
+    kotlin {
+        jvmToolchain(17)
     }
 
     lint {
