@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("convention-publish")
+    id("convention.detekt")
 }
 
 description = "Debug panel no-op dependency module"
