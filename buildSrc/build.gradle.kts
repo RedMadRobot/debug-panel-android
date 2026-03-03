@@ -27,4 +27,5 @@ dependencies {
     // Hack-around to access version catalogs inside precompiled script plugins
     // See: https://github.com/gradle/gradle/issues/15383#issuecomment-779893192
     implementation(files(androidx.javaClass.superclass.protectionDomain.codeSource.location))
+    implementation(files(stack.javaClass.superclass.protectionDomain.codeSource.location))
 }

@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("convention.compose")
     id("convention-publish")
+    id("convention.detekt")
 }
 
 description = "Debug panel core library"

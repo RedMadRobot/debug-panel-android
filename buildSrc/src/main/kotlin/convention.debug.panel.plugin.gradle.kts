@@ -6,6 +6,7 @@ plugins {
     id("com.android.library")
     id("convention-publish")
     id("convention.compose")
+    id("convention.detekt")
     kotlin("android")
 }
 
