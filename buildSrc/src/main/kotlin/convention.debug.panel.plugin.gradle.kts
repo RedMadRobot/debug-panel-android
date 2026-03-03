@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id("com.android.library")
     id("convention-publish")
+    id("convention.compose")
     kotlin("android")
 }
 
@@ -41,5 +42,4 @@ kotlin {
 
 dependencies {
     implementation(project(":panel-core"))
-    implementation(project(":panel-common"))
 }

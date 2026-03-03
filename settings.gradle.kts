@@ -46,7 +46,6 @@ dependencyResolutionManagement {
 
 // Base modules
 include(
-    ":panel-common",
     ":panel-no-op",
     ":panel-core"
 )

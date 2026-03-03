@@ -40,8 +40,8 @@ android {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(stack.okhttp)
     implementation(androidx.appcompat)
-    implementation(rmr.konfeature)
+    implementation(stack.okhttp)
     implementation(stack.kotlinx.coroutines.android)
+    implementation(rmr.konfeature)
 }

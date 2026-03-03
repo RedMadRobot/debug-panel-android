@@ -17,12 +17,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.KeyboardArrowDown
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.redmadrobot.debug.core.extension.getPlugin
@@ -176,7 +171,7 @@ private fun KonfeatureSearchBar(
         },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Default.Search,
+                painter = painterResource(R.drawable.icon_search),
                 contentDescription = null
             )
         },
@@ -184,7 +179,7 @@ private fun KonfeatureSearchBar(
             if (query.isNotEmpty()) {
                 IconButton(onClick = { onQueryChange("") }) {
                     Icon(
-                        imageVector = Icons.Default.Clear,
+                        painter = painterResource(R.drawable.icon_clear),
                         contentDescription = stringResource(R.string.konfeature_plugin_search_clear)
                     )
                 }
@@ -214,10 +209,10 @@ private fun ConfigItem(
             modifier = Modifier.weight(1f),
             text = item.description.takeIf { it.isNotEmpty() } ?: item.name
         )
-        val icon = if (isCollapsed) Icons.Outlined.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown
+        val icon = if (isCollapsed) R.drawable.icon_keyboard_arrow_up else R.drawable.icon_keyboard_arrow_down
 
         Icon(
-            imageVector = icon,
+            painter = painterResource(icon),
             modifier = Modifier.align(Alignment.CenterVertically),
             contentDescription = null
         )
@@ -245,7 +240,7 @@ internal fun ValueItem(item: KonfeatureItem.Value, onEditClick: (String, Any, Bo
             IconButton(
                 modifier = Modifier.align(alignment = Alignment.CenterVertically),
                 onClick = { onEditClick.invoke(item.key, item.value, item.isDebugSource) }) {
-                Icon(Icons.Outlined.Edit, contentDescription = null)
+                Icon(painterResource(R.drawable.icon_edit), contentDescription = null)
             }
         }
     }

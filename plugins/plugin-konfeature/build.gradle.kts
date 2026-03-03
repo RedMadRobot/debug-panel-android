@@ -1,6 +1,5 @@
 plugins {
     id("convention.debug.panel.plugin")
-    alias(stack.plugins.kotlin.compose)
 }
 
 description = "Plugin for konfeature library integration"
@@ -10,5 +9,8 @@ android {
 }
 
 dependencies {
+    implementation(rmr.konfeature)
+    implementation(androidx.core)
     implementation(androidx.lifecycle.runtime)
+    implementation(stack.timber)
 }
