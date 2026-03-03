@@ -1,8 +1,8 @@
 package internal
 
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
 
-internal fun Project.android(configure: CommonExtension<*, *, *, *, *, *>.() -> Unit) {
+internal fun Project.android(configure: LibraryExtension.() -> Unit) {
     extensions.configure("android", configure)
 }

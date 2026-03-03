@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    kotlin("android")
     id("convention.compose")
 }
 
@@ -14,12 +13,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -27,6 +22,10 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
