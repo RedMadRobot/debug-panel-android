@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
     kotlin("android")
-    alias(stack.plugins.kotlin.compose)
+    id("com.android.library")
+    id("convention.compose")
     id("convention-publish")
 }
 
@@ -49,5 +49,14 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":panel-common"))
+    implementation(androidx.activity.compose)
+    implementation(androidx.navigation.compose)
+    implementation(androidx.core)
+    implementation(androidx.appcompat)
+    implementation(androidx.lifecycle.livedata)
+
+    implementation(stack.kotlinx.coroutines.android)
+    implementation(stack.timber)
+
+    api(androidx.lifecycle.viewmodel)
 }

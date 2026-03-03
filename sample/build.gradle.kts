@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    alias(stack.plugins.kotlin.compose)
+    id("convention.compose")
 }
 
 android {
@@ -32,15 +32,13 @@ android {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(androidx.appcompat)
-    implementation(androidx.compose.foundation)
-    implementation(androidx.compose.material)
-    implementation(androidx.compose.runtime)
-    implementation(stack.material)
     implementation(androidx.activity.compose)
-    implementation(rmr.konfeature)
-    implementation(stack.timber)
-    implementation(stack.kotlinx.coroutines.android)
     implementation(androidx.lifecycle.runtime)
+    implementation(stack.kotlinx.coroutines.android)
+    implementation(stack.material)
+    implementation(stack.timber)
+    implementation(rmr.konfeature)
+
     debugImplementation(project(":panel-core"))
     debugImplementation(project(":plugins:plugin-servers"))
     debugImplementation(project(":plugins:plugin-about-app"))
