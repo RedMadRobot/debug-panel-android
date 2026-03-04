@@ -3,7 +3,6 @@ package com.redmadrobot.debug.plugin.konfeature.ui.data
 import androidx.compose.ui.graphics.Color
 
 internal sealed interface KonfeatureItem {
-
     data class Config(
         val name: String,
         val description: String,
@@ -18,7 +17,6 @@ internal sealed interface KonfeatureItem {
         val sourceColor: Color,
         val isDebugSource: Boolean
     ) : KonfeatureItem {
-
         val editAvailable: Boolean
             get() = when (value) {
                 is Boolean,
@@ -27,6 +25,5 @@ internal sealed interface KonfeatureItem {
                 is Double -> true
                 else -> false
             }
-
     }
 }

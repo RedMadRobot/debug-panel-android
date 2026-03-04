@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.emptyFlow
 
 @OptIn(DebugPanelInternal::class)
 public object DebugPanel {
-
     private var instance: DebugPanelInstance? = null
     public val isInitialized: Boolean
         get() = instance != null

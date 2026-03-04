@@ -4,7 +4,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 internal object JsonConverter {
-
     fun toMap(jsonobj: JSONObject): Map<String, Any> {
         val map = mutableMapOf<String, Any>()
         val keys = jsonobj.keys()

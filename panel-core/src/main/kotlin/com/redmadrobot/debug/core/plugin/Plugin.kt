@@ -7,7 +7,6 @@ import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 
 public abstract class Plugin {
-
     private lateinit var pluginContainer: PluginDependencyContainer
 
     internal fun start(commonContainer: CommonContainer): Plugin {
@@ -21,6 +20,7 @@ public abstract class Plugin {
 
     public fun <T> getContainer(): T = pluginContainer as T
 
+    @Suppress("TopLevelComposableFunctions", "ComposableFunctionName")
     @Composable
     public open fun content() {
     }

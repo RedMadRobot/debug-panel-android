@@ -9,9 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.internal.EditablePlugin
 
-
 internal class DebugSettingsActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

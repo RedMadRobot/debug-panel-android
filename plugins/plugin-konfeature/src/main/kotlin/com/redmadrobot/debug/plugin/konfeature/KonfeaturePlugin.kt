@@ -11,11 +11,6 @@ public class KonfeaturePlugin(
     private val debugPanelInterceptor: KonfeatureDebugPanelInterceptor,
     private val konfeature: Konfeature,
 ) : Plugin() {
-
-    private companion object {
-        private const val NAME = "KONFEATURE"
-    }
-
     override fun getName(): String = NAME
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
@@ -25,5 +20,9 @@ public class KonfeaturePlugin(
     @Composable
     override fun content() {
         KonfeatureScreen()
+    }
+
+    private companion object {
+        private const val NAME = "KONFEATURE"
     }
 }

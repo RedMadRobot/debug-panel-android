@@ -5,7 +5,6 @@ import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 
 @Dao
 internal interface DebugServersDao {
-
     @Query("SELECT * FROM ${DebugServer.TABLE_NAME}")
     suspend fun getAll(): List<DebugServer>
 

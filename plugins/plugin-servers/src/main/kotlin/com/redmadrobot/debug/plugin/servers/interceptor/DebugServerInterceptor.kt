@@ -13,7 +13,6 @@ import okhttp3.Response
 import java.net.URI
 
 public class DebugServerInterceptor : Interceptor {
-
     private var requestModifier: ((Request, DebugServer) -> Request?)? = null
 
     private val serverRepository by lazy {
@@ -45,7 +44,6 @@ public class DebugServerInterceptor : Interceptor {
             chain.proceed(request)
         }
     }
-
 
     private fun Request.getNewUrl(debugServer: String): HttpUrl {
         val serverUri = URI(debugServer)

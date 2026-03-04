@@ -8,7 +8,6 @@ internal class KonfeaturePluginContainer(
     private val konfeature: Konfeature,
     private val debugPanelInterceptor: KonfeatureDebugPanelInterceptor,
 ) : PluginDependencyContainer {
-
     fun createKonfeatureViewModel(): KonfeatureViewModel {
         return KonfeatureViewModel(konfeature, debugPanelInterceptor)
     }

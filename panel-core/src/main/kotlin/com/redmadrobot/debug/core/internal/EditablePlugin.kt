@@ -8,6 +8,7 @@ import com.redmadrobot.debug.core.annotation.DebugPanelInternal
  */
 @DebugPanelInternal
 public interface EditablePlugin {
+    @Suppress("TopLevelComposableFunctions", "ComposableFunctionName")
     @Composable
     public fun settingsContent() {
     }

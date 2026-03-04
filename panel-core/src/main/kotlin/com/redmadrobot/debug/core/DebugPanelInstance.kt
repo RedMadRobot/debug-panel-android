@@ -15,11 +15,6 @@ internal class DebugPanelInstance(
     application: Application,
     plugins: List<Plugin> = emptyList()
 ) {
-
-    companion object {
-        var instance: DebugPanelInstance? = null
-    }
-
     private var commonContainer: CommonContainer? = null
     private var pluginManager: PluginManager? = null
     private val eventLiveData: MutableLiveData<DebugEvent> = MutableLiveData()
@@ -49,9 +44,8 @@ internal class DebugPanelInstance(
 
     internal fun getPluginManger(): PluginManager {
         return pluginManager
-            ?: throw IllegalStateException("PluginManager not initialised")
+            ?: error("PluginManager not initialised")
     }
-
 
     private fun initContainer(context: Context) {
         commonContainer = CommonContainer(context)
@@ -64,5 +58,9 @@ internal class DebugPanelInstance(
         pluginManager = PluginManager(plugins).apply {
             start(commonContainer)
         }
+    }
+
+    companion object {
+        var instance: DebugPanelInstance? = null
     }
 }

@@ -87,21 +87,23 @@ private fun AboutAppItem(item: AboutAppInfo, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
+    val previewTitle = "Версия"
+    val previewValue = "3,14"
     val state = remember {
         AboutAppViewState(
             appInfoList = listOf(
-                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = previewTitle, value = previewValue),
                 AboutAppInfo(
                     title = "Номер билда",
                     value = "fgkdfjgkdfgjdfkgjdfkjgkdfjgkdfjgkdfjgkdjgskdjgkdgfjdsfgjdsfgdsfgjdsfgdskjfgdsjkfgdjfgdsfg"
                 ),
-                AboutAppInfo(title = "Версия", value = "3,14"),
-                AboutAppInfo(title = "Версия", value = "3,14"),
-                AboutAppInfo(title = "Версия", value = "3,14"),
-                AboutAppInfo(title = "Версия", value = "3,14"),
-                AboutAppInfo(title = "Версия", value = "3,14"),
-                AboutAppInfo(title = "Версия", value = "3,14"),
-                AboutAppInfo(title = "Версия", value = "3,14"),
+                AboutAppInfo(title = previewTitle, value = previewValue),
+                AboutAppInfo(title = previewTitle, value = previewValue),
+                AboutAppInfo(title = previewTitle, value = previewValue),
+                AboutAppInfo(title = previewTitle, value = previewValue),
+                AboutAppInfo(title = previewTitle, value = previewValue),
+                AboutAppInfo(title = previewTitle, value = previewValue),
+                AboutAppInfo(title = previewTitle, value = previewValue),
             )
         )
     }
