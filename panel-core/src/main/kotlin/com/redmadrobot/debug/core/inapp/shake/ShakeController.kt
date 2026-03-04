@@ -24,4 +24,3 @@ internal class ShakeController(context: Context) {
         openDebugPanelAction = null
     }
 }
-

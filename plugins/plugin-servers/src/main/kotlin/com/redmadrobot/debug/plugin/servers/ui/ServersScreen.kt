@@ -54,12 +54,12 @@ import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 internal fun ServersScreen(
+    isEditMode: Boolean,
     viewModel: ServersViewModel = provideViewModel {
         getPlugin<ServersPlugin>()
             .getContainer<ServersPluginContainer>()
             .createServersViewModel()
     },
-    isEditMode: Boolean
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -114,7 +114,7 @@ private fun ServersScreenLayout(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 64.dp),
     ) {
-        ServerItems(
+        serverItems(
             items = state.preInstalledServers,
             titleRes = R.string.pre_installed_servers,
             isSelectable = !isEditMode,
@@ -122,7 +122,7 @@ private fun ServersScreenLayout(
             onItemClick = onServerClick.takeIf { !isEditMode },
             onDeleteClick = onServerDeleteClick,
         )
-        ServerItems(
+        serverItems(
             items = state.addedServers,
             titleRes = R.string.added_servers,
             isSelectable = !isEditMode,
@@ -133,7 +133,7 @@ private fun ServersScreenLayout(
     }
 }
 
-private fun LazyListScope.ServerItems(
+private fun LazyListScope.serverItems(
     items: List<ServerItemData>,
     @StringRes titleRes: Int,
     isSelectable: Boolean,
@@ -143,7 +143,7 @@ private fun LazyListScope.ServerItems(
 ) {
     if (items.isEmpty()) return
 
-    TitleItem(titleRes)
+    titleItem(titleRes)
     items(items) { item ->
         ServerItem(
             server = item.server,
@@ -155,7 +155,7 @@ private fun LazyListScope.ServerItems(
     }
 }
 
-private fun LazyListScope.TitleItem(@StringRes titleRes: Int) {
+private fun LazyListScope.titleItem(@StringRes titleRes: Int) {
     item {
         Text(
             text = stringResource(id = titleRes).uppercase(),

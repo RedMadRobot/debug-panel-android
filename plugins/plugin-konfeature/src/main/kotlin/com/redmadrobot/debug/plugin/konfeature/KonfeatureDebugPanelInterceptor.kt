@@ -19,7 +19,6 @@ import org.json.JSONObject
 import timber.log.Timber
 
 public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
-
     private val preferences by lazy {
         context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
     }
@@ -84,6 +83,7 @@ public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     private fun fetchValues(preferences: SharedPreferences): Map<String, Any> {
         return try {
             val jsonValues = preferences.getString(KEY, EMPTY_MAP) ?: EMPTY_MAP
@@ -95,6 +95,7 @@ public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     private fun updateValues(preferences: SharedPreferences, map: Map<String, Any>) {
         try {
             val jsonValues = JSONObject(map).toString()

@@ -11,12 +11,12 @@ public data class DebugServer(
     val url: String,
     val isDefault: Boolean = false
 ) {
-    internal companion object {
-        const val TABLE_NAME = "debug_server"
-    }
-
     override fun equals(other: Any?): Boolean {
         val otherServer = other as DebugServer
         return this.name == otherServer.name && this.url == otherServer.url
+    }
+
+    internal companion object {
+        const val TABLE_NAME = "debug_server"
     }
 }

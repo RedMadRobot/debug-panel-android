@@ -17,19 +17,19 @@ import com.redmadrobot.debug.core.R
 import com.redmadrobot.debug.core.ui.settings.DebugSettingsActivity
 
 internal class DebugPanelNotification(private val context: Context) {
-
     private var notificationManager: NotificationManagerCompat? = null
 
-    companion object {
-        private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
-        private const val NOTIFICATION_ID = 1
-    }
+    private val pendingIntentFlag
+        get() = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
 
     fun show() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(context, POST_NOTIFICATIONS) != PERMISSION_GRANTED) {
-            return
-        }
+        val isPermissionGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(context, POST_NOTIFICATIONS) != PERMISSION_GRANTED
+        if (isPermissionGranted) return
 
         notificationManager = NotificationManagerCompat.from(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -66,13 +66,6 @@ internal class DebugPanelNotification(private val context: Context) {
         notificationManager?.cancel(NOTIFICATION_ID)
     }
 
-    private val pendingIntentFlag
-        get() = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_IMMUTABLE
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT
-        }
-
     private fun getSettingActivityPendingIntent(context: Context): PendingIntent? {
         val settingActivityIntent = Intent(context, DebugSettingsActivity::class.java)
 
@@ -91,5 +84,10 @@ internal class DebugPanelNotification(private val context: Context) {
             openPanelIntent,
             pendingIntentFlag
         )
+    }
+
+    companion object {
+        private const val NOTIFICATION_CHANNEL_ID = "DEBUG_NOTIFICATION_CHANNEL"
+        private const val NOTIFICATION_ID = 1
     }
 }

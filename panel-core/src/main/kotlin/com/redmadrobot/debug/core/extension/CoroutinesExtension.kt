@@ -8,6 +8,7 @@ import timber.log.Timber
 /**
  * Запуск корутины с встроенной обработкой ошибки
  * */
+@Suppress("TooGenericExceptionCaught")
 public fun CoroutineScope.safeLaunch(
     block: suspend CoroutineScope.() -> Unit,
     onError: (Throwable) -> Unit
@@ -15,11 +16,11 @@ public fun CoroutineScope.safeLaunch(
     launch {
         try {
             block.invoke(this)
+        } catch (exception: CancellationException) {
+            throw exception
         } catch (exception: Exception) {
-            if (exception !is CancellationException) {
-                Timber.e(exception)
-                onError.invoke(exception)
-            }
+            Timber.e(exception)
+            onError.invoke(exception)
         }
     }
 }

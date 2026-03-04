@@ -25,7 +25,6 @@ public inline fun <reified T : ViewModel> provideViewModel(crossinline block: ()
     )
 }
 
-
 @DebugPanelInternal
 @Composable
 public fun OnLifecycleEvent(onEvent: (event: Lifecycle.Event) -> Unit) {

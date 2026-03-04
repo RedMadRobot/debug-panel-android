@@ -8,6 +8,7 @@ import com.redmadrobot.debug.core.internal.DebugEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
+@Suppress("UnusedParameter", "OptionalUnit")
 object DebugPanel {
     fun initialize(
         application: Application,

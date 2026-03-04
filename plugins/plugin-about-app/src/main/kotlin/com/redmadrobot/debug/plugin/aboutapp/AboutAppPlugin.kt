@@ -16,10 +16,6 @@ public class AboutAppPlugin(
             ?: error("AboutAppPlugin can't be initialized. At least one information block must be set.")
     }
 
-    internal companion object {
-        internal const val NAME = "ABOUT APP"
-    }
-
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
         return AboutAppPluginContainer(appInfoList = appInfoList)
     }
@@ -29,5 +25,9 @@ public class AboutAppPlugin(
     @Composable
     override fun content() {
         AboutAppScreen()
+    }
+
+    internal companion object {
+        internal const val NAME = "ABOUT APP"
     }
 }

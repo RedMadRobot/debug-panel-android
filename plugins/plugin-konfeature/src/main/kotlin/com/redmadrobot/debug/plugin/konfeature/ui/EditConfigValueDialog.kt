@@ -65,36 +65,55 @@ internal fun EditConfigValueDialog(
         },
         onDismissRequest = onDismissRequest,
         buttons = {
-            Row(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            ) {
-                Button(onClick = onDismissRequest) {
-                    Text(text = stringResource(id = R.string.konfeature_plugin_close))
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Button(
-                    enabled = saveEnabled,
-                    onClick = {
-                        onValueChange.invoke(state.key, value)
-                        onDismissRequest.invoke()
-                    }
-                ) {
-                    Text(text = stringResource(id = R.string.konfeature_plugin_save))
-                }
-                if (state.isDebugSource) {
-                    Button(
-                        modifier = Modifier.padding(start = 8.dp),
-                        onClick = {
-                            onValueReset.invoke(state.key)
-                            onDismissRequest.invoke()
-                        }
-                    ) {
-                        Text(text = stringResource(id = R.string.konfeature_plugin_reset))
-                    }
-                }
-            }
+            EditConfigValueButtons(
+                state = state,
+                saveEnabled = saveEnabled,
+                value = value,
+                onValueChange = onValueChange,
+                onValueReset = onValueReset,
+                onDismissRequest = onDismissRequest,
+            )
         }
     )
+}
+
+@Composable
+private fun EditConfigValueButtons(
+    state: EditDialogState,
+    saveEnabled: Boolean,
+    value: Any,
+    onValueChange: (key: String, value: Any) -> Unit,
+    onValueReset: (key: String) -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+    ) {
+        Button(onClick = onDismissRequest) {
+            Text(text = stringResource(id = R.string.konfeature_plugin_close))
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        Button(
+            enabled = saveEnabled,
+            onClick = {
+                onValueChange.invoke(state.key, value)
+                onDismissRequest.invoke()
+            }
+        ) {
+            Text(text = stringResource(id = R.string.konfeature_plugin_save))
+        }
+        if (state.isDebugSource) {
+            Button(
+                modifier = Modifier.padding(start = 8.dp),
+                onClick = {
+                    onValueReset.invoke(state.key)
+                    onDismissRequest.invoke()
+                }
+            ) {
+                Text(text = stringResource(id = R.string.konfeature_plugin_reset))
+            }
+        }
+    }
 }
 
 @Composable
@@ -128,7 +147,7 @@ private fun LongEditInput(
     onValueChange: (Any) -> Unit,
     onEmptyInput: (Boolean) -> Unit,
 ) {
-    var text by remember { mutableStateOf(value.toString(10)) }
+    var text by remember { mutableStateOf(value.toString()) }
 
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),

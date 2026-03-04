@@ -13,7 +13,6 @@ internal class ApplicationLifecycleHandler(
     private val application: Application,
     private val shakerMode: Boolean,
 ) {
-
     // open Activity counter
     private var openActivityCount = 0
 
@@ -37,7 +36,7 @@ internal class ApplicationLifecycleHandler(
 
                     shakeController?.register(activity)
 
-                    /*register BroadcastReceiver for debug panel inner actions*/
+                    // register BroadcastReceiver for debug panel inner actions
                     debugPanelBroadcastReceiver = DebugPanelBroadcastReceiver(activity)
                     val filter = IntentFilter(DebugPanelBroadcastReceiver.ACTION_OPEN_DEBUG_PANEL)
 

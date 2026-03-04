@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 internal class ServersViewModel(
     private val serversRepository: DebugServerRepository,
 ) : PluginViewModel() {
-
     private val _state = MutableStateFlow(ServersViewState())
     val state: StateFlow<ServersViewState> = _state.asStateFlow()
 

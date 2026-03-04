@@ -14,24 +14,9 @@ import kotlinx.coroutines.runBlocking
 public class ServersPlugin(
     private val preInstalledServers: List<DebugServer> = emptyList(),
 ) : Plugin(), EditablePlugin {
-
     init {
         preInstalledServers.find { it.isDefault }
             ?: error("ServersPlugin can't be initialized. At least one server must be default")
-    }
-
-    public companion object {
-        internal const val NAME = "SERVERS"
-
-        public fun getSelectedServer(): DebugServer {
-            return runBlocking {
-                getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getSelectedServer()
-            }
-        }
-
-        public fun getDefaultServer(): DebugServer {
-            return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getDefault()
-        }
     }
 
     public constructor(preInstalledServers: DebugDataProvider<List<DebugServer>>) : this(
@@ -52,5 +37,19 @@ public class ServersPlugin(
     @Composable
     override fun settingsContent() {
         ServersScreen(isEditMode = true)
+    }
+
+    public companion object {
+        internal const val NAME = "SERVERS"
+
+        public fun getSelectedServer(): DebugServer {
+            return runBlocking {
+                getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getSelectedServer()
+            }
+        }
+
+        public fun getDefaultServer(): DebugServer {
+            return getPlugin<ServersPlugin>().getContainer<ServersPluginContainer>().serversRepository.getDefault()
+        }
     }
 }

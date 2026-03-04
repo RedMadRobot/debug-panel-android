@@ -112,7 +112,7 @@ internal fun KonfeatureLayout(
             }
 
             val isExpanded = state.isSearchActive || item is KonfeatureItem.Value &&
-                    item.configName !in state.collapsedConfigs
+                item.configName !in state.collapsedConfigs
             if (item is KonfeatureItem.Value && isExpanded) {
                 item(item.key) { ValueItem(item = item, onEditClick) }
                 item { Divider(modifier = Modifier.fillMaxWidth()) }
@@ -239,7 +239,8 @@ internal fun ValueItem(item: KonfeatureItem.Value, onEditClick: (String, Any, Bo
         if (item.editAvailable) {
             IconButton(
                 modifier = Modifier.align(alignment = Alignment.CenterVertically),
-                onClick = { onEditClick.invoke(item.key, item.value, item.isDebugSource) }) {
+                onClick = { onEditClick.invoke(item.key, item.value, item.isDebugSource) }
+            ) {
                 Icon(painterResource(R.drawable.icon_edit), contentDescription = null)
             }
         }
