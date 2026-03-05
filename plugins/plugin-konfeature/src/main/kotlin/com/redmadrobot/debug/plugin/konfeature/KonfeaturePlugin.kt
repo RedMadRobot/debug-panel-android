@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.debug.plugin.konfeaure.ui.KonfeatureScreen
+import com.redmadrobot.debug.plugin.konfeature.ui.KonfeatureScreen
 import com.redmadrobot.konfeature.Konfeature
 
 public class KonfeaturePlugin(

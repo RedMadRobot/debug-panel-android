@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.plugin.konfeaure.ui
+package com.redmadrobot.debug.plugin.konfeature.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -32,8 +32,6 @@ import com.redmadrobot.debug.core.extension.provideViewModel
 import com.redmadrobot.debug.plugin.konfeature.KonfeaturePlugin
 import com.redmadrobot.debug.plugin.konfeature.KonfeaturePluginContainer
 import com.redmadrobot.debug.plugin.konfeature.R
-import com.redmadrobot.debug.plugin.konfeature.ui.EditConfigValueDialog
-import com.redmadrobot.debug.plugin.konfeature.ui.KonfeatureViewModel
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureItem
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureViewState
 import com.redmadrobot.debug.core.R as CoreR
