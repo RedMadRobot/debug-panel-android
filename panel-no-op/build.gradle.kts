@@ -26,11 +26,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
     kotlin {
         jvmToolchain(17)
     }
@@ -39,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(stack.kotlin.stdlib)
     implementation(androidx.appcompat)
     implementation(stack.okhttp)
     implementation(stack.kotlinx.coroutines.android)

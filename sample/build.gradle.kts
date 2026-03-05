@@ -12,11 +12,6 @@ android {
         targetSdk = Project.TARGET_SDK
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("debug")
@@ -29,7 +24,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(stack.kotlin.stdlib)
     implementation(androidx.appcompat)
     implementation(androidx.activity.compose)
     implementation(androidx.lifecycle.runtime)
