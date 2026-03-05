@@ -18,11 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.redmadrobot.debug.core.DebugPanel
-import com.redmadrobot.debug.plugin.servers.ServerSelectedEvent
 import com.redmadrobot.debug_sample.network.ApiFactory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -31,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent { MainActivityScreen() }
-        observeDebugPanelEvents()
     }
 
     @Composable
@@ -63,26 +59,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun observeDebugPanelEvents() {
-        DebugPanel.subscribeToEvents(this) { event ->
-            when (event) {
-                is ServerSelectedEvent -> {
-                    //Обработка выбора сервера
-                }
-            }
-        }
-
-        DebugPanel.observeEvents()
-            .onEach { event ->
-                when (event) {
-                    is ServerSelectedEvent -> {
-                        //Обработка выбора сервера
-                    }
-                }
-            }
-            .launchIn(lifecycleScope)
     }
 
     private fun makeTestRequest() {
