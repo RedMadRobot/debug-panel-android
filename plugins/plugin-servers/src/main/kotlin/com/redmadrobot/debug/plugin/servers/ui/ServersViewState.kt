@@ -12,7 +12,7 @@ internal data class ServerDialogState(
     val show: Boolean = false,
     val serverName: String = "",
     val serverUrl: String = "",
-    val editableServerId: Int? = null,
+    val editableServer: DebugServer? = null,
     val inputErrors: ServerDialogErrors? = null
 )
 

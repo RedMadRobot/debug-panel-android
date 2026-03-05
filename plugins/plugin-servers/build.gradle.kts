@@ -1,6 +1,6 @@
 plugins {
-    alias(stack.plugins.ksp)
     id("convention.debug.panel.plugin")
+    alias(stack.plugins.kotlin.serialization)
 }
 
 description = "Plugin for switching server hosts"
@@ -11,9 +11,7 @@ android {
 
 dependencies {
     implementation(androidx.core)
-    implementation(androidx.room)
-    implementation(androidx.room.runtime)
+    implementation(androidx.datastore)
     implementation(stack.kotlinx.serialization.json)
     implementation(stack.okhttp)
-    ksp(androidx.room.compiler)
 }
