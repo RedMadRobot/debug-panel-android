@@ -1,5 +1,5 @@
 package com.redmadrobot.debug.core.data
 
-interface DebugDataProvider<T> {
-    fun provideData(): T
+public interface DebugDataProvider<T> {
+    public fun provideData(): T
 }

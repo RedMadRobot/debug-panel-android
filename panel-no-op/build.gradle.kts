@@ -28,6 +28,7 @@ android {
 
     kotlin {
         jvmToolchain(17)
+        explicitApi()
     }
 
     namespace = "com.redmadrobot.debug.noop"
