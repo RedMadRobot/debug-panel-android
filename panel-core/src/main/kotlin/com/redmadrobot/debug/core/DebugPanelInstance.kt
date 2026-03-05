@@ -26,7 +26,6 @@ internal class DebugPanelInstance(
     init {
         initContainer(application.applicationContext)
         initPluginManager(plugins, requireNotNull(commonContainer))
-        instance = this
     }
 
     internal fun getEventLiveData(): LiveData<DebugEvent> {
@@ -42,7 +41,7 @@ internal class DebugPanelInstance(
         eventSharedFlow.tryEmit(debugEvent)
     }
 
-    internal fun getPluginManger(): PluginManager {
+    internal fun getPluginManager(): PluginManager {
         return pluginManager
             ?: error("PluginManager not initialised")
     }
@@ -58,9 +57,5 @@ internal class DebugPanelInstance(
         pluginManager = PluginManager(plugins).apply {
             start(commonContainer)
         }
-    }
-
-    companion object {
-        var instance: DebugPanelInstance? = null
     }
 }

@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.emptyFlow
 
 @OptIn(DebugPanelInternal::class)
 public object DebugPanel {
+    @Volatile
     private var instance: DebugPanelInstance? = null
     public val isInitialized: Boolean
         get() = instance != null
@@ -39,6 +40,8 @@ public object DebugPanel {
             openDebugPanel(activity)
         }
     }
+
+    internal fun getInstance(): DebugPanelInstance? = instance
 
     private fun openDebugPanel(activity: Activity) {
         val intent = Intent(activity, DebugPanelActivity::class.java)
