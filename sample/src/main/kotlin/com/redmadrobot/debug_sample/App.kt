@@ -2,7 +2,6 @@ package com.redmadrobot.debug_sample
 
 import android.app.Application
 import com.redmadrobot.debug.core.DebugPanel
-import com.redmadrobot.debug.core.DebugPanelConfig
 import com.redmadrobot.debug.plugin.aboutapp.AboutAppPlugin
 import com.redmadrobot.debug.plugin.konfeature.KonfeatureDebugPanelInterceptor
 import com.redmadrobot.debug.plugin.konfeature.KonfeaturePlugin
@@ -19,7 +18,6 @@ class App : Application() {
 
         DebugPanel.initialize(
             application = this,
-            config = DebugPanelConfig(shakerMode = false),
             plugins = listOf(
                 ServersPlugin(
                     preInstalledServers = DebugServersProvider().provideData()

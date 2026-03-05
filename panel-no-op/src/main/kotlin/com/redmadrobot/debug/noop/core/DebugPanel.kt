@@ -13,7 +13,6 @@ object DebugPanel {
     fun initialize(
         application: Application,
         plugins: List<Any>,
-        config: DebugPanelConfig = DebugPanelConfig.defaultConfig
     ) = Unit
 
     fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) = Unit
