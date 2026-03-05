@@ -1,76 +1,30 @@
 package com.redmadrobot.debug.plugin.servers.data
 
-import android.content.Context
-import androidx.core.content.edit
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
-import com.redmadrobot.debug.plugin.servers.data.storage.DebugServersDao
-import com.redmadrobot.debug.plugin.servers.data.storage.SharedPreferencesProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.redmadrobot.debug.plugin.servers.data.storage.ServersDataStore
 
 internal class DebugServerRepository(
-    private val context: Context,
-    private val debugServersDao: DebugServersDao,
+    private val serversDataStore: ServersDataStore,
     private val preInstalledServers: List<DebugServer>
 ) {
-    private val sharedPreferences by lazy {
-        SharedPreferencesProvider.get(context)
-    }
+    fun getPreInstalledServers(): List<DebugServer> = preInstalledServers
 
-    fun getPreInstalledServers(): List<DebugServer> {
-        return preInstalledServers
-    }
+    fun getDefault(): DebugServer = preInstalledServers.first { it.isDefault }
 
-    fun saveSelectedServer(selectedServer: DebugServer) {
-        sharedPreferences.edit {
-            putString(SELECTED_SERVER_NAME, selectedServer.name)
-            putString(SELECTED_SERVER_URL, selectedServer.url)
-        }
+    suspend fun saveSelectedServer(selectedServer: DebugServer) {
+        serversDataStore.saveSelected(selectedServer)
     }
 
     suspend fun getSelectedServer(): DebugServer {
-        val serverName = sharedPreferences.getString(SELECTED_SERVER_NAME, null)
-        val serverUrl = sharedPreferences.getString(SELECTED_SERVER_URL, null)
-
-        return if (serverName != null && serverUrl != null) {
-            preInstalledServers.find { it.name == serverName && it.url == serverUrl }
-                ?: debugServersDao.getServer(serverName, serverUrl)
-                ?: getDefault()
-        } else {
-            getDefault()
-        }
+        return serversDataStore.getSelected() ?: getDefault()
     }
 
-    fun getDefault(): DebugServer {
-        return preInstalledServers.first { it.isDefault }
-    }
+    suspend fun addServer(server: DebugServer) = serversDataStore.add(server)
 
-    suspend fun addServer(server: DebugServer) {
-        withContext(Dispatchers.IO) {
-            debugServersDao.insert(server)
-        }
-    }
+    suspend fun getServers(): List<DebugServer> = serversDataStore.getAll()
 
-    suspend fun getServers(): List<DebugServer> {
-        return withContext(Dispatchers.IO) {
-            debugServersDao.getAll()
-        }
-    }
+    suspend fun removeServer(server: DebugServer) = serversDataStore.remove(server)
 
-    suspend fun removeServer(server: DebugServer) {
-        withContext(Dispatchers.IO) {
-            debugServersDao.remove(server)
-        }
-    }
-
-    suspend fun updateServer(server: DebugServer) {
-        withContext(Dispatchers.IO) {
-            debugServersDao.update(server)
-        }
-    }
-
-    companion object {
-        private const val SELECTED_SERVER_URL = "SELECTED_SERVER_URL"
-        private const val SELECTED_SERVER_NAME = "SELECTED_SERVER_NAME"
-    }
+    suspend fun updateServer(oldServer: DebugServer, newServer: DebugServer) =
+        serversDataStore.update(oldServer, newServer)
 }

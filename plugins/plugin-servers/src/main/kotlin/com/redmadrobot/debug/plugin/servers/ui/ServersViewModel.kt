@@ -75,13 +75,13 @@ internal class ServersViewModel(
             return
         }
 
-        if (dialogState.editableServerId == null) {
+        if (dialogState.editableServer == null) {
             addServer(dialogState.serverName, dialogState.serverUrl)
         } else {
             updateServerData(
-                dialogState.editableServerId,
-                dialogState.serverName,
-                dialogState.serverUrl
+                oldServer = dialogState.editableServer,
+                name = dialogState.serverName,
+                url = dialogState.serverUrl
             )
         }
 
@@ -126,20 +126,15 @@ internal class ServersViewModel(
         }
     }
 
-    private fun updateServerData(id: Int, name: String, url: String) {
-        val serverForUpdate = _state.value.addedServers
-            .find { it.server.id == id }
-            ?.server
+    private fun updateServerData(oldServer: DebugServer, name: String, url: String) {
+        val updatedServer = oldServer.copy(name = name, url = url)
 
-        serverForUpdate?.let {
-            val updatedServer = serverForUpdate.copy(name = name, url = url)
-            viewModelScope.safeLaunch {
-                serversRepository.updateServer(updatedServer)
-                _state.update { serversState ->
-                    serversState.copy(
-                        addedServers = serversRepository.getServers().mapToServerItems()
-                    )
-                }
+        viewModelScope.safeLaunch {
+            serversRepository.updateServer(oldServer = oldServer, newServer = updatedServer)
+            _state.update { serversState ->
+                serversState.copy(
+                    addedServers = serversRepository.getServers().mapToServerItems()
+                )
             }
         }
     }
@@ -148,7 +143,7 @@ internal class ServersViewModel(
         _state.update { serversState ->
             serversState.copy(
                 serverDialogState = ServerDialogState(
-                    editableServerId = debugServer.id,
+                    editableServer = debugServer,
                     serverName = debugServer.name,
                     serverUrl = debugServer.url,
                     show = true
