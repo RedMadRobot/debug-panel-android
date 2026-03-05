@@ -6,24 +6,18 @@ import android.content.BroadcastReceiver
 import android.content.IntentFilter
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
-import com.redmadrobot.debug.core.inapp.shake.ShakeController
 import timber.log.Timber
 
 internal class ApplicationLifecycleHandler(
     private val application: Application,
-    private val shakerMode: Boolean,
 ) {
     // open Activity counter
     private var openActivityCount = 0
 
-    private var shakeController: ShakeController? = null
     private var debugPanelBroadcastReceiver: BroadcastReceiver? = null
     private val debugPanelNotification = DebugPanelNotification(application.applicationContext)
 
     fun start() {
-        if (shakerMode) {
-            shakeController = ShakeController(application.applicationContext)
-        }
         registerActivityLifecycleCallback()
     }
 
@@ -33,8 +27,6 @@ internal class ApplicationLifecycleHandler(
                 override fun onActivityResumed(activity: Activity) {
                     if (openActivityCount == 0) onAppResumed()
                     ++openActivityCount
-
-                    shakeController?.register(activity)
 
                     // register BroadcastReceiver for debug panel inner actions
                     debugPanelBroadcastReceiver = DebugPanelBroadcastReceiver(activity)
@@ -61,7 +53,6 @@ internal class ApplicationLifecycleHandler(
 
     private fun onAppPaused() {
         debugPanelNotification.hide()
-        shakeController?.unregister()
     }
 
     private fun onAppResumed() {

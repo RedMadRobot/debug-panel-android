@@ -21,10 +21,9 @@ public object DebugPanel {
     public fun initialize(
         application: Application,
         plugins: List<Plugin>,
-        config: DebugPanelConfig = DebugPanelConfig.defaultConfig
     ) {
         createDebugPanelInstance(application, plugins)
-        ApplicationLifecycleHandler(application, config.shakerMode).start()
+        ApplicationLifecycleHandler(application).start()
     }
 
     public fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) {
