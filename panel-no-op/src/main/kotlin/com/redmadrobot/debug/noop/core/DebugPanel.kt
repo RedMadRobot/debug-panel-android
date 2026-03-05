@@ -9,17 +9,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 @Suppress("UnusedParameter", "OptionalUnit")
-object DebugPanel {
-    fun initialize(
-        application: Application,
-        plugins: List<Any>,
-    ) = Unit
+public object DebugPanel {
+    public fun initialize(application: Application, plugins: List<Any>): Unit = Unit
 
-    fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit) = Unit
+    public fun subscribeToEvents(lifecycleOwner: LifecycleOwner, onEvent: (DebugEvent) -> Unit): Unit = Unit
 
-    fun observeEvents(): Flow<DebugEvent> = emptyFlow()
+    public fun observeEvents(): Flow<DebugEvent> = emptyFlow()
 
-    fun showPanel(fragmentManager: FragmentManager) = Unit
+    public fun showPanel(fragmentManager: FragmentManager): Unit = Unit
 
-    fun showPanel(activity: Activity) = Unit
+    public fun showPanel(activity: Activity): Unit = Unit
 }

@@ -5,9 +5,9 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-class DebugServerInterceptor : Interceptor {
+public class DebugServerInterceptor : Interceptor {
     @Suppress("UnusedParameter")
-    fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
+    public fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
         return this
     }
 

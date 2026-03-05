@@ -1,3 +1,3 @@
 package com.redmadrobot.debug.core.internal
 
-interface DebugEvent
+public interface DebugEvent
