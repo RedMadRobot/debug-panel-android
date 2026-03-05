@@ -27,9 +27,9 @@ internal class DebugPanelNotification(private val context: Context) {
         }
 
     fun show() {
-        val isPermissionGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+        val isPermissionDenied = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(context, POST_NOTIFICATIONS) != PERMISSION_GRANTED
-        if (isPermissionGranted) return
+        if (isPermissionDenied) return
 
         notificationManager = NotificationManagerCompat.from(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

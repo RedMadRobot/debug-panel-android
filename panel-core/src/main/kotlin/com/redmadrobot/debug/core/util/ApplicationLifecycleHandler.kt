@@ -7,12 +7,13 @@ import android.content.IntentFilter
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicInteger
 
 internal class ApplicationLifecycleHandler(
     private val application: Application,
 ) {
     // open Activity counter
-    private var openActivityCount = 0
+    private val openActivityCounter = AtomicInteger(0)
 
     private var debugPanelBroadcastReceiver: BroadcastReceiver? = null
     private val debugPanelNotification = DebugPanelNotification(application.applicationContext)
@@ -25,8 +26,7 @@ internal class ApplicationLifecycleHandler(
         application.registerActivityLifecycleCallbacks(
             object : ActivityLifecycleCallbacksAdapter() {
                 override fun onActivityResumed(activity: Activity) {
-                    if (openActivityCount == 0) onAppResumed()
-                    ++openActivityCount
+                    if (openActivityCounter.getAndIncrement() == 0) onAppResumed()
 
                     // register BroadcastReceiver for debug panel inner actions
                     debugPanelBroadcastReceiver = DebugPanelBroadcastReceiver(activity)
@@ -41,11 +41,10 @@ internal class ApplicationLifecycleHandler(
                 }
 
                 override fun onActivityPaused(activity: Activity) {
-                    --openActivityCount
                     (activity as? ComponentActivity)?.let {
                         activity.unregisterReceiver(debugPanelBroadcastReceiver)
                     }
-                    if (openActivityCount == 0) onAppPaused()
+                    if (openActivityCounter.decrementAndGet() == 0) onAppPaused()
                 }
             }
         )
