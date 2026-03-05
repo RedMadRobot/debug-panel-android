@@ -1,7 +1,10 @@
 <resources>
+    <!-- region Common -->
     <string name="debug_panel">DebugPanel</string>
+    <!-- endregion -->
 
-    <!--Notification-->
+    <!-- region Notification -->
     <string name="debug_panel_notification_title">Open DebugPanel</string>
     <string name="debug_panel_notification_settings">Open Settings</string>
+    <!-- endregion -->
 </resources>

@@ -10,10 +10,10 @@
             android:theme="@style/DebugPanelTheme" />
 
         <activity
-            android:name=".ui.debugpanel.DebugBottomSheetActivity"
+            android:name=".ui.debugpanel.DebugPanelActivity"
             android:exported="false"
             android:launchMode="singleTop"
-            android:theme="@style/DebugBottomSheetTheme"
+            android:theme="@style/DebugPanelTheme"
             android:windowSoftInputMode="adjustResize" />
 
         <activity-alias

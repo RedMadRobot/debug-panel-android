@@ -51,6 +51,7 @@ dependencies {
 
     implementation(stack.kotlinx.coroutines.android)
     implementation(stack.timber)
+    implementation(stack.material)
 
     api(androidx.lifecycle.viewmodel)
 }

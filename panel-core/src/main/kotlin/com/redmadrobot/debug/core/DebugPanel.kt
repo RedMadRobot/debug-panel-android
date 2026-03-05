@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import com.redmadrobot.debug.core.plugin.Plugin
-import com.redmadrobot.debug.core.ui.debugpanel.DebugBottomSheetActivity
+import com.redmadrobot.debug.core.ui.debugpanel.DebugPanelActivity
 import com.redmadrobot.debug.core.util.ApplicationLifecycleHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -37,12 +37,12 @@ public object DebugPanel {
 
     public fun showPanel(activity: Activity) {
         if (isInitialized) {
-            openDebugBottomSheet(activity)
+            openDebugPanel(activity)
         }
     }
 
-    private fun openDebugBottomSheet(activity: Activity) {
-        val intent = Intent(activity, DebugBottomSheetActivity::class.java)
+    private fun openDebugPanel(activity: Activity) {
+        val intent = Intent(activity, DebugPanelActivity::class.java)
         activity.startActivity(intent)
     }
 
