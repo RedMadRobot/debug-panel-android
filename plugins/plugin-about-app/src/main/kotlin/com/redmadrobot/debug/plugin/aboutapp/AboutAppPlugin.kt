@@ -2,7 +2,6 @@ package com.redmadrobot.debug.plugin.aboutapp
 
 import androidx.compose.runtime.Composable
 import com.redmadrobot.debug.core.internal.CommonContainer
-import com.redmadrobot.debug.core.internal.EditablePlugin
 import com.redmadrobot.debug.core.internal.PluginDependencyContainer
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppInfo
@@ -10,7 +9,7 @@ import com.redmadrobot.debug.plugin.aboutapp.ui.AboutAppScreen
 
 public class AboutAppPlugin(
     private val appInfoList: List<AboutAppInfo>
-) : Plugin(), EditablePlugin {
+) : Plugin() {
     init {
         appInfoList.firstOrNull()
             ?: error("AboutAppPlugin can't be initialized. At least one information block must be set.")
