@@ -2,6 +2,12 @@
 
 ### Changes
 
+- *No changes*
+
+## [1.0.0] (2026-03-06)
+
+### Changes
+
 * **Breaking changes:** Удалён `plugin-flipper`. Вместо него используйте плагин Konfeature. См. гайд по миграции: [migration guide](docs/migration_guide.md).
 * **Breaking changes:** Удалён `DebugStage` из `plugin-servers`. Вместо него используйте `DebugServer`. См. [migration guide](docs/migration_guide.md).
 * **Breaking changes:** Удалён `plugin-accounts`. Плагин для работы с тестовыми аккаунтами полностью удалён. См. [migration guide](docs/migration_guide.md).
