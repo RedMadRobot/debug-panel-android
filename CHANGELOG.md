@@ -2,7 +2,23 @@
 
 ### Changes
 
-- *No changes*
+* **Breaking changes:** Удалён `plugin-flipper`. Вместо него используйте плагин Konfeature. См. гайд по миграции: [migration guide](docs/migration_guide.md).
+* **Breaking changes:** Удалён `DebugStage` из `plugin-servers`. Вместо него используйте `DebugServer`. См. [migration guide](docs/migration_guide.md).
+* **Breaking changes:** Удалён `plugin-accounts`. Плагин для работы с тестовыми аккаунтами полностью удалён. См. [migration guide](docs/migration_guide.md).
+* **Breaking changes:** Удалён `plugin-app-settings`. Плагин для просмотра и редактирования `SharedPreferences` полностью удалён. См. [migration guide](docs/migration_guide.md).
+* **Breaking changes:** Удалён `DebugPanelConfig` и shaker mode. Параметр `config` убран из `DebugPanel.initialize()`. Открытие панели по встряхиванию устройства больше не поддерживается. См. [migration guide](docs/migration_guide.md).
+* **Breaking changes:** Повышен `minSdk` с 21 до 23. Библиотека больше не поддерживает Android 5.0–5.1 (API 21–22).
+* **Breaking changes:** Java compatibility повышена с 11 до 17. Требуется JDK 17+.
+* **Breaking changes:** Gradle обновлён с 8.11 до 9.1.
+* **Breaking changes:** Обновлён каталог версий зависимостей (2025.03.10 → 2026.02.23). Подробнее [здесь](https://github.com/RedMadRobot/gradle-version-catalogs/releases/tag/2026.02.23).
+* Повышены `compileSdk` и `targetSdk` с 35 до 36.
+* Удалён модуль `panel-common`. Зависимости перенесены в `panel-core` и отдельные плагины.
+* Дебаг-панель теперь открывается как полноэкранная `Activity` вместо bottom sheet.
+* Хранение серверов переведено с Room на DataStore.
+* Добавлен статический анализатор detekt.
+* Добавлен `plugin-about-app` для отображения информации о приложении в дебаг-панели.
+* Добавлена возможность поиска тогглов по ключу в `plugin-konfeature`.
+* Исправлена утечка памяти в `DebugPanelBroadcastReceiver`.
 
 ## [0.9.3] (2025-04-24)
 
@@ -50,9 +66,9 @@
 * Исправлен краш на SDK 34 (#7)
 * Исправлен краш при доступе к БД (#5)
 * Обновлены зависимости:
-    * Kotlin 1.6.20 → 1.9.23
-    * Room 2.4.0 → 2.6.1
-    * KotlinX Coroutines 1.3.9 → 1.8.0
+  * Kotlin 1.6.20 → 1.9.23
+  * Room 2.4.0 → 2.6.1
+  * KotlinX Coroutines 1.3.9 → 1.8.0
 * Удалено использование синтетиков
 * Обновлено окружение сборки проекта
 
