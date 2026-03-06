@@ -2,6 +2,8 @@
 
 Библиотека для отладки приложений.
 
+<img width="1925" height="1090" alt="debug_preview" src="https://github.com/user-attachments/assets/52d83dcb-a8e6-4c86-9d65-87b27d4796bf" />
+
 [![Maven Central Version](https://img.shields.io/maven-central/v/com.redmadrobot.debug/panel-core?style=flat-square)](https://central.sonatype.com/search?namespace=com.redmadrobot.debug)
 [![License](https://img.shields.io/github/license/RedMadRobot/debug-panel-android?style=flat-square)][license]
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)](#)
