@@ -1,182 +1,195 @@
 # Разработка новых плагинов
 
-**[!]Важно.**  
-1. Библиотека находится в статусе разработки и миграции на более актуальные решения. 
-Актуальность данного документа стоит уточнить у холдера библиотеки. В данный момент это **r.choryev@redmadrobot.com**
-2. В библиотеке млогут быть спорные решения, но она открыта для предложений.
-3. В текущих плагинах, для работы со списками используется [Groupie](https://github.com/lisawray/groupie).
-Т.к. эта библиотека требует использование `jcenter` и уже не кажется таким уж подходящим решением, поэтому она будет удаляться из библиотеки. 
-   Поэтому это стоит учесть при разработке ваших новых плагинов и использовать какое-то другое решение.
-
-
 ## Общая структура
-Debug panel разрабатывается опираясь на подход разработки функционала отдельными плагинами.
-В данный момент есть несколько модулей на которых основана работа самой панели и разработка и работа плагинов.
 
-* **debug-panel-core** - Реализация самой панели и базовых классов для поддержки системы плагинов.
-* **debug-panel-common** - Модуль содержащий общие библиотеки, классы и ресурсы переиспользуемые в плагинах.
-  Библиотеки пробрасываются как сквозные зависимости при помощи типа зависимости `api`.
-  Список предоставляемых библиотек можно посмотреть в файле [build.gradle](../debug-panel-common/build.gradle.kts)
+Debug Panel построена на подходе с использованием плагинов — каждая функциональность реализуется в виде отдельного модуля-плагина.
+
+Базовые модули, на которых основана работа панели:
+
+* **panel-core** — реализация панели, базовые классы системы плагинов и событийная модель.
+* **panel-no-op** — пустые реализации публичных API для релизных сборок (исключает отладочный код из продакшена).
 
 ## Создание нового плагина
-Для добавления нового плагина необходимо сделать несколько шагов:
-1. Создать в дирректории **plugins** новый модуль для реализации своего плагина.
-   
-```
-plugins
-|   your-plugin
-```
-2. Объявить новый модуль в файле **settings.gradle** по примеру уже существующих плагинов.
-   
-```
-include ':your-plugin'
 
-project(':your-plugin').projectDir = new File(rootDir, 'plugins/your-plugin')
-```
-3. Добавить в **build.gradle** файл вашего модуля следующие настройки:
+### 1. Создать модуль
 
-```groovy
+Создайте новый модуль в директории `plugins/`:
+
+```
+plugins/
+└── plugin-your-feature/
+```
+
+### 2. Зарегистрировать модуль в settings.gradle.kts
+
+Добавьте модуль по аналогии с существующими плагинами:
+
+```kotlin
+// Plugins
+include(
+    ":plugins:plugin-your-feature",
+)
+```
+
+### 3. Настроить build.gradle.kts
+
+Примените convention-плагин, который содержит всю необходимую конфигурацию (compileSdk, minSdk, `explicitApi()`, зависимость на `panel-core` и Compose):
+
+```kotlin
+plugins {
+    id("convention.debug.panel.plugin")
+}
+
+description = "Plugin description"
+
 android {
-    /*.......*/
-    
-    compileSdkVersion build_versions.compile_sdk
-
-    defaultConfig {
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
-
-        versionCode getVersionCodeFromProperties()
-        versionName getVersionNameFromProperties()
-    }
-
-    /*.......*/
-
-
-    kotlinOptions {
-        freeCompilerArgs += "-Xexplicit-api=strict"
-    }
+    namespace = "com.redmadrobot.debug.plugin.yourfeature"
 }
 
 dependencies {
-    implementation(
-            project(path: ':debug-panel-core'),
-            project(path: ':debug-panel-common'),
-
-            deps.kotlin.stdlib
-    )
+    // Только специфичные для плагина зависимости
 }
-
 ```
-**[!]Важно. Конфигурация будет меняться при дальнейшей миграции с Groovy на Kotlin**
 
-4. Создать в своем модуле класс-плагин который и будет отвечать за взаимодействие с DebugPanel. 
-   Для этого класс должен унаследоваться от класса `Plugin()` и реализовать необходимые методы. 
-   В качестве аргументов класса можно передать необходимые для инициализации плагина данные.\
-   **(О методе `getPluginContainer()` и `PluginDependencyContainer()` можно будет почитать ниже)**
-   
+### 4. Создать класс плагина
+
+Класс плагина — точка входа, отвечающая за взаимодействие с DebugPanel.
+Унаследуйтесь от `Plugin()` и реализуйте обязательные методы.
+Подробнее о `getPluginContainer()` и `PluginDependencyContainer` — в разделе ниже.
+
 ```kotlin
 public class YourPlugin(
-    /*some arguments*/
+    /* аргументы для инициализации */
 ) : Plugin() {
 
-    internal companion object {
-        const val NAME = "AWESOME PLUGIN"
-    }
+    override fun getName(): String = "YOUR PLUGIN"
 
-    override fun getName(): String = NAME
-
-    /*Plugin dependency container initializing*/
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return YourPluginContainer(sharedPreferences)
+        return YourPluginContainer(commonContainer)
     }
 
-    /*Plugin Fragment initializing*/
-    override fun getFragment(): Fragment? {
-        return YourPluginFragment()
-    }
-
-    /*Plugin Setting Fragment initializing.*/ 
-    override fun getSettingFragment(): Fragment { //Нужно только если есть отдельный экран для настройки плагина.
-        return YourPluginSettingFragment()
+    @Composable
+    override fun content() {
+        YourScreen()
     }
 }
 ```
-5. Создать **Fragment** экрана плагина(если он нужен) и унаследовать его от `PluginFragment()`.
-К фрагменту создать **ViewModel** и унаследовать от `PluginViewModel()`. 
-   В этой связке (Fragment+ViewModel), реализовывать пользовательское взаимодействие пользователя с плагином.
-   
+
+Если плагин поддерживает редактирование через экран настроек панели, реализуйте интерфейс `EditablePlugin`:
+
+```kotlin
+public class YourPlugin : Plugin(), EditablePlugin {
+    // ...
+
+    @Composable
+    override fun content() {
+        YourScreen(isEditMode = false)
+    }
+
+    @Composable
+    override fun settingsContent() {
+        YourScreen(isEditMode = true)
+    }
+}
+```
+
+### 5. Создать UI на Jetpack Compose
+
+UI плагина реализуется с помощью Composable-функций. Для инъекции ViewModel используется хелпер `provideViewModel`:
+
+```kotlin
+@Composable
+internal fun YourScreen(
+    viewModel: YourViewModel = provideViewModel {
+        getPlugin<YourPlugin>()
+            .getContainer<YourPluginContainer>()
+            .createYourViewModel()
+    },
+) {
+    val state by viewModel.state.collectAsState()
+    // UI
+}
+```
+
 ## PluginDependencyContainer
 
-В библиотеке не используются библиотеки для реализации DI, т.к.:
-1. Не хочется тащить их зависимости в библиотеку.
-2. Библиотека не такая большая чтобы реализовывать полноценный DI.
+В библиотеке не используются DI-фреймворки, чтобы не добавлять лишних зависимостей. Вместо этого применяется подход **Service Locator**.
 
-Вместо этого, в библиотеке используется подход с **Service Locator**. 
-Для этого необходимо создать свой класс-контейнер, унаследовать его от **PluginDependencyContainer** и внутри него инициировать необходимые зависимости.
-Если вам для этого понадобится **Context**, его можно получить из **CommonContainer** который прилетает в качестве аргумента в методе `getPluginContainer()` при инициализации плагина.
-Пример реализации можно [посмотреть тут](../plugins/accounts-plugin/src/main/kotlin/com/redmadrobot/account/plugin/AccountsPluginContainer.kt)
+Для этого создайте класс-контейнер, реализующий интерфейс `PluginDependencyContainer`, и инициализируйте в нём необходимые зависимости.
+`Context` доступен через `CommonContainer`, который передаётся в метод `getPluginContainer()` при инициализации плагина.
+
+```kotlin
+internal class YourPluginContainer(
+    private val container: CommonContainer,
+) : PluginDependencyContainer {
+
+    private val dataStore by lazy { YourDataStore(container.context) }
+
+    val repository by lazy { YourRepository(dataStore) }
+
+    fun createYourViewModel(): YourViewModel {
+        return YourViewModel(repository)
+    }
+}
+```
+
+Пример реализации: [ServersPluginContainer](../plugins/plugin-servers/src/main/kotlin/com/redmadrobot/debug/plugin/servers/ServersPluginContainer.kt)
 
 ## Работа с классом плагина
 
-Класс-плагин, описание которого было в пункте **4**, является точкой инициализации вашего плагина.
-Поэтому доступ к данным и различным экземплярам классов нужно реализовывать через него.
-Чтобу получить доступ к самому плагину, нужно использовать метод `getPlugin<YourPlugin>()`.
-Например для получения контейнера зависимостей плагина, нужно вызвать:
+Класс плагина является точкой доступа к данным и зависимостям.
+Для получения экземпляра плагина используйте `getPlugin<YourPlugin>()`:
 
 ```kotlin
 getPlugin<YourPlugin>()
     .getContainer<YourPluginContainer>()
 ```
 
-**Пример использования плагина для получения ViewModel во Fragment:**
-
-```kotlin
- private val viewModel by lazy {
-        obtainShareViewModel {
-            getPlugin<ServersPlugin>()
-                .getContainer<ServersPluginContainer>()
-                .createServersViewModel()
-        }
-    }
-```
-
 ## Области видимости
 
-Все внутренние классы используемые только для работы плагина и не требующиеся для работы клиентского приложения, должны иметь область видимости **inner**
+Все модули используют `explicitApi()` — модификаторы видимости обязательны для всех объявлений.
+Внутренние классы, не предназначенные для использования в клиентском приложении, должны иметь модификатор `internal`.
 
 ## Тестирование
 
-Для тестирования плагина, необходимо:
-1. Подключить его как зависимость в модуль `sample`.
+Для тестирования плагина:
 
-```groovy
- debugImplementation(project(path: ':your-plugin'))
-```
-
-2. Инициировать плагин в **App** классе **sample** приложения.
+1. Подключите его как зависимость в модуль `sample`:
 
 ```kotlin
-  DebugPanel.initialize(
-            application = this,
-            plugins = listOf(YourPluggin())
+debugImplementation(project(":plugins:plugin-your-feature"))
+```
+
+2. Инициализируйте плагин в классе `App` sample-приложения:
+
+```kotlin
+DebugPanel.initialize(
+    application = this,
+    plugins = listOf(
+        YourPlugin(/* ... */)
+    )
 )
 ```
 
-3. Запустить **sample** проект
+3. Запустите sample-проект.
 
-## No-op зависимости
+## No-op реализации
 
-Для того чтобы в релизную сборку не попадали реализации публичных классов вашего модуля, необходимо добавить их в модуль no-op зависимостей.
-([Подробнее в статье](https://medium.com/@orhanobut/no-op-versions-for-dev-tools-b0a865934398)). \
-Для этого создайте пакет с именем вашего плагина в модуле **debug-panel-no-op** и скопируйте ваши публичные классы доступные пользователю в этот пакет.
+Чтобы отладочный код не попадал в релизную сборку, для каждого плагина необходимо создать no-op реализацию в модуле **panel-no-op**.
 
-[!]Важно. Поле **package** должно остаться оригинальным. 
-Таким, каким оно было в вашем модуле.
+Создайте пакет с публичными классами плагина, доступными пользователю, и предоставьте пустые реализации.
+
+Важно: **package** должен совпадать с оригинальным пакетом вашего модуля.
+
+В sample-приложении подключение выглядит так:
+
+```kotlin
+debugImplementation(project(":plugins:plugin-your-feature"))
+releaseImplementation(project(":panel-no-op"))
+```
+
+Подробнее о подходе: [No-op versions for dev tools](https://medium.com/@orhanobut/no-op-versions-for-dev-tools-b0a865934398)
 
 ## Публикация
 
-Публикация новых плагнинов в основном репозитории должна проходить через создание **Merge Request** в ветку **develop**.
-
-Публикация на внутренний Maven пока делается вручную. 
-За публикацией обращаться к r.choryev@redmadrobot.com.
-В ближайшее время есть планы пересмотреть этот подход.
+Публикация новых плагинов проходит через создание **Pull Request** в ветку **main**.

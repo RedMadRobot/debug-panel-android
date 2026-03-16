@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/github/license/RedMadRobot/debug-panel-android?style=flat-square)][license]
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)](#)
 
-**[Changelog][changelog]** | **[Миграция на новые версии][migration-guide]**
+**[Changelog][changelog]** | **[Миграция на новые версии][migration-guide]** | **[Документация по разработке плагинов][plugin-development-doc]**
 
 Библиотека избавляет от необходимости пересобирать приложение для смены сервера или переключения feature toggle. Цель проекта — упростить процесс отладки приложения.
 
