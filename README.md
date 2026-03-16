@@ -1,6 +1,6 @@
 # Debug-panel
 
-Библиотека для отладки приложений.
+Библиотека предоставляет встроенную отладочную панель для Android-приложений, предназначенную для использования в debug и QA-сборках.
 
 <img width="1925" height="1090" alt="debug_preview" src="https://github.com/user-attachments/assets/52d83dcb-a8e6-4c86-9d65-87b27d4796bf" />
 
@@ -8,17 +8,17 @@
 [![License](https://img.shields.io/github/license/RedMadRobot/debug-panel-android?style=flat-square)][license]
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)](#)
 
-**[Changelog][changelog]** | **[Миграция на новые версии][migration-guide]**
+**[Changelog][changelog]** | **[Миграция на новые версии][migration-guide]** | **[Документация по разработке плагинов][plugin-development-doc]**
 
-Библиотека избавляет от необходимости пересобирать приложение для смены сервера или переключения feature toggle. Цель проекта — упростить процесс отладки приложения.
+Панель позволяет управлять состоянием приложения в runtime без внесения изменений в основной код.
 
 Основные возможности:
 
-1. **Добавление, редактирование и выбор сервера.**
-2. **Управление feature-toggles и remote config на основе Konfeature.**
-3. **Отображение информации о приложении.**
+1. Добавление, редактирование и выбор сервера.
+2. Управление feature-toggles и remote config на основе Konfeature.
+3. Отображение информации о приложении.
 
-Библиотека построена на подходе с использованием плагинов: каждая функциональность подключается отдельным модулем в зависимостях.
+Каждая функциональность подключается отдельным плагином.
 
 ## Подключение библиотеки
 
@@ -126,7 +126,7 @@ DebugPanel.subscribeToEvents(lifecycleOwner = this) { event ->
 }
 ```
 
-Получение выбранного или сервера по умолчанию:
+Получение выбранного сервера или сервера по умолчанию:
 
 ```kotlin
    val selectedServer = ServersPlugin.getSelectedServer()
