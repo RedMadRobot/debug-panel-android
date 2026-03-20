@@ -8,21 +8,21 @@
 [![License](https://img.shields.io/github/license/RedMadRobot/debug-panel-android?style=flat-square)][license]
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)](#)
 
-**[Changelog][changelog]** | **[Миграция на новые версии][migration-guide]**
+**[Changelog][changelog]** | **[Миграция на новые версии][migration-guide]** | **[Документация по разработке плагинов][plugin-development-doc]**
 
-Тебе надоело пересобирать приложение для того чтобы поменять сервер в настройках или переключить feature toggle? Эта библиотека разрабатывается с идеей решить эти и другие проблемы, и сделать процесс отладки приложения более удобным.
+Библиотека избавляет от необходимости пересобирать приложение для смены сервера или переключения feature toggle. Цель проекта — упростить процесс отладки приложения.
 
-В данный момент библиотека предоставляет следующий функционал:
+Основные возможности:
 
 1. **Добавление, редактирование и выбор сервера.**
 2. **Управление feature-toggles и remote config на основе Konfeature.**
 3. **Отображение информации о приложении.**
 
-Библиотека разрабатывается используя подход работы с плагинами, когда каждый функционал подключается отдельным модулем в зависимостях.
+Библиотека построена на подходе с использованием плагинов: каждая функциональность подключается отдельным модулем в зависимостях.
 
 ## Подключение библиотеки
 
-Для работы с библиотекой необходимо:
+Для работы с библиотекой необходимо выполнить следующие шаги:
 
 1. Подключить `Core` модуль для работы самой панели:
 
@@ -54,7 +54,7 @@ dependencies {
 
 ```
 
-3. Для того чтобы библиотека не попала в релизную сборку необходимо подключить `no-op` версию библиотеки
+3. Для того, чтобы библиотека не попала в релизную сборку, необходимо подключить `no-op` версию библиотеки
 
 ```kotlin
    releaseImplementation("com.redmadrobot.debug:panel-no-op:${debug_panel_version}")
@@ -82,7 +82,7 @@ class App : Application() {
 }
 ```
 
-Для того чтобы открыть DebugPanel, нужно вызвать в коде:
+Для открытия DebugPanel необходимо вызвать:
 
 ```kotlin
 fun openDebugPanel() {
@@ -90,7 +90,7 @@ fun openDebugPanel() {
 }
 ```
 
-Так же в панель можно войти через уведомление которое появляется при запуске приложения использующее библиотеку. Через это же уведомление можно перейти в ручную настройку панели. Для этого нужно нажать кнопку `SETTINGS` в раскрытом уведомлении.
+Также панель доступна через уведомление, которое появляется при запуске приложения, использующего библиотеку. Через это уведомление можно перейти к ручной настройке панели, нажав кнопку `SETTINGS` в раскрытом уведомлении.
 
 ![Режим редактирования](assets/debug_notification.png)
 
@@ -99,7 +99,7 @@ fun openDebugPanel() {
 ### ServersPlugin
 Используется для работы с тестовыми серверами
 
-Можно задать список предустановленных серверов
+Доступна возможность задать список предустановленных серверов
 
 ```kotlin
 ServersPlugin(
@@ -113,7 +113,7 @@ ServersPlugin(
 )
 ```
 
-И подписаться на событие смены сервера
+Подписка на событие смены сервера
 
 ```kotlin
 DebugPanel.subscribeToEvents(lifecycleOwner = this) { event ->
@@ -126,14 +126,14 @@ DebugPanel.subscribeToEvents(lifecycleOwner = this) { event ->
 }
 ```
 
-Для получения выбранного сервера или **default** сервера из кода:
+Получение выбранного или сервера по умолчанию:
 
 ```kotlin
    val selectedServer = ServersPlugin.getSelectedServer()
    val defaultServer = ServersPlugin.getDefaultServer()
 ```
 
-Так же если вы используете `OkHttp` в своем сетевом стеке то можете использовать `DebugServerInterceptor` который будет автоматически подменять хост в запросах на выбранный вами.
+При использовании `OkHttp` в сетевом стеке можно применить `DebugServerInterceptor`, который автоматически подменяет хост в запросах на выбранный сервер.
 
 ```kotlin
 OkHttpClient.Builder()
@@ -141,7 +141,7 @@ OkHttpClient.Builder()
     .build()
 ```
 
-Если запросы должны еще как то модифицироваться, например добавляться Header'ы то это можно сделать используя метод `modifyRequest`
+Если запросы требуют дополнительной модификации, например добавления заголовков, можно воспользоваться методом `modifyRequest`
 
 ```kotlin
 OkHttpClient.Builder()
@@ -158,7 +158,7 @@ OkHttpClient.Builder()
    )
    .build()
 ```
-Текущий выбранный сервер можно получить следующим образом
+Получение текущего выбранного сервера
 
 ```kotlin
 val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
@@ -170,18 +170,18 @@ val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
 
 В основе плагина лежит библиотека [Konfeature][konfeature], которая позволяет:
 
-- отображать конфигурации feature, которые используются в konfeature
-- видеть источник каждого элемента конфигурации (Default, Firebase, AppGallery и т.д.)
-- переопределять значение элементов конфигурации с типом Boolean, String, Long, Double
+- отображать конфигурации feature, используемые в Konfeature
+- просматривать источник каждого элемента конфигурации (Default, Firebase, AppGallery и др.)
+- переопределять значения элементов конфигурации с типами Boolean, String, Long, Double
 
-Для подключения плагина, необходимо передать в него объект класса `KonfeatureDebugPanelInterceptor` и `Konfeature`
+Для подключения плагина необходимо передать объект класса `KonfeatureDebugPanelInterceptor` и экземпляр `Konfeature`
 
 ```kotlin
 val debugPanelInterceptor = KonfeatureDebugPanelInterceptor(context)
 
 val konfeatureInstance = konfeature {
     if (isDebug) {
-        addIntercepot(debugPanelInterceptor)
+        addInterceptor(debugPanelInterceptor)
     }
 }
 
@@ -191,17 +191,17 @@ KonfeaturePlugin(
 )
 ```
 
-В builder konfeture можно настроить следующее:
+В builder Konfeature доступны следующие настройки:
 
-- добавить config конкретной фичи - `register(FeatureConfigN())`
-- настроить работу с remote config через реализацию интерфейса `FeatureSource` - `addSource(featureSource)`
-- настроить логирование - `setLogger(logger)`
+- добавление конфигурации конкретной фичи — `register(FeatureConfigN())`
+- настройка работы с remote config через реализацию интерфейса `FeatureSource` — `addSource(featureSource)`
+- настройка логирования — `setLogger(logger)`
 
 ### AboutApp Plugin
 
-Используется для отображения информации о приложении: версии, номера билда и других произвольных данных.
+Предназначен для отображения информации о приложении: версии, номера сборки и других произвольных данных.
 
-Для подключения плагина необходимо передать список `AboutAppInfo`. Требуется хотя бы один элемент:
+Для подключения плагина необходимо передать список объектов `AboutAppInfo`, содержащий хотя бы один элемент:
 
 ```kotlin
 AboutAppPlugin(
@@ -222,8 +222,9 @@ AboutAppPlugin(
 - `title` — название поля (например, «Версия»)
 - `value` — значение поля (например, «1.0.0»)
 
-# Безопасность!
-Для того чтобы тестовые данные не попали в релизные сборки рекомендуется не задавать их явно в Application классе, а использовать реализации DebugDataProvider, которые можно разнести по разным buildType. Для release версии следует сделать пустую реализацию.
+# Безопасность
+
+Для предотвращения попадания тестовых данных в релизные сборки рекомендуется не задавать их явно в классе Application, а использовать реализации `DebugDataProvider`, которые можно разнести по разным `buildType`. Для release-версии следует создать пустую реализацию.
 
 **buildType**  `debug`
 
@@ -247,7 +248,7 @@ class DebugServersProvider : DebugDataProvider<List<DebugServer>> {
     }
 }
 ```
-Добавление в плагин
+Передача в плагин
 
 ```kotlin
 ServersPlugin(
