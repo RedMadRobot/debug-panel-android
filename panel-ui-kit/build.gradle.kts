@@ -5,7 +5,7 @@ plugins {
     id("convention.detekt")
 }
 
-description = "Debug panel core library"
+description = "Debug panel UI kit: theme, design tokens, shared components"
 
 android {
     compileSdk = Project.COMPILE_SDK
@@ -31,11 +31,7 @@ android {
         jvmToolchain(17)
     }
 
-    lint {
-        disable += "CoroutineCreationDuringComposition"
-    }
-
-    namespace = "com.redmadrobot.debug.core"
+    namespace = "com.redmadrobot.debug.uikit"
 }
 
 kotlin {
@@ -43,17 +39,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":panel-ui-kit"))
-
-    implementation(androidx.activity.compose)
-    implementation(androidx.navigation.compose)
-    implementation(androidx.core)
-    implementation(androidx.appcompat)
-    implementation(androidx.lifecycle.livedata)
-
-    implementation(stack.kotlinx.coroutines.android)
-    implementation(stack.timber)
-    implementation(stack.material)
-
-    api(androidx.lifecycle.viewmodel)
+    implementation(androidx.compose.material3)
+    implementation(androidx.compose.ui.tooling)
+    implementation(androidx.compose.ui.tooling.preview)
 }

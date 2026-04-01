@@ -34,4 +34,5 @@ kotlin {
 
 dependencies {
     implementation(project(":panel-core"))
+    implementation(project(":panel-ui-kit"))
 }
