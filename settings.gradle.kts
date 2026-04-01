@@ -47,7 +47,8 @@ dependencyResolutionManagement {
 // Base modules
 include(
     ":panel-no-op",
-    ":panel-core"
+    ":panel-core",
+    ":panel-ui-kit"
 )
 
 // Plugins
