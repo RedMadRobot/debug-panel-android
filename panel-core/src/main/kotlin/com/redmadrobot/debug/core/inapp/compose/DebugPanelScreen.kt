@@ -28,10 +28,16 @@ import androidx.compose.ui.unit.dp
 import com.redmadrobot.debug.core.R
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.plugin.Plugin
+import com.redmadrobot.debug.uikit.theme.model.ThemeMode
 import kotlinx.coroutines.launch
 
+@Suppress("UnusedParameter")
 @Composable
-public fun DebugPanelScreen(onClose: () -> Unit) {
+public fun DebugPanelScreen(
+    themeMode: ThemeMode,
+    onClose: () -> Unit,
+    onThemeModeChange: (ThemeMode) -> Unit = {}
+) {
     val plugins = remember { getAllPlugins() }
     val pluginsName = remember { plugins.map { it.getName() } }
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { plugins.size })
