@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.redmadrobot.debug.uikit.theme.model.ThemeMode
 
 internal object BaseColors {
     // Purple
@@ -92,7 +93,7 @@ internal object BaseColors {
 @Composable
 @Preview(showBackground = true)
 private fun Preview() {
-    DebugPanelTheme {
+    DebugPanelTheme(themeMode = ThemeMode.Light) {
         FlowRow(
             modifier = Modifier
                 .fillMaxSize()

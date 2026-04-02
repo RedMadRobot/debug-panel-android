@@ -42,4 +42,5 @@ dependencies {
     implementation(androidx.compose.material3)
     implementation(androidx.compose.ui.tooling)
     implementation(androidx.compose.ui.tooling.preview)
+    implementation(androidx.core)
 }
