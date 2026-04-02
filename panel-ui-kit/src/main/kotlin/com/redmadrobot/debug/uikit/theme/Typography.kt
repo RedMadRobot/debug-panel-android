@@ -15,65 +15,65 @@ public data class DebugPanelTypographyTokens(
     /** TopAppBar title. */
     val titleLarge: TextStyle = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+        fontSize = 20.sp,
+        lineHeight = 28.sp,
         letterSpacing = 0.sp,
     ),
     /** Section headers, group names. */
     val titleMedium: TextStyle = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.15.sp,
     ),
     /** Card titles, server names. */
     val titleSmall: TextStyle = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
+        fontSize = 15.sp,
+        lineHeight = 22.sp,
         letterSpacing = 0.1.sp,
     ),
     /** Primary body text. */
     val bodyLarge: TextStyle = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.25.sp,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
     ),
     /** Secondary body text, config values. */
     val bodyMedium: TextStyle = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 13.sp,
-        lineHeight = 18.sp,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.25.sp,
     ),
-    /** Technical values (URLs, keys) — compact monospace. */
+    /** Technical values (URLs, keys) — monospace. */
     val bodySmall: TextStyle = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
         letterSpacing = 0.4.sp,
         fontFamily = MonoFontFamily,
     ),
-    /** Tab labels, chip text. */
+    /** Tab labels, chip text, button labels. */
     val labelLarge: TextStyle = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
     ),
     /** Badges, source indicators. */
     val labelMedium: TextStyle = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
+        fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,
     ),
     /** Section headers (uppercase), overline text. */
     val labelSmall: TextStyle = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 10.sp,
-        lineHeight = 14.sp,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
         letterSpacing = 1.sp,
     ),
 )
@@ -81,8 +81,8 @@ public data class DebugPanelTypographyTokens(
 internal val DarkDebugPanelTypographyTokens = DebugPanelTypographyTokens(
     bodySmall = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
         letterSpacing = 0.4.sp,
         fontFamily = MonoFontFamily,
         color = BaseColors.Neutral80,
