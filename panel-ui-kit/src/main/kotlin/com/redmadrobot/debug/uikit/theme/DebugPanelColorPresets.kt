@@ -1,5 +1,8 @@
 package com.redmadrobot.debug.uikit.theme
 
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.lightColorScheme
+
 internal val LightDebugPanelColors = DebugPanelColors()
 
 internal val DarkDebugPanelColors = DebugPanelColors(
@@ -43,4 +46,34 @@ internal val DarkDebugPanelColors = DebugPanelColors(
         remoteText = BaseColors.OrangeDarkText,
         remoteBackground = BaseColors.OrangeDark,
     ),
+)
+
+internal fun DebugPanelColors.toMaterialColorScheme(): ColorScheme = lightColorScheme(
+    primary = button.primary,
+    onPrimary = button.onPrimary,
+    primaryContainer = surface.tertiary,
+    onPrimaryContainer = content.primary,
+    secondary = content.secondary,
+    onSecondary = button.onPrimary,
+    secondaryContainer = button.secondary,
+    onSecondaryContainer = content.primary,
+    tertiary = content.tertiary,
+    onTertiary = button.onPrimary,
+    error = content.error,
+    onError = button.onError,
+    errorContainer = BaseColors.Error90,
+    onErrorContainer = BaseColors.Error20,
+    background = background.primary,
+    onBackground = content.primary,
+    surface = surface.primary,
+    onSurface = content.primary,
+    surfaceVariant = stroke.primary,
+    onSurfaceVariant = content.secondary,
+    outline = content.tertiary,
+    outlineVariant = stroke.secondary,
+    surfaceContainer = surface.secondary,
+    surfaceContainerHigh = surface.tertiary,
+    inverseSurface = content.primary,
+    inverseOnSurface = background.primary,
+    inversePrimary = content.accent,
 )

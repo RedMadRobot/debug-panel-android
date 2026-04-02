@@ -4,9 +4,11 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.redmadrobot.debug.core.data.storage.theme.ThemeDataStore
 import com.redmadrobot.debug.core.internal.CommonContainer
 import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.core.plugin.PluginManager
+import com.redmadrobot.debug.uikit.theme.model.ThemeMode
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,6 +24,9 @@ internal class DebugPanelInstance(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
+    private val themeDataStore by lazy {
+        ThemeDataStore(context = application.applicationContext)
+    }
 
     init {
         initContainer(application.applicationContext)
@@ -45,6 +50,16 @@ internal class DebugPanelInstance(
         return pluginManager
             ?: error("PluginManager not initialised")
     }
+
+    internal fun observeDebugPanelTheme(): Flow<ThemeMode> {
+        return themeDataStore.observeThemeMode()
+    }
+
+    internal suspend fun updateDebugPanelTheme(themeMode: ThemeMode) {
+        themeDataStore.saveThemeMode(mode = themeMode)
+    }
+
+    internal fun getSelectedTheme() = themeDataStore.getSelectedTheme()
 
     private fun initContainer(context: Context) {
         commonContainer = CommonContainer(context)

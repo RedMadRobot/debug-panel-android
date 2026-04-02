@@ -3,6 +3,7 @@ plugins {
     id("convention.compose")
     id("convention-publish")
     id("convention.detekt")
+    alias(stack.plugins.kotlin.serialization)
 }
 
 description = "Debug panel core library"
@@ -51,7 +52,9 @@ dependencies {
     implementation(androidx.appcompat)
     implementation(androidx.lifecycle.livedata)
 
+    implementation(androidx.datastore)
     implementation(stack.kotlinx.coroutines.android)
+    implementation(stack.kotlinx.serialization.json)
     implementation(stack.timber)
     implementation(stack.material)
 
