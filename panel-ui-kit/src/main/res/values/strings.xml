@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="debug_panel_theme_system">System</string>
+    <string name="debug_panel_theme_light">Light</string>
+    <string name="debug_panel_theme_dark">Dark</string>
+</resources>
