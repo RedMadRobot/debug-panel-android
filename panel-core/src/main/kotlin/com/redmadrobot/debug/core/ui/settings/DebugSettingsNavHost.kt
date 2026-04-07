@@ -6,17 +6,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.internal.EditablePlugin
+import kotlinx.collections.immutable.ImmutableList
 
 private const val MAIN_SCREEN_ROUTE = "main"
 
 @Composable
 internal fun DebugSettingsNavHost(
     navController: NavHostController,
-    pluginItems: List<PluginSettingsItem>,
+    pluginItems: ImmutableList<PluginSettingsItem>,
 ) {
     NavHost(navController = navController, startDestination = MAIN_SCREEN_ROUTE) {
         composable(MAIN_SCREEN_ROUTE) {
-            DebugSettingsScreen(pluginItems = pluginItems, navController = navController)
+            DebugSettingsScreen(
+                pluginItems = pluginItems,
+                navController = navController
+            )
         }
 
         pluginItems.forEach { plugin ->

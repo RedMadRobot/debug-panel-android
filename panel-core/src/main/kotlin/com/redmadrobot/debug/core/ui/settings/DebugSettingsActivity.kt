@@ -11,6 +11,7 @@ import com.redmadrobot.debug.core.DebugPanel
 import com.redmadrobot.debug.core.extension.getAllPlugins
 import com.redmadrobot.debug.core.internal.EditablePlugin
 import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
+import kotlinx.collections.immutable.toImmutableList
 
 internal class DebugSettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,7 @@ internal class DebugSettingsActivity : AppCompatActivity() {
                 val pluginItems = remember { getSettingItems() }
                 DebugSettingsNavHost(
                     navController = navController,
-                    pluginItems = pluginItems,
+                    pluginItems = pluginItems.toImmutableList(),
                 )
             }
         }

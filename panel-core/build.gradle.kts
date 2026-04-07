@@ -58,5 +58,7 @@ dependencies {
     implementation(stack.timber)
     implementation(stack.material)
 
+    implementation(stack.kotlinx.collections.immutable)
+
     api(androidx.lifecycle.viewmodel)
 }
