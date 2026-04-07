@@ -3,102 +3,183 @@
 package com.redmadrobot.debug.core.inapp.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScrollableTabRow
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.SecondaryScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.redmadrobot.debug.core.R
 import com.redmadrobot.debug.core.extension.getAllPlugins
-import com.redmadrobot.debug.core.plugin.Plugin
+import com.redmadrobot.debug.uikit.components.ThemeSwitcher
+import com.redmadrobot.debug.uikit.theme.DebugPanelDimensions
+import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
 import com.redmadrobot.debug.uikit.theme.model.ThemeMode
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
-@Suppress("UnusedParameter")
 @Composable
 public fun DebugPanelScreen(
     themeMode: ThemeMode,
+    onThemeModeChange: (ThemeMode) -> Unit,
     onClose: () -> Unit,
-    onThemeModeChange: (ThemeMode) -> Unit = {}
 ) {
     val plugins = remember { getAllPlugins() }
-    val pluginsName = remember { plugins.map { it.getName() } }
+    val pluginNames = remember { plugins.map { it.getName() } }
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { plugins.size })
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(R.string.debug_panel)) },
-                navigationIcon = {
-                    IconButton(onClick = onClose) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_back),
-                            contentDescription = null,
-                        )
-                    }
-                },
-                backgroundColor = MaterialTheme.colors.background,
-                elevation = 0.dp,
-            )
-        },
-    ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
-            PluginsTabLayout(pluginsName = pluginsName, pagerState = pagerState)
-            PluginsPager(plugins = plugins, pagerState = pagerState)
-        }
-    }
-}
-
-@Composable
-private fun PluginsTabLayout(pluginsName: List<String>, pagerState: PagerState) {
     val scope = rememberCoroutineScope()
 
-    ScrollableTabRow(
-        selectedTabIndex = pagerState.currentPage,
-        backgroundColor = MaterialTheme.colors.background,
-        edgePadding = 16.dp,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                modifier = Modifier.tabIndicatorOffset(
-                    currentTabPosition = tabPositions[pagerState.currentPage]
-                ),
-                height = 2.dp,
-                color = MaterialTheme.colors.secondary
-            )
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = DebugPanelTheme.colors.background.primary),
     ) {
-        pluginsName.forEachIndexed { index, _ ->
-            Tab(
-                text = { Text(text = pluginsName[index]) },
-                selected = pagerState.currentPage == index,
-                onClick = {
-                    scope.launch { pagerState.animateScrollToPage(index) }
-                }
-            )
+        PanelTopBar(
+            themeMode = themeMode,
+            onThemeModeChange = onThemeModeChange,
+            onClose = onClose,
+        )
+        PanelTabRow(
+            pluginNames = pluginNames.toImmutableList(),
+            selectedIndex = pagerState.currentPage,
+            onTabClick = { index -> scope.launch { pagerState.animateScrollToPage(index) } },
+        )
+        HorizontalPager(state = pagerState, modifier = Modifier.weight(weight = 1f)) { page ->
+            plugins[page].content()
         }
     }
 }
 
 @Composable
-private fun PluginsPager(plugins: List<Plugin>, pagerState: PagerState) {
-    HorizontalPager(state = pagerState) { page ->
-        plugins[page].content()
+private fun PanelTopBar(
+    themeMode: ThemeMode,
+    onThemeModeChange: (ThemeMode) -> Unit,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = DebugPanelDimensions.topBarHeight)
+            .padding(horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(id = R.string.debug_panel),
+            style = DebugPanelTheme.typography.titleLarge,
+            color = DebugPanelTheme.colors.content.primary,
+            modifier = Modifier
+                .weight(weight = 1f)
+                .padding(start = 4.dp),
+        )
+        ThemeSwitcher(
+            currentMode = themeMode,
+            onModeSelect = onThemeModeChange,
+        )
+        IconButton(onClick = onClose) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_arrow_back),
+                contentDescription = null,
+                tint = DebugPanelTheme.colors.content.secondary,
+                modifier = Modifier.size(size = DebugPanelDimensions.iconSizeMedium),
+            )
+        }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PanelTabRow(
+    pluginNames: ImmutableList<String>,
+    selectedIndex: Int,
+    onTabClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    SecondaryScrollableTabRow(
+        selectedTabIndex = selectedIndex,
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = DebugPanelDimensions.tabRowHeight)
+            .background(color = DebugPanelTheme.colors.surface.secondary),
+        edgePadding = 4.dp,
+        containerColor = DebugPanelTheme.colors.surface.secondary,
+        contentColor = DebugPanelTheme.colors.content.secondary,
+        indicator = {
+            TabRowDefaults.SecondaryIndicator(
+                modifier = Modifier.tabIndicatorOffset(
+                    selectedTabIndex = selectedIndex,
+                    matchContentSize = false,
+                ),
+                height = 2.dp,
+                color = DebugPanelTheme.colors.content.accent,
+            )
+        },
+        divider = {},
+    ) {
+        pluginNames.forEachIndexed { index, title ->
+            key(title) {
+                PluginTab(
+                    isSelected = selectedIndex == index,
+                    title = title,
+                    onTabClick = { onTabClick(index) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PluginTab(
+    title: String,
+    isSelected: Boolean,
+    onTabClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Tab(
+        modifier = modifier.padding(horizontal = 4.dp),
+        selected = isSelected,
+        onClick = { onTabClick.invoke() },
+        text = { PluginTabTitle(title = title, isSelected = isSelected) },
+    )
+}
+
+@Composable
+private fun PluginTabTitle(
+    title: String,
+    isSelected: Boolean,
+    modifier: Modifier = Modifier
+) {
+    val titleColor = if (isSelected) {
+        DebugPanelTheme.colors.content.accent
+    } else {
+        DebugPanelTheme.colors.content.secondary
+    }
+
+    Text(
+        modifier = modifier,
+        text = title,
+        style = DebugPanelTheme.typography.labelLarge,
+        color = titleColor,
+    )
 }
