@@ -1,6 +1,5 @@
 package com.redmadrobot.debug.plugin.aboutapp.ui
 
-import android.content.ClipData
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,9 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.ClipEntry
-import androidx.compose.ui.platform.Clipboard
-import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -34,7 +30,6 @@ import com.redmadrobot.debug.core.extension.provideViewModel
 import com.redmadrobot.debug.plugin.aboutapp.AboutAppPlugin
 import com.redmadrobot.debug.plugin.aboutapp.AboutAppPluginContainer
 import com.redmadrobot.debug.plugin.aboutapp.R
-import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppInfo
 import com.redmadrobot.debug.uikit.theme.DebugPanelShapes
 import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
 
@@ -47,13 +42,10 @@ internal fun AboutAppScreen(
     },
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-
     val state by viewModel.state.collectAsState()
-    val clipboard = LocalClipboard.current
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
-            copyToClipboard(clipboard = clipboard, item = event.item)
             val message = event.message.format(event.item.title)
             snackbarHostState.showSnackbar(message = message)
         }
@@ -119,10 +111,4 @@ private fun InfoRow(
             overflow = TextOverflow.Ellipsis,
         )
     }
-}
-
-private suspend fun copyToClipboard(clipboard: Clipboard, item: AboutAppInfo) {
-    val clipData = ClipData.newPlainText(item.title, item.value)
-
-    clipboard.setClipEntry(clipEntry = ClipEntry(clipData))
 }

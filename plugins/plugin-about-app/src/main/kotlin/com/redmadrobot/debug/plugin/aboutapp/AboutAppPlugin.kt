@@ -16,7 +16,7 @@ public class AboutAppPlugin(
     }
 
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return AboutAppPluginContainer(appInfoList = appInfoList)
+        return AboutAppPluginContainer(appInfoList = appInfoList, commonContainer = commonContainer)
     }
 
     override fun getName(): String = NAME
