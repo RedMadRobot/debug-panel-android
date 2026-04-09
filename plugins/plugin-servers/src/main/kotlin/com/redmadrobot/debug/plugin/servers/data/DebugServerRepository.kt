@@ -23,7 +23,10 @@ internal class DebugServerRepository(
 
     suspend fun getServers(): List<DebugServer> = serversDataStore.getAll()
 
-    suspend fun removeServer(server: DebugServer) = serversDataStore.remove(server)
+    suspend fun removeServer(server: DebugServer) {
+        if (server == getSelectedServer()) saveSelectedServer(getDefault())
+        serversDataStore.remove(server)
+    }
 
     suspend fun updateServer(oldServer: DebugServer, newServer: DebugServer) =
         serversDataStore.update(oldServer, newServer)

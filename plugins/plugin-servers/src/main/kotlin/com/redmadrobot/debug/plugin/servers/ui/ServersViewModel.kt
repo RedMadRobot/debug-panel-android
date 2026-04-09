@@ -2,6 +2,7 @@ package com.redmadrobot.debug.plugin.servers.ui
 
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
+import com.redmadrobot.debug.core.DebugEvent
 import com.redmadrobot.debug.core.extension.getPlugin
 import com.redmadrobot.debug.core.extension.safeLaunch
 import com.redmadrobot.debug.core.internal.PluginViewModel
@@ -11,27 +12,35 @@ import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.plugin.servers.data.DebugServerRepository
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ServersViewModel(
+    private val isEditMode: Boolean,
     private val serversRepository: DebugServerRepository,
 ) : PluginViewModel() {
-    private val _state = MutableStateFlow(ServersViewState())
+    private val _state = MutableStateFlow(ServersViewState(isEditMode = isEditMode))
     val state: StateFlow<ServersViewState> = _state.asStateFlow()
 
-    fun loadServers() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.update { serversState ->
-                serversState.copy(
-                    preInstalledServers = serversRepository.getPreInstalledServers()
-                        .mapToServerItems(),
-                    addedServers = serversRepository.getServers().mapToServerItems(),
-                )
-            }
+    private val _events = MutableSharedFlow<ServerSelectionMessageEvent?>()
+    val events = _events.asSharedFlow().distinctUntilChanged()
+
+    init {
+        loadServers()
+    }
+
+    fun onServerClicked(debugServer: DebugServer) {
+        if (!isEditMode) {
+            selectServer(debugServer)
+            viewModelScope.launch { _events.emit(ServerSelectionMessageEvent(serverName = debugServer.name)) }
+        } else {
+            editServer(debugServer)
         }
     }
 
@@ -90,6 +99,18 @@ internal class ServersViewModel(
         }
     }
 
+    private fun loadServers() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { serversState ->
+                serversState.copy(
+                    preInstalledServers = serversRepository.getPreInstalledServers()
+                        .mapToServerItems(),
+                    addedServers = serversRepository.getServers().mapToServerItems(),
+                )
+            }
+        }
+    }
+
     private fun checkInputErrors(dialogState: ServerDialogState): ServerDialogErrors? {
         val nameError = R.string.error_empty_name.takeIf { dialogState.serverName.isEmpty() }
         val urlError = R.string.error_wrong_host.takeIf {
@@ -106,11 +127,7 @@ internal class ServersViewModel(
     fun onRemoveServerClicked(debugServer: DebugServer) {
         viewModelScope.safeLaunch {
             serversRepository.removeServer(debugServer)
-            _state.update { serversState ->
-                serversState.copy(
-                    addedServers = serversRepository.getServers().mapToServerItems()
-                )
-            }
+            loadServers()
         }
     }
 
@@ -139,7 +156,7 @@ internal class ServersViewModel(
         }
     }
 
-    fun onEditServerClicked(debugServer: DebugServer) {
+    private fun editServer(debugServer: DebugServer) {
         _state.update { serversState ->
             serversState.copy(
                 serverDialogState = ServerDialogState(
@@ -152,7 +169,7 @@ internal class ServersViewModel(
         }
     }
 
-    fun onServerClicked(debugServer: DebugServer) {
+    private fun selectServer(debugServer: DebugServer) {
         viewModelScope.launch {
             val selectedServer = serversRepository.getSelectedServer()
             if (debugServer != selectedServer) {
@@ -171,3 +188,5 @@ internal class ServersViewModel(
         }
     }
 }
+
+internal data class ServerSelectionMessageEvent(val serverName: String) : DebugEvent

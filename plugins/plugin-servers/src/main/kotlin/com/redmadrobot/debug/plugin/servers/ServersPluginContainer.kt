@@ -20,9 +20,10 @@ internal class ServersPluginContainer(
         )
     }
 
-    fun createServersViewModel(): ServersViewModel {
+    fun createServersViewModel(isEditMode: Boolean): ServersViewModel {
         return ServersViewModel(
-            serversRepository,
+            isEditMode = isEditMode,
+            serversRepository = serversRepository,
         )
     }
 }
