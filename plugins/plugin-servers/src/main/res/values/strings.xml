@@ -4,8 +4,11 @@
     <string name="server_host_hint">https://google.com</string>
     <string name="error_wrong_host">Wrong host format.</string>
     <string name="error_empty_name">Must be filled</string>
-    <string name="save_server">save</string>
+    <string name="save_server">Save</string>
     <string name="default_server">Default server</string>
     <string name="added_servers">Added servers</string>
     <string name="name">Name</string>
+    <string name="add_server">Add server</string>
+    <string name="edit_server">Edit Server</string>
+    <string name="server_selected">%s selected</string>
 </resources>
