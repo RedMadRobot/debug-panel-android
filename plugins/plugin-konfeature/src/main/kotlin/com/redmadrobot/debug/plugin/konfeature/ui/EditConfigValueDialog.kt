@@ -1,15 +1,15 @@
 package com.redmadrobot.debug.plugin.konfeature.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -18,13 +18,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.redmadrobot.debug.plugin.konfeature.R
 import com.redmadrobot.debug.plugin.konfeature.ui.data.EditDialogState
-import com.redmadrobot.debug.core.R as CoreR
+import com.redmadrobot.debug.uikit.components.PanelDialog
+import com.redmadrobot.debug.uikit.components.PanelStyledTextField
+import com.redmadrobot.debug.uikit.components.PanelToggle
+import com.redmadrobot.debug.uikit.theme.DebugPanelShapes
+import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
 
 @Composable
 internal fun EditConfigValueDialog(
@@ -32,6 +35,7 @@ internal fun EditConfigValueDialog(
     onValueChange: (key: String, value: Any) -> Unit,
     onValueReset: (key: String) -> Unit,
     onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val initialValue = state.value
     var value by remember { mutableStateOf(state.value) }
@@ -40,41 +44,40 @@ internal fun EditConfigValueDialog(
         derivedStateOf { !isInputEmpty && initialValue != value }
     }
 
-    AlertDialog(
-        backgroundColor = colorResource(id = CoreR.color.super_light_gray),
-        title = {
-            Text(text = stringResource(id = R.string.konfeature_plugin_edit_dialog_title, state.key))
-        },
-        text = {
-            when (initialValue) {
-                is Boolean -> BooleanEditInput(initialValue, onValueChange = { value = it })
-                is Long -> LongEditInput(
-                    initialValue,
-                    onValueChange = { value = it },
-                    onEmptyInput = { isInputEmpty = it }
-                )
+    PanelDialog(title = state.key, onDismiss = onDismissRequest, modifier = modifier) {
+        when (initialValue) {
+            is Boolean -> BooleanEditInput(
+                value = initialValue,
+                onValueChange = { value = it },
+            )
 
-                is Double -> DoubleEditInput(
-                    initialValue,
-                    onValueChange = { value = it },
-                    onEmptyImput = { isInputEmpty = it }
-                )
+            is Long -> LongEditInput(
+                value = initialValue,
+                onValueChange = { value = it },
+                onEmptyInput = { isInputEmpty = it },
+            )
 
-                is String -> StringEditInput(initialValue, onValueChange = { value = it })
-            }
-        },
-        onDismissRequest = onDismissRequest,
-        buttons = {
-            EditConfigValueButtons(
-                state = state,
-                saveEnabled = saveEnabled,
-                value = value,
-                onValueChange = onValueChange,
-                onValueReset = onValueReset,
-                onDismissRequest = onDismissRequest,
+            is Double -> DoubleEditInput(
+                value = initialValue,
+                onValueChange = { value = it },
+                onEmptyInput = { isInputEmpty = it },
+            )
+
+            is String -> StringEditInput(
+                value = initialValue,
+                onValueChange = { value = it },
             )
         }
-    )
+        Spacer(modifier = Modifier.height(20.dp))
+        EditConfigValueButtons(
+            state = state,
+            saveEnabled = saveEnabled,
+            value = value,
+            onValueChange = onValueChange,
+            onValueReset = onValueReset,
+            onDismissRequest = onDismissRequest,
+        )
+    }
 }
 
 @Composable
@@ -85,58 +88,114 @@ private fun EditConfigValueButtons(
     onValueChange: (key: String, value: Any) -> Unit,
     onValueReset: (key: String) -> Unit,
     onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Button(onClick = onDismissRequest) {
-            Text(text = stringResource(id = R.string.konfeature_plugin_close))
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Button(
-            enabled = saveEnabled,
-            onClick = {
-                onValueChange.invoke(state.key, value)
-                onDismissRequest.invoke()
-            }
-        ) {
-            Text(text = stringResource(id = R.string.konfeature_plugin_save))
-        }
+        CloseButton(onDismissRequest = onDismissRequest)
+        Spacer(modifier = Modifier.weight(weight = 1f))
         if (state.isDebugSource) {
-            Button(
-                modifier = Modifier.padding(start = 8.dp),
-                onClick = {
-                    onValueReset.invoke(state.key)
-                    onDismissRequest.invoke()
-                }
-            ) {
-                Text(text = stringResource(id = R.string.konfeature_plugin_reset))
-            }
+            DebugSourceButton(
+                onValueReset = { onValueReset.invoke(state.key) },
+                onDismissRequest = onDismissRequest
+            )
         }
+        SaveButton(
+            saveEnabled = saveEnabled,
+            onValueChange = { onValueChange.invoke(state.key, value) },
+            onDismissRequest = onDismissRequest
+        )
+    }
+}
+
+@Composable
+private fun SaveButton(
+    saveEnabled: Boolean,
+    onValueChange: () -> Unit,
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Button(
+        modifier = modifier,
+        onClick = {
+            onValueChange()
+            onDismissRequest()
+        },
+        enabled = saveEnabled,
+        shape = DebugPanelShapes.medium,
+    ) {
+        Text(
+            text = stringResource(R.string.konfeature_plugin_save),
+            style = DebugPanelTheme.typography.labelLarge,
+        )
+    }
+}
+
+@Composable
+private fun DebugSourceButton(
+    onValueReset: () -> Unit,
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    OutlinedButton(
+        modifier = modifier,
+        onClick = {
+            onValueReset()
+            onDismissRequest()
+        },
+        shape = DebugPanelShapes.medium,
+        colors = ButtonDefaults.outlinedButtonColors(
+            contentColor = DebugPanelTheme.colors.content.error,
+        ),
+    ) {
+        Text(
+            text = stringResource(R.string.konfeature_plugin_reset),
+            style = DebugPanelTheme.typography.labelLarge,
+        )
+    }
+}
+
+@Composable
+private fun CloseButton(onDismissRequest: () -> Unit, modifier: Modifier = Modifier) {
+    OutlinedButton(
+        modifier = modifier,
+        onClick = onDismissRequest,
+        shape = DebugPanelShapes.medium,
+    ) {
+        Text(
+            text = stringResource(R.string.konfeature_plugin_close),
+            style = DebugPanelTheme.typography.labelLarge,
+        )
     }
 }
 
 @Composable
 private fun BooleanEditInput(
     value: Boolean,
-    onValueChange: (Any) -> Unit
+    onValueChange: (Any) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var checked by remember { mutableStateOf(value) }
+
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically),
-            text = stringResource(id = R.string.konfeature_plugin_edit_dialog_hint_boolean)
+            text = stringResource(R.string.konfeature_plugin_edit_dialog_hint_boolean),
+            style = DebugPanelTheme.typography.bodyMedium,
+            color = DebugPanelTheme.colors.content.primary,
+            modifier = Modifier.weight(weight = 1f),
         )
-        Checkbox(
+        PanelToggle(
             checked = checked,
             onCheckedChange = { newChecked ->
                 checked = newChecked
-                onValueChange.invoke(newChecked)
-            }
+                onValueChange(newChecked)
+            },
         )
     }
 }
@@ -146,22 +205,23 @@ private fun LongEditInput(
     value: Long,
     onValueChange: (Any) -> Unit,
     onEmptyInput: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var text by remember { mutableStateOf(value.toString()) }
 
-    OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = stringResource(id = R.string.konfeature_plugin_edit_dialog_hint_long)) },
+    PanelStyledTextField(
         value = text,
         onValueChange = { newText ->
             val newValue = newText.toLongOrNull()
             if (newValue != null || newText.isEmpty()) {
                 text = newText
                 newValue?.let(onValueChange)
-                onEmptyInput.invoke(newText.isEmpty())
+                onEmptyInput(newText.isEmpty())
             }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        label = stringResource(R.string.konfeature_plugin_edit_dialog_hint_long),
+        modifier = modifier,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 }
 
@@ -169,23 +229,24 @@ private fun LongEditInput(
 private fun DoubleEditInput(
     value: Double,
     onValueChange: (Any) -> Unit,
-    onEmptyImput: (Boolean) -> Unit,
+    onEmptyInput: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var text by remember { mutableStateOf(value.toBigDecimal().toPlainString()) }
 
-    OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = stringResource(id = R.string.konfeature_plugin_edit_dialog_hint_double)) },
+    PanelStyledTextField(
         value = text,
         onValueChange = { newText ->
             val newValue = newText.toDoubleOrNull()
             if (newValue != null || newText.isEmpty()) {
                 text = newText
                 newValue?.let(onValueChange)
-                onEmptyImput.invoke(newText.isEmpty())
+                onEmptyInput(newText.isEmpty())
             }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+        label = stringResource(R.string.konfeature_plugin_edit_dialog_hint_double),
+        modifier = modifier,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
     )
 }
 
@@ -193,16 +254,17 @@ private fun DoubleEditInput(
 private fun StringEditInput(
     value: String,
     onValueChange: (Any) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var text by remember { mutableStateOf(value) }
 
-    OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = stringResource(id = R.string.konfeature_plugin_edit_dialog_hint_string)) },
+    PanelStyledTextField(
         value = text,
         onValueChange = { newText ->
             text = newText
-            onValueChange.invoke(newText)
+            onValueChange(newText)
         },
+        label = stringResource(R.string.konfeature_plugin_edit_dialog_hint_string),
+        modifier = modifier,
     )
 }
