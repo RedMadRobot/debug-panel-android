@@ -19,8 +19,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -44,6 +42,7 @@ import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.plugin.servers.ServersPluginContainer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.uikit.components.PanelBottomSheet
+import com.redmadrobot.debug.uikit.components.PanelTextField
 import com.redmadrobot.debug.uikit.theme.DebugPanelDimensions
 import com.redmadrobot.debug.uikit.theme.DebugPanelShapes
 import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
@@ -273,7 +272,7 @@ private fun ServerBottomSheet(
         title = title,
         onDismiss = onDismiss,
     ) {
-        ServerTextField(
+        PanelTextField(
             value = state.serverName,
             onValueChange = onNameChange,
             label = stringResource(R.string.name),
@@ -281,7 +280,7 @@ private fun ServerBottomSheet(
             errorMessage = state.inputErrors?.nameError?.let { stringResource(it) },
         )
         Spacer(modifier = Modifier.height(16.dp))
-        ServerTextField(
+        PanelTextField(
             value = state.serverUrl,
             onValueChange = onUrlChange,
             label = stringResource(R.string.server_host_hint),
@@ -300,45 +299,5 @@ private fun ServerBottomSheet(
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
-    }
-}
-
-@Composable
-private fun ServerTextField(
-    value: String,
-    label: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    isError: Boolean = false,
-    errorMessage: String? = null,
-) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(label, style = DebugPanelTheme.typography.bodyMedium) },
-            isError = isError,
-            singleLine = true,
-            textStyle = DebugPanelTheme.typography.bodyMedium.copy(
-                color = DebugPanelTheme.colors.content.primary,
-            ),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = DebugPanelTheme.colors.content.accent,
-                unfocusedBorderColor = DebugPanelTheme.colors.stroke.secondary,
-                focusedLabelColor = DebugPanelTheme.colors.content.accent,
-                unfocusedLabelColor = DebugPanelTheme.colors.content.tertiary,
-                errorBorderColor = DebugPanelTheme.colors.content.error,
-                cursorColor = DebugPanelTheme.colors.content.accent,
-            ),
-        )
-        if (isError && errorMessage != null) {
-            Text(
-                text = errorMessage,
-                style = DebugPanelTheme.typography.bodySmall,
-                color = DebugPanelTheme.colors.content.error,
-                modifier = Modifier.padding(top = 4.dp),
-            )
-        }
     }
 }
