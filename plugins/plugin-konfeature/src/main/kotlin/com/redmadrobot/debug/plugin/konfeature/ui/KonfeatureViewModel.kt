@@ -13,8 +13,8 @@ import com.redmadrobot.konfeature.Konfeature
 import com.redmadrobot.konfeature.source.FeatureValueSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -32,7 +32,7 @@ internal class KonfeatureViewModel(
     private val _state = MutableStateFlow(KonfeatureViewState())
     private val _searchQueryFlow = MutableStateFlow("")
 
-    val state: Flow<KonfeatureViewState> = _state.asStateFlow()
+    val state: StateFlow<KonfeatureViewState> = _state.asStateFlow()
 
     init {
         observeKonfeatureValues()
