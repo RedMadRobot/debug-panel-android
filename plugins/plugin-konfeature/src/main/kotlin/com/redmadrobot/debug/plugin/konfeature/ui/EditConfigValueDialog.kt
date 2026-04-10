@@ -1,18 +1,10 @@
 package com.redmadrobot.debug.plugin.konfeature.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,15 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.redmadrobot.debug.plugin.konfeature.R
 import com.redmadrobot.debug.plugin.konfeature.ui.data.EditDialogState
 import com.redmadrobot.debug.uikit.components.PanelDialog
-import com.redmadrobot.debug.uikit.components.PanelTextField
+import com.redmadrobot.debug.uikit.components.PanelStyledTextField
+import com.redmadrobot.debug.uikit.components.PanelToggle
 import com.redmadrobot.debug.uikit.theme.DebugPanelShapes
 import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
 
@@ -199,7 +190,7 @@ private fun BooleanEditInput(
             color = DebugPanelTheme.colors.content.primary,
             modifier = Modifier.weight(weight = 1f),
         )
-        EditConfigDialogToggle(
+        PanelToggle(
             checked = checked,
             onCheckedChange = { newChecked ->
                 checked = newChecked
@@ -218,7 +209,7 @@ private fun LongEditInput(
 ) {
     var text by remember { mutableStateOf(value.toString()) }
 
-    PanelTextField(
+    PanelStyledTextField(
         value = text,
         onValueChange = { newText ->
             val newValue = newText.toLongOrNull()
@@ -243,7 +234,7 @@ private fun DoubleEditInput(
 ) {
     var text by remember { mutableStateOf(value.toBigDecimal().toPlainString()) }
 
-    PanelTextField(
+    PanelStyledTextField(
         value = text,
         onValueChange = { newText ->
             val newValue = newText.toDoubleOrNull()
@@ -267,7 +258,7 @@ private fun StringEditInput(
 ) {
     var text by remember { mutableStateOf(value) }
 
-    PanelTextField(
+    PanelStyledTextField(
         value = text,
         onValueChange = { newText ->
             text = newText
@@ -276,31 +267,4 @@ private fun StringEditInput(
         label = stringResource(R.string.konfeature_plugin_edit_dialog_hint_string),
         modifier = modifier,
     )
-}
-
-@Composable
-private fun EditConfigDialogToggle(
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val (trackColor, thumbOffset) = with(DebugPanelTheme.colors) {
-        if (checked) content.teal to 22.dp else stroke.primary to 2.dp
-    }
-
-    Box(
-        modifier = modifier
-            .width(width = 44.dp)
-            .height(height = 24.dp)
-            .clip(shape = RoundedCornerShape(size = 12.dp))
-            .background(color = trackColor)
-            .clickable { onCheckedChange(!checked) },
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(start = thumbOffset, top = 2.dp)
-                .size(size = 20.dp)
-                .background(color = Color.White, shape = CircleShape),
-        )
-    }
 }

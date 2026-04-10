@@ -42,7 +42,7 @@ import com.redmadrobot.debug.plugin.servers.ServersPlugin
 import com.redmadrobot.debug.plugin.servers.ServersPluginContainer
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
 import com.redmadrobot.debug.uikit.components.PanelBottomSheet
-import com.redmadrobot.debug.uikit.components.PanelTextField
+import com.redmadrobot.debug.uikit.components.PanelStyledTextField
 import com.redmadrobot.debug.uikit.theme.DebugPanelDimensions
 import com.redmadrobot.debug.uikit.theme.DebugPanelShapes
 import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
@@ -272,7 +272,7 @@ private fun ServerBottomSheet(
         title = title,
         onDismiss = onDismiss,
     ) {
-        PanelTextField(
+        PanelStyledTextField(
             value = state.serverName,
             onValueChange = onNameChange,
             label = stringResource(R.string.name),
@@ -280,7 +280,7 @@ private fun ServerBottomSheet(
             errorMessage = state.inputErrors?.nameError?.let { stringResource(it) },
         )
         Spacer(modifier = Modifier.height(16.dp))
-        PanelTextField(
+        PanelStyledTextField(
             value = state.serverUrl,
             onValueChange = onUrlChange,
             label = stringResource(R.string.server_host_hint),

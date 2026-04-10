@@ -30,7 +30,7 @@ private val defaultColors: TextFieldColors
     )
 
 @Composable
-public fun PanelTextField(
+public fun PanelStyledTextField(
     value: String,
     label: String,
     onValueChange: (String) -> Unit,

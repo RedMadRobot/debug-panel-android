@@ -1,29 +1,29 @@
 package com.redmadrobot.debug.plugin.konfeature.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,9 +34,13 @@ import com.redmadrobot.debug.plugin.konfeature.KonfeaturePluginContainer
 import com.redmadrobot.debug.plugin.konfeature.R
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureItem
 import com.redmadrobot.debug.plugin.konfeature.ui.data.KonfeatureViewState
-import com.redmadrobot.debug.core.R as CoreR
+import com.redmadrobot.debug.uikit.components.PanelSearchBar
+import com.redmadrobot.debug.uikit.components.PanelToggle
+import com.redmadrobot.debug.uikit.theme.DebugPanelDimensions
+import com.redmadrobot.debug.uikit.theme.DebugPanelShapes
+import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
+import com.redmadrobot.debug.uikit.theme.MonoFontFamily
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun KonfeatureScreen(
     viewModel: KonfeatureViewModel = provideViewModel {
@@ -45,7 +49,7 @@ internal fun KonfeatureScreen(
             .createKonfeatureViewModel()
     },
 ) {
-    val state by viewModel.state.collectAsState(KonfeatureViewState())
+    val state by viewModel.state.collectAsState()
 
     KonfeatureLayout(
         state = state,
@@ -55,6 +59,7 @@ internal fun KonfeatureScreen(
         onHeaderClick = viewModel::onConfigHeaderClick,
         onEditClick = viewModel::onEditClick,
         onSearchQueryChange = viewModel::onSearchQueryChanged,
+        onBooleanToggle = viewModel::onValueChanged,
     )
 
     state.editDialogState?.let { dialogState ->
@@ -62,12 +67,11 @@ internal fun KonfeatureScreen(
             state = dialogState,
             onValueChange = viewModel::onValueChanged,
             onValueReset = viewModel::onValueReset,
-            onDismissRequest = viewModel::onEditDialogCloseClicked
+            onDismissRequest = viewModel::onEditDialogCloseClicked,
         )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun KonfeatureLayout(
     state: KonfeatureViewState,
@@ -77,170 +81,330 @@ internal fun KonfeatureLayout(
     onResetAllClick: () -> Unit,
     onHeaderClick: (String) -> Unit,
     onSearchQueryChange: (String) -> Unit,
+    onBooleanToggle: (String, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    LazyColumn {
-        stickyHeader {
-            KonfeatureHeader(
-                searchQuery = state.searchQuery,
-                onSearchQueryChange = onSearchQueryChange,
-                onRefreshClick = onRefreshClick,
-                onCollapseAllClick = onCollapseAllClick,
-                onResetAllClick = onResetAllClick,
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = DebugPanelTheme.colors.background.primary)
+    ) {
+        ToolbarChips(
+            onRefreshClick = onRefreshClick,
+            onCollapseAllClick = onCollapseAllClick,
+            onResetAllClick = onResetAllClick,
+        )
+        PanelSearchBar(
+            query = state.searchQuery,
+            onQueryChange = onSearchQueryChange,
+            placeholder = stringResource(R.string.konfeature_plugin_search_hint),
+            modifier = Modifier.padding(horizontal = 12.dp),
+        )
+        AnimatedVisibility(visible = state.shouldShowEmptySearchItemsHint) {
+            Text(
+                text = stringResource(R.string.konfeature_plugin_search_empty),
+                style = DebugPanelTheme.typography.bodyMedium,
+                color = DebugPanelTheme.colors.content.tertiary,
+                modifier = Modifier.padding(all = 16.dp),
             )
         }
+        LazyColumn(modifier = Modifier.weight(weight = 1f)) {
+            konfeatureItems(
+                state = state,
+                onHeaderClick = onHeaderClick,
+                onEditClick = onEditClick,
+                onBooleanToggle = onBooleanToggle
+            )
+        }
+    }
+}
 
-        if (state.shouldShowEmptySearchItemsHint) {
-            item {
-                Text(
-                    text = stringResource(R.string.konfeature_plugin_search_empty),
-                    modifier = Modifier.padding(16.dp)
+private fun LazyListScope.konfeatureItems(
+    state: KonfeatureViewState,
+    onHeaderClick: (String) -> Unit,
+    onEditClick: (String, Any, Boolean) -> Unit,
+    onBooleanToggle: (String, Boolean) -> Unit,
+) {
+    items(
+        items = state.filteredItems,
+        key = { item ->
+            when (item) {
+                is KonfeatureItem.Config -> "config_${item.name}"
+                is KonfeatureItem.Value -> "value_${item.key}"
+            }
+        },
+    ) { item ->
+        when (item) {
+            is KonfeatureItem.Config -> {
+                val isCollapsed = !state.isSearchActive && item.name in state.collapsedConfigs
+                val overrideCount = state.values.count { value ->
+                    value.configName == item.name && value.isDebugSource
+                }
+                ConfigGroupHeader(
+                    name = item.description.takeIf { it.isNotEmpty() } ?: item.name,
+                    overrideCount = overrideCount,
+                    isCollapsed = isCollapsed,
+                    onClick = { onHeaderClick(item.name) },
                 )
             }
-        }
 
-        state.filteredItems.forEach { item ->
-            if (item is KonfeatureItem.Config) {
-                item(item.name) {
-                    ConfigItem(
+            is KonfeatureItem.Value -> {
+                val isVisible = state.isSearchActive || item.configName !in state.collapsedConfigs
+                if (isVisible) {
+                    ConfigValueItem(
                         item = item,
-                        isCollapsed = !state.isSearchActive && item.name in state.collapsedConfigs,
-                        onHeaderClick = onHeaderClick
+                        onEditClick = onEditClick,
+                        onBooleanToggle = onBooleanToggle,
                     )
                 }
-            }
-
-            val isExpanded = state.isSearchActive || item is KonfeatureItem.Value &&
-                item.configName !in state.collapsedConfigs
-            if (item is KonfeatureItem.Value && isExpanded) {
-                item(item.key) { ValueItem(item = item, onEditClick) }
-                item { Divider(modifier = Modifier.fillMaxWidth()) }
             }
         }
     }
 }
 
 @Composable
-private fun KonfeatureHeader(
-    searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
+private fun ToolbarChips(
     onRefreshClick: () -> Unit,
     onCollapseAllClick: () -> Unit,
     onResetAllClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    Row(
         modifier = modifier
-            .background(colorResource(id = CoreR.color.super_light_gray))
-            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
-        KonfeatureSearchBar(
-            query = searchQuery,
-            onQueryChange = onSearchQueryChange,
-            modifier = Modifier.padding(vertical = 8.dp)
+        ActionChip(
+            label = stringResource(R.string.konfeature_plugin_refresh),
+            onClick = onRefreshClick,
         )
-        Row {
-            Button(onClick = onRefreshClick) {
-                Text(text = stringResource(id = R.string.konfeature_plugin_refresh))
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Button(onClick = onCollapseAllClick) {
-                Text(text = stringResource(id = R.string.konfeature_plugin_collapse_all))
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Button(onClick = onResetAllClick) {
-                Text(text = stringResource(id = R.string.konfeature_plugin_reset_all))
-            }
-        }
+        ActionChip(
+            label = stringResource(R.string.konfeature_plugin_collapse_all),
+            onClick = onCollapseAllClick,
+        )
+        ActionChip(
+            label = stringResource(R.string.konfeature_plugin_reset_all),
+            onClick = onResetAllClick,
+        )
     }
 }
 
 @Composable
-private fun KonfeatureSearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+private fun ActionChip(
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    OutlinedTextField(
-        value = query,
-        onValueChange = onQueryChange,
-        modifier = modifier.fillMaxWidth(),
-        placeholder = {
-            Text(text = stringResource(R.string.konfeature_plugin_search_hint))
-        },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(R.drawable.icon_search),
-                contentDescription = null
+    Text(
+        text = label,
+        style = DebugPanelTheme.typography.labelLarge,
+        color = DebugPanelTheme.colors.content.secondary,
+        modifier = modifier
+            .clip(shape = DebugPanelShapes.medium)
+            .border(
+                width = 1.dp,
+                color = DebugPanelTheme.colors.stroke.primary,
+                shape = DebugPanelShapes.medium,
             )
-        },
-        trailingIcon = {
-            if (query.isNotEmpty()) {
-                IconButton(onClick = { onQueryChange("") }) {
-                    Icon(
-                        painter = painterResource(R.drawable.icon_clear),
-                        contentDescription = stringResource(R.string.konfeature_plugin_search_clear)
-                    )
-                }
-            }
-        },
-        singleLine = true,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color.White
-        )
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 4.dp),
     )
 }
 
 @Composable
-private fun ConfigItem(
+private fun ConfigGroupHeader(
+    name: String,
+    overrideCount: Int,
     isCollapsed: Boolean,
-    item: KonfeatureItem.Config,
-    onHeaderClick: (String) -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .clickable { onHeaderClick.invoke(item.name) }
-            .background(colorResource(id = CoreR.color.super_light_gray))
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clip(shape = DebugPanelShapes.medium)
+            .clickable(onClick = onClick)
+            .padding(all = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
+    ) {
+        Icon(
+            painter = painterResource(
+                id = if (isCollapsed) {
+                    R.drawable.icon_keyboard_arrow_up
+                } else {
+                    R.drawable.icon_keyboard_arrow_down
+                }
+            ),
+            contentDescription = null,
+            tint = DebugPanelTheme.colors.content.tertiary,
+            modifier = Modifier.size(size = DebugPanelDimensions.iconSizeSmall),
+        )
+        Text(
+            text = name,
+            style = DebugPanelTheme.typography.titleMedium,
+            color = DebugPanelTheme.colors.content.primary,
+            modifier = Modifier.weight(weight = 1f),
+        )
+        if (overrideCount > 0) {
+            Text(
+                text = overrideCount.toString(),
+                style = DebugPanelTheme.typography.labelSmall,
+                color = DebugPanelTheme.colors.content.accent,
+                modifier = Modifier
+                    .background(
+                        color = DebugPanelTheme.colors.surface.tertiary,
+                        shape = DebugPanelShapes.small,
+                    )
+                    .padding(horizontal = 8.dp, vertical = 2.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun ConfigValueItem(
+    item: KonfeatureItem.Value,
+    onEditClick: (String, Any, Boolean) -> Unit,
+    onBooleanToggle: (String, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 32.dp, end = 8.dp)
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+        ValueInfoColumn(
+            item = item,
+            modifier = Modifier.weight(weight = 1f),
+        )
+
+        when {
+            item.value is Boolean -> PanelToggle(
+                checked = item.value,
+                onCheckedChange = { newValue -> onBooleanToggle(item.key, newValue) },
+            )
+
+            item.editAvailable -> EditButton(
+                onClick = { onEditClick(item.key, item.value, item.isDebugSource) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun ValueInfoColumn(
+    item: KonfeatureItem.Value,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = item.key,
+            style = DebugPanelTheme.typography.bodyMedium.copy(fontFamily = MonoFontFamily),
+            color = DebugPanelTheme.colors.content.secondary,
+        )
+        if (item.description.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(top = 4.dp),
+                text = item.description,
+                style = DebugPanelTheme.typography.bodyMedium.copy(fontFamily = MonoFontFamily),
+                color = DebugPanelTheme.colors.content.tertiary,
+            )
+        }
+        if (item.value is Boolean) {
+            ValueSourceLabel(item = item, modifier = Modifier.padding(top = 8.dp))
+        } else {
+            ValueWithSource(item = item)
+        }
+    }
+}
+
+@Composable
+private fun ValueWithSource(
+    item: KonfeatureItem.Value,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.padding(top = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         Text(
-            modifier = Modifier.weight(1f),
-            text = item.description.takeIf { it.isNotEmpty() } ?: item.name
+            text = formatValue(value = item.value),
+            style = DebugPanelTheme.typography.labelMedium,
+            color = sourceColor(item = item),
         )
-        val icon = if (isCollapsed) R.drawable.icon_keyboard_arrow_up else R.drawable.icon_keyboard_arrow_down
+        ValueSourceLabel(item = item)
+    }
+}
 
-        Icon(
-            painter = painterResource(icon),
-            modifier = Modifier.align(Alignment.CenterVertically),
-            contentDescription = null
+@Composable
+private fun ValueSourceLabel(
+    item: KonfeatureItem.Value,
+    modifier: Modifier = Modifier,
+) {
+    when {
+        item.isDebugSource -> SourceLabel(
+            source = item.sourceName,
+            isDebug = true,
+            modifier = modifier,
+        )
+
+        item.sourceName != "Default" -> SourceLabel(
+            source = item.sourceName,
+            isDebug = false,
+            modifier = modifier,
         )
     }
 }
 
 @Composable
-internal fun ValueItem(item: KonfeatureItem.Value, onEditClick: (String, Any, Boolean) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp)
+private fun EditButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier.size(size = DebugPanelDimensions.iconSizeLarge),
     ) {
-        Column(Modifier.weight(1f)) {
-            Text(text = item.description)
-            Text(text = stringResource(id = R.string.konfeature_plugin_item_key, item.key))
-            Text(text = stringResource(id = R.string.konfeature_plugin_item_value, item.value.toString()))
-            Text(
-                color = item.sourceColor,
-                text = stringResource(id = R.string.konfeature_plugin_item_source, item.sourceName)
-            )
-        }
-
-        if (item.editAvailable) {
-            IconButton(
-                modifier = Modifier.align(alignment = Alignment.CenterVertically),
-                onClick = { onEditClick.invoke(item.key, item.value, item.isDebugSource) }
-            ) {
-                Icon(painterResource(R.drawable.icon_edit), contentDescription = null)
-            }
-        }
+        Icon(
+            painter = painterResource(R.drawable.icon_edit),
+            contentDescription = null,
+            tint = DebugPanelTheme.colors.content.accent,
+            modifier = Modifier.size(size = DebugPanelDimensions.iconSizeSmall),
+        )
     }
+}
+
+@Composable
+private fun SourceLabel(
+    source: String,
+    isDebug: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = source,
+        style = DebugPanelTheme.typography.labelMedium,
+        color = if (isDebug) {
+            DebugPanelTheme.colors.content.teal
+        } else {
+            DebugPanelTheme.colors.source.remoteText
+        },
+        modifier = modifier,
+    )
+}
+
+private fun formatValue(value: Any): String {
+    return if (value is String) "\"$value\"" else value.toString()
+}
+
+@Composable
+private fun sourceColor(item: KonfeatureItem.Value): Color = when {
+    item.isDebugSource -> DebugPanelTheme.colors.content.teal
+    item.sourceName != "Default" -> DebugPanelTheme.colors.source.remoteText
+    else -> DebugPanelTheme.colors.content.tertiary
 }
