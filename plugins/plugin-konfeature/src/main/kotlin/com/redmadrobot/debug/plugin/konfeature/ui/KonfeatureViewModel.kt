@@ -101,7 +101,7 @@ internal class KonfeatureViewModel(
             .debounce(timeoutMillis = SEARCH_QUERY_DELAY_MILLIS)
             .onEach { query ->
                 _state.update { state ->
-                    state.copy(filteredItems = filterItems(state.configs, state.values, query))
+                    state.copy(matchingKeys = computeMatchingKeys(state.values, query))
                 }
             }
             .launchIn(viewModelScope)
@@ -110,10 +110,32 @@ internal class KonfeatureViewModel(
     private suspend fun updateItems() {
         val (configs, values) = withContext(Dispatchers.IO) { getItems(konfeature) }
         val searchQuery = _searchQueryFlow.value
-        val filteredItems = filterItems(configs, values, searchQuery)
+        val items = buildItems(configs, values)
+        val matchingKeys = computeMatchingKeys(values, searchQuery)
 
         _state.update { state ->
-            state.copy(configs = configs, values = values, filteredItems = filteredItems)
+            state.copy(
+                configs = configs,
+                values = values,
+                filteredItems = items,
+                matchingKeys = matchingKeys,
+            )
+        }
+    }
+
+    private fun buildItems(
+        configs: Map<String, KonfeatureItem.Config>,
+        values: List<KonfeatureItem.Value>,
+    ): List<KonfeatureItem> {
+        return buildList {
+            var previousValue: KonfeatureItem.Value? = null
+            for (value in values) {
+                if (previousValue?.configName != value.configName) {
+                    configs[value.configName]?.let { config -> add(config) }
+                }
+                add(value)
+                previousValue = value
+            }
         }
     }
 
@@ -181,25 +203,26 @@ internal class KonfeatureViewModel(
         }
     }
 
-    private suspend fun filterItems(
-        configs: Map<String, KonfeatureItem.Config>,
+    private suspend fun computeMatchingKeys(
         values: List<KonfeatureItem.Value>,
-        query: String
-    ): List<KonfeatureItem> {
+        query: String,
+    ): Set<String> {
         return withContext(Dispatchers.Default) {
-            buildList {
-                var previousValue: KonfeatureItem.Value? = null
-
-                for (value in values) {
-                    if (value.key.contains(query, ignoreCase = true)) {
-                        if (previousValue?.configName != value.configName) {
-                            configs[value.configName]?.let { config -> add(config) }
-                        }
-                        add(value)
-                        previousValue = value
-                    }
-                }
+            if (query.isBlank()) {
+                values.toMatchingKeys()
+            } else {
+                val matchingValues = values.filter { it.key.contains(query, ignoreCase = true) }
+                matchingValues.toMatchingKeys()
             }
+        }
+    }
+
+    private fun List<KonfeatureItem.Value>.toMatchingKeys(): Set<String> {
+        return this.flatMapTo(destination = mutableSetOf()) { value ->
+            listOf(
+                "${KonfeatureItem.ITEM_KEY_PREFIX_CONFIG}${value.configName}",
+                "${KonfeatureItem.ITEM_KEY_PREFIX_VALUE}${value.key}"
+            )
         }
     }
 }
