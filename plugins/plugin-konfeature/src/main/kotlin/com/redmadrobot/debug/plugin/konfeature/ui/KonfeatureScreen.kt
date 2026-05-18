@@ -127,30 +127,29 @@ private fun LazyListScope.konfeatureItems(
 ) {
     items(
         items = state.filteredItems,
-        key = { item ->
-            when (item) {
-                is KonfeatureItem.Config -> "config_${item.name}"
-                is KonfeatureItem.Value -> "value_${item.key}"
-            }
-        },
+        key = { item -> item.itemKey },
     ) { item ->
+        val isMatchingFilter = item.itemKey in state.matchingKeys
+
         when (item) {
             is KonfeatureItem.Config -> {
                 val isCollapsed = !state.isSearchActive && item.name in state.collapsedConfigs
                 val overrideCount = state.values.count { value ->
                     value.configName == item.name && value.isDebugSource
                 }
-                ConfigGroupHeader(
-                    name = item.description.takeIf { it.isNotEmpty() } ?: item.name,
-                    overrideCount = overrideCount,
-                    isCollapsed = isCollapsed,
-                    onClick = { onHeaderClick(item.name) },
-                )
+                AnimatedFilterItem(visible = isMatchingFilter) {
+                    ConfigGroupHeader(
+                        name = item.description.takeIf { it.isNotEmpty() } ?: item.name,
+                        overrideCount = overrideCount,
+                        isCollapsed = isCollapsed,
+                        onClick = { onHeaderClick(item.name) },
+                    )
+                }
             }
 
             is KonfeatureItem.Value -> {
-                val isVisible = state.isSearchActive || item.configName !in state.collapsedConfigs
-                if (isVisible) {
+                val isVisible = isMatchingFilter && (state.isSearchActive || item.configName !in state.collapsedConfigs)
+                AnimatedFilterItem(visible = isVisible) {
                     ConfigValueItem(
                         item = item,
                         onEditClick = onEditClick,
