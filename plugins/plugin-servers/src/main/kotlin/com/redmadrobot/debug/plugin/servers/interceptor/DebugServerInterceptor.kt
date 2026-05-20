@@ -12,6 +12,22 @@ import okhttp3.Request
 import okhttp3.Response
 import java.net.URI
 
+/**
+ * OkHttp [Interceptor] that replaces the host and scheme of requests
+ * with values of the currently selected server from [ServersPlugin].
+ *
+ * If the debug panel is not initialized, requests pass through unchanged.
+ *
+ * Example wiring:
+ * ```
+ * OkHttpClient.Builder()
+ *     .addInterceptor(DebugServerInterceptor())
+ *     .build()
+ * ```
+ *
+ * @see ServersPlugin
+ * @see DebugServer
+ */
 public class DebugServerInterceptor : Interceptor {
     private var requestModifier: ((Request, DebugServer) -> Request?)? = null
 
@@ -22,8 +38,13 @@ public class DebugServerInterceptor : Interceptor {
     }
 
     /**
-     * Additional request modification
-     * */
+     * Adds an additional request modification after the host substitution.
+     *
+     * Allows, for example, adding headers specific to a particular server.
+     *
+     * @param block modification function taking the current request and the selected server
+     * @return this interceptor for call chaining (builder pattern)
+     */
     public fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
         this.requestModifier = block
         return this

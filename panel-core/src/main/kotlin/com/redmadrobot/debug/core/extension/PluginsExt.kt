@@ -14,6 +14,12 @@ internal fun getAllPlugins(): List<Plugin> {
     return DebugPanel.getInstance()?.getPluginManager()?.plugins ?: emptyList()
 }
 
+/**
+ * Returns the registered plugin of the specified type.
+ *
+ * @throws IllegalArgumentException if the plugin is not found in the registry
+ * @see DebugPanel
+ */
 @DebugPanelInternal
 public inline fun <reified T : Plugin> getPlugin(): T {
     val plugin = getPlugin(T::class.java.name)
