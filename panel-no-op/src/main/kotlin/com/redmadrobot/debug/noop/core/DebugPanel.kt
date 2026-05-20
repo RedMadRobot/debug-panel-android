@@ -8,6 +8,11 @@ import com.redmadrobot.debug.core.internal.DebugEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
+/**
+ * No-op implementation of [DebugPanel] for release builds.
+ *
+ * All methods are empty stubs and perform no actions.
+ */
 @Suppress("UnusedParameter", "OptionalUnit")
 public object DebugPanel {
     public fun initialize(application: Application, plugins: List<Any>): Unit = Unit

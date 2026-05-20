@@ -18,6 +18,27 @@ import kotlinx.coroutines.sync.withLock
 import org.json.JSONObject
 import timber.log.Timber
 
+/**
+ * [Interceptor] for Konfeature that allows overriding feature flag values through the debug panel.
+ *
+ * Overridden values are stored in SharedPreferences and applied each time a flag is read through Konfeature.
+ *
+ * Must be passed to the [KonfeaturePlugin] constructor and also registered in Konfeature during its configuration.
+ *
+ * Example:
+ * ```
+ * val interceptor = KonfeatureDebugPanelInterceptor(context)
+ *
+ * val konfeature = konfeature {
+ *     addInterceptor(interceptor)
+ *     // ...
+ * }
+ *
+ * KonfeaturePlugin(interceptor, konfeature)
+ * ```
+ *
+ * @param context context for accessing SharedPreferences
+ */
 public class KonfeatureDebugPanelInterceptor(context: Context) : Interceptor {
     private val preferences by lazy {
         context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)

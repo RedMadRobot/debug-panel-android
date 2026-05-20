@@ -5,6 +5,11 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
+/**
+ * No-op implementation of [DebugServerInterceptor] for release builds.
+ *
+ * Passes every request through unchanged.
+ */
 public class DebugServerInterceptor : Interceptor {
     @Suppress("UnusedParameter")
     public fun modifyRequest(block: (Request, DebugServer) -> Request): DebugServerInterceptor {
