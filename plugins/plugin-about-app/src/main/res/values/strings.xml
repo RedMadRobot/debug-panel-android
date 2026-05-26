@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about_app_copied">«%s» is copied</string>
+    <string name="about_app_actions_title">Debug actions</string>
 </resources>
