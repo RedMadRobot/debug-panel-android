@@ -33,6 +33,8 @@ import com.redmadrobot.debug.plugin.aboutapp.R
 import com.redmadrobot.debug.uikit.theme.DebugPanelShapes
 import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
 
+private const val ITEM_ACTIONS_HEADER_KEY = "actions_header"
+
 @Composable
 internal fun AboutAppScreen(
     viewModel: AboutAppViewModel = provideViewModel {
@@ -75,6 +77,18 @@ internal fun AboutAppScreen(
                     },
                 )
             }
+
+            if (state.actions.isNotEmpty()) {
+                item(key = ITEM_ACTIONS_HEADER_KEY) {
+                    AboutAppActionsHeader()
+                }
+                items(items = state.actions, key = { it.id }) { action ->
+                    AboutAppAction(
+                        title = action.title,
+                        onActionClick = { viewModel.onActionClicked(action) }
+                    )
+                }
+            }
         }
     }
 }
@@ -111,4 +125,34 @@ private fun InfoRow(
             overflow = TextOverflow.Ellipsis,
         )
     }
+}
+
+@Composable
+private fun AboutAppActionsHeader(modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(id = R.string.about_app_actions_title),
+        style = DebugPanelTheme.typography.labelLarge,
+        color = DebugPanelTheme.colors.content.tertiary,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp, bottom = 8.dp)
+            .padding(horizontal = 12.dp),
+    )
+}
+
+@Composable
+private fun AboutAppAction(
+    title: String,
+    onActionClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .clickable { onActionClick.invoke() },
+        text = title,
+        overflow = TextOverflow.Ellipsis,
+        style = DebugPanelTheme.typography.bodyLarge,
+        color = DebugPanelTheme.colors.content.accent,
+    )
 }

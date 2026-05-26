@@ -21,7 +21,7 @@ internal class DebugPanelInstance(
     private var pluginManager: PluginManager? = null
     private val eventLiveData: MutableLiveData<DebugEvent> = MutableLiveData()
     private val eventSharedFlow: MutableSharedFlow<DebugEvent> = MutableSharedFlow(
-        extraBufferCapacity = 1,
+        replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
     private val themeDataStore by lazy {
