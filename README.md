@@ -222,6 +222,64 @@ AboutAppPlugin(
 - `title` — название поля (например, «Версия»)
 - `value` — значение поля (например, «1.1.0»)
 
+В плагин можно опционально передать список пользовательских действий — `AboutAppAction`. Каждое действие отображается отдельной кнопкой под блоком с информацией о приложении.
+
+У `AboutAppAction` есть 2 варианта для использования:
+
+- `AboutAppAction.Event` — при нажатии публикует переданный `DebugEvent` в шину событий панели. Это рекомендуемый способ для прикладного кода.
+- `AboutAppAction.Direct` — выполняет обработчик `onClick` напрямую с `Context`. Он зарезервирован для встроенных действий самой библиотеки, и в коде приложения использовать его не следует.
+
+Каждый `AboutAppAction` содержит:
+- `title` — подпись кнопки (например, «Открыть ui-kit»)
+- `debugEvent` — событие, публикуемое при нажатии
+
+Пример с несколькими действиями:
+
+```kotlin
+object OpenUiKitEvent : DebugEvent
+object ClearCacheEvent : DebugEvent
+object CopyTokenEvent : DebugEvent
+
+AboutAppPlugin(
+    appInfoList = listOf(/*...*/),
+    actions = listOf(
+        AboutAppAction.Event(
+            title = "Открыть ui-kit",
+            debugEvent = OpenUiKitEvent,
+        ),
+        AboutAppAction.Event(
+            title = "Очистить кэш",
+            debugEvent = ClearCacheEvent,
+        ),
+        AboutAppAction.Event(
+            title = "Скопировать токен",
+            debugEvent = CopyTokenEvent,
+        ),
+    )
+)
+```
+
+Обработка событий — через `observeEvents()`. Можно подписаться как на одно конкретное событие, так и на несколько:
+
+```kotlin
+DebugPanel.observeEvents()
+    .filterIsInstance(OpenUiKitEvent::class)
+    .onEach { /** Event handling logic **/ }
+    .launchIn(lifecycleScope)
+```
+
+```kotlin
+DebugPanel.observeEvents()
+    .onEach { event ->
+        when (event) {
+            is OpenUiKitEvent -> { /** Event handling logic **/ }
+            is ClearCacheEvent -> { /** Event handling logic **/ }
+            is CopyTokenEvent -> { /** Event handling logic **/ }
+        }
+    }
+    .launchIn(lifecycleScope)
+```
+
 # Безопасность
 
 Для предотвращения попадания тестовых данных в релизные сборки рекомендуется не задавать их явно в классе Application, а использовать реализации `DebugDataProvider`, которые можно разнести по разным `buildType`. Для release-версии следует создать пустую реализацию.
