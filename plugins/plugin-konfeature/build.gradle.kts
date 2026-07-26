@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(rmr.konfeature)
+    implementation(rmr.konfeature.ui)
     implementation(androidx.core)
     implementation(androidx.lifecycle.runtime)
     implementation(stack.timber)

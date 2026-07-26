@@ -1,15 +1,12 @@
 import com.redmadrobot.build.dsl.*
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
-import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.KotlinJvm
-import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     id("com.vanniktech.maven.publish")
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
     // disable Javadoc because of Dokka / JDK 17: "PermittedSubclasses requires ASM9" during compilation
     configure(AndroidSingleVariantLibrary(variant = "release", sourcesJar = true, publishJavadocJar = false,))
