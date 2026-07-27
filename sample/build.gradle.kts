@@ -41,5 +41,9 @@ dependencies {
     debugImplementation(project(":plugins:plugin-konfeature"))
     releaseImplementation(project(":panel-no-op"))
 
+    // Konfeature debug store & interceptor (referenced from the app's main source set)
+    debugImplementation(rmr.konfeature.ui)
+    releaseImplementation(rmr.konfeature.ui.noop)
+
     implementation(stack.retrofit)
 }

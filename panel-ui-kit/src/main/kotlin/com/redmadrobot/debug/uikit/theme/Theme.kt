@@ -10,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 import com.redmadrobot.debug.uikit.theme.model.ThemeMode
 
 internal val LocalColors = compositionLocalOf { LightDebugPanelColors }
 internal val LocalTypography = compositionLocalOf { DebugPanelTypographyTokens() }
+internal val LocalIsDarkTheme = staticCompositionLocalOf { false }
 
 /**
  * Entry point for accessing Debug Panel design tokens.
@@ -35,6 +37,15 @@ public object DebugPanelTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalTypography.current
+
+    /**
+     * Whether the theme is currently resolved to dark, taking the selected [ThemeMode] into account
+     * (for [ThemeMode.System] this reflects the system setting).
+     */
+    public val isDarkTheme: Boolean
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalIsDarkTheme.current
 }
 
 /**
@@ -84,6 +95,7 @@ public fun DebugPanelTheme(
     CompositionLocalProvider(
         LocalColors provides panelColors,
         LocalTypography provides panelTypography,
+        LocalIsDarkTheme provides isDarkTheme,
     ) {
         MaterialTheme(
             colorScheme = materialColorScheme,
