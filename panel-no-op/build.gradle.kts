@@ -40,4 +40,5 @@ dependencies {
     implementation(stack.okhttp)
     implementation(stack.kotlinx.coroutines.android)
     implementation(rmr.konfeature)
+    implementation(rmr.konfeature.ui.noop)
 }

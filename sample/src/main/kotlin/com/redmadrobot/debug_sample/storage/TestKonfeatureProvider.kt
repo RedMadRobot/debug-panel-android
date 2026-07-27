@@ -1,22 +1,21 @@
 package com.redmadrobot.debug_sample.storage
 
-import com.redmadrobot.debug.plugin.konfeature.KonfeatureDebugPanelInterceptor
 import com.redmadrobot.konfeature.FeatureConfig
 import com.redmadrobot.konfeature.Konfeature
 import com.redmadrobot.konfeature.Logger
 import com.redmadrobot.konfeature.builder.konfeature
 import com.redmadrobot.konfeature.source.FeatureSource
 import com.redmadrobot.konfeature.source.SourceSelectionStrategy
-import timber.log.Timber
+import com.redmadrobot.konfeature.ui.KonfeatureDebugInterceptor
 
 internal object TestKonfeatureProvider {
 
-    fun create(debugPanelInterceptor: KonfeatureDebugPanelInterceptor): Konfeature {
+    fun create(debugInterceptor: KonfeatureDebugInterceptor, logger: Logger): Konfeature {
         return konfeature {
             register(FeatureConfig1())
             register(FeatureConfig2())
             register(FeatureConfig3())
-            addInterceptor(debugPanelInterceptor)
+            addInterceptor(debugInterceptor)
             addSource(object : FeatureSource {
                 override val name: String = "SampleFeatureSource"
 
@@ -24,14 +23,7 @@ internal object TestKonfeatureProvider {
                     return key == "boolean_feature_2"
                 }
             })
-            setLogger(object : Logger {
-                override fun log(severity: Logger.Severity, message: String) {
-                    when (severity) {
-                        Logger.Severity.WARNING -> Timber.tag("Konfeature").w(message)
-                        Logger.Severity.INFO -> Timber.tag("Konfeature").i(message)
-                    }
-                }
-            })
+            setLogger(logger)
         }
     }
 
