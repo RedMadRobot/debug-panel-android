@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.emptyFlow
  *     application = this,
  *     plugins = listOf(
  *         ServersPlugin(preInstalledServers),
- *         KonfeaturePlugin(interceptor, konfeature),
+ *         KonfeaturePlugin(konfeature = konfeature, config = config),
  *     )
  * )
  * ```

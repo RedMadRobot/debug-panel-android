@@ -1,21 +1,22 @@
 package com.redmadrobot.debug_sample.storage
 
+import com.redmadrobot.debug.plugin.konfeature.KonfeatureDebugPanelConfig
+import com.redmadrobot.debug.plugin.konfeature.applyDebugPanelConfig
 import com.redmadrobot.konfeature.FeatureConfig
 import com.redmadrobot.konfeature.Konfeature
 import com.redmadrobot.konfeature.Logger
 import com.redmadrobot.konfeature.builder.konfeature
 import com.redmadrobot.konfeature.source.FeatureSource
 import com.redmadrobot.konfeature.source.SourceSelectionStrategy
-import com.redmadrobot.konfeature.ui.KonfeatureDebugInterceptor
 
 internal object TestKonfeatureProvider {
 
-    fun create(debugInterceptor: KonfeatureDebugInterceptor, logger: Logger): Konfeature {
+    fun create(debugPanelConfig: KonfeatureDebugPanelConfig, logger: Logger): Konfeature {
         return konfeature {
             register(FeatureConfig1())
             register(FeatureConfig2())
             register(FeatureConfig3())
-            addInterceptor(debugInterceptor)
+            applyDebugPanelConfig(debugPanelConfig)
             addSource(object : FeatureSource {
                 override val name: String = "SampleFeatureSource"
 
