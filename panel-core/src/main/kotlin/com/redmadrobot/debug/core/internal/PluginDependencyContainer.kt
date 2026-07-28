@@ -11,4 +11,11 @@ import com.redmadrobot.debug.core.annotation.DebugPanelInternal
  * @see CommonContainer
  */
 @DebugPanelInternal
-public interface PluginDependencyContainer
+public interface PluginDependencyContainer {
+    /**
+     * Shared no-op container for plugins that have no dependencies of their own. Return it from
+     * [com.redmadrobot.debug.core.plugin.Plugin.getPluginContainer] instead of allocating an empty
+     * anonymous implementation.
+     */
+    public object Empty : PluginDependencyContainer
+}

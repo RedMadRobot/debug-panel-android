@@ -7,7 +7,6 @@ import com.redmadrobot.debug.core.plugin.Plugin
 import com.redmadrobot.debug.uikit.theme.DebugPanelTheme
 import com.redmadrobot.konfeature.Konfeature
 import com.redmadrobot.konfeature.ui.KonfeatureDebugPanel
-import com.redmadrobot.konfeature.ui.KonfeatureDebugStore
 import com.redmadrobot.konfeature.ui.presentation.theme.KonfeatureTheme
 
 /**
@@ -18,18 +17,30 @@ import com.redmadrobot.konfeature.ui.presentation.theme.KonfeatureTheme
  * palette, and keeps it in sync with the debug panel's light/dark theme mode. Boolean values are
  * toggled inline by the panel; other value types are shown read-only.
  *
- * Overridden values are persisted by [store] (DataStore) and survive app restarts.
+ * Overridden values are persisted by [config]'s store (DataStore) and survive app restarts.
+ *
+ * Pass the same [config] you attached to [konfeature] via
+ * [applyDebugPanelConfig]; the constructor fails fast if it was never attached, since an unattached
+ * config means the panel would show values it can never override.
  *
  * @param konfeature Konfeature instance whose feature configs are displayed
- * @param store store backing the overrides; create it once via [KonfeatureDebugStore.create] and
- *   reuse the same instance for [com.redmadrobot.konfeature.ui.KonfeatureDebugInterceptor]
+ * @param config the config created via [KonfeatureDebugPanelConfig.create] and attached to
+ *   [konfeature] with [applyDebugPanelConfig]
  *
- * @see KonfeatureDebugStore
+ * @see KonfeatureDebugPanelConfig
  */
 public class KonfeaturePlugin(
     private val konfeature: Konfeature,
-    private val store: KonfeatureDebugStore,
+    private val config: KonfeatureDebugPanelConfig,
 ) : Plugin() {
+    init {
+        check(config.isAttached) {
+            "KonfeatureDebugPanelConfig was not attached to a Konfeature instance. " +
+                "Call konfeature { applyDebugPanelConfig(config) } before passing the config to " +
+                "KonfeaturePlugin."
+        }
+    }
+
     override fun getName(): String = NAME
 
     /**
@@ -37,7 +48,7 @@ public class KonfeaturePlugin(
      * the `konfeature-ui` library — so an empty container is returned.
      */
     override fun getPluginContainer(commonContainer: CommonContainer): PluginDependencyContainer {
-        return object : PluginDependencyContainer {}
+        return PluginDependencyContainer.Empty
     }
 
     @Composable
@@ -45,7 +56,7 @@ public class KonfeaturePlugin(
         KonfeatureTheme(isDarkTheme = DebugPanelTheme.isDarkTheme) {
             KonfeatureDebugPanel(
                 konfeature = konfeature,
-                store = store,
+                store = config.store,
             )
         }
     }
