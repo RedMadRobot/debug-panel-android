@@ -1,5 +1,46 @@
 # Миграция
 
+## Миграция на версию 1.3.0
+
+### Переход plugin-konfeature на библиотеку konfeature-ui
+
+`plugin-konfeature` переведён на публичную библиотеку [`konfeature-ui`][konfeature]: экран, список фич и хранение переопределений (DataStore) теперь предоставляет она. Собственный `KonfeatureDebugPanelInterceptor`, экран, `ViewModel` и диалог редактирования удалены.
+
+Вместо `KonfeatureDebugPanelInterceptor` используется `KonfeatureDebugPanelConfig` — он объединяет хранилище переопределений и интерцептор, гарантируя, что панель и `Konfeature` работают с одним и тем же store.
+
+> Миграция хранимых значений не предусмотрена: ранее переопределённые значения после обновления сбрасываются к значениям из источников.
+
+#### Инициализация
+
+`KonfeatureDebugPanelConfig.create(...)` — `suspend`-функция, вызовите её на старте приложения из подходящего scope. Тот же `config` необходимо подключить к `Konfeature` через `applyDebugPanelConfig(...)` и передать в `KonfeaturePlugin`.
+
+```diff
+- val debugPanelInterceptor = KonfeatureDebugPanelInterceptor(context)
+- val konfeatureInstance = konfeature {
+-     addInterceptor(debugPanelInterceptor)
+- }
+- KonfeaturePlugin(
+-     debugPanelInterceptor = debugPanelInterceptor,
+-     konfeature = konfeatureInstance,
+- )
+
++ val config = KonfeatureDebugPanelConfig.create(context)
++ val konfeatureInstance = konfeature {
++     register(MyFeatureConfig())
++     applyDebugPanelConfig(config)
++ }
++ KonfeaturePlugin(
++     konfeature = konfeatureInstance,
++     config = config,
++ )
+```
+
+> Конструктор `KonfeaturePlugin` упадёт с ошибкой, если переданный `config` не был подключён к `Konfeature` через `applyDebugPanelConfig(...)`.
+
+#### Переопределение значений
+
+Инлайн-переопределение в панели теперь доступно только для тогглов типа `Boolean`. Значения остальных типов отображаются только для чтения.
+
 ## Миграция на версию 1.0.0
 
 ### Миграция с FlipperPlugin на KonfeaturePlugin
@@ -256,3 +297,4 @@ VariablePlugin позволял изменять значения перемен
 
 
 [readme]: /README.md
+[konfeature]: https://github.com/RedMadRobot/Konfeature
