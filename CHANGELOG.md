@@ -2,6 +2,12 @@
 
 ### Changes
 
+- *No changes*
+
+## [1.3.0] (2026-07-30)
+
+### Changes
+
 * **Breaking changes:** `plugin-konfeature` переведён на публичную библиотеку [`konfeature-ui`][konfeature-ui]. Собственная реализация экрана, `ViewModel`, диалога редактирования и `JsonConverter` удалены — UI, состояние и хранение переопределений теперь предоставляет `konfeature-ui`. См. [migration guide](docs/migration_guide.md).
 * **Breaking changes:** Удалён `KonfeatureDebugPanelInterceptor`. Вместо него используется `KonfeatureDebugPanelConfig`, который объединяет хранилище переопределений (DataStore) и интерцептор. Создайте конфиг через `KonfeatureDebugPanelConfig.create(context)`, подключите его к `Konfeature` через `applyDebugPanelConfig(config)` и передайте тот же конфиг в `KonfeaturePlugin(konfeature, config)`.
 * **Breaking changes:** Изменена сигнатура конструктора `KonfeaturePlugin`: параметр `debugPanelInterceptor` заменён на `config: KonfeatureDebugPanelConfig`.
