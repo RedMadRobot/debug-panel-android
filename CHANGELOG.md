@@ -2,7 +2,12 @@
 
 ### Changes
 
-- *No changes*
+* **Breaking changes:** `plugin-konfeature` переведён на публичную библиотеку [`konfeature-ui`][konfeature-ui]. Собственная реализация экрана, `ViewModel`, диалога редактирования и `JsonConverter` удалены — UI, состояние и хранение переопределений теперь предоставляет `konfeature-ui`. См. [migration guide](docs/migration_guide.md).
+* **Breaking changes:** Удалён `KonfeatureDebugPanelInterceptor`. Вместо него используется `KonfeatureDebugPanelConfig`, который объединяет хранилище переопределений (DataStore) и интерцептор. Создайте конфиг через `KonfeatureDebugPanelConfig.create(context)`, подключите его к `Konfeature` через `applyDebugPanelConfig(config)` и передайте тот же конфиг в `KonfeaturePlugin(konfeature, config)`.
+* **Breaking changes:** Изменена сигнатура конструктора `KonfeaturePlugin`: параметр `debugPanelInterceptor` заменён на `config: KonfeatureDebugPanelConfig`.
+* Изменено поведение переопределения значений: в панели инлайн-переключаются только `Boolean`-тогглы, значения остальных типов отображаются только для чтения.
+* Обновлён каталог версий зависимостей (2026.02.23 → 2026.07.10).
+* Gradle обновлён с 9.1.0 до 9.4.1.
 
 ## [1.2.0] (2026-06-05)
 
@@ -139,3 +144,4 @@
 * Исправлены мелкие баги.
 
 [migration-guide]: migration_guide.md
+[konfeature-ui]: https://github.com/RedMadRobot/Konfeature

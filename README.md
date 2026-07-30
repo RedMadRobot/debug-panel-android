@@ -2,7 +2,9 @@
 
 Библиотека предоставляет встроенную отладочную панель для Android-приложений, предназначенную для использования в debug и QA-сборках.
 
-<img width="1925" height="1090" alt="debug_preview" src="https://github.com/user-attachments/assets/52d83dcb-a8e6-4c86-9d65-87b27d4796bf" />
+<video src="https://github.com/user-attachments/assets/c8935f5d-1458-4e4d-9008-120ef0300013" width="300" controls>
+  <a href="https://github.com/user-attachments/assets/c8935f5d-1458-4e4d-9008-120ef0300013">Watch the debug-panel demo</a>
+</video>
 
 [![Maven Central Version](https://img.shields.io/maven-central/v/com.redmadrobot.debug/panel-core?style=flat-square)](https://central.sonatype.com/search?namespace=com.redmadrobot.debug)
 [![License](https://img.shields.io/github/license/RedMadRobot/debug-panel-android?style=flat-square)][license]
@@ -46,7 +48,7 @@ dependencies {
     // Плагин для работы с remote config на основе Konfeature
     debugImplementation("com.redmadrobot.debug:plugin-konfeature:${debug_panel_version}")
     // Так же необходимо подключить саму библиотеку konfeature
-    debugImplementation("com.redmadrobot.konfeature:konfeature:${konfeature_version}")
+    implementation("com.redmadrobot.konfeature:konfeature:${konfeature_version}")
 
     // Плагин для отображения информации о приложении
     debugImplementation("com.redmadrobot.debug:plugin-about-app:${debug_panel_version}")
@@ -97,6 +99,9 @@ fun openDebugPanel() {
 ## Работа с плагинами
 
 ### ServersPlugin
+
+<img width="300" alt="servers-screen" src="https://github.com/user-attachments/assets/5247295a-00d4-45a0-833a-eb5a589fd456" />
+
 Используется для работы с тестовыми серверами
 
 Доступна возможность задать список предустановленных серверов
@@ -168,28 +173,34 @@ val selectedServer = getPlugin<ServersPlugin>().getSelectedServer()
 
 ### Konfeature Plugin
 
+<img width="300" alt="konfeature-screen" src="https://github.com/user-attachments/assets/b9608e53-2c8d-42ce-9c9f-715ac5fc6f3a" />
+
 В основе плагина лежит библиотека [Konfeature][konfeature], которая позволяет:
 
 - отображать конфигурации feature, используемые в Konfeature
 - просматривать источник каждого элемента конфигурации (Default, Firebase, AppGallery и др.)
-- переопределять значения элементов конфигурации с типами Boolean, String, Long, Double
+- переопределять значения тогглов типа `Boolean` прямо в панели (значения остальных типов отображаются только для чтения)
 
-Для подключения плагина необходимо передать объект класса `KonfeatureDebugPanelInterceptor` и экземпляр `Konfeature`
+Экран, список фич и хранение переопределений (DataStore) предоставляет библиотека [`konfeature-ui`][konfeature]. Плагин лишь встраивает её экран в дебаг-панель. Переопределённые значения сохраняются между перезапусками приложения.
+
+Для подключения нужно создать `KonfeatureDebugPanelConfig`, подключить его к экземпляру `Konfeature` через `applyDebugPanelConfig(...)` и передать тот же самый конфиг в `KonfeaturePlugin`:
 
 ```kotlin
-val debugPanelInterceptor = KonfeatureDebugPanelInterceptor(context)
+// создаётся один раз на старте приложения; create() — suspend-функция
+val config = KonfeatureDebugPanelConfig.create(context)
 
 val konfeatureInstance = konfeature {
-    if (isDebug) {
-        addInterceptor(debugPanelInterceptor)
-    }
+    register(MyFeatureConfig())
+    applyDebugPanelConfig(config)
 }
 
 KonfeaturePlugin(
-    debugPanelInterceptor = debugPanelInterceptor,
     konfeature = konfeatureInstance,
+    config = config,
 )
 ```
+
+> Важно: в `KonfeaturePlugin` необходимо передать тот же самый `config`, который был подключён к `Konfeature` через `applyDebugPanelConfig(...)`. Если конфиг не был подключён, конструктор плагина упадёт с ошибкой, так как панель показывала бы значения, которые не может переопределить.
 
 В builder Konfeature доступны следующие настройки:
 
@@ -198,6 +209,8 @@ KonfeaturePlugin(
 - настройка логирования — `setLogger(logger)`
 
 ### AboutApp Plugin
+
+<img width="300" alt="about-app-screen" src="https://github.com/user-attachments/assets/37f42693-0fb0-4475-89a3-384d21e74e97" />
 
 Предназначен для отображения информации о приложении: версии, номера сборки и других произвольных данных.
 
