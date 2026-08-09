@@ -1,0 +1,55 @@
+public abstract interface class com/redmadrobot/debug/core/DebugEvent {
+}
+
+public final class com/redmadrobot/debug/core/DebugPanel {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/redmadrobot/debug/core/DebugPanel;
+	public final fun initialize (Landroid/app/Application;Ljava/util/List;)V
+	public final fun isInitialized ()Z
+	public final fun observeEvents ()Lkotlinx/coroutines/flow/Flow;
+	public final fun showPanel (Landroid/app/Activity;)V
+	public final fun subscribeToEvents (Landroidx/lifecycle/LifecycleOwner;Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract interface annotation class com/redmadrobot/debug/core/annotation/DebugPanelInternal : java/lang/annotation/Annotation {
+}
+
+public abstract interface class com/redmadrobot/debug/core/data/DebugDataProvider {
+	public abstract fun provideData ()Ljava/lang/Object;
+}
+
+public final class com/redmadrobot/debug/core/extension/CoroutinesExtensionKt {
+	public static final fun safeLaunch (Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function2;)V
+	public static final fun safeLaunch (Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class com/redmadrobot/debug/core/extension/PluginsExtKt {
+	public static final fun getPlugin (Ljava/lang/String;)Lcom/redmadrobot/debug/core/plugin/Plugin;
+}
+
+public final class com/redmadrobot/debug/core/inapp/compose/ComposableSingletons$DebugPanelScreenKt {
+	public static final field INSTANCE Lcom/redmadrobot/debug/core/inapp/compose/ComposableSingletons$DebugPanelScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1186943481$panel_core ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1864401833$panel_core ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class com/redmadrobot/debug/core/inapp/compose/DebugPanelScreenKt {
+	public static final fun DebugPanelScreen (Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class com/redmadrobot/debug/core/internal/PluginDependencyContainer$Empty : com/redmadrobot/debug/core/internal/PluginDependencyContainer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/redmadrobot/debug/core/internal/PluginDependencyContainer$Empty;
+}
+
+public abstract class com/redmadrobot/debug/core/plugin/Plugin {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun content (Landroidx/compose/runtime/Composer;I)V
+	public final fun getContainer ()Ljava/lang/Object;
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getPluginContainer (Lcom/redmadrobot/debug/core/internal/CommonContainer;)Lcom/redmadrobot/debug/core/internal/PluginDependencyContainer;
+	public final fun pushEvent (Lcom/redmadrobot/debug/core/DebugEvent;)V
+}
+

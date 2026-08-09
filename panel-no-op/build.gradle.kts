@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("convention-publish")
     id("convention.detekt")
+    id("convention.abi.validation")
 }
 
 description = "Debug panel no-op dependency module"

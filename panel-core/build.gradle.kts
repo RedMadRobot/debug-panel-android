@@ -3,6 +3,7 @@ plugins {
     id("convention.compose")
     id("convention-publish")
     id("convention.detekt")
+    id("convention.abi.validation")
     alias(stack.plugins.kotlin.serialization)
 }
 

@@ -1,0 +1,297 @@
+public final class com/redmadrobot/debug/uikit/components/ComposableSingletons$PanelBottomSheetKt {
+	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/components/ComposableSingletons$PanelBottomSheetKt;
+	public fun <init> ()V
+	public final fun getLambda$-171560508$panel_ui_kit ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class com/redmadrobot/debug/uikit/components/ComposableSingletons$PanelSearchBarKt {
+	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/components/ComposableSingletons$PanelSearchBarKt;
+	public fun <init> ()V
+	public final fun getLambda$1650688964$panel_ui_kit ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class com/redmadrobot/debug/uikit/components/PanelBottomSheetKt {
+	public static final fun PanelBottomSheet (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/redmadrobot/debug/uikit/components/PanelDialogKt {
+	public static final fun PanelDialog (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/redmadrobot/debug/uikit/components/PanelSearchBarKt {
+	public static final fun PanelSearchBar (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/redmadrobot/debug/uikit/components/PanelStyledTextFieldKt {
+	public static final fun PanelStyledTextField (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Landroidx/compose/foundation/text/KeyboardOptions;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/material3/TextFieldColors;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/redmadrobot/debug/uikit/components/PanelToggleKt {
+	public static final fun PanelToggle (ZLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/redmadrobot/debug/uikit/components/ThemeSwitcherKt {
+	public static final fun ThemeSwitcher (Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/redmadrobot/debug/uikit/theme/BackgroundColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun copy-ysEtTa8 (JJJ)Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;
+	public static synthetic fun copy-ysEtTa8$default (Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;JJJILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPrimary-0d7_KjU ()J
+	public final fun getSecondary-0d7_KjU ()J
+	public final fun getTertiary-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/ButtonColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun copy-tNS2XkQ (JJJJJJ)Lcom/redmadrobot/debug/uikit/theme/ButtonColors;
+	public static synthetic fun copy-tNS2XkQ$default (Lcom/redmadrobot/debug/uikit/theme/ButtonColors;JJJJJJILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/ButtonColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getError-0d7_KjU ()J
+	public final fun getOnError-0d7_KjU ()J
+	public final fun getOnPrimary-0d7_KjU ()J
+	public final fun getOnSecondary-0d7_KjU ()J
+	public final fun getPrimary-0d7_KjU ()J
+	public final fun getSecondary-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/ComposableSingletons$BaseColorsKt {
+	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/theme/ComposableSingletons$BaseColorsKt;
+	public fun <init> ()V
+	public final fun getLambda$-288969138$panel_ui_kit ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$110896553$panel_ui_kit ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/ContentColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun copy-tNS2XkQ (JJJJJJ)Lcom/redmadrobot/debug/uikit/theme/ContentColors;
+	public static synthetic fun copy-tNS2XkQ$default (Lcom/redmadrobot/debug/uikit/theme/ContentColors;JJJJJJILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/ContentColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccent-0d7_KjU ()J
+	public final fun getError-0d7_KjU ()J
+	public final fun getPrimary-0d7_KjU ()J
+	public final fun getSecondary-0d7_KjU ()J
+	public final fun getTeal-0d7_KjU ()J
+	public final fun getTertiary-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/DebugPanelColors {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;Lcom/redmadrobot/debug/uikit/theme/ButtonColors;Lcom/redmadrobot/debug/uikit/theme/ContentColors;Lcom/redmadrobot/debug/uikit/theme/StrokeColors;Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;Lcom/redmadrobot/debug/uikit/theme/SourceColors;)V
+	public synthetic fun <init> (Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;Lcom/redmadrobot/debug/uikit/theme/ButtonColors;Lcom/redmadrobot/debug/uikit/theme/ContentColors;Lcom/redmadrobot/debug/uikit/theme/StrokeColors;Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;Lcom/redmadrobot/debug/uikit/theme/SourceColors;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;
+	public final fun component2 ()Lcom/redmadrobot/debug/uikit/theme/ButtonColors;
+	public final fun component3 ()Lcom/redmadrobot/debug/uikit/theme/ContentColors;
+	public final fun component4 ()Lcom/redmadrobot/debug/uikit/theme/StrokeColors;
+	public final fun component5 ()Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;
+	public final fun component6 ()Lcom/redmadrobot/debug/uikit/theme/SourceColors;
+	public final fun copy (Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;Lcom/redmadrobot/debug/uikit/theme/ButtonColors;Lcom/redmadrobot/debug/uikit/theme/ContentColors;Lcom/redmadrobot/debug/uikit/theme/StrokeColors;Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;Lcom/redmadrobot/debug/uikit/theme/SourceColors;)Lcom/redmadrobot/debug/uikit/theme/DebugPanelColors;
+	public static synthetic fun copy$default (Lcom/redmadrobot/debug/uikit/theme/DebugPanelColors;Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;Lcom/redmadrobot/debug/uikit/theme/ButtonColors;Lcom/redmadrobot/debug/uikit/theme/ContentColors;Lcom/redmadrobot/debug/uikit/theme/StrokeColors;Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;Lcom/redmadrobot/debug/uikit/theme/SourceColors;ILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/DebugPanelColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackground ()Lcom/redmadrobot/debug/uikit/theme/BackgroundColors;
+	public final fun getButton ()Lcom/redmadrobot/debug/uikit/theme/ButtonColors;
+	public final fun getContent ()Lcom/redmadrobot/debug/uikit/theme/ContentColors;
+	public final fun getSource ()Lcom/redmadrobot/debug/uikit/theme/SourceColors;
+	public final fun getStroke ()Lcom/redmadrobot/debug/uikit/theme/StrokeColors;
+	public final fun getSurface ()Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/DebugPanelDimensions {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/theme/DebugPanelDimensions;
+	public final fun getBottomBarHeight-D9Ej5fM ()F
+	public final fun getDotSize-D9Ej5fM ()F
+	public final fun getIconSizeLarge-D9Ej5fM ()F
+	public final fun getIconSizeMedium-D9Ej5fM ()F
+	public final fun getIconSizeSmall-D9Ej5fM ()F
+	public final fun getRowMinHeight-D9Ej5fM ()F
+	public final fun getTabRowHeight-D9Ej5fM ()F
+	public final fun getToggleHeight-D9Ej5fM ()F
+	public final fun getToggleWidth-D9Ej5fM ()F
+	public final fun getTopBarHeight-D9Ej5fM ()F
+}
+
+public final class com/redmadrobot/debug/uikit/theme/DebugPanelShapes {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/theme/DebugPanelShapes;
+	public final fun getDialog ()Landroidx/compose/foundation/shape/RoundedCornerShape;
+	public final fun getLarge ()Landroidx/compose/foundation/shape/RoundedCornerShape;
+	public final fun getMedium ()Landroidx/compose/foundation/shape/RoundedCornerShape;
+	public final fun getSmall ()Landroidx/compose/foundation/shape/RoundedCornerShape;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/DebugPanelTheme {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/theme/DebugPanelTheme;
+	public final fun getColors (Landroidx/compose/runtime/Composer;I)Lcom/redmadrobot/debug/uikit/theme/DebugPanelColors;
+	public final fun getTypography (Landroidx/compose/runtime/Composer;I)Lcom/redmadrobot/debug/uikit/theme/DebugPanelTypographyTokens;
+	public final fun isDarkTheme (Landroidx/compose/runtime/Composer;I)Z
+}
+
+public final class com/redmadrobot/debug/uikit/theme/DebugPanelTypographyTokens {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;)V
+	public synthetic fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component2 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component3 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component4 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component5 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component6 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component7 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component8 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component9 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun copy (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;)Lcom/redmadrobot/debug/uikit/theme/DebugPanelTypographyTokens;
+	public static synthetic fun copy$default (Lcom/redmadrobot/debug/uikit/theme/DebugPanelTypographyTokens;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;ILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/DebugPanelTypographyTokens;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBodyLarge ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getBodyMedium ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getBodySmall ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getLabelLarge ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getLabelMedium ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getLabelSmall ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getTitleLarge ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getTitleMedium ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getTitleSmall ()Landroidx/compose/ui/text/TextStyle;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/SourceColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun copy-tNS2XkQ (JJJJJJ)Lcom/redmadrobot/debug/uikit/theme/SourceColors;
+	public static synthetic fun copy-tNS2XkQ$default (Lcom/redmadrobot/debug/uikit/theme/SourceColors;JJJJJJILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/SourceColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDebugBackground-0d7_KjU ()J
+	public final fun getDebugText-0d7_KjU ()J
+	public final fun getDefaultBackground-0d7_KjU ()J
+	public final fun getDefaultText-0d7_KjU ()J
+	public final fun getRemoteBackground-0d7_KjU ()J
+	public final fun getRemoteText-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/StrokeColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun copy--OWjLjI (JJ)Lcom/redmadrobot/debug/uikit/theme/StrokeColors;
+	public static synthetic fun copy--OWjLjI$default (Lcom/redmadrobot/debug/uikit/theme/StrokeColors;JJILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/StrokeColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPrimary-0d7_KjU ()J
+	public final fun getSecondary-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/SurfaceColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun copy-t635Npw (JJJJJ)Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;
+	public static synthetic fun copy-t635Npw$default (Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;JJJJJILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/SurfaceColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDialog-0d7_KjU ()J
+	public final fun getPrimary-0d7_KjU ()J
+	public final fun getSecondary-0d7_KjU ()J
+	public final fun getSelected-0d7_KjU ()J
+	public final fun getTertiary-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/SystemBarsColors {
+	public static final field $stable I
+	public static final field Companion Lcom/redmadrobot/debug/uikit/theme/SystemBarsColors$Companion;
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun copy--OWjLjI (JJ)Lcom/redmadrobot/debug/uikit/theme/SystemBarsColors;
+	public static synthetic fun copy--OWjLjI$default (Lcom/redmadrobot/debug/uikit/theme/SystemBarsColors;JJILjava/lang/Object;)Lcom/redmadrobot/debug/uikit/theme/SystemBarsColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNavigationBarColor-0d7_KjU ()J
+	public final fun getStatusBarColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/SystemBarsColors$Companion {
+	public final fun fromTheme (Lcom/redmadrobot/debug/uikit/theme/DebugPanelColors;)Lcom/redmadrobot/debug/uikit/theme/SystemBarsColors;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/SystemBarsEffectKt {
+	public static final fun SystemBarsEffect (Lcom/redmadrobot/debug/uikit/theme/SystemBarsColors;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class com/redmadrobot/debug/uikit/theme/ThemeKt {
+	public static final fun DebugPanelTheme (Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/redmadrobot/debug/uikit/theme/TypographyKt {
+	public static final fun getMonoFontFamily ()Landroidx/compose/ui/text/font/FontFamily;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/model/ThemeMode : java/lang/Enum {
+	public static final field Companion Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode$Companion;
+	public static final field Dark Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;
+	public static final field Light Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;
+	public static final field System Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;
+	public static fun values ()[Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;
+}
+
+public final class com/redmadrobot/debug/uikit/theme/model/ThemeMode$Companion {
+	public final fun getIconRes (Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;)I
+	public final fun getTitleRes (Lcom/redmadrobot/debug/uikit/theme/model/ThemeMode;)I
+}
+
