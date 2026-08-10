@@ -190,6 +190,8 @@ releaseImplementation(project(":panel-no-op"))
 
 Подробнее о подходе: [No-op versions for dev tools](https://medium.com/@orhanobut/no-op-versions-for-dev-tools-b0a865934398)
 
+Полнота no-op реализаций проверяется автоматически — см. раздел ниже.
+
 ## Валидация публичного API
 
 Каждый модуль плагина хранит слепок своего публичного ABI в файле `api/<имя-модуля>.api`.
@@ -203,6 +205,24 @@ releaseImplementation(project(":panel-no-op"))
 ```
 
 Объявления, помеченные `@DebugPanelInternal`, в слепок не попадают.
+
+### Проверка покрытия no-op модуля
+
+Таск `checkNoopApi` (модуль `panel-no-op`, входит в `check`) сравнивает слепки и требует, чтобы
+каждое публичное объявление `panel-core` и плагинов было продублировано в `panel-no-op` с тем же
+полным именем и тем же набором членов. Поэтому новый публичный API уронит сборку, пока для него
+не появится no-op реализация.
+
+Не входят в контракт и в сравнении не участвуют:
+
+* внутренняя механика панели — пакеты `core.annotation`, `core.extension`, `core.inapp`,
+  `core.plugin`, `panel-ui-kit`, а также любые пакеты с сегментом `internal` или `ui`;
+* члены, которые упоминают такие типы, Compose или `kotlinx.serialization`, и члены, унаследованные
+  от внутренних супертипов (например, `Plugin.getName()`) — их реализуют только плагины, не приложение.
+
+Если объявление не предназначено для клиентского приложения, сделайте его `internal` или пометьте
+`@DebugPanelInternal` — тогда оно не попадёт в слепок и не потребует no-op реализации. Списки
+исключений описаны в [CheckNoopApiTask](../buildSrc/src/main/kotlin/internal/CheckNoopApiTask.kt).
 
 ## Публикация
 

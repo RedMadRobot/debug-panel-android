@@ -2,6 +2,17 @@
 
 ### Changes
 
+* Добавлена валидация публичного ABI публикуемых модулей: слепок каждого модуля хранится в `api/<модуль>.api`, таск `apiCheck` входит в `check`, слепки обновляются командой `./gradlew apiDump`. Объявления, помеченные `@DebugPanelInternal`, в слепок не попадают. См. [plugin development](docs/plugin_development.md).
+* Добавлена валидация полноты `panel-no-op`: таск `checkNoopApi` проверяет, что модуль покрывает весь публичный API `panel-core` и плагинов.
+* **Breaking changes:** Приведены в соответствие с оригиналом no-op объявления: `DebugEvent` перенесён из `com.redmadrobot.debug.core.internal` в `com.redmadrobot.debug.core`, `AboutAppAction` и `AboutAppInfo` — в `com.redmadrobot.debug.plugin.aboutapp.model`. См. [migration guide](docs/migration_guide.md).
+* В `panel-no-op` добавлены отсутствовавшие `DebugPanel.isInitialized`, `AboutAppInfo.id`, `AboutAppAction.Event.debugEvent`, `ServersPlugin.getSelectedServer()` и `ServersPlugin.getDefaultServer()`; удалён `DebugPanel.showPanel(FragmentManager)`, которого нет в `panel-core`.
+* Обновлён каталог версий зависимостей (2026.07.10 → 2026.07.31).
+* Gradle обновлён с 9.4.1 до 9.6.1.
+
+## [1.3.0] (2026-07-30)
+
+### Changes
+
 * **Breaking changes:** `plugin-konfeature` переведён на публичную библиотеку [`konfeature-ui`][konfeature-ui]. Собственная реализация экрана, `ViewModel`, диалога редактирования и `JsonConverter` удалены — UI, состояние и хранение переопределений теперь предоставляет `konfeature-ui`. См. [migration guide](docs/migration_guide.md).
 * **Breaking changes:** Удалён `KonfeatureDebugPanelInterceptor`. Вместо него используется `KonfeatureDebugPanelConfig`, который объединяет хранилище переопределений (DataStore) и интерцептор. Создайте конфиг через `KonfeatureDebugPanelConfig.create(context)`, подключите его к `Konfeature` через `applyDebugPanelConfig(config)` и передайте тот же конфиг в `KonfeaturePlugin(konfeature, config)`.
 * **Breaking changes:** Изменена сигнатура конструктора `KonfeaturePlugin`: параметр `debugPanelInterceptor` заменён на `config: KonfeatureDebugPanelConfig`.

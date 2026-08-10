@@ -1,6 +1,7 @@
-package com.redmadrobot.debug.plugin.aboutapp
+package com.redmadrobot.debug.plugin.aboutapp.model
 
 import android.content.Context
+import com.redmadrobot.debug.core.DebugEvent
 import java.util.UUID
 
 /**
@@ -19,6 +20,7 @@ public sealed interface AboutAppAction {
 
     public class Event(
         override val title: String,
+        public val debugEvent: DebugEvent,
         override val id: String = UUID.randomUUID().toString(),
     ) : AboutAppAction
 }

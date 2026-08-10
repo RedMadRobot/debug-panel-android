@@ -1,5 +1,8 @@
 package com.redmadrobot.debug.plugin.aboutapp
 
+import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppAction
+import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppInfo
+
 /**
  * No-op implementation of [AboutAppPlugin] for release builds.
  *

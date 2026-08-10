@@ -1,5 +1,79 @@
 # Миграция
 
+## Миграция на версию 1.4.0
+
+### Приведение panel-no-op в соответствие с публичным API
+
+Изменения касаются только `panel-no-op` — модуля, который подключается как `releaseImplementation`.
+Публичный API `panel-core` и плагинов не менялся, поэтому если в приложении нет кода, компилируемого
+только для release (отдельные source set'ы, `release`-флейворы), миграция не требуется.
+
+Полнота no-op реализации теперь проверяется на сборке — см. [Разработка плагинов][plugin-development].
+Ранее объявления в `panel-no-op` расходились с оригиналами по пакетам и сигнатурам; расхождения
+устранены, поэтому часть импортов и вызовов в release-коде нужно поправить.
+
+#### Пакеты объявлений
+
+```diff
+- import com.redmadrobot.debug.core.internal.DebugEvent
++ import com.redmadrobot.debug.core.DebugEvent
+
+- import com.redmadrobot.debug.plugin.aboutapp.AboutAppAction
++ import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppAction
+
+- import com.redmadrobot.debug.plugin.aboutapp.AboutAppInfo
++ import com.redmadrobot.debug.plugin.aboutapp.model.AboutAppInfo
+```
+
+#### AboutAppAction.Event
+
+Добавлен обязательный параметр `debugEvent` — событие, которое публикуется в шину при нажатии.
+
+```diff
+  AboutAppAction.Event(
+      title = "Сбросить кэш",
++     debugEvent = ResetCacheEvent,
+  )
+```
+
+#### DebugPanel.showPanel(FragmentManager)
+
+Перегрузка удалена: в `panel-core` её нет с версии 0.9.0.
+
+```diff
+- DebugPanel.showPanel(supportFragmentManager)
++ DebugPanel.showPanel(this)
+```
+
+#### ServersPlugin
+
+Тип `preInstalledServers` уточнён с `List<Any>` до `List<DebugServer>`.
+
+```diff
+- ServersPlugin(preInstalledServers = listOf<Any>(/*...*/))
++ ServersPlugin(preInstalledServers = listOf(DebugServer(/*...*/)))
+```
+
+#### Объявления, добавленные в panel-no-op
+
+В no-op появились `DebugPanel.isInitialized`, `AboutAppInfo.id`,
+`ServersPlugin.getSelectedServer()` и `ServersPlugin.getDefaultServer()` — раньше код,
+использующий их, не компилировался в release-сборке.
+
+> `ServersPlugin.getSelectedServer()` и `ServersPlugin.getDefaultServer()` в release-сборке
+> **всегда бросают** `IllegalArgumentException`: панели нет, а значит нет и выбранного сервера.
+> Раньше такой вызов не компилировался, теперь он собирается и падает в рантайме.
+> Если приложение берёт URL из панели, разведите источники по source set'ам или проверяйте
+> `DebugPanel.isInitialized`:
+
+```kotlin
+val baseUrl = if (DebugPanel.isInitialized) {
+    ServersPlugin.getSelectedServer().url
+} else {
+    BuildConfig.BASE_URL
+}
+```
+
 ## Миграция на версию 1.3.0
 
 ### Переход plugin-konfeature на библиотеку konfeature-ui
@@ -298,3 +372,4 @@ VariablePlugin позволял изменять значения перемен
 
 [readme]: /README.md
 [konfeature]: https://github.com/RedMadRobot/Konfeature
+[plugin-development]: plugin_development.md

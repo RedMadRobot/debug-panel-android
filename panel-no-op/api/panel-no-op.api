@@ -1,9 +1,12 @@
+public abstract interface class com/redmadrobot/debug/core/DebugEvent {
+}
+
 public final class com/redmadrobot/debug/core/DebugPanel {
 	public static final field INSTANCE Lcom/redmadrobot/debug/core/DebugPanel;
 	public final fun initialize (Landroid/app/Application;Ljava/util/List;)V
+	public final fun isInitialized ()Z
 	public final fun observeEvents ()Lkotlinx/coroutines/flow/Flow;
 	public final fun showPanel (Landroid/app/Activity;)V
-	public final fun showPanel (Landroidx/fragment/app/FragmentManager;)V
 	public final fun subscribeToEvents (Landroidx/lifecycle/LifecycleOwner;Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -11,15 +14,17 @@ public abstract interface class com/redmadrobot/debug/core/data/DebugDataProvide
 	public abstract fun provideData ()Ljava/lang/Object;
 }
 
-public abstract interface class com/redmadrobot/debug/core/internal/DebugEvent {
+public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppPlugin {
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public abstract interface class com/redmadrobot/debug/plugin/aboutapp/AboutAppAction {
+public abstract interface class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
 	public abstract fun getId ()Ljava/lang/String;
 	public abstract fun getTitle ()Ljava/lang/String;
 }
 
-public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppAction$Direct : com/redmadrobot/debug/plugin/aboutapp/AboutAppAction {
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction$Direct : com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getId ()Ljava/lang/String;
@@ -27,29 +32,26 @@ public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppAction$Direct :
 	public fun getTitle ()Ljava/lang/String;
 }
 
-public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppAction$Event : com/redmadrobot/debug/plugin/aboutapp/AboutAppAction {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction$Event : com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
+	public fun <init> (Ljava/lang/String;Lcom/redmadrobot/debug/core/DebugEvent;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/redmadrobot/debug/core/DebugEvent;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDebugEvent ()Lcom/redmadrobot/debug/core/DebugEvent;
 	public fun getId ()Ljava/lang/String;
 	public fun getTitle ()Ljava/lang/String;
 }
 
-public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppInfo {
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppInfo {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/redmadrobot/debug/plugin/aboutapp/AboutAppInfo;
-	public static synthetic fun copy$default (Lcom/redmadrobot/debug/plugin/aboutapp/AboutAppInfo;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/redmadrobot/debug/plugin/aboutapp/AboutAppInfo;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/redmadrobot/debug/plugin/aboutapp/model/AboutAppInfo;
+	public static synthetic fun copy$default (Lcom/redmadrobot/debug/plugin/aboutapp/model/AboutAppInfo;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/redmadrobot/debug/plugin/aboutapp/model/AboutAppInfo;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
 	public final fun getTitle ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppPlugin {
-	public fun <init> (Ljava/util/List;Ljava/util/List;)V
-	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
 public final class com/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig {
@@ -71,7 +73,7 @@ public final class com/redmadrobot/debug/plugin/konfeature/KonfeaturePlugin {
 	public fun <init> (Lcom/redmadrobot/konfeature/Konfeature;Lcom/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig;)V
 }
 
-public final class com/redmadrobot/debug/plugin/servers/ServerSelectedEvent : com/redmadrobot/debug/core/internal/DebugEvent {
+public final class com/redmadrobot/debug/plugin/servers/ServerSelectedEvent : com/redmadrobot/debug/core/DebugEvent {
 	public fun <init> (Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;)V
 	public final fun component1 ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
 	public final fun copy (Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;)Lcom/redmadrobot/debug/plugin/servers/ServerSelectedEvent;
@@ -83,10 +85,16 @@ public final class com/redmadrobot/debug/plugin/servers/ServerSelectedEvent : co
 }
 
 public final class com/redmadrobot/debug/plugin/servers/ServersPlugin {
+	public static final field Companion Lcom/redmadrobot/debug/plugin/servers/ServersPlugin$Companion;
 	public fun <init> ()V
 	public fun <init> (Lcom/redmadrobot/debug/core/data/DebugDataProvider;)V
 	public fun <init> (Ljava/util/List;)V
 	public synthetic fun <init> (Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/redmadrobot/debug/plugin/servers/ServersPlugin$Companion {
+	public final fun getDefaultServer ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
+	public final fun getSelectedServer ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
 }
 
 public final class com/redmadrobot/debug/plugin/servers/data/model/DebugServer {
