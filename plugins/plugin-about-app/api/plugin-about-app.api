@@ -1,0 +1,42 @@
+public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppPlugin : com/redmadrobot/debug/core/plugin/Plugin {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun content (Landroidx/compose/runtime/Composer;I)V
+	public fun getName ()Ljava/lang/String;
+	public fun getPluginContainer (Lcom/redmadrobot/debug/core/internal/CommonContainer;)Lcom/redmadrobot/debug/core/internal/PluginDependencyContainer;
+}
+
+public abstract interface class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
+	public abstract fun getId ()Ljava/lang/String;
+	public abstract fun getTitle ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction$Direct : com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getId ()Ljava/lang/String;
+	public final fun getOnClick ()Lkotlin/jvm/functions/Function1;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction$Event : com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Lcom/redmadrobot/debug/core/DebugEvent;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/redmadrobot/debug/core/DebugEvent;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDebugEvent ()Lcom/redmadrobot/debug/core/DebugEvent;
+	public fun getId ()Ljava/lang/String;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppInfo {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

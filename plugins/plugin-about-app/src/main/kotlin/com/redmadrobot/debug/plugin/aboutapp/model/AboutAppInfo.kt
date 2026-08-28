@@ -1,5 +1,6 @@
 package com.redmadrobot.debug.plugin.aboutapp.model
 
+import dev.drewhamilton.poko.Poko
 import java.util.UUID
 
 /**
@@ -8,9 +9,10 @@ import java.util.UUID
  * @property title parameter name (e.g., "Version", "Build type")
  * @property value parameter value (e.g., "1.2.3", "debug")
  */
-public data class AboutAppInfo(
-    val title: String,
-    val value: String,
+@Poko
+public class AboutAppInfo(
+    public val title: String,
+    public val value: String,
 ) {
-    val id: String = UUID.randomUUID().toString()
+    internal val id: String = UUID.randomUUID().toString()
 }

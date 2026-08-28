@@ -40,7 +40,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
-public fun DebugPanelScreen(
+internal fun DebugPanelScreen(
     themeMode: ThemeMode,
     onThemeModeChange: (ThemeMode) -> Unit,
     onClose: () -> Unit,

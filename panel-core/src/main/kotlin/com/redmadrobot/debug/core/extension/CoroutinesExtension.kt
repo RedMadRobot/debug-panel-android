@@ -1,5 +1,6 @@
 package com.redmadrobot.debug.core.extension
 
+import com.redmadrobot.debug.core.annotation.DebugPanelInternal
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import timber.log.Timber
  * @param block suspend block to execute
  * @param onError callback invoked when an error occurs
  */
+@DebugPanelInternal
 @Suppress("TooGenericExceptionCaught")
 public fun CoroutineScope.safeLaunch(
     block: suspend CoroutineScope.() -> Unit,
@@ -38,6 +40,7 @@ public fun CoroutineScope.safeLaunch(
  *
  * @param block suspend block to execute
  */
+@DebugPanelInternal
 public fun CoroutineScope.safeLaunch(
     block: suspend CoroutineScope.() -> Unit
 ) {

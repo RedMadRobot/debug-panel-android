@@ -1,6 +1,7 @@
 plugins {
     alias(stack.plugins.ksp)
     id("convention.debug.panel.plugin")
+    alias(stack.plugins.poko)
 }
 
 description = "Plugin for showing about app information"

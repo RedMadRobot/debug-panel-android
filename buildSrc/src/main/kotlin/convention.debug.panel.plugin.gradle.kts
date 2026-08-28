@@ -6,6 +6,7 @@ plugins {
     id("convention-publish")
     id("convention.compose")
     id("convention.detekt")
+    id("convention.abi.validation")
 }
 
 android {

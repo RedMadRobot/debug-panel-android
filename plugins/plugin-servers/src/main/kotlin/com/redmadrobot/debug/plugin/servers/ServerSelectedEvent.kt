@@ -2,6 +2,7 @@ package com.redmadrobot.debug.plugin.servers
 
 import com.redmadrobot.debug.core.DebugEvent
 import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
+import dev.drewhamilton.poko.Poko
 
 /**
  * Event emitted when a server is selected in [ServersPlugin].
@@ -10,4 +11,5 @@ import com.redmadrobot.debug.plugin.servers.data.model.DebugServer
  *
  * @property debugServer the selected server
  */
-public data class ServerSelectedEvent(val debugServer: DebugServer) : DebugEvent
+@Poko
+public class ServerSelectedEvent(public val debugServer: DebugServer) : DebugEvent

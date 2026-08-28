@@ -1,0 +1,108 @@
+public abstract interface class com/redmadrobot/debug/core/DebugEvent {
+}
+
+public final class com/redmadrobot/debug/core/DebugPanel {
+	public static final field INSTANCE Lcom/redmadrobot/debug/core/DebugPanel;
+	public final fun initialize (Landroid/app/Application;Ljava/util/List;)V
+	public final fun isInitialized ()Z
+	public final fun observeEvents ()Lkotlinx/coroutines/flow/Flow;
+	public final fun showPanel (Landroid/app/Activity;)V
+	public final fun subscribeToEvents (Landroidx/lifecycle/LifecycleOwner;Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract interface class com/redmadrobot/debug/core/data/DebugDataProvider {
+	public abstract fun provideData ()Ljava/lang/Object;
+}
+
+public final class com/redmadrobot/debug/plugin/aboutapp/AboutAppPlugin {
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public abstract interface class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
+	public abstract fun getId ()Ljava/lang/String;
+	public abstract fun getTitle ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction$Direct : com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getId ()Ljava/lang/String;
+	public final fun getOnClick ()Lkotlin/jvm/functions/Function1;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction$Event : com/redmadrobot/debug/plugin/aboutapp/model/AboutAppAction {
+	public fun <init> (Ljava/lang/String;Lcom/redmadrobot/debug/core/DebugEvent;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/redmadrobot/debug/core/DebugEvent;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDebugEvent ()Lcom/redmadrobot/debug/core/DebugEvent;
+	public fun getId ()Ljava/lang/String;
+	public fun getTitle ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/aboutapp/model/AboutAppInfo {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig {
+	public static final field Companion Lcom/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig$Companion;
+	public static final field DEFAULT_PATH Ljava/lang/String;
+	public synthetic fun <init> (Lcom/redmadrobot/konfeature/ui/KonfeatureDebugStore;Lcom/redmadrobot/konfeature/ui/KonfeatureDebugInterceptor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig$Companion {
+	public final fun create (Landroid/content/Context;Ljava/lang/String;Lcom/redmadrobot/konfeature/Logger;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun create$default (Lcom/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig$Companion;Landroid/content/Context;Ljava/lang/String;Lcom/redmadrobot/konfeature/Logger;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfigKt {
+	public static final fun applyDebugPanelConfig (Lcom/redmadrobot/konfeature/builder/KonfeatureBuilder;Lcom/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig;)Lcom/redmadrobot/konfeature/builder/KonfeatureBuilder;
+}
+
+public final class com/redmadrobot/debug/plugin/konfeature/KonfeaturePlugin {
+	public fun <init> (Lcom/redmadrobot/konfeature/Konfeature;Lcom/redmadrobot/debug/plugin/konfeature/KonfeatureDebugPanelConfig;)V
+}
+
+public final class com/redmadrobot/debug/plugin/servers/ServerSelectedEvent : com/redmadrobot/debug/core/DebugEvent {
+	public fun <init> (Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDebugServer ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/servers/ServersPlugin {
+	public static final field Companion Lcom/redmadrobot/debug/plugin/servers/ServersPlugin$Companion;
+	public fun <init> ()V
+	public fun <init> (Lcom/redmadrobot/debug/core/data/DebugDataProvider;)V
+	public fun <init> (Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/redmadrobot/debug/plugin/servers/ServersPlugin$Companion {
+	public final fun getDefaultServer ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
+	public final fun getSelectedServer ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
+}
+
+public final class com/redmadrobot/debug/plugin/servers/data/model/DebugServer {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUrl ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isDefault ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/redmadrobot/debug/plugin/servers/interceptor/DebugServerInterceptor : okhttp3/Interceptor {
+	public fun <init> ()V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+	public final fun modifyRequest (Lkotlin/jvm/functions/Function2;)Lcom/redmadrobot/debug/plugin/servers/interceptor/DebugServerInterceptor;
+}
+

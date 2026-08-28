@@ -31,12 +31,9 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        val version = "2026.07.10" // Keep it in sync with buildSrc/settings.gradle.kts
+        val version = "2026.07.31" // Keep it in sync with buildSrc/settings.gradle.kts
         create("rmr") {
             from("com.redmadrobot.versions:versions-redmadrobot:$version")
-            version("konfeature", "1.1.0") // Remove with update version
-            library("konfeature-ui", "com.redmadrobot.konfeature:konfeature-ui:1.1.0") // Remove with update version
-            library("konfeature-ui-noop", "com.redmadrobot.konfeature:konfeature-ui-noop:1.1.0") // Remove with update version
         }
         create("androidx") {
             from("com.redmadrobot.versions:versions-androidx:$version")

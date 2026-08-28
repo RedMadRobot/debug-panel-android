@@ -1,4 +1,4 @@
-package com.redmadrobot.debug.core.internal
+package com.redmadrobot.debug.core
 
 /**
  * No-op declaration of [DebugEvent] for release builds.
