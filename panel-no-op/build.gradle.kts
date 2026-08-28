@@ -5,6 +5,7 @@ plugins {
     id("convention-publish")
     id("convention.detekt")
     id("convention.abi.validation")
+    alias(stack.plugins.poko)
 }
 
 description = "Debug panel no-op dependency module"

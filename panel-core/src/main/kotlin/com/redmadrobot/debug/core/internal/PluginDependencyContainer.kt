@@ -17,5 +17,6 @@ public interface PluginDependencyContainer {
      * [com.redmadrobot.debug.core.plugin.Plugin.getPluginContainer] instead of allocating an empty
      * anonymous implementation.
      */
+    @DebugPanelInternal
     public object Empty : PluginDependencyContainer
 }

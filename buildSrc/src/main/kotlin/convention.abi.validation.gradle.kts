@@ -43,6 +43,26 @@ val apiBuild = tasks.register<KotlinApiBuildTask>("apiBuild") {
     inputClassesDirs.from(releaseClasses)
     outputApiFile.set(layout.buildDirectory.file("api/$apiFileName"))
     nonPublicMarkers.add("com.redmadrobot.debug.core.annotation.DebugPanelInternal")
+    ignoredClasses.addAll(composableSingletons(releaseClasses))
+}
+
+/*
+ * Names of the holder classes the Compose compiler generates, one per file, for the composable
+ * lambdas of that file which capture nothing. They are `public` in bytecode and carry no Kotlin
+ * metadata to filter on, so `nonPublicMarkers` and `internal` have no effect on them -- yet they
+ * are pure codegen and no consumer can call them. Left in the dump, every new such lambda would
+ * show up as a public API change.
+ *
+ * The names are collected from the compiled classes rather than listed by hand: `ignoredClasses`
+ * matches exact names only, so a hardcoded list would need an entry per Compose file.
+ */
+fun composableSingletons(classes: FileCollection): Provider<List<String>> = providers.provider {
+    classes.files.filter(File::isDirectory).flatMap { root ->
+        root.walkTopDown()
+            .filter { it.isFile && it.extension == "class" && it.name.startsWith("ComposableSingletons$") }
+            .map { it.relativeTo(root).path.removeSuffix(".class").replace(File.separatorChar, '.') }
+            .toList()
+    }
 }
 
 val apiCheck = tasks.register<KotlinApiCompareTask>("apiCheck") {

@@ -20,10 +20,15 @@ import java.io.File
  * of the public API fails the build until it is mirrored in the no-op module (or hidden from the
  * dump by making the declaration `internal`).
  *
- * The panel's own machinery is not part of the contract and is skipped: declarations from the
- * [INTERNAL_TYPE_PREFIXES] packages, from `internal`/`ui` packages, and every member that mentions
- * such a type, is Compose-related, or is a `kotlinx.serialization` synthetic. That is exactly the
- * surface a plugin implementation uses and an application does not.
+ * Only two kinds of declarations are skipped, and both are named explicitly: what a compiler
+ * plugin generates ([ARTIFACT_TYPE_PREFIXES], `synthetic` classes and the Compose `$stable`
+ * field), and the handful of [EXCLUDED_DECLARATIONS] that make up the plugin authoring surface
+ * rather than the application one. Members mentioning any of those types are skipped too, as are
+ * the members a declaration only has because it implements an excluded supertype. Everything else
+ * is compared, so a new public declaration is covered by default.
+ *
+ * The `ComposableSingletons$*` holders never reach this task: `convention.abi.validation` keeps
+ * them out of the dumps themselves.
  */
 abstract class CheckNoopApiTask : DefaultTask() {
 
@@ -48,17 +53,17 @@ abstract class CheckNoopApiTask : DefaultTask() {
         }
 
         val noopModule = noopDump.get().asFile.nameWithoutExtension
-        val expected = declarations(dumps.flatMap(::parse), dropInternal = true)
-        val actual = declarations(parse(noopDump.get().asFile), dropInternal = false)
+        val expected = contract(dumps.flatMap(::parseDump), dropExcluded = true)
+        val actual = contract(parseDump(noopDump.get().asFile), dropExcluded = false)
 
         val problems = buildList {
-            (expected - actual.keys).values.forEach { declaration ->
-                add("Missing in $noopModule:\n" + render(declaration).prependIndent("  "))
+            for (name in expected.keys - actual.keys) {
+                add("Missing in $noopModule:\n" + render(expected.getValue(name)).prependIndent("  "))
             }
-            (actual - expected.keys).values.forEach { declaration ->
-                add("Not part of the mirrored public API:\n" + render(declaration).prependIndent("  "))
+            for (name in actual.keys - expected.keys) {
+                add("Not part of the mirrored public API:\n" + render(actual.getValue(name)).prependIndent("  "))
             }
-            expected.keys.intersect(actual.keys).forEach { name ->
+            for (name in expected.keys intersect actual.keys) {
                 diff(expected.getValue(name), actual.getValue(name), noopModule)?.let(::add)
             }
         }
@@ -82,21 +87,41 @@ abstract class CheckNoopApiTask : DefaultTask() {
     private companion object {
 
         /**
-         * Types that are the panel's own machinery, not part of the no-op contract: `panel-core`
-         * packages meant for plugin implementations, Compose, and serialization synthetics.
+         * Types the no-op module cannot repeat because they come from a compiler plugin it does
+         * not apply: Compose and `kotlinx.serialization`. Mirroring them would mean pulling both
+         * into release builds, which is exactly what the no-op module exists to avoid.
          */
-        val INTERNAL_TYPE_PREFIXES = listOf(
-            "com/redmadrobot/debug/core/annotation/",
-            "com/redmadrobot/debug/core/extension/",
-            "com/redmadrobot/debug/core/inapp/",
-            "com/redmadrobot/debug/core/plugin/",
-            "com/redmadrobot/debug/uikit/",
+        val ARTIFACT_TYPE_PREFIXES = listOf(
             "androidx/compose/",
             "kotlinx/serialization/",
         )
 
-        /** Package segments marking declarations internal to the panel, e.g. plugin screens. */
-        val INTERNAL_PACKAGE_SEGMENTS = setOf("internal", "ui")
+        /**
+         * Declarations deliberately left out of the no-op contract. Listed one by one rather than
+         * by package, so that anything else appearing in the same packages fails the check instead
+         * of slipping through unnoticed.
+         */
+        val EXCLUDED_DECLARATIONS = setOf(
+            // The base class a plugin implementation extends, together with the optional interface
+            // for plugins with a settings screen. Not mirrorable even in principle: `content()` and
+            // `settingsContent()` are `@Composable`, so a real subclass would force the no-op module
+            // to depend on the Compose runtime just to match the method signature -- exactly what
+            // panel-no-op exists to keep out of release builds.
+            //
+            // It is also unnecessary: application code never references `Plugin` as a type. It calls
+            // concrete plugin constructors directly (`DebugPanel.initialize(app, listOf(ServersPlugin(...)))`),
+            // and `DebugPanel.initialize` takes `List<Any>` on the no-op side -- Kotlin's `List<out T>`
+            // covariance accepts any `List<SomePlugin>` there without a shared supertype. Each plugin
+            // module is mirrored individually instead (see e.g. panel-no-op's own `ServersPlugin`,
+            // which does not extend anything).
+            "com/redmadrobot/debug/core/plugin/Plugin",
+            "com/redmadrobot/debug/core/internal/EditablePlugin",
+            // Opt-in marker for the panel's own machinery.
+            "com/redmadrobot/debug/core/annotation/DebugPanelInternal",
+            // `internal` helper kept public in bytecode by `@PublishedApi` because the public
+            // `inline fun <reified T> getPlugin()` calls it; not callable from outside.
+            "com/redmadrobot/debug/core/extension/PluginsExtKt",
+        )
 
         /** Keywords a member line starts with, right after its modifiers. */
         val MEMBER_KEYWORDS = listOf("fun ", "field ")
@@ -107,9 +132,58 @@ abstract class CheckNoopApiTask : DefaultTask() {
         /** Synthetic field added by the Compose compiler; the no-op module has no Compose. */
         const val STABLE_FIELD = " field \$stable "
 
-        fun isInternal(type: String): Boolean {
-            return INTERNAL_TYPE_PREFIXES.any(type::startsWith) ||
-                type.split('/').dropLast(1).any { it in INTERNAL_PACKAGE_SEGMENTS }
+        // ---------------------------------------------------------------------------------------
+        // Step 1: split a dump into declarations. Every line is kept as written -- nothing here
+        // decides what belongs in the no-op contract, that is entirely [contract]'s job.
+        // ---------------------------------------------------------------------------------------
+
+        /** One class/interface/annotation block of an ABI dump. */
+        data class Declaration(
+            val name: String,
+            val modifiers: String,
+            val supertypes: List<String>,
+            val members: Set<String>,
+        )
+
+        /** Groups a dump's lines into blocks: an unindented header line and its indented members. */
+        fun splitIntoBlocks(file: File): List<List<String>> {
+            val blocks = mutableListOf<MutableList<String>>()
+            for (line in file.readLines()) {
+                if (line.isBlank() || line.startsWith("//")) continue
+                if (line.first().isWhitespace()) blocks.last() += line.trim() else blocks += mutableListOf(line)
+            }
+            return blocks
+        }
+
+        fun parseBlock(block: List<String>): Declaration {
+            val header = block.first().removeSuffix(" {")
+            val modifiers = header.substringBefore("class ").trim()
+            val declaration = header.substringAfter("class ")
+            val name = declaration.substringBefore(" : ")
+            val supertypes = declaration.substringAfter(" : ", missingDelimiterValue = "")
+                .split(", ")
+                .filter(String::isNotEmpty)
+            return Declaration(name, modifiers, supertypes, members = block.drop(1).toSet())
+        }
+
+        fun parseDump(file: File): List<Declaration> = splitIntoBlocks(file).map(::parseBlock)
+
+        // ---------------------------------------------------------------------------------------
+        // Step 2: apply the no-op contract -- decide what a declaration/member is exempt from.
+        // ---------------------------------------------------------------------------------------
+
+        fun isExcludedType(type: String): Boolean {
+            return type in EXCLUDED_DECLARATIONS || ARTIFACT_TYPE_PREFIXES.any(type::startsWith)
+        }
+
+        /** A member is exempt if it mentions an excluded/artifact type, directly or via [alsoExclude]. */
+        fun mentionsExcludedType(member: String, alsoExclude: Set<String>): Boolean {
+            if (STABLE_FIELD in member) return true
+            for (match in TYPE_REGEX.findAll(member)) {
+                val type = match.groupValues[1]
+                if (isExcludedType(type) || type in alsoExclude) return true
+            }
+            return false
         }
 
         /** Member without its modifiers, so that an override matches the declaration it overrides. */
@@ -118,129 +192,97 @@ abstract class CheckNoopApiTask : DefaultTask() {
             return member.substring(member.indexOf(keyword))
         }
 
-        fun isInternal(member: String, dropped: Set<String>): Boolean {
-            return STABLE_FIELD in member ||
-                TYPE_REGEX.findAll(member).any { it.groupValues[1].let { type -> isInternal(type) || type in dropped } }
-        }
-
         /**
-         * Splits an ABI dump into declarations: a header line plus its indented members.
-         * Compiler-generated (`synthetic`) classes are skipped, as are the members that are not
-         * part of the no-op contract.
+         * Signatures a declaration only has because it implements an excluded supertype, e.g.
+         * `Plugin.getName()`. They are part of the plugin machinery rather than of the API the
+         * application calls, so the no-op module does not repeat them. Constructors are excluded
+         * from this walk: they are never inherited.
          */
-        fun parse(file: File): List<Declaration> {
-            return file.readLines()
-                .filterNot { it.isBlank() || it.startsWith("//") }
-                .fold(mutableListOf<MutableList<String>>()) { blocks, line ->
-                    if (line.first().isWhitespace()) blocks.last() += line.trim() else blocks += mutableListOf(line)
-                    blocks
-                }
-                .mapNotNull(::parseDeclaration)
-        }
-
-        fun parseDeclaration(block: List<String>): Declaration? {
-            val header = block.first().removeSuffix(" {")
-            val modifiers = header.substringBefore("class ").trim()
-            if ("synthetic" in modifiers.split(' ')) return null
-
-            val declaration = header.substringAfter("class ")
-            val name = declaration.substringBefore(" : ")
-            val supertypes = declaration.substringAfter(" : ", missingDelimiterValue = "")
-                .split(", ")
-                .filter(String::isNotEmpty)
-            val publicSupertypes = supertypes.filterNot(::isInternal).sorted()
-
-            return Declaration(
-                name = name,
-                header = "$modifiers class $name" +
-                    if (publicSupertypes.isEmpty()) "" else publicSupertypes.joinToString(", ", prefix = " : "),
-                supertypes = supertypes,
-                members = block.drop(1).filterNot { isInternal(it, dropped = emptySet()) }.toSet(),
-            )
-        }
-
-        /**
-         * Members a declaration only has because it implements a panel-internal supertype, e.g.
-         * `Plugin.getName()`. They are a part of the plugin machinery rather than of the API the
-         * application calls, so the no-op module does not repeat them. Constructors are kept:
-         * they are not inherited.
-         */
-        fun inheritedFromInternal(declaration: Declaration, index: Map<String, Declaration>): Set<String> {
+        fun inheritedFromExcludedSupertypes(declaration: Declaration, index: Map<String, Declaration>): Set<String> {
             val inherited = mutableSetOf<String>()
-
-            fun collect(name: String) {
-                val supertype = index[name] ?: return
-                supertype.members
-                    .filterNot { "fun <init> " in it }
-                    .mapTo(inherited, ::signature)
-                supertype.supertypes.forEach(::collect)
+            val toVisit = ArrayDeque(declaration.supertypes.filter(::isExcludedType))
+            while (toVisit.isNotEmpty()) {
+                val supertype = index[toVisit.removeFirst()] ?: continue
+                for (member in supertype.members) {
+                    if ("fun <init> " !in member) inherited += signature(member)
+                }
+                toVisit += supertype.supertypes
             }
-
-            declaration.supertypes.filter(::isInternal).forEach(::collect)
             return inherited
         }
 
         /**
-         * Indexes declarations by name, dropping the ones the no-op module does not have to
-         * mirror. A companion left without members (it only held a serializer, for example) is
-         * dropped together with the field referencing it.
+         * Applies the no-op contract to a set of raw declarations. On the mirrored side
+         * (`dropExcluded`), declarations named in [EXCLUDED_DECLARATIONS] are dropped outright. On
+         * both sides, a declaration's members are reduced to the ones that are part of the
+         * contract: not mentioning an excluded/artifact type, and not inherited from an excluded
+         * supertype. A companion left with no members this way (it only held a `serializer()`, for
+         * example) is dropped together with the field that points at it.
          */
-        fun declarations(all: List<Declaration>, dropInternal: Boolean): Map<String, Declaration> {
+        fun contract(all: List<Declaration>, dropExcluded: Boolean): Map<String, Declaration> {
             val index = all.associateBy(Declaration::name)
-            val kept = if (dropInternal) all.filterNot { isInternal(it.name) } else all
+
+            val kept = all
+                .filterNot { "synthetic" in it.modifiers.split(' ') }
+                .filterNot { dropExcluded && isExcludedType(it.name) }
+
+            fun contractMembers(declaration: Declaration, alsoExclude: Set<String>): Set<String> {
+                val inherited = inheritedFromExcludedSupertypes(declaration, index)
+                return declaration.members.filterNotTo(mutableSetOf()) {
+                    signature(it) in inherited || mentionsExcludedType(it, alsoExclude)
+                }
+            }
+
             val emptyCompanions = kept
-                .filter { it.name.endsWith("\$Companion") && it.members.isEmpty() }
-                .mapTo(mutableSetOf()) { it.name }
+                .filter { it.name.endsWith("\$Companion") }
+                .filter { contractMembers(it, alsoExclude = emptySet()).isEmpty() }
+                .mapTo(mutableSetOf(), Declaration::name)
 
             return kept
                 .filterNot { it.name in emptyCompanions }
-                .associateBy(
-                    keySelector = Declaration::name,
-                    valueTransform = { declaration ->
-                        val inherited = inheritedFromInternal(declaration, index)
-                        declaration.copy(
-                            members = declaration.members
-                                .filterNot { signature(it) in inherited || isInternal(it, emptyCompanions) }
-                                .toSet(),
-                        )
-                    },
-                )
+                .associate { it.name to it.copy(members = contractMembers(it, emptyCompanions)) }
                 .toSortedMap()
         }
 
+        // ---------------------------------------------------------------------------------------
+        // Step 3: compare. Declaration sets are compared by key; member sets, by plain set diff.
+        // ---------------------------------------------------------------------------------------
+
+        /** The declaration's header with excluded supertypes (e.g. `Plugin`) removed. */
+        fun publicHeader(declaration: Declaration): String {
+            val publicSupertypes = declaration.supertypes.filterNot(::isExcludedType).sorted()
+            val suffix = if (publicSupertypes.isEmpty()) "" else publicSupertypes.joinToString(", ", prefix = " : ")
+            return "${declaration.modifiers} class ${declaration.name}$suffix"
+        }
+
         fun diff(expected: Declaration, actual: Declaration, noopModule: String): String? {
+            val expectedHeader = publicHeader(expected)
+            val actualHeader = publicHeader(actual)
             val missingMembers = expected.members - actual.members
             val extraMembers = actual.members - expected.members
-            if (expected.header == actual.header && missingMembers.isEmpty() && extraMembers.isEmpty()) return null
+            if (expectedHeader == actualHeader && missingMembers.isEmpty() && extraMembers.isEmpty()) return null
 
             return buildString {
                 appendLine("${expected.name} differs:")
-                if (expected.header != actual.header) {
+                if (expectedHeader != actualHeader) {
                     appendLine("  declaration:")
-                    appendLine("    expected: ${expected.header}")
-                    appendLine("    actual:   ${actual.header}")
+                    appendLine("    expected: $expectedHeader")
+                    appendLine("    actual:   $actualHeader")
                 }
                 if (missingMembers.isNotEmpty()) {
                     appendLine("  missing in $noopModule:")
-                    missingMembers.sorted().forEach { appendLine("    $it") }
+                    for (member in missingMembers.sorted()) appendLine("    $member")
                 }
                 if (extraMembers.isNotEmpty()) {
                     appendLine("  not part of the mirrored public API:")
-                    extraMembers.sorted().forEach { appendLine("    $it") }
+                    for (member in extraMembers.sorted()) appendLine("    $member")
                 }
             }.trimEnd()
         }
 
         fun render(declaration: Declaration): String {
             val members = declaration.members.sorted().joinToString(separator = "") { "\n\t$it" }
-            return "${declaration.header} {$members\n}"
+            return "${publicHeader(declaration)} {$members\n}"
         }
     }
-
-    private data class Declaration(
-        val name: String,
-        val header: String,
-        val supertypes: List<String>,
-        val members: Set<String>,
-    )
 }

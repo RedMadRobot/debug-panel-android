@@ -1,9 +1,6 @@
 public final class com/redmadrobot/debug/plugin/servers/ServerSelectedEvent : com/redmadrobot/debug/core/DebugEvent {
 	public static final field $stable I
 	public fun <init> (Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;)V
-	public final fun component1 ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
-	public final fun copy (Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;)Lcom/redmadrobot/debug/plugin/servers/ServerSelectedEvent;
-	public static synthetic fun copy$default (Lcom/redmadrobot/debug/plugin/servers/ServerSelectedEvent;Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;ILjava/lang/Object;)Lcom/redmadrobot/debug/plugin/servers/ServerSelectedEvent;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDebugServer ()Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
 	public fun hashCode ()I
@@ -33,11 +30,6 @@ public final class com/redmadrobot/debug/plugin/servers/data/model/DebugServer {
 	public static final field Companion Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Z)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Z
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Z)Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
-	public static synthetic fun copy$default (Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/redmadrobot/debug/plugin/servers/data/model/DebugServer;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getUrl ()Ljava/lang/String;
@@ -67,15 +59,5 @@ public final class com/redmadrobot/debug/plugin/servers/interceptor/DebugServerI
 	public fun <init> ()V
 	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
 	public final fun modifyRequest (Lkotlin/jvm/functions/Function2;)Lcom/redmadrobot/debug/plugin/servers/interceptor/DebugServerInterceptor;
-}
-
-public final class com/redmadrobot/debug/plugin/servers/ui/ComposableSingletons$ServersScreenKt {
-	public static final field INSTANCE Lcom/redmadrobot/debug/plugin/servers/ui/ComposableSingletons$ServersScreenKt;
-	public fun <init> ()V
-	public final fun getLambda$-1230053063$plugin_servers ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-1902662446$plugin_servers ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$-692726257$plugin_servers ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$-83851575$plugin_servers ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$1203279212$plugin_servers ()Lkotlin/jvm/functions/Function3;
 }
 

@@ -1,6 +1,7 @@
 plugins {
     id("convention.debug.panel.plugin")
     alias(stack.plugins.kotlin.serialization)
+    alias(stack.plugins.poko)
 }
 
 description = "Plugin for switching server hosts"

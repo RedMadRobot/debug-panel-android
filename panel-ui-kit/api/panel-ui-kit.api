@@ -1,15 +1,3 @@
-public final class com/redmadrobot/debug/uikit/components/ComposableSingletons$PanelBottomSheetKt {
-	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/components/ComposableSingletons$PanelBottomSheetKt;
-	public fun <init> ()V
-	public final fun getLambda$-171560508$panel_ui_kit ()Lkotlin/jvm/functions/Function2;
-}
-
-public final class com/redmadrobot/debug/uikit/components/ComposableSingletons$PanelSearchBarKt {
-	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/components/ComposableSingletons$PanelSearchBarKt;
-	public fun <init> ()V
-	public final fun getLambda$1650688964$panel_ui_kit ()Lkotlin/jvm/functions/Function2;
-}
-
 public final class com/redmadrobot/debug/uikit/components/PanelBottomSheetKt {
 	public static final fun PanelBottomSheet (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
@@ -72,13 +60,6 @@ public final class com/redmadrobot/debug/uikit/theme/ButtonColors {
 	public final fun getSecondary-0d7_KjU ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/redmadrobot/debug/uikit/theme/ComposableSingletons$BaseColorsKt {
-	public static final field INSTANCE Lcom/redmadrobot/debug/uikit/theme/ComposableSingletons$BaseColorsKt;
-	public fun <init> ()V
-	public final fun getLambda$-288969138$panel_ui_kit ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$110896553$panel_ui_kit ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class com/redmadrobot/debug/uikit/theme/ContentColors {

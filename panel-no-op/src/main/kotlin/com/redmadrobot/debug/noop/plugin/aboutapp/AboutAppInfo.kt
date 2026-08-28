@@ -1,13 +1,15 @@
 package com.redmadrobot.debug.plugin.aboutapp.model
 
+import dev.drewhamilton.poko.Poko
 import java.util.UUID
 
 /**
  * No-op declaration of [AboutAppInfo] for release builds.
  */
-public data class AboutAppInfo(
-    val title: String,
-    val value: String,
+@Poko
+public class AboutAppInfo(
+    public val title: String,
+    public val value: String,
 ) {
-    val id: String = UUID.randomUUID().toString()
+    internal val id: String = UUID.randomUUID().toString()
 }

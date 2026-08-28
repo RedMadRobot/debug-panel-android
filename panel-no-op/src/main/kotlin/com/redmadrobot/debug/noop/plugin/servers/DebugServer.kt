@@ -1,10 +1,13 @@
 package com.redmadrobot.debug.plugin.servers.data.model
 
+import dev.drewhamilton.poko.Poko
+
 /**
  * No-op declaration of [DebugServer] for release builds.
  */
-public data class DebugServer(
-    val name: String,
-    val url: String,
-    val isDefault: Boolean = false
+@Poko
+public class DebugServer(
+    public val name: String,
+    public val url: String,
+    public val isDefault: Boolean = false
 )

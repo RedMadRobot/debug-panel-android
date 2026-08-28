@@ -144,7 +144,11 @@ internal class ServersViewModel(
     }
 
     private fun updateServerData(oldServer: DebugServer, name: String, url: String) {
-        val updatedServer = oldServer.copy(name = name, url = url)
+        val updatedServer = DebugServer(
+            name = name,
+            url = url,
+            isDefault = oldServer.isDefault,
+        )
 
         viewModelScope.safeLaunch {
             serversRepository.updateServer(oldServer = oldServer, newServer = updatedServer)
